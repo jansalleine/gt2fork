@@ -5,6 +5,15 @@ CXX=g++
 CFLAGS+=-O3 -Wall -Ibme -Iasm -fpermissive
 CXXFLAGS=$(CFLAGS)
 
+RESIDOBJECTS=resid_new/sid.o \
+	resid_new/voice.o \
+	resid_new/wave.o \
+	resid_new/envelope.o \
+	resid_new/filter.o \
+	resid_new/dac.o \
+	resid_new/extfilt.o \
+	resid_new/pot.o
+
 EXE=	$(PREFIX)goattrk2$(SUFFIX) \
 	$(PREFIX)gt2reloc$(SUFFIX) \
 	$(PREFIX)ins2snd2$(SUFFIX) \
@@ -16,9 +25,7 @@ all: datafile dat2inc $(EXE)
 
 $(PREFIX)goattrk2$(SUFFIX): goatdata.o goattrk2.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
 gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o \
-resid/envelope.o resid/extfilt.o resid/filter.o resid/pot.o resid/sid.o resid/wave.o resid/wave6581__ST.o \
-resid/wave6581_P_T.o resid/wave6581_PS_.o resid/wave6581_PST.o resid/wave8580__ST.o resid/wave8580_P_T.o \
-resid/wave8580_PS_.o resid/wave8580_PST.o resid/voice.o \
+$(RESIDOBJECTS) \
 resid-fp/envelopefp.o resid-fp/extfiltfp.o resid-fp/filterfp.o resid-fp/potfp.o resid-fp/sidfp.o \
 resid-fp/wavefp.o resid-fp/voicefp.o \
 asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
@@ -31,9 +38,7 @@ bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io
 # not ready for that
 $(PREFIX)gt2reloc$(SUFFIX): goatdata.o gt2reloc.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
 gfile.o ghelp.o gsound.o gconsole.o gsid.o \
-resid/envelope.o resid/extfilt.o resid/filter.o resid/pot.o resid/sid.o resid/wave.o resid/wave6581__ST.o \
-resid/wave6581_P_T.o resid/wave6581_PS_.o resid/wave6581_PST.o resid/wave8580__ST.o resid/wave8580_P_T.o \
-resid/wave8580_PS_.o resid/wave8580_PST.o resid/voice.o \
+$(RESIDOBJECTS) \
 resid-fp/envelopefp.o resid-fp/extfiltfp.o resid-fp/filterfp.o resid-fp/potfp.o resid-fp/sidfp.o \
 resid-fp/wavefp.o resid-fp/voicefp.o \
 asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
@@ -77,6 +82,7 @@ clean:
 	$(RM) asm/*.o
 	$(RM) bme/*.o
 	$(RM) resid/*.o
+	$(RM) resid_new/*.o
 	$(RM) resid-fp/*.o
 	$(RM) $(EXE)
 	$(RM) datafile

@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "resid/sid.h"
+#include "resid_new/sid.h"
 #include "resid-fp/sidfp.h"
 
 #include "gsid.h"
@@ -27,7 +27,7 @@ unsigned char altsidorder[] =
    0x0e,0x0f,0x10,0x11,0x12,0x13,0x14,
    0x15,0x16,0x17,0x18};
 
-SID *sid = 0;
+reSID::SID *sid = 0;
 SIDFP *sidfp = 0;
 
 FILTERPARAMS filterparams =
@@ -59,7 +59,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
       sidfp = NULL;
     }
 
-    if (!sid) sid = new SID;
+    if (!sid) sid = new reSID::SID;
   }
   else
   {
@@ -68,19 +68,19 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
       delete sid;
       sid = NULL;
     }
-    
+
     if (!sidfp) sidfp = new SIDFP;
   }
 
   switch(interpolate)
   {
     case 0:
-    if (sid) sid->set_sampling_parameters(clockrate, SAMPLE_FAST, speed);
+    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_FAST, speed);
     if (sidfp) sidfp->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
     break;
 
     default:
-    if (sid) sid->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
+    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_INTERPOLATE, speed);
     if (sidfp) sidfp->set_sampling_parameters(clockrate, SAMPLE_RESAMPLE_INTERPOLATE, speed);
     break;
   }
@@ -93,12 +93,12 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
   }
   if (m == 1)
   {
-    if (sid) sid->set_chip_model(MOS8580);
+    if (sid) sid->set_chip_model(reSID::MOS8580);
     if (sidfp) sidfp->set_chip_model(MOS8580);
   }
   else
   {
-    if (sid) sid->set_chip_model(MOS6581);
+    if (sid) sid->set_chip_model(reSID::MOS6581);
     if (sidfp) sidfp->set_chip_model(MOS6581);
   }
 
