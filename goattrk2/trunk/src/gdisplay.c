@@ -177,7 +177,7 @@ void printstatus(void)
           sprintf(&textbuffer[3], " PATT. END");
           // if (color == CNORMAL) color = CCOMMAND;
           // @TODO
-          if (color == CNORMAL) color = 0x0F;
+          if (color == CNORMAL) color = CTBLEND;
         }
         else
         {
@@ -231,15 +231,15 @@ void printstatus(void)
       textbuffer[8] = tmp;
       tmp = textbuffer[10];
       textbuffer[10] = 0;
-      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x0F;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CINSTRNUM;
       printtext(10+c*15, 3+d, tmpc, &textbuffer[8]);
       textbuffer[10] = tmp;
       tmp = textbuffer[11];
       textbuffer[11] = 0;
-      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x02;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMAND;
       printtext(12+c*15, 3+d, tmpc, &textbuffer[10]);
       textbuffer[11] = tmp;
-      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x0B;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMANDVAL;
       printtext(13+c*15, 3+d, tmpc, &textbuffer[11]);
 
       /* ====================================== */
@@ -250,13 +250,13 @@ void printstatus(void)
         {
           if ((p >= epmarkstart) && (p <= epmarkend))
             // @TODO
-            printbg(2+c*15+4, 3+d, 0x4, 9);
+            printbg(2+c*15+4, 3+d, CMARKBG, 9);
         }
         else
         {
           if ((p <= epmarkstart) && (p >= epmarkend))
             // @TODO
-            printbg(2+c*15+4, 3+d, 0x4, 9);
+            printbg(2+c*15+4, 3+d, CMARKBG, 9);
         }
       }
       if ((color == CEDIT) && (editmode == EDIT_PATTERN) && (epchn == c))
@@ -280,7 +280,7 @@ void printstatus(void)
   for (c = 0; c < MAX_CHN; c++)
   {
     sprintf(textbuffer, " %d ", c+1);
-    printtext(40+10, 3+c, 15, textbuffer);
+    printtext(40+10, 3+c, CTITLE, textbuffer);
     for (d = 0; d < VISIBLEORDERLIST; d++)
     {
       int p = esview+d;
@@ -344,9 +344,9 @@ void printstatus(void)
           if ((p >= esmarkstart) && (p <= esmarkend))
           {
             if (p != esmarkend)
-              printbg(44+10+d*3, 3+c, 1, 3);
+              printbg(44+10+d*3, 3+c, CMARKBG, 3);
             else
-              printbg(44+10+d*3, 3+c, 1, 2);
+              printbg(44+10+d*3, 3+c, CMARKBG, 2);
           }
         }
         else
@@ -354,9 +354,9 @@ void printstatus(void)
           if ((p <= esmarkstart) && (p >= esmarkend))
           {
             if (p != esmarkstart)
-              printbg(44+10+d*3, 3+c, 1, 3);
+              printbg(44+10+d*3, 3+c, CMARKBG, 3);
             else
-              printbg(44+10+d*3, 3+c, 1, 2);
+              printbg(44+10+d*3, 3+c, CMARKBG, 2);
           }
         }
       }
@@ -507,26 +507,26 @@ void printstatus(void)
         case WTBL:
         // if (ltable[c][p] >= WAVECMD) color = CCOMMAND;
         // @TODO
-        if (ltable[c][p] >= WAVECMD) color = 0x0B;
-        if (ltable[c][p] <= 0x10) color = 0x0B;
+        if (ltable[c][p] >= WAVECMD) color = CTBLMODVAL;
+        if (ltable[c][p] <= 0x10) color = CTBLMODVAL;
         break;
 
         case PTBL:
         // if (ltable[c][p] >= 0x80) color = CCOMMAND;
         // @TODO
         if (ltable[c][p] >= 0x80) color = CNORMAL;
-        else color = 0x0B;
+        else color = CTBLMODVAL;
         break;
 
         case FTBL:
         // if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CCOMMAND;
         // @TODO
         if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CNORMAL;
-        else color = 0x0B;
+        else color = CTBLMODVAL;
         break;
       }
       // added
-      if (ltable[c][p] == 0xFF) color = 0x0F;
+      if (ltable[c][p] == 0xFF) color = CTBLEND;
       // end
       if ((p == etpos) && (etnum == c)) color = CEDIT;
       /*
@@ -536,7 +536,9 @@ void printstatus(void)
       sprintf(textbuffer, "%02X:", p+1);
       // @TODO
       printtext(40+10+10*c, 15+d, CINDEXES, textbuffer);
-      if ( ltable[c][p] || rtable[c][p] )
+      // if ( ltable[c][p] || rtable[c][p] )
+      // allow single 00 00 columns:
+      if ( ltable[c][p] || rtable[c][p] || ltable[c][p+1] || rtable[c][p+1] )
       {
         sprintf(textbuffer, "%02X %02X", ltable[c][p], rtable[c][p]);
       }
@@ -551,12 +553,12 @@ void printstatus(void)
         if (etmarkstart <= etmarkend)
         {
           if ((p >= etmarkstart) && (p <= etmarkend))
-            printbg(40+10+10*c+3, 15+d, 1, 5);
+            printbg(40+10+10*c+3, 15+d, CMARKBG, 5);
         }
         else
         {
           if ((p <= etmarkstart) && (p >= etmarkend))
-            printbg(40+10+10*c+3, 15+d, 1, 5);
+            printbg(40+10+10*c+3, 15+d, CMARKBG, 5);
         }
       }
     }
@@ -619,6 +621,7 @@ void printstatus(void)
     color = 12;
     break;
     */
+    // @TODO: what does this do?
     case 0:
     color = ( color & 0xF0 ) + 10;
     break;

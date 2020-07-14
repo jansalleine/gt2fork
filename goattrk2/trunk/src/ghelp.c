@@ -6,8 +6,8 @@
 
 #include "goattrk2.h"
 
-#define HELP_HEADER 15
-#define HELP_NORMAL 7
+#define HELP_HEADER CHELP_HEADER
+#define HELP_NORMAL CHELP_NORMAL
 
 int printrows(int column, int row, int color, char *strings[] ) {
   int n = 0;
