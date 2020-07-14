@@ -2,17 +2,26 @@
 
 PREFIX=../win32/
 SUFFIX=.exe
-LIBS=-lmingw32 -lSDLmain -lSDL -mwindows -static-libstdc++ -static-libgcc
+LIBS=-L/usr/i686-w64-mingw32/lib -lmingw32 -lSDLmain -lSDL -mwindows -static-libstdc++ -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread
 RM=rm -f
 
-MINGW32PREFIX=~/mingw32
-# MINGW32PREFIX=/usr/bin
+#MINGW32PREFIX=~/mingw32
+MINGW32PREFIX=/usr/bin
 
-CC=$(MINGW32PREFIX)/bin/mingw32-gcc
-CXX=$(MINGW32PREFIX)/bin/mingw32-g++
-WINDRES=$(MINGW32PREFIX)/bin/mingw32-windres
+CC=$(MINGW32PREFIX)/i686-w64-mingw32-gcc
+CXX=$(MINGW32PREFIX)/i686-w64-mingw32-g++
+WINDRES=$(MINGW32PREFIX)/i686-w64-mingw32-windres
 CFLAGS+=-O3 -Wall -Ibme -Iasm
 CXXFLAGS=$(CFLAGS)
+
+RESIDOBJECTS=resid_new/sid.o \
+	resid_new/voice.o \
+	resid_new/wave.o \
+	resid_new/envelope.o \
+	resid_new/filter.o \
+	resid_new/dac.o \
+	resid_new/extfilt.o \
+	resid_new/pot.o
 
 EXE=	$(PREFIX)goattrk2$(SUFFIX) \
 	$(PREFIX)gt2reloc$(SUFFIX) \
@@ -21,13 +30,11 @@ EXE=	$(PREFIX)goattrk2$(SUFFIX) \
 	$(PREFIX)betaconv$(SUFFIX) \
 	$(PREFIX)mod2sng$(SUFFIX)
 
-all: $(EXE)
+all: datafile dat2inc $(EXE)
 
 $(PREFIX)goattrk2$(SUFFIX): goatdata.o goattrk2.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
 gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o \
-resid/envelope.o resid/extfilt.o resid/filter.o resid/pot.o resid/sid.o resid/wave.o resid/wave6581__ST.o \
-resid/wave6581_P_T.o resid/wave6581_PS_.o resid/wave6581_PST.o resid/wave8580__ST.o resid/wave8580_P_T.o \
-resid/wave8580_PS_.o resid/wave8580_PST.o resid/voice.o \
+$(RESIDOBJECTS) \
 resid-fp/envelopefp.o resid-fp/extfiltfp.o resid-fp/filterfp.o resid-fp/potfp.o resid-fp/sidfp.o \
 resid-fp/wavefp.o resid-fp/voicefp.o \
 asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
@@ -39,16 +46,14 @@ bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io
 
 # this compiles a seperate version of the relocator/packer that doesnt use the
 # SDL interface
-greloc2.o: greloc.c
-	$(CC) $(CFLAGS) -DGT2RELOC -c -o greloc2.o greloc.c
-	
+#greloc2.o: greloc.c
+#	$(CC) $(CFLAGS) -DGT2RELOC -c -o greloc2.o greloc.c
+
 # it would be nice not having to link things like resid, however the source is
 # not ready for that
 $(PREFIX)gt2reloc$(SUFFIX): goatdata.o gt2reloc.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
-gfile.o greloc2.o ghelp.o gsound.o gconsole.o gsid.o \
-resid/envelope.o resid/extfilt.o resid/filter.o resid/pot.o resid/sid.o resid/wave.o resid/wave6581__ST.o \
-resid/wave6581_P_T.o resid/wave6581_PS_.o resid/wave6581_PST.o resid/wave8580__ST.o resid/wave8580_P_T.o \
-resid/wave8580_PS_.o resid/wave8580_PST.o resid/voice.o \
+gfile.o ghelp.o gsound.o gconsole.o gsid.o \
+$(RESIDOBJECTS) \
 resid-fp/envelopefp.o resid-fp/extfiltfp.o resid-fp/filterfp.o resid-fp/potfp.o resid-fp/sidfp.o \
 resid-fp/wavefp.o resid-fp/voicefp.o \
 asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
@@ -56,7 +61,7 @@ asm/pc.o asm/vec.o \
 bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
 	$(CXX) -DGT2RELOC -o $@ $^ $(LIBS)
 	strip $@
-	
+
 $(PREFIX)mod2sng$(SUFFIX): mod2sng.o bme/bme_end.o
 	$(CC) -o $@ $^
 	strip $@
@@ -74,15 +79,28 @@ $(PREFIX)betaconv$(SUFFIX): betaconv.o bme/bme_end.o
 	strip $@
 
 goattrk2.dat: player.s altplayer.s chargen.bin palette.bin cursor.bin goattrk2.bmp goattrk2.seq
-	datafile $@ goattrk2.seq
+	./datafile $@ goattrk2.seq
 
 goatdata.c: goattrk2.dat
-	dat2inc $< $@
+	./dat2inc $< $@
+
+datafile: bme/datafile.c bme/bme_end.c
+	gcc -o datafile bme/datafile.c bme/bme_end.c
+	strip datafile
+
+dat2inc: bme/dat2inc.c
+	gcc -o dat2inc bme/dat2inc.c
+	strip dat2inc
 
 clean:
 	$(RM) *.o *~
 	$(RM) asm/*.o
 	$(RM) bme/*.o
 	$(RM) resid/*.o
+	$(RM) resid_new/*.o
 	$(RM) resid-fp/*.o
 	$(RM) $(EXE)
+	$(RM) datafile
+	$(RM) dat2inc
+	$(RM) goatdata.c
+	$(RM) goattrk2.dat
