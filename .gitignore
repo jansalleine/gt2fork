@@ -3,3 +3,9 @@ goattrk2/trunk/src/datafile
 goattrk2/trunk/src/goatdata.c
 goattrk2/trunk/src/goattrk2.dat
 *.o
+goattrk2/trunk/linux/betaconv
+goattrk2/trunk/linux/goattrk2
+goattrk2/trunk/linux/gt2reloc
+goattrk2/trunk/linux/ins2snd2
+goattrk2/trunk/linux/mod2sng
+goattrk2/trunk/linux/sngspli2
