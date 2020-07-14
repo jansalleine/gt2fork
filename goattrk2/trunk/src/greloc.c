@@ -410,7 +410,7 @@ void relocator(void)
           d = PTBL;
           nopulse = 0;
            break;
-           
+
            case CMD_SETFILTERPTR:
            d = FTBL;
           nofilter = 0;
@@ -512,13 +512,15 @@ void relocator(void)
   // Select playroutine options
 #ifndef GT2RELOC
   clearscreen();
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  // printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, 0x80, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[MAX_COLUMNS] = 0;
-  printtext(0, 0, 15+16, textbuffer);
+  // printtext(0, 0, 15+16, textbuffer);
+  printtext(0, 0, 0x80, textbuffer);
   printtext(1, 2, CTITLE, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
   selectdone = 0;
   while (!selectdone)
@@ -1161,7 +1163,7 @@ void relocator(void)
     waitkeynoupdate();
     goto PRCLEANUP;
   }
-  
+
   // Modify ghostregs to not be zeropage if needed
   if ((playerversion & PLAYER_FULLBUFFERED) && (playerversion & PLAYER_ZPGHOSTREGS) == 0)
   {
@@ -1432,7 +1434,7 @@ void relocator(void)
   fprintf(STDOUT, "Total size:      %d bytes\n", packedsize);
 
   songhandle = fopen(packedsongname, "wb");
-  if (!songhandle) 
+  if (!songhandle)
   {
       fprintf(STDERR, "error: could not open output file '%s'.\n", packedsongname);
       goto PRCLEANUP;
@@ -1440,13 +1442,15 @@ void relocator(void)
 
 #else
   clearscreen();
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  // printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, 0x80, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[80] = 0;
-  printtext(0, 0, 15+16, textbuffer);
+  // printtext(0, 0, 15+16, textbuffer);
+  printtext(0, 0, 0x80, textbuffer);
 
   sprintf(textbuffer, "PACKING RESULTS:");
   printtext(1, 2, 15, textbuffer);
@@ -1882,7 +1886,7 @@ int packpattern(unsigned char *dest, unsigned char *src, int rows)
 
     // Never pack first row or sequencer goes crazy
     if (!c) packok = 0;
-    
+
     // There must be no instrument or command changes on the row to be packed
     if (temp2[c] < FX)
     {
@@ -2175,7 +2179,7 @@ int isusedandselfcontained(int num, int start)
 
 void calcspeedtest(unsigned char pos)
 {
-  if (!pos) 
+  if (!pos)
   {
     nozerospeed = 0;
     return;

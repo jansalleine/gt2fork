@@ -1,12 +1,17 @@
 #ifndef GDISPLAY_H
 #define GDISPLAY_H
 
-#define CNORMAL 8
-#define CMUTE 3
-#define CEDIT 10
-#define CPLAYING 12
-#define CCOMMAND 7
-#define CTITLE 15
+#define CNORMAL 0x0A
+#define CMUTE 0x03
+#define CEDIT 0x0E
+#define CPLAYING 0x0C
+#define CPLAYINGINV 0x4F
+#define CCOMMAND 0x02
+#define CTITLE 0x0F
+#define CPATTCOL 0x0F
+#define CINDEXES 0x08
+#define CINDEXESINV 0x80
+#define CSTATUS 0x80
 
 void printmainscreen(void);
 void displayupdate(void);

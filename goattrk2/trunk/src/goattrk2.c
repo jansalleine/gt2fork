@@ -32,7 +32,7 @@ int followplay = 0;
 int hexnybble = -1;
 int stepsize = 4;
 int autoadvance = 0;
-int defaultpatternlength = 64;
+int defaultpatternlength = 32;
 int cursorflash = 0;
 int cursorcolortable[] = {1,2,7,2};
 int exitprogram = 0;
@@ -218,7 +218,7 @@ int main(int argc, char **argv)
           printf("%s\n", usage[y]);
 #endif
         return EXIT_SUCCESS;
-        
+
         case 'Z':
         sscanf(&argv[c][2], "%u", &residdelay);
         break;
@@ -604,7 +604,7 @@ void mousecommands(void)
     {
         if ((!prevmouseb) || (mouseheld > HOLDDELAY))
         {
-        if (mouseb & MOUSEB_LEFT) 
+        if (mouseb & MOUSEB_LEFT)
         {
           epchn = c;
           nextpattern();
@@ -1141,7 +1141,8 @@ void quit(void)
 {
   if ((!shiftpressed) || (mouseb))
   {
-    printtextcp(49, 36, 15, "Really Quit (y/n)?");
+    // printtextcp(49, 36, 15, "Really Quit (y/n)?");
+    printtextcp(49, 36, 0x0C, "Really Quit (y/n)?");
     waitkey();
     printblank(20, 36, 58);
     if ((key == 'y') || (key == 'Y')) exitprogram = 1;
@@ -1158,7 +1159,8 @@ void clear(void)
   int ct = 0;
   int cn = 0;
 
-  printtextcp(49, 36, 15, "Optimize everything (y/n)?");
+  // printtextcp(49, 36, 15, "Optimize everything (y/n)?");
+  printtextcp(49, 36, 0x0C, "Optimize everything (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y'))
@@ -1169,27 +1171,32 @@ void clear(void)
     return;
   }
 
-  printtextcp(49, 36, 15, "Clear orderlists (y/n)?");
+  // printtextcp(49, 36, 15, "Clear orderlists (y/n)?");
+  printtextcp(49, 36, 0x0C, "Clear orderlists (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cs = 1;
 
-  printtextcp(49, 36, 15, "Clear patterns (y/n)?");
+  // printtextcp(49, 36, 15, "Clear patterns (y/n)?");
+  printtextcp(49, 36, 0x0C, "Clear patterns (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cp = 1;
 
-  printtextcp(49, 36, 15, "Clear instruments (y/n)?");
+  // printtextcp(49, 36, 15, "Clear instruments (y/n)?");
+  printtextcp(49, 36, 0x0C, "Clear instruments (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) ci = 1;
 
-  printtextcp(49, 36, 15, "Clear tables (y/n)?");
+  // printtextcp(49, 36, 15, "Clear tables (y/n)?");
+  printtextcp(49, 36, 0x0C, "Clear tables (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) ct = 1;
 
-  printtextcp(49, 36, 15, "Clear songname (y/n)?");
+  // printtextcp(49, 36, 15, "Clear songname (y/n)?");
+  printtextcp(49, 36, 0x0C, "Clear songname (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cn = 1;
@@ -1199,11 +1206,13 @@ void clear(void)
     int selectdone = 0;
     int olddpl = defaultpatternlength;
 
-    printtext(40, 36, 15,"Pattern length:");
+    // printtext(40, 36, 15,"Pattern length:");
+    printtext(40, 36, 0x0C,"Pattern length:");
     while (!selectdone)
     {
       sprintf(textbuffer, "%02d ", defaultpatternlength);
-      printtext(55, 36, 15, textbuffer);
+      // printtext(55, 36, 15, textbuffer);
+      printtext(55, 36, 0x0E, textbuffer);
       waitkey();
       switch(rawkey)
       {

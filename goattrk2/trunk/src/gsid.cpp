@@ -80,7 +80,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
     break;
 
     default:
-    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_INTERPOLATE, speed);
+    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_RESAMPLE, speed);
     if (sidfp) sidfp->set_sampling_parameters(clockrate, SAMPLE_RESAMPLE_INTERPOLATE, speed);
     break;
   }

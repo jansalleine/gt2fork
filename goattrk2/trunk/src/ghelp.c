@@ -258,7 +258,7 @@ void onlinehelp(int standalone,int context)
       printtext(40,right++, HELP_HEADER, "PATTERN EDIT MODE");
       right = printrows(40,right,HELP_NORMAL, patternkeys);
       right++;
-    
+
       printtext(0, left++, HELP_HEADER, "SONG EDIT MODE");
       left = printrows(0,left,HELP_NORMAL, songkeys);
       left++;
@@ -270,9 +270,9 @@ void onlinehelp(int standalone,int context)
       printtext(40,right++, HELP_HEADER, "INSTRUMENT/TABLE EDIT MODE");
       right = printrows(40,right,HELP_NORMAL, instkeys);
       right++;
-    
+
       left = (left<right ? right : left);
-    
+
       printtext(0, left++, HELP_HEADER, "PATTERN COMMANDS");
       left = printrows(0,left,HELP_NORMAL, pattcmds);
       left++;
@@ -286,7 +286,7 @@ void onlinehelp(int standalone,int context)
       left++;
     } else {
       switch(editmode) {
-      case EDIT_PATTERN:      
+      case EDIT_PATTERN:
         printtext(0,left++, HELP_HEADER, "PATTERN EDIT MODE");
         left = printrows(0,left,HELP_NORMAL, patternkeys);
         left++;
@@ -326,14 +326,14 @@ void onlinehelp(int standalone,int context)
     if(!lastrow) lastrow=left;
 
     printblank(0, 0, MAX_COLUMNS);
-    sprintf(textbuffer, "%s Online Help", programname);
-    printtext(0, 0, HELP_HEADER, textbuffer);
+    sprintf(textbuffer, "%s Online Help     ", programname);
+    printtext(0, 0, 0x80, textbuffer);
     if(standalone) {
       printtext(55, 0, HELP_HEADER, "Arrows/PgUp/PgDn/Home/End scroll, ESC exits");
     } else {
-      printtext(34, 0, HELP_HEADER, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
+      printtext(34, 0, 0x80, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
     }
-    printbg(0, 0, 1, MAX_COLUMNS);
+    // printbg(0, 0, 1, MAX_COLUMNS);
 
     fliptoscreen();
     waitkeymousenoupdate();

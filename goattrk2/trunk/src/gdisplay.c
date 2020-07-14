@@ -15,7 +15,7 @@ char *notename[] =
   "C-5", "C#5", "D-5", "D#5", "E-5", "F-5", "F#5", "G-5", "G#5", "A-5", "A#5", "B-5",
   "C-6", "C#6", "D-6", "D#6", "E-6", "F-6", "F#6", "G-6", "G#6", "A-6", "A#6", "B-6",
   "C-7", "C#7", "D-7", "D#7", "E-7", "F-7", "F#7", "G-7", "G#7", "...", "---", "+++"};
-  
+
 char timechar[] = {':', ' '};
 
 int timemin = 0;
@@ -49,7 +49,7 @@ void printstatus(void)
 
   if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
 
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
 
   if (!menu)
   {
@@ -58,43 +58,43 @@ void printstatus(void)
     else
       sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
     textbuffer[49] = 0;
-    printtext(0, 0, 15+16, textbuffer);
+    printtext(0, 0, CSTATUS, textbuffer);
 
     if (usefinevib)
-      printtext(40+10, 0, 15+16, "FV");
+      printtext(40+10, 0, CSTATUS, "FV");
 
     if (optimizepulse)
-      printtext(43+10, 0, 15+16, "PO");
+      printtext(43+10, 0, CSTATUS, "PO");
 
     if (optimizerealtime)
-      printtext(46+10, 0, 15+16, "RO");
+      printtext(46+10, 0, CSTATUS, "RO");
 
     if (ntsc)
-      printtext(49+10, 0, 15+16, "NTSC");
+      printtext(49+10, 0, CSTATUS, "NTSC");
     else
-      printtext(49+10, 0, 15+16, " PAL");
+      printtext(49+10, 0, CSTATUS, " PAL");
 
     if (!sidmodel)
-      printtext(54+10, 0, 15+16, "6581");
+      printtext(54+10, 0, CSTATUS, "6581");
     else
-      printtext(54+10, 0, 15+16, "8580");
+      printtext(54+10, 0, CSTATUS, "8580");
 
     sprintf(textbuffer, "HR:%04X", adparam);
-    printtext(59+10, 0, 15+16, textbuffer);
+    printtext(59+10, 0, CSTATUS, textbuffer);
     if (eamode) printbg(62+10+eacolumn, 0, cc, 1);
 
     if (multiplier)
     {
       sprintf(textbuffer, "%2dX", multiplier);
-      printtext(67+10, 0, 15+16, textbuffer);
+      printtext(67+10, 0, CSTATUS, textbuffer);
     }
-    else printtext(67+10, 0, 15+16, "25Hz");
+    else printtext(67+10, 0, CSTATUS, "25Hz");
 
-    printtext(72+20, 0, 15+16, "F12=HELP");
+    printtext(72+20, 0, CSTATUS, "F12=HELP");
   }
   else
   {
-    printtext(0, 0, 15+16, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+    printtext(0, 0, CSTATUS, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
   }
 
   if ((followplay) && (isplaying()))
@@ -134,8 +134,10 @@ void printstatus(void)
 
   for (c = 0; c < MAX_CHN; c++)
   {
-    sprintf(textbuffer, "CHN %d PATT.%02X", c+1, epnum[c]);
-    printtext(2+c*15, 2, CTITLE, textbuffer);
+    sprintf(textbuffer, "CHN %d PATT.", c+1);
+    printtext(2+c*15, 2, CPATTCOL, textbuffer);
+    sprintf(textbuffer, "%02X", epnum[c]);
+    printtext(13+c*15, 2, CEDIT, textbuffer);
 
     for (d = 0; d < VISIBLEPATTROWS; d++)
     {
@@ -145,11 +147,15 @@ void printstatus(void)
       {
         int chnrow = chn[c].pattptr / 4;
         if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
-        if (chnrow == p) color = CPLAYING;
+        // if (chnrow == p) color = CPLAYING;
+        if (chnrow == p) color = CPLAYINGINV;
       }
 
       if (chn[c].mute) color = CMUTE;
       if (p == eppos) color = CEDIT;
+      //
+      if ((p == eppos) && (followplay)) color = CPLAYINGINV;
+      //
       if ((p < 0) || (p > pattlen[epnum[c]]))
       {
         sprintf(textbuffer, "             ");
@@ -169,18 +175,35 @@ void printstatus(void)
         if (pattern[epnum[c]][p*4] == ENDPATT)
         {
           sprintf(&textbuffer[3], " PATT. END");
-          if (color == CNORMAL) color = CCOMMAND;
+          // if (color == CNORMAL) color = CCOMMAND;
+          // @TODO
+          if (color == CNORMAL) color = 0x0F;
         }
         else
         {
-          sprintf(&textbuffer[3], " %s %02X%01X%02X",
-            notename[pattern[epnum[c]][p*4]-FIRSTNOTE],
-            pattern[epnum[c]][p*4+1],
-            pattern[epnum[c]][p*4+2],
-            pattern[epnum[c]][p*4+3]);
+          sprintf(&textbuffer[3], " %s ",
+            notename[pattern[epnum[c]][p*4]-FIRSTNOTE]);
+          if ( pattern[epnum[c]][p*4+1] )
+          {
+            sprintf(&textbuffer[8], "%02X", pattern[epnum[c]][p*4+1]);
+          }
+          else
+          {
+            sprintf(&textbuffer[8], "..");
+          }
+          if ( pattern[epnum[c]][p*4+2] )
+          {
+            sprintf(&textbuffer[10], "%01X%02X", pattern[epnum[c]][p*4+2], pattern[epnum[c]][p*4+3]);
+          }
+          else
+          {
+            sprintf(&textbuffer[10], "...");
+          }
         }
       }
       textbuffer[3] = 0;
+
+      /*
       if (p%stepsize)
       {
         printtext(2+c*15, 3+d, CNORMAL, textbuffer);
@@ -190,17 +213,50 @@ void printstatus(void)
         printtext(2+c*15, 3+d, CCOMMAND, textbuffer);
       }
       printtext(6+c*15, 3+d, color, &textbuffer[4]);
+      */
+      // @TODO
+      if (!(p%stepsize) && !((p < 0) || (p > pattlen[epnum[c]])))
+      {
+        if (!patternhex) printtext(2+c*15, 3+d, CINDEXESINV, textbuffer);
+        else printtext(3+c*15, 3+d, CINDEXESINV, &textbuffer[1]);
+      }
+      else
+      {
+        printtext(2+c*15, 3+d, CINDEXES, textbuffer);
+      }
+      int tmp, tmpc;
+      tmp = textbuffer[8];
+      textbuffer[8] = 0;
+      printtext(6+c*15, 3+d, color, &textbuffer[4]);
+      textbuffer[8] = tmp;
+      tmp = textbuffer[10];
+      textbuffer[10] = 0;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x0F;
+      printtext(10+c*15, 3+d, tmpc, &textbuffer[8]);
+      textbuffer[10] = tmp;
+      tmp = textbuffer[11];
+      textbuffer[11] = 0;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x02;
+      printtext(12+c*15, 3+d, tmpc, &textbuffer[10]);
+      textbuffer[11] = tmp;
+      tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == 0x0F ) || ( color == CPLAYINGINV ) ? color : 0x0B;
+      printtext(13+c*15, 3+d, tmpc, &textbuffer[11]);
+
+      /* ====================================== */
+
       if (c == epmarkchn)
       {
         if (epmarkstart <= epmarkend)
         {
           if ((p >= epmarkstart) && (p <= epmarkend))
-            printbg(2+c*15+4, 3+d, 1, 9);
+            // @TODO
+            printbg(2+c*15+4, 3+d, 0x4, 9);
         }
         else
         {
           if ((p <= epmarkstart) && (p >= epmarkend))
-            printbg(2+c*15+4, 3+d, 1, 9);
+            // @TODO
+            printbg(2+c*15+4, 3+d, 0x4, 9);
         }
       }
       if ((color == CEDIT) && (editmode == EDIT_PATTERN) && (epchn == c))
@@ -314,6 +370,7 @@ void printstatus(void)
   sprintf(textbuffer, "INSTRUMENT NUM. %02X  %-16s", einum, instr[einum].name);
   printtext(40+10, 7, CTITLE, textbuffer);
 
+  /*
   sprintf(textbuffer, "Attack/Decay    %02X", instr[einum].ad);
   if (eipos == 0) color = CEDIT; else color = CNORMAL;
   printtext(40+10, 8, color, textbuffer);
@@ -349,6 +406,79 @@ void printstatus(void)
   sprintf(textbuffer, "1stFrame Wave   %02X", instr[einum].firstwave);
   if (eipos == 8) color = CEDIT; else color = CNORMAL;
   printtext(60+10, 11, color, textbuffer);
+  */
+
+  sprintf(textbuffer, "Attack/Decay");
+  if (eipos == 0) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(40+10, 8, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].ad);
+  if (eipos == 0) color = CNORMAL; else color = CPLAYING;
+  printtext(40+26, 8, color, textbuffer);
+
+  sprintf(textbuffer, "Sustain/Release");
+  if (eipos == 1) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(40+10, 9, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].sr);
+  if (eipos == 1) color = CNORMAL; else color = CPLAYING;
+  printtext(40+26, 9, color, textbuffer);
+
+  sprintf(textbuffer, "Wavetable Pos");
+  if (eipos == 2) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(40+10, 10, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].ptr[WTBL]);
+  if (eipos == 2) color = CNORMAL; else color = CPLAYING;
+  printtext(40+26, 10, color, textbuffer);
+
+  sprintf(textbuffer, "Pulsetable Pos");
+  if (eipos == 3) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(40+10, 11, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].ptr[PTBL]);
+  if (eipos == 3) color = CNORMAL; else color = CPLAYING;
+  printtext(40+26, 11, color, textbuffer);
+
+  sprintf(textbuffer, "Filtertable Pos");
+  if (eipos == 4) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(40+10, 12, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].ptr[FTBL]);
+  if (eipos == 4) color = CNORMAL; else color = CPLAYING;
+  printtext(40+26, 12, color, textbuffer);
+
+  sprintf(textbuffer, "Vibrato Param");
+  if (eipos == 5) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(60+10, 8, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].ptr[STBL]);
+  if (eipos == 5) color = CNORMAL; else color = CPLAYING;
+  printtext(60+26, 8, color, textbuffer);
+
+  sprintf(textbuffer, "Vibrato Delay");
+  if (eipos == 6) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(60+10, 9, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].vibdelay);
+  if (eipos == 6) color = CNORMAL; else color = CPLAYING;
+  printtext(60+26, 9, color, textbuffer);
+
+  sprintf(textbuffer, "HR/Gate Timer");
+  if (eipos == 7) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(60+10, 10, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].gatetimer);
+  if (eipos == 7) color = CNORMAL; else color = CPLAYING;
+  printtext(60+26, 10, color, textbuffer);
+
+  sprintf(textbuffer, "1stFrame Wave");
+  if (eipos == 8) color = CEDIT; else color = CNORMAL & 0xF7;
+  printtext(60+10, 11, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].firstwave);
+  if (eipos == 8) color = CNORMAL; else color = CPLAYING;
+  printtext(60+26, 11, color, textbuffer);
 
   if (editmode == EDIT_INSTRUMENT)
   {
@@ -375,20 +505,46 @@ void printstatus(void)
       switch (c)
       {
         case WTBL:
-        if (ltable[c][p] >= WAVECMD) color = CCOMMAND;
+        // if (ltable[c][p] >= WAVECMD) color = CCOMMAND;
+        // @TODO
+        if (ltable[c][p] >= WAVECMD) color = 0x0B;
+        if (ltable[c][p] <= 0x10) color = 0x0B;
         break;
 
         case PTBL:
-        if (ltable[c][p] >= 0x80) color = CCOMMAND;
+        // if (ltable[c][p] >= 0x80) color = CCOMMAND;
+        // @TODO
+        if (ltable[c][p] >= 0x80) color = CNORMAL;
+        else color = 0x0B;
         break;
 
         case FTBL:
-        if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CCOMMAND;
+        // if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CCOMMAND;
+        // @TODO
+        if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CNORMAL;
+        else color = 0x0B;
         break;
       }
+      // added
+      if (ltable[c][p] == 0xFF) color = 0x0F;
+      // end
       if ((p == etpos) && (etnum == c)) color = CEDIT;
+      /*
       sprintf(textbuffer, "%02X:%02X %02X", p+1, ltable[c][p], rtable[c][p]);
       printtext(40+10+10*c, 15+d, color, textbuffer);
+      */
+      sprintf(textbuffer, "%02X:", p+1);
+      // @TODO
+      printtext(40+10+10*c, 15+d, CINDEXES, textbuffer);
+      if ( ltable[c][p] || rtable[c][p] )
+      {
+        sprintf(textbuffer, "%02X %02X", ltable[c][p], rtable[c][p]);
+      }
+      else
+      {
+        sprintf(textbuffer, ".. ..");
+      }
+      printtext(40+10+10*c+3, 15+d, color, textbuffer);
 
       if (etmarknum == c)
       {
@@ -438,11 +594,19 @@ void printstatus(void)
       break;
     }
   }
+  /*
   sprintf(textbuffer, "OCTAVE %d", epoctave);
   printtext(0, 35, CTITLE, textbuffer);
+  */
+  sprintf(textbuffer, "OCTAVE");
+  printtext(0, 35, CTITLE, textbuffer);
+
+  sprintf(textbuffer, "%d", epoctave);
+  printtext(0+7, 35, CPLAYING, textbuffer);
 
   switch(autoadvance)
   {
+    /*
     case 0:
     color = 10;
     break;
@@ -454,13 +618,28 @@ void printstatus(void)
     case 2:
     color = 12;
     break;
+    */
+    case 0:
+    color = ( color & 0xF0 ) + 10;
+    break;
+
+    case 1:
+    color = ( color & 0xF0 ) + 14;
+    break;
+
+    case 2:
+    color = ( color & 0xF0 ) + 12;
+    break;
   }
 
   if (recordmode) printtext(0, 36, color, "EDITMODE");
-  else printtext(0, 36, color, "JAM MODE");
+  // else printtext(0, 36, color, "JAM MODE");
+  else printtext(0, 36, CPLAYING, "JAM MODE");
 
   if (isplaying()) printtext(10, 35, CTITLE, "PLAYING");
-  else printtext(10, 35, CTITLE, "STOPPED");
+  // else printtext(10, 35, CTITLE, "STOPPED");
+  else printtext(10, 35, CNORMAL, "STOPPED");
+
   if (multiplier)
   {
     if (!ntsc)

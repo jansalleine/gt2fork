@@ -87,3 +87,5 @@ clean:
 	$(RM) $(EXE)
 	$(RM) datafile
 	$(RM) dat2inc
+	$(RM) goatdata.c
+	$(RM) goattrk2.dat
