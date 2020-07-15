@@ -449,7 +449,9 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
       printtext(50-(MAX_FILENAME+10)/2+1, 5+c, color, textbuffer);
       if ((!filemode) && ((fileview+c) == filepos)) printbg(50-(MAX_FILENAME+10)/2+1, 5+c, cc, 68);
     }
-
+    //
+    printbg(50-(MAX_FILENAME+10)/2+1, 5+VISIBLEFILES, CBG, 68);
+    //
     printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, CTITLE, "PATH:   ");
     sprintf(textbuffer, "%-60s", path);
     textbuffer[MAX_FILENAME] = 0;

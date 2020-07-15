@@ -19,6 +19,10 @@ gt2stereo/src/dat2inc
 gt2stereo/src/datafile
 gt2stereo/src/goatdata.c
 gt2stereo/src/gt2stereo.dat
+gt2stereo/linux/gt2stereo
+gt2stereo/linux/ins2snd2
+gt2stereo/linux/mod2sng2
+gt2stereo/linux/ss2stereo
 gt2stereo/win32/gt2stereo.exe
 gt2stereo/win32/ins2snd2.exe
 gt2stereo/win32/mod2sng2.exe

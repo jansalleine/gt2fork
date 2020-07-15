@@ -58,26 +58,28 @@
 #define CYELLOW 0xE
 #define CWHITE 0xF
 
-#define CNORMAL CLGREEN
-#define CMUTE CDGREY
-#define CEDIT CYELLOW
-#define CPLAYING CLRED
-#define CPLAYINGINV ((CDRED << 4) | CWHITE) // 0x4F
-#define CCOMMAND CDGREEN
-#define CCOMMANDVAL CCYAN
-#define CTITLE CWHITE
-#define CPATTCOL CWHITE
-#define CINDEXES CGREY
-#define CINDEXESINV (CGREY << 4)
-#define CSTATUS (CGREY << 4)
-#define CTBLMODVAL CCYAN
-#define CTBLEND CWHITE
-#define CINSTRNUM CWHITE
-#define CMARKBG CDRED
-#define CHELP_HEADER CYELLOW
-#define CHELP_NORMAL CGREY
-#define CBOXCOLOR CPURPLE
-#define CBOTTOMSTATUS CLRED
+#define CBG CBLACK
+
+#define CNORMAL ((CBG << 4) | CLGREEN)
+#define CMUTE ((CBG << 4) | CDGREY)
+#define CEDIT ((CBG << 4) | CYELLOW)
+#define CPLAYING ((CBG << 4) | CLRED)
+#define CPLAYINGINV ((CDRED << 4) | CWHITE)
+#define CCOMMAND ((CBG << 4) | CDGREEN)
+#define CCOMMANDVAL ((CBG << 4) | CCYAN)
+#define CTITLE ((CBG << 4) | CWHITE)
+#define CPATTCOL ((CBG << 4) | CWHITE)
+#define CINDEXES ((CBG << 4) | CGREY)
+#define CINDEXESINV ((CGREY << 4) | CBG)
+#define CSTATUS ((CGREY << 4) | CBLACK)
+#define CTBLMODVAL ((CBG << 4) | CCYAN)
+#define CTBLEND ((CBG << 4) | CWHITE)
+#define CINSTRNUM ((CBG << 4) | CWHITE)
+#define CMARKBG ((CBG << 4) | CDRED)
+#define CHELP_HEADER ((CBG << 4) | CYELLOW)
+#define CHELP_NORMAL ((CBG << 4) | CGREY)
+#define CBOXCOLOR ((CBG << 4) | CPURPLE)
+#define CBOTTOMSTATUS ((CBG << 4) | CLRED)
 
 #ifndef GOATTRK2_C
 extern int menu;

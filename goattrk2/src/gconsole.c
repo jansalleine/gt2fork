@@ -57,7 +57,7 @@ int initscreen(void)
     if (!gfx_init(MAX_COLUMNS * 8, MAX_ROWS * 16, 60, 0))
       return 0;
   }
-   
+
   scrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
   prevscrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
   if ((!scrbuffer) || (!prevscrbuffer)) return 0;
@@ -176,7 +176,7 @@ void clearscreen(void)
 
   for (c = 0; c < MAX_ROWS * MAX_COLUMNS; c++)
   {
-    setcharcolor(dptr, 0x20, 0x7);
+    setcharcolor(dptr, 0x20, (CBG << 4));
     dptr++;
   }
 }
@@ -220,7 +220,7 @@ void printblank(int x, int y, int length)
   if (y >= MAX_ROWS) return;
   while (length--)
   {
-    setcharcolor(dptr, 0x20, 0x7);
+    setcharcolor(dptr, 0x20, CBG);
     dptr++;
   }
 }
