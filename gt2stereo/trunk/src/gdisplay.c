@@ -143,12 +143,14 @@ void printstatus(void)
   for (d = 0; d < VISIBLEPATTROWS; d++)
   {
     int p = epview+d;
-    color = CNORMAL;
-    if (!(p%stepsize)) color = CCOMMAND;
+    int tpx = 1;
+    color = CINDEXES;
+    if (!(p%stepsize)) color = CINDEXESINV;
 
     if ((p < 0) || (p > maxpattlen))
     {
       sprintf(textbuffer, "   ");
+      color = CINDEXES;
     }
     else
     {
@@ -162,9 +164,12 @@ void printstatus(void)
           sprintf(textbuffer, "%03d", dp);
       }
       else
-        sprintf(textbuffer, " %02X", dp);
+      {
+        sprintf(textbuffer, "%02X", dp);
+        tpx = 2;
+      }
     }
-    printtext(1, 3+d, color, textbuffer);
+    printtext(tpx, 3+d, color, textbuffer);
   }
 
   for (c = 0; c < MAX_CHN; c++)
@@ -187,38 +192,70 @@ void printstatus(void)
 
       if (chn[c].mute) color = CMUTE;
       if (p == eppos) color = CEDIT;
+      //
+      if ((p == eppos) && (followplay)) color = CPLAYINGINV;
+      //
       if ((p < 0) || (p > pattlen[epnum[c]]))
       {
         sprintf(textbuffer, "        ");
+        printtext(5+c*9, 3+d, color, textbuffer);
       }
       else
       {
         if (pattern[epnum[c]][p*4] == ENDPATT)
         {
           sprintf(textbuffer, "PATT.END");
-          if (color == CNORMAL) color = CCOMMAND;
+          if (color == CNORMAL) color = CTBLEND;
+          printtext(5+c*9, 3+d, color, textbuffer);
         }
         else
         {
-          sprintf(textbuffer, "%s%02X%01X%02X",
-              notename[pattern[epnum[c]][p*4]-FIRSTNOTE],
-              pattern[epnum[c]][p*4+1],
-              pattern[epnum[c]][p*4+2],
-              pattern[epnum[c]][p*4+3]);
+          sprintf(textbuffer, "%s", notename[pattern[epnum[c]][p*4]-FIRSTNOTE]);
+          printtext(5+c*9, 3+d, color, textbuffer);
+
+          int tmpc;
+          if ( pattern[epnum[c]][p*4+1] )
+          {
+            sprintf(textbuffer, "%02X", pattern[epnum[c]][p*4+1]);
+          }
+          else
+          {
+            sprintf(textbuffer, "..");
+          }
+          tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CINSTRNUM;
+          printtext(5+3+c*9, 3+d, tmpc, textbuffer);
+          if ( pattern[epnum[c]][p*4+2] )
+          {
+            sprintf(textbuffer, "%01X", pattern[epnum[c]][p*4+2]);
+            tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMAND;
+            printtext(5+5+c*9, 3+d, tmpc, textbuffer);
+            sprintf(textbuffer, "%02X", pattern[epnum[c]][p*4+3]);
+            tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMANDVAL;
+            printtext(6+5+c*9, 3+d, tmpc, textbuffer);
+          }
+          else
+          {
+            sprintf(textbuffer, ".");
+            tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMAND;
+            printtext(5+5+c*9, 3+d, tmpc, textbuffer);
+            sprintf(textbuffer, "..");
+            tmpc = ( color == CMUTE ) || ( color == CEDIT ) || ( color == CTBLEND ) || ( color == CPLAYINGINV ) ? color : CCOMMANDVAL;
+            printtext(6+5+c*9, 3+d, tmpc, textbuffer);
+          }
         }
       }
-      printtext(5+c*9, 3+d, color, textbuffer);
+
       if (c == epmarkchn)
       {
         if (epmarkstart <= epmarkend)
         {
           if ((p >= epmarkstart) && (p <= epmarkend))
-            printbg(5+c*9, 3+d, 1, 8);
+            printbg(5+c*9, 3+d, CMARKBG, 8);
         }
         else
         {
           if ((p <= epmarkstart) && (p >= epmarkend))
-            printbg(5+c*9, 3+d, 1, 8);
+            printbg(5+c*9, 3+d, CMARKBG, 8);
         }
       }
       if ((color == CEDIT) && (editmode == EDIT_PATTERN) && (epchn == c))
@@ -242,7 +279,7 @@ void printstatus(void)
   for (c = 0; c < MAX_CHN; c++)
   {
     sprintf(textbuffer, " %d ", c+1);
-    printtext(40+20, 3+c, 15, textbuffer);
+    printtext(40+20, 3+c, CTITLE, textbuffer);
     for (d = 0; d < VISIBLEORDERLIST; d++)
     {
       int p = esview+d;
@@ -306,9 +343,9 @@ void printstatus(void)
           if ((p >= esmarkstart) && (p <= esmarkend))
           {
             if (p != esmarkend)
-              printbg(44+20+d*3, 3+c, 1, 3);
+              printbg(44+20+d*3, 3+c, CMARKBG, 3);
             else
-              printbg(44+20+d*3, 3+c, 1, 2);
+              printbg(44+20+d*3, 3+c, CMARKBG, 2);
           }
         }
         else
@@ -316,9 +353,9 @@ void printstatus(void)
           if ((p <= esmarkstart) && (p >= esmarkend))
           {
             if (p != esmarkstart)
-              printbg(44+20+d*3, 3+c, 1, 3);
+              printbg(44+20+d*3, 3+c, CMARKBG, 3);
             else
-              printbg(44+20+d*3, 3+c, 1, 2);
+              printbg(44+20+d*3, 3+c, CMARKBG, 2);
           }
         }
       }
@@ -332,41 +369,77 @@ void printstatus(void)
   sprintf(textbuffer, "INSTRUMENT NUM. %02X  %-16s", einum, instr[einum].name);
   printtext(40+20, 7+3, CTITLE, textbuffer);
 
-  sprintf(textbuffer, "Attack/Decay    %02X", instr[einum].ad);
-  if (eipos == 0) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "Attack/Decay");
+  if (eipos == 0) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(40+20, 8+3, color, textbuffer);
 
-  sprintf(textbuffer, "Sustain/Release %02X", instr[einum].sr);
-  if (eipos == 1) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].ad);
+  if (eipos == 0) color = CNORMAL; else color = CPLAYING;
+  printtext(40+20+16, 8+3, color, textbuffer);
+
+  sprintf(textbuffer, "Sustain/Release");
+  if (eipos == 1) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(40+20, 9+3, color, textbuffer);
 
-  sprintf(textbuffer, "Wavetable Pos   %02X", instr[einum].ptr[WTBL]);
-  if (eipos == 2) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].sr);
+  if (eipos == 1) color = CNORMAL; else color = CPLAYING;
+  printtext(40+36, 9+3, color, textbuffer);
+
+  sprintf(textbuffer, "Wavetable Pos");
+  if (eipos == 2) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(40+20, 10+3, color, textbuffer);
 
-  sprintf(textbuffer, "Pulsetable Pos  %02X", instr[einum].ptr[PTBL]);
-  if (eipos == 3) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].ptr[WTBL]);
+  if (eipos == 2) color = CNORMAL; else color = CPLAYING;
+  printtext(40+36, 10+3, color, textbuffer);
+
+  sprintf(textbuffer, "Pulsetable Pos");
+  if (eipos == 3) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(40+20, 11+3, color, textbuffer);
 
-  sprintf(textbuffer, "Filtertable Pos %02X", instr[einum].ptr[FTBL]);
-  if (eipos == 4) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].ptr[PTBL]);
+  if (eipos == 3) color = CNORMAL; else color = CPLAYING;
+  printtext(40+36, 11+3, color, textbuffer);
+
+  sprintf(textbuffer, "Filtertable Pos");
+  if (eipos == 4) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(40+20, 12+3, color, textbuffer);
 
-  sprintf(textbuffer, "Vibrato Param   %02X", instr[einum].ptr[STBL]);
-  if (eipos == 5) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].ptr[FTBL]);
+  if (eipos == 4) color = CNORMAL; else color = CPLAYING;
+  printtext(40+36, 12+3, color, textbuffer);
+
+  sprintf(textbuffer, "Vibrato Param");
+  if (eipos == 5) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(60+20, 8+3, color, textbuffer);
 
-  sprintf(textbuffer, "Vibrato Delay   %02X", instr[einum].vibdelay);
-  if (eipos == 6) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].ptr[STBL]);
+  if (eipos == 5) color = CNORMAL; else color = CPLAYING;
+  printtext(60+36, 8+3, color, textbuffer);
+
+  sprintf(textbuffer, "Vibrato Delay");
+  if (eipos == 6) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(60+20, 9+3, color, textbuffer);
 
-  sprintf(textbuffer, "HR/Gate Timer   %02X", instr[einum].gatetimer);
-  if (eipos == 7) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].vibdelay);
+  if (eipos == 6) color = CNORMAL; else color = CPLAYING;
+  printtext(60+36, 9+3, color, textbuffer);
+
+  sprintf(textbuffer, "HR/Gate Timer");
+  if (eipos == 7) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(60+20, 10+3, color, textbuffer);
 
-  sprintf(textbuffer, "1stFrame Wave   %02X", instr[einum].firstwave);
-  if (eipos == 8) color = CEDIT; else color = CNORMAL;
+  sprintf(textbuffer, "%02X", instr[einum].gatetimer);
+  if (eipos == 7) color = CNORMAL; else color = CPLAYING;
+  printtext(60+36, 10+3, color, textbuffer);
+
+  sprintf(textbuffer, "1stFrame Wave");
+  if (eipos == 8) color = CEDIT; else color = CNORMAL & 0xF7;
   printtext(60+20, 11+3, color, textbuffer);
+
+  sprintf(textbuffer, "%02X", instr[einum].firstwave);
+  if (eipos == 8) color = CNORMAL; else color = CPLAYING;
+  printtext(60+36, 11+3, color, textbuffer);
 
   if (editmode == EDIT_INSTRUMENT)
   {
@@ -393,32 +466,52 @@ void printstatus(void)
       switch (c)
       {
         case WTBL:
-        if (ltable[c][p] >= WAVECMD) color = CCOMMAND;
+        // if (ltable[c][p] >= WAVECMD) color = CCOMMAND;
+        if (ltable[c][p] >= WAVECMD) color = CTBLMODVAL;
+        if (ltable[c][p] <= 0x10) color = CTBLMODVAL;
         break;
 
         case PTBL:
-        if (ltable[c][p] >= 0x80) color = CCOMMAND;
+        // if (ltable[c][p] >= 0x80) color = CCOMMAND;
+        if (ltable[c][p] >= 0x80) color = CNORMAL;
+        else color = CTBLMODVAL;
         break;
 
         case FTBL:
-        if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CCOMMAND;
+        // if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CCOMMAND;
+        if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = CNORMAL;
+        else color = CTBLMODVAL;
         break;
       }
+      // added
+      if (ltable[c][p] == 0xFF) color = CTBLEND;
+      // end
       if ((p == etpos) && (etnum == c)) color = CEDIT;
-      sprintf(textbuffer, "%02X:%02X %02X", p+1, ltable[c][p], rtable[c][p]);
-      printtext(40+20+10*c, 15+3+d, color, textbuffer);
+      sprintf(textbuffer, "%02X:", p+1);
+      // @TODO
+      printtext(40+20+10*c, 15+3+d, CINDEXES, textbuffer);
+      // allow single 00 00 columns:
+      if ( ltable[c][p] || rtable[c][p] || ltable[c][p+1] || rtable[c][p+1] )
+      {
+        sprintf(textbuffer, "%02X %02X", ltable[c][p], rtable[c][p]);
+      }
+      else
+      {
+        sprintf(textbuffer, ".. ..");
+      }
+      printtext(40+20+10*c+3, 15+3+d, color, textbuffer);
 
       if (etmarknum == c)
       {
         if (etmarkstart <= etmarkend)
         {
           if ((p >= etmarkstart) && (p <= etmarkend))
-            printbg(40+20+10*c+3, 15+3+d, 1, 5);
+            printbg(40+20+10*c+3, 15+3+d, CMARKBG, 5);
         }
         else
         {
           if ((p <= etmarkstart) && (p >= etmarkend))
-            printbg(40+20+10*c+3, 15+3+d, 1, 5);
+            printbg(40+20+10*c+3, 15+3+d, CMARKBG, 5);
         }
       }
     }
@@ -465,21 +558,25 @@ void printstatus(void)
       break;
     }
   }
-  sprintf(textbuffer, "OCTAVE %d", epoctave);
+  sprintf(textbuffer, "OCTAVE");
   printtext(0, 35, CTITLE, textbuffer);
+
+  sprintf(textbuffer, "%d", epoctave);
+  printtext(0+7, 35, CPLAYING, textbuffer);
 
   switch(autoadvance)
   {
+    // @TODO: what does this do?
     case 0:
-    color = 10;
+    color = ( color & 0xF0 ) + 10;
     break;
 
     case 1:
-    color = 14;
+    color = ( color & 0xF0 ) + 14;
     break;
 
     case 2:
-    color = 12;
+    color = ( color & 0xF0 ) + 12;
     break;
   }
 

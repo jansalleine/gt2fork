@@ -383,7 +383,7 @@ void relocator(void)
           d = PTBL;
           nopulse = 0;
            break;
-           
+
            case CMD_SETFILTERPTR:
            d = FTBL;
           nofilter = 0;
@@ -484,13 +484,13 @@ void relocator(void)
 
   // Select playroutine options
   clearscreen();
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[MAX_COLUMNS] = 0;
-  printtext(0, 0, 15+16, textbuffer);
+  printtext(0, 0, CSTATUS, textbuffer);
   printtext(1, 2, CTITLE, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
 
   playerversion |= PLAYER_BUFFERED;
@@ -558,7 +558,7 @@ void relocator(void)
       selectdone = 1;
       break;
     }
-    
+
     playerversion |= PLAYER_BUFFERED;
     playerversion &= ~PLAYER_ZPGHOSTREGS;
   }
@@ -830,7 +830,7 @@ void relocator(void)
           case CMD_SETWAVE:
           nosetwave = 0;
           break;
-          
+
           case CMD_SETPULSEPTR:
           nosetpulseptr = 0;
           break;
@@ -842,7 +842,7 @@ void relocator(void)
           case CMD_SETFILTERCUTOFF:
           nosetfiltcutoff = 0;
           break;
-          
+
           case CMD_SETFILTERCTRL:
           nosetfiltctrl = 0;
           break;
@@ -1120,7 +1120,7 @@ void relocator(void)
   // Insert source code of player
   if (adparam >= 0xf000)
     playername = "altplayer.s";
-    
+
   if (!insertfile(playername))
   {
     clearscreen();
@@ -1373,33 +1373,33 @@ void relocator(void)
 
   // Print results
   clearscreen();
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[80] = 0;
-  printtext(0, 0, 15+16, textbuffer);
+  printtext(0, 0, CSTATUS, textbuffer);
 
   sprintf(textbuffer, "PACKING RESULTS:");
-  printtext(1, 2, 15, textbuffer);
+  printtext(1, 2, CHELP_HEADER, textbuffer);
 
   sprintf(textbuffer, "Playroutine:     %d bytes", playersize);
-  printtext(1, 3, 7, textbuffer);
+  printtext(1, 3, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Songtable:       %d bytes", songtblsize);
-  printtext(1, 4, 7, textbuffer);
+  printtext(1, 4, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Song-orderlists: %d bytes", songdatasize);
-  printtext(1, 5, 7, textbuffer);
+  printtext(1, 5, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Patterntable:    %d bytes", patttblsize);
-  printtext(1, 6, 7, textbuffer);
+  printtext(1, 6, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Patterns:        %d bytes", pattdatasize);
-  printtext(1, 7, 7, textbuffer);
+  printtext(1, 7, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Instruments:     %d bytes", instrsize);
-  printtext(1, 8, 7, textbuffer);
+  printtext(1, 8, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Tables:          %d bytes", wavetblsize+pulsetblsize+filttblsize+speedtblsize);
-  printtext(1, 9, 7, textbuffer);
+  printtext(1, 9, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Total size:      %d bytes", packedsize);
-  printtext(1, 11, 7, textbuffer);
+  printtext(1, 11, CHELP_NORMAL, textbuffer);
   fliptoscreen();
 
 
@@ -1702,7 +1702,7 @@ int packpattern(unsigned char *dest, unsigned char *src, int rows)
       case CMD_SETSR:
       nosetsr = 0;
       break;
-      
+
       case CMD_SETWAVE:
       nosetwave = 0;
       break;
@@ -1815,7 +1815,7 @@ int packpattern(unsigned char *dest, unsigned char *src, int rows)
 
     // Never pack first row or sequencer goes crazy
     if (!c) packok = 0;
-    
+
     // There must be no instrument or command changes on the row to be packed
     if (temp2[c] < FX)
     {
@@ -2108,7 +2108,7 @@ int isusedandselfcontained(int num, int start)
 
 void calcspeedtest(unsigned char pos)
 {
-  if (!pos) 
+  if (!pos)
   {
     nozerospeed = 0;
     return;

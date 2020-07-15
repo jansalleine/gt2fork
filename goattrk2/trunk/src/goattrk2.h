@@ -77,6 +77,7 @@
 #define CHELP_HEADER CYELLOW
 #define CHELP_NORMAL CGREY
 #define CBOXCOLOR CPURPLE
+#define CBOTTOMSTATUS CLRED
 
 #ifndef GOATTRK2_C
 extern int menu;

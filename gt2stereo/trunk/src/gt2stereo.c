@@ -166,7 +166,7 @@ int main(int argc, char **argv)
       {
         case '?':
         if (!initscreen())
-          return 1;       
+          return 1;
         if (argv[c][2]=='?') {
           onlinehelp(1,0);
           return 0;
@@ -497,7 +497,7 @@ void waitkeymousenoupdate(void)
 {
   for (;;)
   {
-  	fliptoscreen();
+    fliptoscreen();
     getkey();
     if ((rawkey) || (key)) break;
     if (win_quitted) break;
@@ -511,7 +511,7 @@ void waitkeynoupdate(void)
 {
   for (;;)
   {
-  	fliptoscreen();
+    fliptoscreen();
     getkey();
     if ((rawkey) || (key)) break;
     if ((mouseb) && (!prevmouseb)) break;
@@ -585,8 +585,8 @@ void mousecommands(void)
   {
     if ((mousey == 2) && (mousex >= 11 + c*9) && (mousex <= 12 + c*9))
     {
-    	if ((!prevmouseb) || (mouseheld > HOLDDELAY))
-    	{
+        if ((!prevmouseb) || (mouseheld > HOLDDELAY))
+        {
         if (mouseb & MOUSEB_LEFT)
         {
           epchn = c;
@@ -633,8 +633,8 @@ void mousecommands(void)
         }
         else
         {
-        	if (mouseb & MOUSEB_LEFT)
-        	{
+            if (mouseb & MOUSEB_LEFT)
+            {
             if (mousey == 2) eppos--;
             if (mousey == 34) eppos++;
           }
@@ -1121,7 +1121,7 @@ void quit(void)
 {
   if ((!shiftpressed) || (mouseb))
   {
-    printtextcp(38, 36, 15, "Really Quit (y/n)?");
+    printtextcp(38, 36, CBOTTOMSTATUS, "Really Quit (y/n)?");
     waitkey();
     printblank(20, 36, 39);
     if ((key == 'y') || (key == 'Y')) exitprogram = 1;
@@ -1138,7 +1138,7 @@ void clear(void)
   int ct = 0;
   int cn = 0;
 
-  printtextcp(38, 36, 15, "Optimize everything (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Optimize everything (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y'))
@@ -1149,27 +1149,27 @@ void clear(void)
     return;
   }
 
-  printtextcp(38, 36, 15, "Clear orderlists (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Clear orderlists (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y')) cs = 1;
 
-  printtextcp(38, 36, 15, "Clear patterns (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Clear patterns (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y')) cp = 1;
 
-  printtextcp(38, 36, 15, "Clear instruments (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Clear instruments (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y')) ci = 1;
 
-  printtextcp(38, 36, 15, "Clear tables (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Clear tables (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y')) ct = 1;
 
-  printtextcp(38, 36, 15, "Clear songname (y/n)?");
+  printtextcp(38, 36, CBOTTOMSTATUS, "Clear songname (y/n)?");
   waitkey();
   printblank(20, 36, 39);
   if ((key == 'y') || (key == 'Y')) cn = 1;
@@ -1179,11 +1179,11 @@ void clear(void)
     int selectdone = 0;
     int olddpl = defaultpatternlength;
 
-    printtext(29, 36, 15,"Pattern length:");
+    printtext(29, 36, CBOTTOMSTATUS,"Pattern length:");
     while (!selectdone)
     {
       sprintf(textbuffer, "%02d ", defaultpatternlength);
-      printtext(44, 36, 15, textbuffer);
+      printtext(44, 36, CEDIT, textbuffer);
       waitkey();
       switch(rawkey)
       {

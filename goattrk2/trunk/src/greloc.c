@@ -513,14 +513,14 @@ void relocator(void)
 #ifndef GT2RELOC
   clearscreen();
   // printblankc(0, 0, 15+16, MAX_COLUMNS);
-  printblankc(0, 0, 0x80, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[MAX_COLUMNS] = 0;
   // printtext(0, 0, 15+16, textbuffer);
-  printtext(0, 0, 0x80, textbuffer);
+  printtext(0, 0, CSTATUS, textbuffer);
   printtext(1, 2, CTITLE, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
   selectdone = 0;
   while (!selectdone)
@@ -1443,34 +1443,34 @@ void relocator(void)
 #else
   clearscreen();
   // printblankc(0, 0, 15+16, MAX_COLUMNS);
-  printblankc(0, 0, 0x80, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[80] = 0;
   // printtext(0, 0, 15+16, textbuffer);
-  printtext(0, 0, 0x80, textbuffer);
+  printtext(0, 0, CSTATUS, textbuffer);
 
   sprintf(textbuffer, "PACKING RESULTS:");
-  printtext(1, 2, 15, textbuffer);
+  printtext(1, 2, CHELP_HEADER, textbuffer);
 
   sprintf(textbuffer, "Playroutine:     %d bytes", playersize);
-  printtext(1, 3, 7, textbuffer);
+  printtext(1, 3, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Songtable:       %d bytes", songtblsize);
-  printtext(1, 4, 7, textbuffer);
+  printtext(1, 4, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Song-orderlists: %d bytes", songdatasize);
-  printtext(1, 5, 7, textbuffer);
+  printtext(1, 5, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Patterntable:    %d bytes", patttblsize);
-  printtext(1, 6, 7, textbuffer);
+  printtext(1, 6, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Patterns:        %d bytes", pattdatasize);
-  printtext(1, 7, 7, textbuffer);
+  printtext(1, 7, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Instruments:     %d bytes", instrsize);
-  printtext(1, 8, 7, textbuffer);
+  printtext(1, 8, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Tables:          %d bytes", wavetblsize+pulsetblsize+filttblsize+speedtblsize);
-  printtext(1, 9, 7, textbuffer);
+  printtext(1, 9, CHELP_NORMAL, textbuffer);
   sprintf(textbuffer, "Total size:      %d bytes", packedsize);
-  printtext(1, 11, 7, textbuffer);
+  printtext(1, 11, CHELP_NORMAL, textbuffer);
   fliptoscreen();
 
 

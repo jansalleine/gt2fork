@@ -15,7 +15,7 @@ DIRENTRY direntry[MAX_DIRFILES];
 void initpaths(void)
 {
   int c;
-  
+
   for (c = 0; c < MAX_DIRFILES; c++)
      direntry[c].name = NULL;
 
@@ -413,9 +413,9 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
     {
       printblank(50-(MAX_FILENAME+10)/2, 3+c, MAX_FILENAME+10);
     }
-    drawbox(50-(MAX_FILENAME+10)/2, 3, 15, MAX_FILENAME+10, VISIBLEFILES+7);
-    printblankc(50-(MAX_FILENAME+10)/2+1, 4, 15+16,MAX_FILENAME+8);
-    printtext(50-(MAX_FILENAME+10)/2+1, 4, 15+16, title);
+    drawbox(50-(MAX_FILENAME+10)/2, 3, CBOXCOLOR, MAX_FILENAME+10, VISIBLEFILES+7);
+    printblankc(50-(MAX_FILENAME+10)/2+1, 4, CTITLE,MAX_FILENAME+8);
+    printtext(50-(MAX_FILENAME+10)/2+1, 4, CTITLE, title);
 
     for (c = 0; c < VISIBLEFILES; c++)
     {
@@ -447,7 +447,7 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
       if ((!filemode) && ((fileview+c) == filepos)) printbg(50-(MAX_FILENAME+10)/2+1, 5+c, cc, 68);
     }
 
-    printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, 15, "PATH:   ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, CTITLE, "PATH:   ");
     sprintf(textbuffer, "%-60s", path);
     textbuffer[MAX_FILENAME] = 0;
     color = CNORMAL;
@@ -455,7 +455,7 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
     printtext(50-(MAX_FILENAME+10)/2+9, 6+VISIBLEFILES, color, textbuffer);
     if ((filemode == 1) && (strlen(path) < MAX_FILENAME)) printbg(50-(MAX_FILENAME+10)/2+9+strlen(path), 6+VISIBLEFILES, cc, 1);
 
-    printtext(50-(MAX_FILENAME+10)/2+1, 7+VISIBLEFILES, 15, "FILTER: ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 7+VISIBLEFILES, CTITLE, "FILTER: ");
     sprintf(textbuffer, "%-60s", filter);
     textbuffer[MAX_FILENAME] = 0;
     color = CNORMAL;
@@ -463,7 +463,7 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
     printtext(50-(MAX_FILENAME+10)/2+9, 7+VISIBLEFILES, color, textbuffer);
     if (filemode == 2) printbg(50-(MAX_FILENAME+10)/2+9+strlen(filter), 7+VISIBLEFILES, cc, 1);
 
-    printtext(50-(MAX_FILENAME+10)/2+1, 8+VISIBLEFILES, 15, "NAME:   ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 8+VISIBLEFILES, CTITLE, "NAME:   ");
     sprintf(textbuffer, "%-60s", name);
     textbuffer[MAX_FILENAME] = 0;
     color = CNORMAL;
