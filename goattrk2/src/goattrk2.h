@@ -58,7 +58,7 @@
 #define CYELLOW 0xE
 #define CWHITE 0xF
 
-#define CBG CBLACK
+#define CBG CDBLUE
 
 #define CNORMAL ((CBG << 4) | CLGREEN)
 #define CMUTE ((CBG << 4) | CDGREY)
@@ -69,15 +69,15 @@
 #define CCOMMANDVAL ((CBG << 4) | CCYAN)
 #define CTITLE ((CBG << 4) | CWHITE)
 #define CPATTCOL ((CBG << 4) | CWHITE)
-#define CINDEXES ((CBG << 4) | CGREY)
-#define CINDEXESINV ((CGREY << 4) | CBG)
-#define CSTATUS ((CGREY << 4) | CBLACK)
+#define CINDEXES ((CBG << 4) | CLBLUE)
+#define CINDEXESINV ((CLBLUE << 4) | CBG)
+#define CSTATUS ((CLBLUE << 4) | CDBLUE)
 #define CTBLMODVAL ((CBG << 4) | CCYAN)
 #define CTBLEND ((CBG << 4) | CWHITE)
 #define CINSTRNUM ((CBG << 4) | CWHITE)
 #define CMARKBG ((CBG << 4) | CDRED)
 #define CHELP_HEADER ((CBG << 4) | CYELLOW)
-#define CHELP_NORMAL ((CBG << 4) | CGREY)
+#define CHELP_NORMAL ((CBG << 4) | CLBLUE)
 #define CBOXCOLOR ((CBG << 4) | CPURPLE)
 #define CBOTTOMSTATUS ((CBG << 4) | CLRED)
 
