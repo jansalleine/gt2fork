@@ -33,15 +33,15 @@ bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io
 	strip $@
 
 $(PREFIX)mod2sng2$(SUFFIX): mod2sng2.o bme/bme_end.o
-	gcc -o $@ $^
+	$(CC) -o $@ $^
 	strip $@
 
 $(PREFIX)ins2snd2$(SUFFIX): ins2snd2.o bme/bme_end.o
-	gcc -o $@ $^
+	$(CC) -o $@ $^
 	strip $@
 
 $(PREFIX)ss2stereo$(SUFFIX): ss2stereo.o bme/bme_end.o
-	gcc -o $@ $^
+	$(CC) -o $@ $^
 	strip $@
 
 gt2stereo.dat: player.s altplayer.s chargen.bin palette.bin cursor.bin goattrk2.bmp gt2stereo.seq
@@ -51,11 +51,11 @@ goatdata.c: gt2stereo.dat
 	./dat2inc $< $@
 
 datafile: bme/datafile.c bme/bme_end.c
-	gcc -o datafile bme/datafile.c bme/bme_end.c
+	$(CC) -o datafile bme/datafile.c bme/bme_end.c
 	strip datafile
 
 dat2inc: bme/dat2inc.c
-	gcc -o dat2inc bme/dat2inc.c
+	$(CC) -o dat2inc bme/dat2inc.c
 	strip dat2inc
 
 clean:

@@ -9,6 +9,7 @@ RM=rm -f
 MINGW32PREFIX=/usr/bin
 
 CC=$(MINGW32PREFIX)/i686-w64-mingw32-gcc
+CCNATIVE=gcc
 CXX=$(MINGW32PREFIX)/i686-w64-mingw32-g++
 WINDRES=$(MINGW32PREFIX)/i686-w64-mingw32-windres
 CFLAGS+=-O3 -Wall -Ibme -Iasm
@@ -85,11 +86,11 @@ goatdata.c: goattrk2.dat
 	./dat2inc $< $@
 
 datafile: bme/datafile.c bme/bme_end.c
-	gcc -o datafile bme/datafile.c bme/bme_end.c
+	$(CCNATIVE) -o datafile bme/datafile.c bme/bme_end.c
 	strip datafile
 
 dat2inc: bme/dat2inc.c
-	gcc -o dat2inc bme/dat2inc.c
+	$(CCNATIVE) -o dat2inc bme/dat2inc.c
 	strip dat2inc
 
 clean:
