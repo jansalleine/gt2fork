@@ -97,9 +97,7 @@
 #define KEY_K            SDLK_k
 #define KEY_X            SDLK_x
 #define KEY_L            SDLK_l
-#define KEY_Y            SDLK_y
 #define KEY_M            SDLK_m
-#define KEY_Z            SDLK_z
 #define KEY_1            SDLK_1
 #define KEY_2            SDLK_2
 #define KEY_3            SDLK_3
@@ -158,27 +156,34 @@
 #define KEY_KPEQUALS     SDLK_KP_EQUALS
 #define KEY_KPPERIOD     SDLK_KP_PERIOD
 
+#ifdef __WIN32__
+#define KEY_Y            SDLK_y
+#define KEY_Z            SDLK_z
+#else
+#define KEY_Y            SDLK_z
+#define KEY_Z            SDLK_y
+#endif
 
 typedef struct
 {
-	Sint8 *start;
-	Sint8 *repeat;
-	Sint8 *end;
-	unsigned char voicemode;
+    Sint8 *start;
+    Sint8 *repeat;
+    Sint8 *end;
+    unsigned char voicemode;
 } SAMPLE;
 
 typedef struct
 {
-	volatile Sint8 *pos;
-	Sint8 *repeat;
-	Sint8 *end;
-	SAMPLE *smp;
-	unsigned freq;
-	volatile unsigned fractpos;
-	int vol;
-	int mastervol;
-	unsigned panning;
-	volatile unsigned voicemode;
+    volatile Sint8 *pos;
+    Sint8 *repeat;
+    Sint8 *end;
+    SAMPLE *smp;
+    unsigned freq;
+    volatile unsigned fractpos;
+    int vol;
+    int mastervol;
+    unsigned panning;
+    volatile unsigned voicemode;
 } CHANNEL;
 
 typedef struct
