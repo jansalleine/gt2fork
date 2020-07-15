@@ -15,14 +15,14 @@ WINDRES=$(MINGW32PREFIX)/i686-w64-mingw32-windres
 CFLAGS+=-O3 -Wall -Ibme -Iasm
 CXXFLAGS=$(CFLAGS)
 
-RESIDOBJECTS=resid_new/sid.o \
-	resid_new/voice.o \
-	resid_new/wave.o \
-	resid_new/envelope.o \
-	resid_new/filter.o \
-	resid_new/dac.o \
-	resid_new/extfilt.o \
-	resid_new/pot.o
+RESIDOBJECTS=resid/sid.o \
+	resid/voice.o \
+	resid/wave.o \
+	resid/envelope.o \
+	resid/filter.o \
+	resid/dac.o \
+	resid/extfilt.o \
+	resid/pot.o
 
 EXE=	$(PREFIX)goattrk2$(SUFFIX) \
 	$(PREFIX)gt2reloc$(SUFFIX) \
@@ -98,7 +98,6 @@ clean:
 	$(RM) asm/*.o
 	$(RM) bme/*.o
 	$(RM) resid/*.o
-	$(RM) resid_new/*.o
 	$(RM) resid-fp/*.o
 	$(RM) $(EXE)
 	$(RM) datafile
