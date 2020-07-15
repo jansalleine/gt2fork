@@ -5,7 +5,7 @@
 #define GSID_C
 
 #include <stdlib.h>
-#include "resid_new/sid.h"
+#include "resid/sid.h"
 #include "resid-fp/sidfp.h"
 
 #include "gsid.h"
