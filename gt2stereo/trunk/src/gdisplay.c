@@ -15,7 +15,7 @@ char *notename[] =
   "C-5", "C#5", "D-5", "D#5", "E-5", "F-5", "F#5", "G-5", "G#5", "A-5", "A#5", "B-5",
   "C-6", "C#6", "D-6", "D#6", "E-6", "F-6", "F#6", "G-6", "G#6", "A-6", "A#6", "B-6",
   "C-7", "C#7", "D-7", "D#7", "E-7", "F-7", "F#7", "G-7", "G#7", "...", "---", "+++"};
-  
+
 char timechar[] = {':', ' '};
 
 int timemin = 0;
@@ -50,7 +50,7 @@ void printstatus(void)
 
   if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
 
-  printblankc(0, 0, 15+16, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
 
   if (!menu)
   {
@@ -59,43 +59,43 @@ void printstatus(void)
     else
       sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
     textbuffer[59] = 0;
-    printtext(0, 0, 15+16, textbuffer);
+    printtext(0, 0, CSTATUS, textbuffer);
 
     if (usefinevib)
-      printtext(40+20, 0, 15+16, "FV");
+      printtext(40+20, 0, CSTATUS, "FV");
 
     if (optimizepulse)
-      printtext(43+20, 0, 15+16, "PO");
+      printtext(43+20, 0, CSTATUS, "PO");
 
     if (optimizerealtime)
-      printtext(46+20, 0, 15+16, "RO");
+      printtext(46+20, 0, CSTATUS, "RO");
 
     if (ntsc)
-      printtext(49+20, 0, 15+16, "NTSC");
+      printtext(49+20, 0, CSTATUS, "NTSC");
     else
-      printtext(49+20, 0, 15+16, " PAL");
+      printtext(49+20, 0, CSTATUS, " PAL");
 
     if (!sidmodel)
-      printtext(54+20, 0, 15+16, "6581");
+      printtext(54+20, 0, CSTATUS, "6581");
     else
-      printtext(54+20, 0, 15+16, "8580");
+      printtext(54+20, 0, CSTATUS, "8580");
 
     sprintf(textbuffer, "HR:%04X", adparam);
-    printtext(59+20, 0, 15+16, textbuffer);
+    printtext(59+20, 0, CSTATUS, textbuffer);
     if (eamode) printbg(62+20+eacolumn, 0, cc, 1);
 
     if (multiplier)
     {
       sprintf(textbuffer, "%2dX", multiplier);
-      printtext(67+20, 0, 15+16, textbuffer);
+      printtext(67+20, 0, CSTATUS, textbuffer);
     }
-    else printtext(67+20, 0, 15+16, "25Hz");
+    else printtext(67+20, 0, CSTATUS, "25Hz");
 
-    printtext(72+20, 0, 15+16, "F12=HELP");
+    printtext(72+20, 0, CSTATUS, "F12=HELP");
   }
   else
   {
-    printtext(0, 0, 15+16, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+    printtext(0, 0, CSTATUS, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
   }
 
   if ((followplay) && (isplaying()))
@@ -169,8 +169,10 @@ void printstatus(void)
 
   for (c = 0; c < MAX_CHN; c++)
   {
-    sprintf(textbuffer, "CH%d PT%02X", c+1, epnum[c]);
+    sprintf(textbuffer, "CH%d PT", c+1);
     printtext(5+c*9, 2, CTITLE, textbuffer);
+    sprintf(textbuffer, "%02X", epnum[c]);
+    printtext(11+c*9, 2, CEDIT, textbuffer);
 
     for (d = 0; d < VISIBLEPATTROWS; d++)
     {
@@ -197,7 +199,7 @@ void printstatus(void)
           if (color == CNORMAL) color = CCOMMAND;
         }
         else
-        { 
+        {
           sprintf(textbuffer, "%s%02X%01X%02X",
               notename[pattern[epnum[c]][p*4]-FIRSTNOTE],
               pattern[epnum[c]][p*4+1],

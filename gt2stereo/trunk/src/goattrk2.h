@@ -41,6 +41,43 @@
 
 #define PGUPDNREPEAT 8
 
+#define CBLACK 0x0
+#define CDBLUE 0x1
+#define CDGREEN 0x2
+#define CDGREY 0x3
+#define CDRED 0x4
+#define CDBROWN 0x5
+#define CLBROWN 0x6
+#define CLGREY 0x7
+#define CGREY 0x8
+#define CLBLUE 0x9
+#define CLGREEN 0xA
+#define CCYAN 0xB
+#define CLRED 0xC
+#define CPURPLE 0xD
+#define CYELLOW 0xE
+#define CWHITE 0xF
+
+#define CNORMAL CLGREEN
+#define CMUTE CDGREY
+#define CEDIT CYELLOW
+#define CPLAYING CLRED
+#define CPLAYINGINV ((CDRED << 4) | CWHITE) // 0x4F
+#define CCOMMAND CDGREEN
+#define CCOMMANDVAL CCYAN
+#define CTITLE CWHITE
+#define CPATTCOL CWHITE
+#define CINDEXES CGREY
+#define CINDEXESINV (CGREY << 4)
+#define CSTATUS (CGREY << 4)
+#define CTBLMODVAL CCYAN
+#define CTBLEND CWHITE
+#define CINSTRNUM CWHITE
+#define CMARKBG CDRED
+#define CHELP_HEADER CYELLOW
+#define CHELP_NORMAL CGREY
+#define CBOXCOLOR CPURPLE
+
 #ifndef GOATTRK2_C
 extern int menu;
 extern int editmode;

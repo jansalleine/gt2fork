@@ -5,7 +5,7 @@
 #define GSID_C
 
 #include <stdlib.h>
-#include "resid/sid.h"
+#include "resid_new/sid.h"
 #include "resid-fp/sidfp.h"
 
 #include "gsid.h"
@@ -34,8 +34,8 @@ FILTERPARAMS filterparams =
    5.5f, 20.f,
    0.9613160610660189f};
 
-SID *sid = 0;
-SID *sid2 = 0;
+reSID::SID *sid = 0;
+reSID::SID *sid2 = 0;
 SIDFP *sidfp = 0;
 SIDFP *sidfp2 = 0;
 
@@ -56,16 +56,16 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
 
   if (!usefp)
   {
-    if (!sid) sid = new SID;
-    if (!sid2) sid2 = new SID;
-    
-    if (sidfp) 
-    { 
-      delete sidfp; 
+    if (!sid) sid = new reSID::SID;
+    if (!sid2) sid2 = new reSID::SID;
+
+    if (sidfp)
+    {
+      delete sidfp;
       sidfp = NULL;
     }
     if (sidfp2)
-    { 
+    {
       delete sidfp2;
       sidfp = NULL;
     }
@@ -74,7 +74,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
   {
     if (!sidfp) sidfp = new SIDFP;
     if (!sidfp2) sidfp2 = new SIDFP;
-    
+
     if (sid)
     {
       delete sid;
@@ -90,15 +90,15 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
   switch(interpolate)
   {
     case 0:
-    if (sid) sid->set_sampling_parameters(clockrate, SAMPLE_FAST, speed);
-    if (sid2) sid2->set_sampling_parameters(clockrate, SAMPLE_FAST, speed);
+    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_FAST, speed);
+    if (sid2) sid2->set_sampling_parameters(clockrate, reSID::SAMPLE_FAST, speed);
     if (sidfp) sidfp->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
     if (sidfp2) sidfp2->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
     break;
 
     default:
-    if (sid) sid->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
-    if (sid2) sid2->set_sampling_parameters(clockrate, SAMPLE_INTERPOLATE, speed);
+    if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_RESAMPLE, speed);
+    if (sid2) sid2->set_sampling_parameters(clockrate, reSID::SAMPLE_INTERPOLATE, speed);
     if (sidfp) sidfp->set_sampling_parameters(clockrate, SAMPLE_RESAMPLE_INTERPOLATE, speed);
     if (sidfp2) sidfp2->set_sampling_parameters(clockrate, SAMPLE_RESAMPLE_INTERPOLATE, speed);
     break;
@@ -116,19 +116,19 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
   }
   if (m == 1)
   {
-    if (sid) sid->set_chip_model(MOS8580);
-    if (sid2) sid2->set_chip_model(MOS8580);
+    if (sid) sid->set_chip_model(reSID::MOS8580);
+    if (sid2) sid2->set_chip_model(reSID::MOS8580);
     if (sidfp) sidfp->set_chip_model(MOS8580);
     if (sidfp2) sidfp2->set_chip_model(MOS8580);
   }
   else
   {
-    if (sid) sid->set_chip_model(MOS6581);
-    if (sid2) sid2->set_chip_model(MOS6581);
+    if (sid) sid->set_chip_model(reSID::MOS6581);
+    if (sid2) sid2->set_chip_model(reSID::MOS6581);
     if (sidfp) sidfp->set_chip_model(MOS6581);
     if (sidfp2) sidfp2->set_chip_model(MOS6581);
   }
-  
+
   if (sidfp)
   {
     sidfp->get_filter().set_distortion_properties(
@@ -146,7 +146,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
     sidfp->set_voice_nonlinearity(
       filterparams.voicenonlinearity);
   }
-  
+
   if (sidfp2)
   {
     sidfp2->get_filter().set_distortion_properties(
@@ -191,13 +191,13 @@ int sid_fillbuffer(short *lptr, short *rptr, int samples)
   {
     unsigned char o = sid_getorder(c);
 
-  	// Extra delay for loading the waveform (and mt_chngate,x)
-  	if ((o == 4) || (o == 11) || (o == 18))
-  	{
-  	  tdelta2 = SIDWAVEDELAY;
+    // Extra delay for loading the waveform (and mt_chngate,x)
+    if ((o == 4) || (o == 11) || (o == 18))
+    {
+      tdelta2 = SIDWAVEDELAY;
       if (sid) result = sid->clock(tdelta2, lptr, samples);
       if (sidfp) result = sidfp->clock(tdelta2, lptr, samples);
-  	  tdelta2 = SIDWAVEDELAY;
+      tdelta2 = SIDWAVEDELAY;
       if (sid2) sid2->clock(tdelta2, rptr, samples);
       if (sidfp2) sidfp2->clock(tdelta2, rptr, samples);
 
@@ -210,7 +210,7 @@ int sid_fillbuffer(short *lptr, short *rptr, int samples)
 
     // Possible random badline delay once per writing
     if ((badline == c) && (residdelay))
-  	{
+    {
       tdelta2 = residdelay;
       if (sid) result = sid->clock(tdelta2, lptr, samples);
       if (sidfp) result = sidfp->clock(tdelta2, lptr, samples);
@@ -263,7 +263,7 @@ int sid_fillbuffer(short *lptr, short *rptr, int samples)
   {
     tdelta = clockrate * samples / samplerate;
     if (tdelta <= 0) return total;
-        
+
     if (sid) result = sid->clock(tdelta, lptr, samples);
     if (sidfp) result = sidfp->clock(tdelta, lptr, samples);
     tdelta = clockrate * samples / samplerate;
