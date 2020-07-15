@@ -187,7 +187,8 @@ void printstatus(void)
       {
         int chnrow = chn[c].pattptr / 4;
         if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
-        if (chnrow == p) color = CPLAYING;
+        // if (chnrow == p) color = CPLAYING;
+        if (chnrow == p) color = CPLAYINGINV;
       }
 
       if (chn[c].mute) color = CMUTE;
