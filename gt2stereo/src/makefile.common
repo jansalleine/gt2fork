@@ -3,6 +3,9 @@
 CC=gcc
 CXX=g++
 CFLAGS+=-O3 -Wall -Ibme -Iasm -fpermissive
+ifdef QWERTZFIX
+	CFLAGS+=-DQWERTZFIX
+endif
 CXXFLAGS=$(CFLAGS)
 
 RESIDOBJECTS=resid/sid.o \

@@ -156,12 +156,12 @@
 #define KEY_KPEQUALS     SDLK_KP_EQUALS
 #define KEY_KPPERIOD     SDLK_KP_PERIOD
 
-#ifdef __WIN32__
-#define KEY_Y            SDLK_y
-#define KEY_Z            SDLK_z
-#else
+#ifdef QWERTZFIX
 #define KEY_Y            SDLK_z
 #define KEY_Z            SDLK_y
+#else
+#define KEY_Y            SDLK_y
+#define KEY_Z            SDLK_z
 #endif
 
 typedef struct
