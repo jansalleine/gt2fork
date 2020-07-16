@@ -50,7 +50,7 @@ void printstatus(void)
 
   if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
 
-  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUSBAR, MAX_COLUMNS);
 
   if (!menu)
   {
@@ -59,43 +59,43 @@ void printstatus(void)
     else
       sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
     textbuffer[59] = 0;
-    printtext(0, 0, CSTATUS, textbuffer);
+    printtext(0, 0, CSTATUSBAR, textbuffer);
 
     if (usefinevib)
-      printtext(40+20, 0, CSTATUS, "FV");
+      printtext(40+20, 0, CSTATUSBAR, "FV");
 
     if (optimizepulse)
-      printtext(43+20, 0, CSTATUS, "PO");
+      printtext(43+20, 0, CSTATUSBAR, "PO");
 
     if (optimizerealtime)
-      printtext(46+20, 0, CSTATUS, "RO");
+      printtext(46+20, 0, CSTATUSBAR, "RO");
 
     if (ntsc)
-      printtext(49+20, 0, CSTATUS, "NTSC");
+      printtext(49+20, 0, CSTATUSBAR, "NTSC");
     else
-      printtext(49+20, 0, CSTATUS, " PAL");
+      printtext(49+20, 0, CSTATUSBAR, " PAL");
 
     if (!sidmodel)
-      printtext(54+20, 0, CSTATUS, "6581");
+      printtext(54+20, 0, CSTATUSBAR, "6581");
     else
-      printtext(54+20, 0, CSTATUS, "8580");
+      printtext(54+20, 0, CSTATUSBAR, "8580");
 
     sprintf(textbuffer, "HR:%04X", adparam);
-    printtext(59+20, 0, CSTATUS, textbuffer);
+    printtext(59+20, 0, CSTATUSBAR, textbuffer);
     if (eamode) printbg(62+20+eacolumn, 0, cc, 1);
 
     if (multiplier)
     {
       sprintf(textbuffer, "%2dX", multiplier);
-      printtext(67+20, 0, CSTATUS, textbuffer);
+      printtext(67+20, 0, CSTATUSBAR, textbuffer);
     }
-    else printtext(67+20, 0, CSTATUS, "25Hz");
+    else printtext(67+20, 0, CSTATUSBAR, "25Hz");
 
-    printtext(72+20, 0, CSTATUS, "F12=HELP");
+    printtext(72+20, 0, CSTATUSBAR, "F12=HELP");
   }
   else
   {
-    printtext(0, 0, CSTATUS, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+    printtext(0, 0, CSTATUSBAR, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
   }
 
   if ((followplay) && (isplaying()))
