@@ -71,7 +71,7 @@
 #define CPATTCOL ((CBG << 4) | CWHITE)
 #define CINDEXES ((CBG << 4) | CLBLUE)
 #define CINDEXESINV ((CLBLUE << 4) | CBG)
-#define CSTATUS ((CLBLUE << 4) | CDBLUE)
+#define CSTATUSBAR ((CLBLUE << 4) | CDBLUE)
 #define CTBLMODVAL ((CBG << 4) | CCYAN)
 #define CTBLEND ((CBG << 4) | CWHITE)
 #define CINSTRNUM ((CBG << 4) | CWHITE)

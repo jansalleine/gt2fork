@@ -484,13 +484,13 @@ void relocator(void)
 
   // Select playroutine options
   clearscreen();
-  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUSBAR, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[MAX_COLUMNS] = 0;
-  printtext(0, 0, CSTATUS, textbuffer);
+  printtext(0, 0, CSTATUSBAR, textbuffer);
   printtext(1, 2, CTITLE, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
 
   playerversion |= PLAYER_BUFFERED;
@@ -1373,13 +1373,13 @@ void relocator(void)
 
   // Print results
   clearscreen();
-  printblankc(0, 0, CSTATUS, MAX_COLUMNS);
+  printblankc(0, 0, CSTATUSBAR, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[80] = 0;
-  printtext(0, 0, CSTATUS, textbuffer);
+  printtext(0, 0, CSTATUSBAR, textbuffer);
 
   sprintf(textbuffer, "PACKING RESULTS:");
   printtext(1, 2, CHELP_HEADER, textbuffer);
