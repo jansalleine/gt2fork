@@ -2,7 +2,7 @@
 
 CC=gcc
 CXX=g++
-CFLAGS+=-O3 -Wall -Ibme -Iasm -fpermissive
+CFLAGS+=-O3 -Wall -Ibme -Iasm
 ifdef QWERTZFIX
 	CFLAGS+=-DQWERTZFIX
 endif
