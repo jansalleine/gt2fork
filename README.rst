@@ -41,14 +41,21 @@ Compiling
 Linux:
 ------
 
-**Mono Version**
-    cd goattrk2/src/
+**Prerequisites**
 
+- glibc
+- SDL 1.2
+
+**Mono Version**
+::
+
+    cd goattrk2/src/
     make
 
 **Stereo Version**
-    cd gt2stereo/src/
+::
 
+    cd gt2stereo/src/
     make
 
 Windows:
@@ -57,13 +64,15 @@ Windows:
 I have no idea :-) Just build for windows on linux with mingw32.
 
 **Mono Version**
-    cd goattrk2/src/
+::
 
+    cd goattrk2/src/
     make -f makefile.xmingw32
 
 **Stereo Version**
-    cd gt2stereo/src/
+::
 
+    cd gt2stereo/src/
     make -f makefile.xmingw32
 
 Other OS:
