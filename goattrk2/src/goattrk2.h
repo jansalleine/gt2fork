@@ -75,7 +75,7 @@
 #define CTBLMODVAL ((CBG << 4) | CCYAN)
 #define CTBLEND ((CBG << 4) | CWHITE)
 #define CINSTRNUM ((CBG << 4) | CWHITE)
-#define CMARKBG ((CBG << 4) | CDRED)
+#define CMARKBG CDRED
 #define CHELP_HEADER ((CBG << 4) | CYELLOW)
 #define CHELP_NORMAL ((CBG << 4) | CLBLUE)
 #define CBOXCOLOR ((CBG << 4) | CPURPLE)
