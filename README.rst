@@ -4,7 +4,7 @@
 .. contents::
 
 ============================================
-GoatTracker v2.73 & GoatTracker v2.74 Stereo
+GoatTracker v2.75 & GoatTracker v2.74 Stereo
 ============================================
 
 Editor by Lasse Öörni (loorni@gmail.com)
