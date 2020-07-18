@@ -15,6 +15,12 @@ unsigned char notekeytbl2[] = {KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_R,
 unsigned char dmckeytbl[] = {KEY_A, KEY_W, KEY_S, KEY_E, KEY_D, KEY_F,
   KEY_T, KEY_G, KEY_Y, KEY_H, KEY_U, KEY_J, KEY_K, KEY_O, KEY_L, KEY_P};
 
+unsigned char jankokeytbl1[] = {KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_F, KEY_V,
+  KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_K, KEY_COMMA, KEY_L, KEY_COLON};
+
+unsigned char jankokeytbl2[] = {KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_4, KEY_R,
+  KEY_5, KEY_T, KEY_6, KEY_Y, KEY_7, KEY_U, KEY_8, KEY_I, KEY_9, KEY_O, KEY_0, KEY_P};
+
 unsigned char patterncopybuffer[MAX_PATTROWS*4+4];
 unsigned char cmdcopybuffer[MAX_PATTROWS*4+4];
 int patterncopyrows = 0;
@@ -77,6 +83,23 @@ void patterncommands(void)
           if ((rawkey == dmckeytbl[c]) && (!epcolumn) && (!shiftpressed))
           {
             newnote = FIRSTNOTE+c+epoctave*12;
+          }
+        }
+        break;
+
+        case KEY_JANKO:
+        for (c = 0; c < sizeof(jankokeytbl1); c++)
+        {
+          if ((rawkey == jankokeytbl1[c]) && (!epcolumn) && (!shiftpressed))
+          {
+            newnote = FIRSTNOTE+c+epoctave*12;
+          }
+        }
+        for (c = 0; c < sizeof(jankokeytbl2); c++)
+        {
+          if ((rawkey == jankokeytbl2[c]) && (!epcolumn) && (!shiftpressed))
+          {
+            newnote = FIRSTNOTE+c+(epoctave+1)*12;
           }
         }
         break;
@@ -957,7 +980,7 @@ void patterncommands(void)
       if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
     }
     break;
-    
+
     case KEY_1:
     case KEY_2:
     case KEY_3:
@@ -965,7 +988,7 @@ void patterncommands(void)
       mutechannel(rawkey - KEY_1);
     break;
   }
-  if ((keypreset != KEY_TRACKER) && (hexnybble >= 0) && (hexnybble <= 7) && (!epcolumn))
+  if ((keypreset == KEY_DMC) && (hexnybble >= 0) && (hexnybble <= 7) && (!epcolumn))
   {
     int oldbyte = pattern[epnum[epchn]][eppos*4];
     epoctave = hexnybble;
@@ -1176,7 +1199,7 @@ void splitpattern(void)
 
   if (eppos == 0) return;
   if (eppos == l) return;
-  
+
   stopsong();
 
   if (insertpattern(c))
@@ -1290,7 +1313,7 @@ void joinpattern(void)
         deletepattern(c);
         if (d > c) d--;
       }
-      if (!del2) 
+      if (!del2)
         deletepattern(d);
     }
   }
