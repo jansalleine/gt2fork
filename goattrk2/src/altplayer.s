@@ -1,5 +1,5 @@
 ;-------------------------------------------------------------------------------
-; GoatTracker V2.73 alternative SID write order playroutine
+; GoatTracker V2.75 alternative SID write order playroutine
 ;
 ; NOTE: This playroutine source code does not fall under the GPL license!
 ; Use it, or song binaries created from it freely for any purpose, commercial
@@ -556,7 +556,7 @@ mt_setmastervol:
 
         ;Playroutine
 
-mt_play:        
+mt_play:
                 .IF ((ZPGHOSTREGS == 0) && (GHOSTREGS != 0))
                 ldx #0                          ;In full ghosting mode copy
 mt_copyregs:    lda ghostregs,x                 ;previous frame's SID values in one step
@@ -920,7 +920,7 @@ mt_tick0jump1:                                  ;newnote init
               .ELSE
               .IF (BUFFEREDWRITES == 0)
                 rts
-              .ELSE                            
+              .ELSE
                 jmp mt_loadregs
               .ENDIF
               .ENDIF

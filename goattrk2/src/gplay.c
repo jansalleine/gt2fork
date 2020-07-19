@@ -684,7 +684,7 @@ void playroutine(void)
               break;
 
               case CMD_SETMASTERVOL:
-              if (cptr->newcmddata < 0x10)
+              if (param < 0x10)
                 masterfader = param;
               break;
             }
@@ -994,7 +994,7 @@ void sequencer(int c, CHN *cptr)
     }
     if (cptr->pattptr >= (pattlen[cptr->pattnum] * 4))
       cptr->pattptr = 0;
-      
+
     // Check for playback endpos
     if ((lastsonginit != PLAY_BEGINNING) && (esend[c] > 0) && (esend[c] > espos[c]) && (cptr->songptr > esend[c]) && (espos[c] < songlen[psnum][c]))
       cptr->songptr = espos[c];

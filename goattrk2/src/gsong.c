@@ -1196,7 +1196,7 @@ void loadinstrument(void)
         ff++;
       }
     }
-    
+
     fclose(handle);
 
     // Convert pulsemodulation speed of < v2.4 instruments
@@ -1379,7 +1379,7 @@ int insertpattern(int p)
   findusedpatterns();
   if (p >= MAX_PATT-2) return 0;
   if (pattused[MAX_PATT-1]) return 0;
-  memmove(pattern[p+2], pattern[p+1], (MAX_PATT-p-2)*(MAX_PATTROWS*4+4));  
+  memmove(pattern[p+2], pattern[p+1], (MAX_PATT-p-2)*(MAX_PATTROWS*4+4));
   countpatternlengths();
 
   for (c = 0; c < MAX_SONGS; c++)
@@ -1398,7 +1398,7 @@ int insertpattern(int p)
       }
     }
   }
-  
+
   for (c = 0; c < MAX_CHN; c++)
   {
     if ((epnum[c] > p) && (epnum[c] != MAX_PATT-1)) epnum[c]++;
@@ -1433,7 +1433,7 @@ void deletepattern(int p)
       }
     }
   }
-  
+
   for (c = 0; c < MAX_CHN; c++)
   {
     if (epnum[c] > p) epnum[c]--;
@@ -1606,8 +1606,8 @@ void mergesong(void)
        (songlen[c][2])) break;
     if (c == 0) break;
     c--;
-  }     
-  
+  }
+
   pattbase = highestusedpattern + 1;
   instrbase = highestusedinstr;
   songbase = c + 1;
@@ -1730,11 +1730,11 @@ void mergesong(void)
             pattern[c + pattbase][d + 3] += tablebase[STBL];
         }
       }
-      countpatternlengths();
-      songchange();
     }
   }
 
   ABORT:
   fclose(handle);
+  countpatternlengths();
+  songchange();
 }

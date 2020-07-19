@@ -61,6 +61,9 @@ void printstatus(void)
     textbuffer[59] = 0;
     printtext(0, 0, CSTATUSBAR, textbuffer);
 
+    if (monomode)
+      printtext(38+20, 0, CSTATUSBAR, "M");
+
     if (usefinevib)
       printtext(40+20, 0, CSTATUSBAR, "FV");
 
@@ -156,7 +159,7 @@ void printstatus(void)
     {
       int dp = p;
 
-      if (!patternhex)
+      if (!(patterndispmode & 1))
       {
         if (dp < 100)
           sprintf(textbuffer, " %02d", dp);

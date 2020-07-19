@@ -63,8 +63,8 @@ void initchannels(void)
 
   for (c = 0; c < MAX_CHN; c++)
   {
-  	chn[c].trans = 0;
-  	chn[c].instr = 1;
+    chn[c].trans = 0;
+    chn[c].instr = 1;
     if (multiplier)
       cptr->tempo = 6*multiplier-1;
     else
@@ -647,21 +647,21 @@ void playroutine(void)
 
         if (wave > WAVELASTDELAY)
         {
-        	// Normal waveform values
-        	if (wave < WAVESILENT) cptr->wave = wave;
+            // Normal waveform values
+            if (wave < WAVESILENT) cptr->wave = wave;
           // Values without waveform selected
           if ((wave >= WAVESILENT) && (wave <= WAVELASTSILENT)) cptr->wave = wave & 0xf;
           // Command execution from wavetable
           if ((wave >= WAVECMD) && (wave <= WAVELASTCMD))
           {
-          	unsigned char param = rtable[WTBL][cptr->ptr[WTBL]-1];
-          	switch (wave & 0xf)
-          	{
-          		case CMD_DONOTHING:
-          		case CMD_SETWAVEPTR:
-          		case CMD_FUNKTEMPO:
-          		stopsong();
-          		break;
+            unsigned char param = rtable[WTBL][cptr->ptr[WTBL]-1];
+            switch (wave & 0xf)
+            {
+                case CMD_DONOTHING:
+                case CMD_SETWAVEPTR:
+                case CMD_FUNKTEMPO:
+                stopsong();
+                break;
 
               case CMD_PORTAUP:
               {
@@ -675,7 +675,7 @@ void playroutine(void)
                   speed = freqtbllo[cptr->lastnote + 1] | (freqtblhi[cptr->lastnote + 1] << 8);
                   speed -= freqtbllo[cptr->lastnote] | (freqtblhi[cptr->lastnote] << 8);
                   speed >>= rtable[STBL][param-1];
-                }                
+                }
                 cptr->freq += speed;
               }
               break;
@@ -841,7 +841,7 @@ void playroutine(void)
               break;
 
               case CMD_SETMASTERVOL:
-              if (cptr->newcmddata < 0x10)
+              if (param < 0x10)
                 masterfader = param;
               break;
             }
@@ -1175,7 +1175,7 @@ void sequencer(int c, CHN *cptr)
     }
     if (cptr->pattptr >= (pattlen[cptr->pattnum] * 4))
       cptr->pattptr = 0;
-      
+
     // Check for playback endpos
     if ((lastsonginit != PLAY_BEGINNING) && (esend[c] > 0) && (esend[c] > espos[c]) && (cptr->songptr > esend[c]) && (espos[c] < songlen[psnum][c]))
       cptr->songptr = espos[c];

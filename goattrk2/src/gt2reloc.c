@@ -1,5 +1,5 @@
 //
-// GOATTRACKER v2.73 - gt2reloc (commandline relocator/packer)
+// GOATTRACKER v2.75 - gt2reloc (commandline relocator/packer)
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ unsigned sidmodel = 0;
 unsigned multiplier = 1;
 unsigned adparam = 0x0f00;
 unsigned ntsc = 0;
-unsigned patternhex = 0;
+unsigned patterndispmode = 1;
 unsigned sidaddress = 0xd400;
 unsigned finevibrato = 1;
 unsigned optimizepulse = 1;
@@ -77,7 +77,7 @@ char instrpath[MAX_PATHNAME];
 char packedpath[MAX_PATHNAME];
 char packedsongname[MAX_PATHNAME];
 
-char *programname = "$VER: GoatTracker v2.73";
+char *programname = "$VER: GoatTracker v2.75";
 
 char textbuffer[MAX_PATHNAME];
 
