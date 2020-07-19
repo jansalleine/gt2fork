@@ -1,4 +1,4 @@
-GoatTracker v2.74 Stereo
+GoatTracker v2.76 Stereo
 ------------------------
 
 Editor by Lasse Öörni (loorni@gmail.com)
@@ -10,6 +10,8 @@ Uses the SDL library.
 GoatTracker icon by Antonio Vera.
 Command quick reference by Simon Bennett.
 Patches by Stefan A. Haubenthal, Valerio Cannone, Raine M. Ekman and Tero Lindeman.
+Microtonal support by Birgit Jauernig.
+
 
 Distributed under GNU General Public License
 (see the file COPYING for details)
@@ -39,6 +41,9 @@ Differences to normal version: (refer to normal GT2 for full documentation)
 
 - Songdata is otherwise same as normally, but there are 6 orderlists for each
   subtune.
+
+- SHIFT+F9  Switch between mono and stereo mode
+            In mono mode, an 'M' appears in the title row.
 
 - Submit a patch if there are bugs in the stereo hardsid output, I have no means
   to test it.
@@ -117,3 +122,18 @@ v2.73     - Fixed song init when several subtunes exist.
 v2.74     - Reverted to old playroutine timing.
           - Write v3 format SID header for SidPlay to detect the stereo songs
             properly.
+
+v2.75     - Fixed track length not properly updated when swapping tracks.
+          - Added merge song function to the stereo version.
+          - Added dotted pattern display modes (-D2 and -D3.)
+
+v2.76     - Added /Q command line option for setting equal divisions per octave
+            that differ from 12.
+          - Added /J command line option for setting different note names.
+          - Added /Y command line option for setting a path to a Scala tuning
+            file.
+          - Added small color changes to the pattern table for better
+            readability.
+          - Added isomorphic key layout.
+          - Added switch between mono mode and stereo mode (SHIFT+F9).
+          - Added /w command line option for setting 4 different window sizes.

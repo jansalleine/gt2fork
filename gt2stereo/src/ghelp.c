@@ -37,6 +37,8 @@ void onlinehelp(int standalone,int context)
     "SHIFT+F5-F6 Change speed multiplier",
     "SHIFT+F7 Change hardrestart ADSR",
     "SHIFT+F8 Switch between 6581/8580 SID",
+    "SHIFT+F9 Switch between mono and stereo",
+    "SHIFT+F10 Merge-load song",
     "SHIFT+, . Move song startpos & restart",
     "TAB Cycle between editing modes",
     "INS Insert row (Press on endmark to",
@@ -326,11 +328,11 @@ void onlinehelp(int standalone,int context)
 
     printblank(0, 0, MAX_COLUMNS);
     sprintf(textbuffer, "%s Online Help     ", programname);
-    printtext(0, 0, CSTATUS, textbuffer);
+    printtext(0, 0, CSTATUSBAR, textbuffer);
     if(standalone) {
       printtext(55, 0, HELP_HEADER, "Arrows/PgUp/PgDn/Home/End scroll, ESC exits");
     } else {
-      printtext(34, 0, CSTATUS, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
+      printtext(34, 0, CSTATUSBAR, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
     }
     // printbg(0, 0, 1, MAX_COLUMNS);
 

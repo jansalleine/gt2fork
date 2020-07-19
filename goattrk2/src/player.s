@@ -1,5 +1,5 @@
 ;-------------------------------------------------------------------------------
-; GoatTracker V2.73 playroutine
+; GoatTracker V2.75 playroutine
 ;
 ; NOTE: This playroutine source code does not fall under the GPL license!
 ; Use it, or song binaries created from it freely for any purpose, commercial
@@ -556,7 +556,7 @@ mt_setmastervol:
 
         ;Playroutine
 
-mt_play:        
+mt_play:
                 .IF ((ZPGHOSTREGS == 0) && (GHOSTREGS != 0))
                 ldx #24                         ;In full ghosting mode copy
 mt_copyregs:    lda ghostregs,x                 ;previous frame's SID values in one step
@@ -653,7 +653,7 @@ mt_setcutoff:
                 jmp mt_nextfiltstep
 mt_newfiltmod:
                 sta mt_filttime+1               ;$01-$7f = new modulation step
-mt_filtmod:   
+mt_filtmod:
                 lda mt_filtspdtbl-1,y           ;Take filt speed
                 clc
                 adc mt_filtcutoff+1
@@ -852,7 +852,7 @@ mt_skipwave2:
               .ELSE
                 inc mt_chngate,x
               .ENDIF
-mt_skipwave:   
+mt_skipwave:
 
               .IF (NOPULSE == 0)
                 lda mt_inspulseptr-1,y          ;Load pulseptr (if nonzero)
@@ -1309,7 +1309,7 @@ mt_normalnote:
               .ENDIF
               .ENDIF
               .IF (NUMHRINSTR > 0)
-                lda #SRPARAM                ;Hard restart 
+                lda #SRPARAM                ;Hard restart
               .IF (BUFFEREDWRITES == 0)
                 sta SIDBASE+$06,x
               .ELSE
@@ -1329,7 +1329,7 @@ mt_normalnote:
                 sta <ghostad,x
               .ENDIF
               .ENDIF
-            
+
               .ENDIF
 mt_skiphr:
                 lda #$fe

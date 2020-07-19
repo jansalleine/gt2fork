@@ -162,7 +162,7 @@ void printstatus(void)
       }
       else
       {
-        if (!patternhex)
+        if (!(patterndispmode & 1))
         {
           if (p < 100)
             sprintf(textbuffer, " %02d", p);
@@ -217,7 +217,7 @@ void printstatus(void)
       // @TODO
       if (!(p%stepsize) && !((p < 0) || (p > pattlen[epnum[c]])))
       {
-        if (!patternhex) printtext(2+c*15, 3+d, CINDEXESINV, textbuffer);
+        if (!(patterndispmode & 1)) printtext(2+c*15, 3+d, CINDEXESINV, textbuffer);
         else printtext(3+c*15, 3+d, CINDEXESINV, &textbuffer[1]);
       }
       else

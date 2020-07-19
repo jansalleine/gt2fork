@@ -525,10 +525,21 @@ void sound_mixer(Sint32 *dest, unsigned samples)
       fwrite(&rbuffer[c], sizeof(Sint16), 1, writehandle);
     }
   }
-  for (c = 0; c < samples; c++)
+  if (monomode)
   {
-    dest[c*2] = lbuffer[c];
-    dest[c*2+1] = rbuffer[c];
+    for (c = 0; c < samples; c++)
+    {
+      dest[c*2] = lbuffer[c] / 2 + rbuffer[c] / 2;
+      dest[c*2+1] = dest[c*2];
+    }
+  }
+  else
+  {
+    for (c = 0; c < samples; c++)
+    {
+      dest[c*2] = lbuffer[c];
+      dest[c*2+1] = rbuffer[c];
+    }
   }
 }
 
