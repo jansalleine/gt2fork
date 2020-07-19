@@ -62,7 +62,7 @@ void printstatus(void)
     printtext(0, 0, CSTATUSBAR, textbuffer);
 
     if (monomode)
-      printtext(38+20, 0, 15+16, "M");
+      printtext(38+20, 0, CSTATUSBAR, "M");
 
     if (usefinevib)
       printtext(40+20, 0, CSTATUSBAR, "FV");
