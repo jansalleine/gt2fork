@@ -22,6 +22,12 @@ typedef struct
     float voicenonlinearity;
 } FILTERPARAMS;
 
+typedef struct
+{
+    double MOS6581;
+    double MOS8580;
+} FILTERCURVES;
+
 void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsigned customclockrate, unsigned usefp);
 int sid_fillbuffer(short *ptr, int samples);
 unsigned char sid_getorder(unsigned char index);

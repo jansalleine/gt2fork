@@ -48,6 +48,12 @@ FILTERPARAMS filterparams =
     0.9613160610660189f
 };
 
+FILTERCURVES filtercurves =
+{
+    0.50f,
+    0.50f
+};
+
 extern unsigned residdelay;
 extern unsigned adparam;
 
@@ -144,37 +150,20 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
     if (m == 1)
     {
         if (sid) sid->set_chip_model(reSID::MOS8580);
-        if (sidfp) sidfp->setChipModel(reSIDfp::MOS8580);
+        if (sidfp)
+        {
+            sidfp->setChipModel(reSIDfp::MOS8580);
+            sidfp->setFilter8580Curve(filtercurves.MOS8580);
+        }
     }
     else
     {
         if (sid) sid->set_chip_model(reSID::MOS6581);
-        if (sidfp) sidfp->setChipModel(reSIDfp::MOS6581);
-    }
-
-    if (sidfp)
-    {
-        // TODO: filter settings
-        /*
-        sidfp->get_filter().set_distortion_properties(
-            filterparams.distortionrate,
-            filterparams.distortionpoint,
-            filterparams.distortioncfthreshold
-        );
-        sidfp->get_filter().set_type3_properties(
-            filterparams.type3baseresistance,
-            filterparams.type3offset,
-            filterparams.type3steepness,
-            filterparams.type3minimumfetresistance
-        );
-        sidfp->get_filter().set_type4_properties(
-            filterparams.type4k,
-            filterparams.type4b
-        );
-        sidfp->set_voice_nonlinearity(
-            filterparams.voicenonlinearity
-        );
-        */
+        if (sidfp)
+        {
+            sidfp->setChipModel(reSIDfp::MOS6581);
+            sidfp->setFilter6581Curve(filtercurves.MOS6581);
+        }
     }
 }
 
