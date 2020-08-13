@@ -24,6 +24,23 @@ RESIDOBJECTS=resid/sid.o \
 	resid/extfilt.o \
 	resid/pot.o
 
+RESIDFPOBJECTS=residfp/Dac.o \
+	residfp/Filter6581.o \
+	residfp/FilterModelConfig8580.o \
+	residfp/Integrator.o \
+	residfp/Spline.o \
+	residfp/EnvelopeGenerator.o \
+	residfp/Filter8580.o \
+	residfp/FilterModelConfig.o \
+	residfp/OpAmp.o \
+	residfp/WaveformCalculator.o \
+	residfp/ExternalFilter.o \
+	residfp/Filter.o \
+	residfp/Integrator8580.o \
+	residfp/SID.o \
+	residfp/WaveformGenerator.o \
+	residfp/resample/SincResampler.o
+
 EXE=	$(PREFIX)gt2stereo$(SUFFIX) \
 	$(PREFIX)ins2snd2$(SUFFIX) \
 	$(PREFIX)ss2stereo$(SUFFIX) \
@@ -34,8 +51,7 @@ all: datafile dat2inc $(EXE)
 $(PREFIX)gt2stereo$(SUFFIX): goatdata.o gt2stereo.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
 gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o \
 $(RESIDOBJECTS) \
-resid-fp/envelopefp.o resid-fp/extfiltfp.o resid-fp/filterfp.o resid-fp/potfp.o resid-fp/sidfp.o \
-resid-fp/wavefp.o resid-fp/voicefp.o \
+$(RESIDFPOBJECTS) \
 asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
 asm/pc.o asm/vec.o \
 bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
@@ -73,7 +89,8 @@ clean:
 	$(RM) asm/*.o
 	$(RM) bme/*.o
 	$(RM) resid/*.o
-	$(RM) resid-fp/*.o
+	$(RM) residfp/*.o
+	$(RM) residfp/resample/*.o
 	$(RM) $(EXE)
 	$(RM) datafile
 	$(RM) dat2inc

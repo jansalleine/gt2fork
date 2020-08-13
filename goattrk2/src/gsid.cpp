@@ -31,9 +31,6 @@ unsigned char altsidorder[] =
     0x15,0x16,0x17,0x18
 };
 
-reSID::SID *sid = 0;
-reSIDfp::SID *sidfp = 0;
-
 FILTERPARAMS filterparams =
 {
     0.50f,
@@ -53,6 +50,9 @@ FILTERCURVES filtercurves =
     0.50f,
     0.50f
 };
+
+reSID::SID *sid = 0;
+reSIDfp::SID *sidfp = 0;
 
 extern unsigned residdelay;
 extern unsigned adparam;
