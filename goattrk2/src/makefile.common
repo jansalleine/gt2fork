@@ -100,7 +100,6 @@ clean:
 	$(RM) asm/*.o
 	$(RM) bme/*.o
 	$(RM) resid/*.o
-	$(RM) resid-fp/*.o
 	$(RM) residfp/*.o
 	$(RM) residfp/resample/*.o
 	$(RM) $(EXE)
