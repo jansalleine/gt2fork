@@ -10,21 +10,19 @@ extern "C" {
 
 typedef struct
 {
-  float distortionrate;
-  float distortionpoint;
-  float distortioncfthreshold;
-  float type3baseresistance;
-  float type3offset;
-  float type3steepness;
-  float type3minimumfetresistance;
-  float type4k;
-  float type4b;
-  float voicenonlinearity;
+    float distortionrate;
+    float distortionpoint;
+    float distortioncfthreshold;
+    float type3baseresistance;
+    float type3offset;
+    float type3steepness;
+    float type3minimumfetresistance;
+    float type4k;
+    float type4b;
+    float voicenonlinearity;
 } FILTERPARAMS;
 
 void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsigned customclockrate, unsigned usefp);
-int residfp_fake_result(int n);
-int residfp_fake_clock(int c);
 int sid_fillbuffer(short *ptr, int samples);
 unsigned char sid_getorder(unsigned char index);
 
