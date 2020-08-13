@@ -1,7 +1,7 @@
 /*
  * This file is part of libsidplayfp, a SID player engine.
  *
- * Copyright 2011-2013 Leandro Nini <drfiemost@users.sourceforge.net>
+ * Copyright 2011-2020 Leandro Nini <drfiemost@users.sourceforge.net>
  * Copyright 2007-2010 Antti Lankila
  * Copyright 2004, 2010 Dag Lem <resid@nimrod.no>
  *
@@ -71,7 +71,7 @@ namespace reSIDfp
  *     Ids = K/2*W/L*Vgst^2             , Vgst >= 0, Vds >= Vgst (saturation mode)
  *
  * where
- *     K   = u*Cox (conductance)
+ *     K   = u*Cox (transconductance coefficient)
  *     W/L = ratio between substrate width and length
  *     Vgst = Vg - Vs - Vt (overdrive voltage)
  *
@@ -83,10 +83,10 @@ namespace reSIDfp
  *
  *     Vds = Vgst - (Vgst - Vds) = Vgst - Vgdt
  *
- *     Ids = K*W/L*(2*Vgst - Vds)*Vds
- *     = K*W/L*(2*Vgst - (Vgst - Vgdt)*(Vgst - Vgdt)
- *     = K*W/L*(Vgst + Vgdt)*(Vgst - Vgdt)
- *     = K*W/L*(Vgst^2 - Vgdt^2)
+ *     Ids = K/2*W/L*(2*Vgst - Vds)*Vds
+ *     = K/2*W/L*(2*Vgst - (Vgst - Vgdt)*(Vgst - Vgdt)
+ *     = K/2*W/L*(Vgst + Vgdt)*(Vgst - Vgdt)
+ *     = K/2*W/L*(Vgst^2 - Vgdt^2)
  *
  * This turns out to be a general equation which covers both the triode
  * and saturation modes (where the second term is 0 in saturation mode).
@@ -109,8 +109,8 @@ namespace reSIDfp
  * The EKV model (Enz, Krummenacher and Vittoz) essentially performs this
  * blending using an elegant mathematical formulation:
  *
- *     Ids = Is*(if - ir)
- *     Is = 2*u*Cox*Ut^2/k*W/L
+ *     Ids = Is * (if - ir)
+ *     Is = (2 * u*Cox * Ut^2)/k * W/L
  *     if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
  *     ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
  *
@@ -176,7 +176,7 @@ public:
         kVddt(kVddt),
         n_snake(n_snake) {}
 
-    void setVw(unsigned short Vw) { Vddt_Vw_2 = (kVddt - Vw) * (kVddt - Vw) >> 1; }
+    void setVw(unsigned short Vw) { Vddt_Vw_2 = ((kVddt - Vw) * (kVddt - Vw)) >> 1; }
 
     int solve(int vi);
 };
@@ -191,8 +191,11 @@ namespace reSIDfp
 RESID_INLINE
 int Integrator::solve(int vi)
 {
+    // Make sure Vgst>0 so we're not in subthreshold mode
+    assert(vx < kVddt);
+
     // Check that transistor is actually in triode mode
-    // VDS < VGS - Vth
+    // Vds < Vgs - Vth
     assert(vi < kVddt);
 
     // "Snake" voltages for triode mode calculation.
@@ -218,7 +221,9 @@ int Integrator::solve(int vi)
     assert(Vgd < (1 << 16));
 
     // VCR current, scaled by m*2^15*2^15 = m*2^30
-    const int n_I_vcr = static_cast<int>(vcr_n_Ids_term[Vgs] - vcr_n_Ids_term[Vgd]) << 15;
+    const unsigned int If = static_cast<unsigned int>(vcr_n_Ids_term[Vgs]) << 15;
+    const unsigned int Ir = static_cast<unsigned int>(vcr_n_Ids_term[Vgd]) << 15;
+    const int n_I_vcr = If - Ir;
 
     // Change in capacitor charge.
     vc += n_I_snake + n_I_vcr;
