@@ -27,7 +27,19 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=-1
+current_page=11
+FILE_NAME_0=16220;C++;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresid-fp%2Fsidfp.cpp;0;4
+FILE_NAME_1=6591;C++;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fgsid.cpp;0;4
+FILE_NAME_2=10078;C++;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresidfp%2FSID.cpp;0;4
+FILE_NAME_3=9395;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresidfp%2FSID.h;0;4
+FILE_NAME_4=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresidfp%2Fsiddefs-fp.h;0;4
+FILE_NAME_5=0;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fmakefile.common;0;4
+FILE_NAME_6=11302;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fgsound.c;0;4
+FILE_NAME_7=1643;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fgoattrk2.c;0;4
+FILE_NAME_8=15522;C++;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresid%2Fsid.cc;0;4
+FILE_NAME_9=76;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fgsid.h;0;4
+FILE_NAME_10=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresidfp%2Fresample%2FTwoPassSincResampler.h;0;4
+FILE_NAME_11=1412;C++;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgoattrk2%2Fsrc%2Fresidfp%2Fresample%2Ftest.cpp;0;4
 
 [VTE]
-last_dir=/home/spider
+last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss

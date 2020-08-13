@@ -23,6 +23,8 @@ typedef struct
 } FILTERPARAMS;
 
 void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsigned customclockrate, unsigned usefp);
+int residfp_fake_result(int n);
+int residfp_fake_clock(int c);
 int sid_fillbuffer(short *ptr, int samples);
 unsigned char sid_getorder(unsigned char index);
 

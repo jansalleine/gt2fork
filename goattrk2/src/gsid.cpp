@@ -73,16 +73,18 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
     if (!sidfp) sidfp = new reSIDfp::SID;
   }
 
+  printf("clockrate: %d speed: %d\n", clockrate, speed);
+
   switch(interpolate)
   {
     case 0:
     if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_FAST, speed);
-    if (sidfp) sidfp->setSamplingParameters((double)clockrate, reSIDfp::DECIMATE, (double)speed, (double)clockrate);
+    if (sidfp) sidfp->setSamplingParameters((double)clockrate, reSIDfp::DECIMATE, (double)speed, 20000.0);
     break;
 
     default:
     if (sid) sid->set_sampling_parameters(clockrate, reSID::SAMPLE_RESAMPLE, speed);
-    if (sidfp) sidfp->setSamplingParameters((double)clockrate, reSIDfp::RESAMPLE, (double)speed, (double)clockrate);
+    if (sidfp) sidfp->setSamplingParameters((double)clockrate, reSIDfp::RESAMPLE, (double)speed, 20000.0);
     break;
   }
 
@@ -132,6 +134,49 @@ unsigned char sid_getorder(unsigned char index)
     return sidorder[index];
 }
 
+int residfp_fake_result(int n)
+{
+  int s;
+
+  for (s = 0; s < n; s++) {
+
+  }
+
+  return s;
+}
+
+int residfp_fake_clock(int c)
+{
+    int result = 0;
+
+    switch (c)
+    {
+        case 1:
+        case 2:
+        case 4:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 11:
+        case 13:
+        case 14:
+        case 16:
+        case 17:
+        case 19:
+        case 20:
+        case 21:
+        case 23:
+        case 24:
+            result = 1;
+            break;
+        default:
+            break;
+    }
+
+    return result;
+}
+
 int sid_fillbuffer(short *ptr, int samples)
 {
   int tdelta;
@@ -145,75 +190,109 @@ int sid_fillbuffer(short *ptr, int samples)
   tdelta = clockrate * samples / samplerate;
   if (tdelta <= 0) return total;
 
-  for (c = 0; c < NUMSIDREGS; c++)
-  {
-    unsigned char o = sid_getorder(c);
-
-    // Possible random badline delay once per writing
-    if ((badline == c) && (residdelay))
+    if (sid)
     {
-      tdelta2 = residdelay;
-      if (sid) result = sid->clock(tdelta2, ptr, samples);
-      // if (sidfp) result = sidfp->clock(tdelta2, ptr, samples);
-      if (sidfp)
-      {
-        result = sidfp->clock(tdelta2, ptr);
-        // sidfp->clockSilent(samples);
-      }
-      total += result;
-      ptr += result;
-      samples -= result;
-      tdelta -= residdelay;
+
+        for (c = 0; c < NUMSIDREGS; c++)
+        {
+            unsigned char o = sid_getorder(c);
+            /*
+            // Possible random badline delay once per writing
+            if ((badline == c) && (residdelay))
+            {
+              tdelta2 = residdelay;
+              if (sid) result = sid->clock(tdelta2, ptr, samples);
+              // if (sidfp) result = sidfp->clock(tdelta2, ptr, samples);
+              if (sidfp)
+              {
+                sidfp->clock(tdelta2, ptr);
+                result = residfp_fake_result(samples);
+                // sidfp->clockSilent(samples);
+              }
+              total += result;
+              ptr += result;
+              samples -= result;
+              tdelta -= residdelay;
+            }
+            */
+            // printf("o: %04d sidreg[o]: %04d  ", o, sidreg[o]);
+            if (sid) sid->write(o, sidreg[o]);
+            if (sidfp) sidfp->write(o, sidreg[o]);
+
+            tdelta2 = SIDWRITEDELAY;
+
+            if (sid) result = sid->clock(tdelta2, ptr, samples);
+            // if (sidfp) result = sidfp->clock(tdelta2, ptr, samples);
+            if (sidfp)
+            {
+              sidfp->clock(tdelta2, ptr);
+              result = residfp_fake_clock(c);
+              // sidfp->clockSilent(samples);
+            }
+            // printf("$D4%02X R0: %d tdelta: %d tdelta2: %d \n", c, result, tdelta, tdelta2);
+
+            total += result;
+            ptr += result;
+            samples -= result;
+            tdelta -= SIDWRITEDELAY;
+
+            if (tdelta <= 0) return total;
+        }
+
+        if (sid) result = sid->clock(tdelta, ptr, samples);
+        // if (sidfp) result = sidfp->clock(tdelta, ptr, samples);
+        if (sidfp)
+        {
+            sidfp->clock(tdelta, ptr);
+            result = samples-1;
+            // sidfp->clockSilent(samples);
+        }
+        // printf("Samples: %d R1: %d\n", samples, result);
+
+        total += result;
+        ptr += result;
+        samples -= result;
+
+        // Loop extra cycles until all samples produced
+        while (samples)
+        {
+            tdelta = clockrate * samples / samplerate;
+            if (tdelta <= 0) return total;
+
+            if (sid) result = sid->clock(tdelta, ptr, samples);
+            // if (sidfp) result = sidfp->clock(tdelta, ptr, samples);
+            if (sidfp)
+            {
+              sidfp->clock(tdelta, ptr);
+              result = 1;
+              // sidfp->clockSilent(samples);
+            }
+            // if (result > 1) printf("R2: %d\n", result);
+            total += result;
+            ptr += result;
+            samples -= result;
+        }
+
+        return total;
     }
 
-    if (sid) sid->write(o, sidreg[o]);
-    if (sidfp) sidfp->write(o, sidreg[o]);
-
-    tdelta2 = SIDWRITEDELAY;
-    if (sid) result = sid->clock(tdelta2, ptr, samples);
-    // if (sidfp) result = sidfp->clock(tdelta2, ptr, samples);
     if (sidfp)
     {
-      result = sidfp->clock(tdelta2, ptr);
-      // sidfp->clockSilent(samples);
+        for (c = 0; c < NUMSIDREGS; c++)
+        {
+            unsigned char o = sid_getorder(c);
+            sidfp->write(o, sidreg[o]);
+
+            tdelta2 = SIDWRITEDELAY;
+            sidfp->clock(tdelta2, ptr);
+
+            tdelta -= SIDWRITEDELAY;
+        }
+        sidfp->clock(tdelta, ptr);
+
+        return total;
     }
-    total += result;
-    ptr += result;
-    samples -= result;
-    tdelta -= SIDWRITEDELAY;
 
-    if (tdelta <= 0) return total;
-  }
-
-  if (sid) result = sid->clock(tdelta, ptr, samples);
-  // if (sidfp) result = sidfp->clock(tdelta, ptr, samples);
-  if (sidfp)
-  {
-    result = sidfp->clock(tdelta2, ptr);
-    // sidfp->clockSilent(samples);
-  }
-  total += result;
-  ptr += result;
-  samples -= result;
-
-  // Loop extra cycles until all samples produced
-  while (samples)
-  {
-    tdelta = clockrate * samples / samplerate;
-    if (tdelta <= 0) return total;
-
-    if (sid) result = sid->clock(tdelta, ptr, samples);
-    // if (sidfp) result = sidfp->clock(tdelta, ptr, samples);
-    if (sidfp)
-    {
-      result = sidfp->clock(tdelta2, ptr);
-      // sidfp->clockSilent(samples);
-    }
-    total += result;
-    ptr += result;
-    samples -= result;
-  }
-
-  return total;
+    return total;
 }
 

@@ -482,6 +482,8 @@ void sound_mixer(Sint32 *dest, unsigned samples)
 {
   int c;
 
+  // printf("Samples gsound.c:%d\n", samples);
+
   if (!initted) return;
   if (samples > MIXBUFFERSIZE) return;
   if (!buffer) return;
