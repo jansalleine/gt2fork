@@ -34,7 +34,7 @@ static void snd_mixer(void *userdata, Uint8 *stream, int len);
 // Lowlevel mixing functions
 static void snd_clearclipbuffer(Sint32 *clipbuffer, unsigned clipsamples);
 static void snd_mixchannel(CHANNEL *chptr, Sint32 *dest, unsigned samples);
-static void snd_float_postprocess(Sint32* src, Sint32 *dest, unsigned samples);
+static void snd_float_postprocess(Sint32* src, float_t* dest, unsigned samples);
 static void snd_16bit_postprocess(Sint32 *src, Sint16 *dest, unsigned samples);
 static void snd_8bit_postprocess(Sint32 *src, Uint8 *dest, unsigned samples);
 
@@ -55,6 +55,8 @@ static int snd_atexit_registered = 0;
 static Sint32 *snd_clipbuffer = NULL;
 static SDL_AudioSpec desired;
 static SDL_AudioSpec obtained;
+
+int is32Bit = 0;
 
 int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned channels, int usedirectsound)
 {
@@ -83,7 +85,7 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     desired.format = AUDIO_U8;
     if (mixmode & SIXTEENBIT)
     {
-        printf("if (mixmode & SIXTEENBIT)\n");
+        printf("mixmode & SIXTEENBIT -> desired.format = AUDIO_S16SYS\n");
         desired.format = AUDIO_S16SYS;
     }
     desired.channels = 1;
@@ -142,6 +144,12 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     {
         printf("ISFLOAT obtained.format: %d\n", obtained.format);
         printf("%d bits per sample\n", (int) SDL_AUDIO_BITSIZE(obtained.format));
+        is32Bit = 1;
+        snd_mixmode |= SIXTEENBIT;
+    }
+    if (SDL_AUDIO_ISSIGNED(obtained.format))
+    {
+        printf("ISSIGNED\n");
     }
 
     if ((obtained.format == AUDIO_S16SYS) ||
@@ -151,6 +159,8 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
         snd_mixmode |= SIXTEENBIT;
         snd_samplesize <<= 1;
     }
+
+    printf("snd_samplesize: %d\n", snd_samplesize);
 
     snd_buffersize = obtained.size;
     snd_mixrate = obtained.freq;
@@ -227,7 +237,11 @@ static int snd_initmixer(void)
 {
     snd_uninitmixer();
 
-    if (snd_mixmode & STEREO)
+    if (is32Bit)
+    {
+        snd_clipbuffer = malloc((snd_buffersize / snd_samplesize) * sizeof(int) * 2);
+    }
+    else if (snd_mixmode & STEREO)
     {
         snd_clipbuffer = malloc((snd_buffersize / snd_samplesize) * sizeof(int) * 2);
     }
@@ -265,6 +279,13 @@ static void snd_mixdata(Uint8 *dest, unsigned bytes)
         clipsamples >>= 1;
         mixsamples >>= 1;
     }
+
+    if (is32Bit)
+    {
+        clipsamples = bytes / sizeof(float_t);
+        mixsamples = clipsamples;
+    }
+
     snd_clearclipbuffer(snd_clipbuffer, clipsamples);
     if (snd_player) // Must the player be called?
     {
@@ -309,7 +330,12 @@ static void snd_mixdata(Uint8 *dest, unsigned bytes)
     }
 
     clipptr = (Sint32 *)snd_clipbuffer;
-    if (snd_mixmode & SIXTEENBIT)
+
+    if (is32Bit)
+    {
+        snd_float_postprocess(clipptr, (float_t*)dest, clipsamples);
+    }
+    else if (snd_mixmode & SIXTEENBIT)
     {
         snd_16bit_postprocess(clipptr, (Sint16 *)dest, clipsamples);
     }
@@ -336,7 +362,7 @@ static void snd_clearclipbuffer(Sint32 *clipbuffer, unsigned clipsamples)
     memset(clipbuffer, 0, clipsamples*sizeof(int));
 }
 
-static void snd_float_postprocess(Sint32* src, Sint32 *dest, unsigned samples)
+static void snd_float_postprocess(Sint32* src, float_t* dest, unsigned samples)
 {
     while (samples--)
     {
