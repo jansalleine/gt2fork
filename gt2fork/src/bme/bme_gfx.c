@@ -94,10 +94,10 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     gfx_scanlinemode = flags & (GFX_SCANLINES | GFX_DOUBLESIZE);
 
     if (flags & GFX_NOSWITCHING) gfx_preventswitch = 1;
-        else gfx_preventswitch = 0;
+    else gfx_preventswitch = 0;
 
     if (win_fullscreen) gfx_fullscreen = 1;
-        else gfx_fullscreen = 0;
+    else gfx_fullscreen = 0;
 
     // Calculate virtual window size
 
@@ -138,6 +138,7 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     gfx_sdlpalette[255].a = 255;
 
     gfx_renderer = SDL_CreateRenderer(win_window, -1, sdlflags);
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
     // Set Logical Size
     SDL_RenderSetLogicalSize(gfx_renderer, xsize, ysize);
     gfx_screen = SDL_CreateRGBSurfaceWithFormat(0, xsize, ysize, 8, SDL_PIXELFORMAT_INDEX8);
@@ -145,6 +146,9 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
                                              SDL_PIXELFORMAT_RGBA32,
                                              SDL_TEXTUREACCESS_STREAMING,
                                              xsize, ysize);
+
+    SDL_GetWindowPosition( win_window, &gfx_last_x, &gfx_last_y );
+    gfx_reinit();
 
     gfx_initexec = 0;
     if (gfx_screen)
@@ -160,8 +164,6 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
 
 int gfx_reinit(void)
 {
-    // return gfx_init(gfx_last_xsize, gfx_last_ysize, gfx_last_framerate,
-    //    gfx_last_flags);
     if (win_fullscreen)
     {
         SDL_GetWindowPosition( win_window, &gfx_last_x, &gfx_last_y );

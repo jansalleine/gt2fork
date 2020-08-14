@@ -68,7 +68,6 @@ float basepitch = 0.0f;
 float equaldivisionsperoctave = 12.0f;
 int tuningcount = 0;
 double tuning[96];
-extern unsigned bigwindow;
 unsigned theme = 0;
 
 char configbuf[MAX_PATHNAME];
@@ -180,7 +179,6 @@ int main(int argc, char **argv)
     getfloatparam(configfile, &filtercurves.MOS6581);
     getfloatparam(configfile, &filtercurves.MOS8580);
     getparam(configfile, (unsigned*)&win_fullscreen);
-    getparam(configfile, &bigwindow);
     getparam(configfile, &theme);
     getfloatparam(configfile, &basepitch);
     getfloatparam(configfile, &equaldivisionsperoctave);
@@ -332,10 +330,6 @@ int main(int argc, char **argv)
         case 'Y':
         sscanf(&argv[c][2], "%s", scalatuningfilepath);
         break;
-
-        case 'w':
-        sscanf(&argv[c][2], "%u", &bigwindow);
-        break;
       }
     }
     else
@@ -466,7 +460,6 @@ int main(int argc, char **argv)
     ";reSID-FP 6581 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
     ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
     ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
-    ";window scale factor (1 = no scaling, 2 to 4 = 2 to 4 times bigger window)\n%d\n\n"
     ";Theme (0 = default, 1 = blue)\n%d\n\n"
     ";Base pitch of A-4 in Hz (0 = use default frequencytable)\n%f\n\n"
     ";Equal divisions per octave (12 = default, 8.2019143 = Bohlen-Pierce)\n%f\n\n"
@@ -499,7 +492,6 @@ int main(int argc, char **argv)
     filtercurves.MOS6581,
     filtercurves.MOS8580,
     win_fullscreen,
-    bigwindow,
     theme,
     basepitch,
     equaldivisionsperoctave,
