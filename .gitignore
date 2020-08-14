@@ -39,3 +39,10 @@ gt2fork/src/dat2inc
 gt2fork/src/datafile
 gt2fork/src/goatdata.c
 gt2fork/src/goattrk2.dat
+gt2fork/win32/betaconv.exe
+gt2fork/win32/goattrk2.exe
+gt2fork/win32/gt2reloc.exe
+gt2fork/win32/ins2snd2.exe
+gt2fork/win32/mod2sng.exe
+gt2fork/win32/sngspli2.exe
+gt2fork/win32/goattrk2.cfg
