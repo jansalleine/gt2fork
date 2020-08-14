@@ -5,7 +5,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <SDL.h>
+#ifdef __WIN32__
+    #include <SDL2/SDL.h>
+#else
+    #include <SDL.h>
+#endif
 
 #include "bme_main.h"
 #include "bme_cfg.h"

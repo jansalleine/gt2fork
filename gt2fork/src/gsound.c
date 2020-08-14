@@ -147,7 +147,7 @@ int sound_init(unsigned b, unsigned mr, unsigned writer, unsigned hardsid, unsig
     else
     {
       runplayerthread = TRUE;
-      playerthread = SDL_CreateThread(sound_thread, NULL);
+      playerthread = SDL_CreateThread(sound_thread, "main", NULL);
       if (!playerthread) return 0;
     }
     #else

@@ -1,5 +1,10 @@
 #include <stdio.h>
-#include <SDL_types.h>
+
+#ifdef __WIN32__
+    #include <SDL2/SDL_types.h>
+#else
+    #include <SDL_types.h>
+#endif
 
 void fwrite8(FILE *file, unsigned data)
 {
