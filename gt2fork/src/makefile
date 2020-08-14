@@ -10,9 +10,6 @@ LIBS=`sdl2-config --libs`
 CC?=gcc
 CXX?=g++
 CFLAGS+=-O3 -Wall -Ibme -Iasm
-ifdef QWERTZFIX
-	CFLAGS+=-DQWERTZFIX
-endif
 CXXFLAGS=$(CFLAGS) -fpermissive
 
 RESIDOBJECTS=resid/sid.o \

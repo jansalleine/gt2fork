@@ -16,7 +16,7 @@
 // Prototypes
 
 int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags);
-int gfx_reinit(void);
+void gfx_reinit(void);
 void gfx_uninit(void);
 int gfx_lock(void);
 void gfx_unlock(void);
@@ -62,7 +62,6 @@ static unsigned gfx_last_ysize;
 static int gfx_last_x;
 static int gfx_last_y;
 static unsigned gfx_last_framerate;
-static unsigned gfx_last_flags;
 static int gfx_cliptop;
 static int gfx_clipbottom;
 static int gfx_clipleft;
@@ -87,14 +86,6 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     gfx_last_xsize = xsize;
     gfx_last_ysize = ysize;
     gfx_last_framerate = framerate;
-    gfx_last_flags = flags & ~(GFX_FULLSCREEN | GFX_WINDOW);
-
-    // Store the options contained in the flags
-
-    gfx_scanlinemode = flags & (GFX_SCANLINES | GFX_DOUBLESIZE);
-
-    if (flags & GFX_NOSWITCHING) gfx_preventswitch = 1;
-    else gfx_preventswitch = 0;
 
     if (win_fullscreen) gfx_fullscreen = 1;
     else gfx_fullscreen = 0;
@@ -102,8 +93,6 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     // Calculate virtual window size
 
     gfx_virtualxsize = xsize;
-    gfx_virtualxsize /= 16;
-    gfx_virtualxsize *= 16;
     gfx_virtualysize = ysize;
 
     if ((!gfx_virtualxsize) || (!gfx_virtualysize))
@@ -119,11 +108,6 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
 
     gfx_windowxsize = gfx_virtualxsize;
     gfx_windowysize = gfx_virtualysize;
-    if (gfx_scanlinemode)
-    {
-        gfx_windowxsize <<= 1;
-        gfx_windowysize <<= 1;
-    }
 
     gfx_setclipregion(0, 0, gfx_virtualxsize, gfx_virtualysize);
 
@@ -162,7 +146,7 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     else return BME_ERROR;
 }
 
-int gfx_reinit(void)
+void gfx_reinit(void)
 {
     if (win_fullscreen)
     {
@@ -408,61 +392,13 @@ void gfx_freesprites(int num)
 
 void gfx_copyscreen8(Uint8  *destaddress, Uint8  *srcaddress, unsigned pitch)
 {
-    int c, d;
+    int c;
 
-    switch(gfx_scanlinemode)
+    for (c = 0; c < gfx_virtualysize; c++)
     {
-        default:
-        for (c = 0; c < gfx_virtualysize; c++)
-        {
-            memcpy(destaddress, srcaddress, gfx_virtualxsize);
-            destaddress += pitch;
-            srcaddress += gfx_virtualxsize;
-        }
-        break;
-
-        case GFX_SCANLINES:
-        for (c = 0; c < gfx_virtualysize; c++)
-        {
-            d = gfx_virtualxsize;
-            while (d--)
-            {
-                *destaddress = *srcaddress;
-                destaddress++;
-                *destaddress = *srcaddress;
-                destaddress++;
-                srcaddress++;
-            }
-            destaddress += pitch*2 - (gfx_virtualxsize << 1);
-        }
-        break;
-
-        case GFX_DOUBLESIZE:
-        for (c = 0; c < gfx_virtualysize; c++)
-        {
-            d = gfx_virtualxsize;
-            while (d--)
-            {
-                *destaddress = *srcaddress;
-                destaddress++;
-                *destaddress = *srcaddress;
-                destaddress++;
-                srcaddress++;
-            }
-            destaddress += pitch - (gfx_virtualxsize << 1);
-            srcaddress -= gfx_virtualxsize;
-            d = gfx_virtualxsize;
-            while (d--)
-            {
-                *destaddress = *srcaddress;
-                destaddress++;
-                *destaddress = *srcaddress;
-                destaddress++;
-                srcaddress++;
-            }
-            destaddress += pitch - (gfx_virtualxsize << 1);
-        }
-        break;
+        memcpy(destaddress, srcaddress, gfx_virtualxsize);
+        destaddress += pitch;
+        srcaddress += gfx_virtualxsize;
     }
 }
 

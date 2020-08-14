@@ -53,8 +53,6 @@ static SDL_AudioSpec obtained;
 
 int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned channels, int usedirectsound)
 {
-    int c;
-
     // Register snd_uninit as an atexit function
 
     if (!snd_atexit_registered)

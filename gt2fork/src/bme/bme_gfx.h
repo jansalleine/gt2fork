@@ -1,7 +1,7 @@
 // BME graphics module header file
 
 int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags);
-int gfx_reinit(void);
+void gfx_reinit(void);
 void gfx_uninit(void);
 int gfx_lock(void);
 void gfx_unlock(void);
