@@ -1,0 +1,116 @@
+#
+# Linux makefile
+#
+
+CFLAGS=`sdl-config --cflags`
+PREFIX=../linux/
+SUFFIX=
+LIBS=`sdl-config --libs`
+
+CC=gcc
+CXX=g++
+CFLAGS+=-O3 -Wall -Ibme -Iasm
+ifdef QWERTZFIX
+	CFLAGS+=-DQWERTZFIX
+endif
+CXXFLAGS=$(CFLAGS)
+
+RESIDOBJECTS=resid/sid.o \
+	resid/voice.o \
+	resid/wave.o \
+	resid/envelope.o \
+	resid/filter.o \
+	resid/dac.o \
+	resid/extfilt.o \
+	resid/pot.o
+
+RESIDFPOBJECTS=residfp/Dac.o \
+	residfp/Filter6581.o \
+	residfp/FilterModelConfig8580.o \
+	residfp/Integrator.o \
+	residfp/Spline.o \
+	residfp/EnvelopeGenerator.o \
+	residfp/Filter8580.o \
+	residfp/FilterModelConfig.o \
+	residfp/OpAmp.o \
+	residfp/WaveformCalculator.o \
+	residfp/ExternalFilter.o \
+	residfp/Filter.o \
+	residfp/Integrator8580.o \
+	residfp/SID.o \
+	residfp/WaveformGenerator.o \
+	residfp/resample/SincResampler.o
+
+EXE=	$(PREFIX)goattrk2$(SUFFIX) \
+	$(PREFIX)gt2reloc$(SUFFIX) \
+	$(PREFIX)ins2snd2$(SUFFIX) \
+	$(PREFIX)sngspli2$(SUFFIX) \
+	$(PREFIX)betaconv$(SUFFIX) \
+	$(PREFIX)mod2sng$(SUFFIX)
+
+all: datafile dat2inc $(EXE)
+
+$(PREFIX)goattrk2$(SUFFIX): goatdata.o goattrk2.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
+gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o gcolors.o \
+$(RESIDOBJECTS) \
+$(RESIDFPOBJECTS) \
+asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
+asm/pc.o asm/vec.o \
+bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
+	$(CXX) -o $@ $^ $(LIBS)
+	strip $@
+
+# it would be nice not having to link things like resid, however the source is
+# not ready for that
+$(PREFIX)gt2reloc$(SUFFIX): goatdata.o gt2reloc.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
+gfile.o ghelp.o gsound.o gconsole.o gsid.o gcolors.o \
+$(RESIDOBJECTS) \
+$(RESIDFPOBJECTS) \
+asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
+asm/pc.o asm/vec.o \
+bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
+	$(CXX) -DGT2RELOC -o $@ $^ $(LIBS)
+	strip $@
+
+$(PREFIX)mod2sng$(SUFFIX): mod2sng.o bme/bme_end.o
+	$(CC) -o $@ $^
+	strip $@
+
+$(PREFIX)ins2snd2$(SUFFIX): ins2snd2.o bme/bme_end.o
+	$(CC) -o $@ $^
+	strip $@
+
+$(PREFIX)sngspli2$(SUFFIX): sngspli2.o bme/bme_end.o
+	$(CC) -o $@ $^
+	strip $@
+
+$(PREFIX)betaconv$(SUFFIX): betaconv.o bme/bme_end.o
+	$(CC) -o $@ $^
+	strip $@
+
+goattrk2.dat: player.s altplayer.s chargen.bin palette.bin cursor.bin bcursor.bin goattrk2.bmp goattrk2.seq
+	./datafile $@ goattrk2.seq
+
+goatdata.c: goattrk2.dat
+	./dat2inc $< $@
+
+datafile: bme/datafile.c bme/bme_end.c
+	$(CC) -o datafile bme/datafile.c bme/bme_end.c
+	strip datafile
+
+dat2inc: bme/dat2inc.c
+	$(CC) -o dat2inc bme/dat2inc.c
+	strip dat2inc
+
+clean:
+	$(RM) *.o *~
+	$(RM) asm/*.o
+	$(RM) bme/*.o
+	$(RM) resid/*.o
+	$(RM) residfp/*.o
+	$(RM) residfp/resample/*.o
+	$(RM) $(EXE)
+	$(RM) datafile
+	$(RM) dat2inc
+	$(RM) goatdata.c
+	$(RM) goattrk2.dat
