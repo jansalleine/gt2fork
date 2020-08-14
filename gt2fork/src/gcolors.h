@@ -18,31 +18,9 @@
 #define CYELLOW 0xE
 #define CWHITE 0xF
 
-#define CBG CBLACK
-
-#define CNORMAL ((CBG << 4) | CLGREEN)
-#define CMUTE ((CBG << 4) | CDGREY)
-#define CEDIT ((CBG << 4) | CYELLOW)
-#define CPLAYING ((CBG << 4) | CLRED)
-#define CPLAYINGINV ((CDRED << 4) | CWHITE)
-#define CCOMMAND ((CBG << 4) | CDGREEN)
-#define CCOMMANDVAL ((CBG << 4) | CCYAN)
-#define CTITLE ((CBG << 4) | CWHITE)
-#define CPATTCOL ((CBG << 4) | CWHITE)
-#define CINDEXES ((CBG << 4) | CGREY)
-#define CINDEXESINV ((CGREY << 4) | CBG)
-#define CSTATUSBAR ((CGREY << 4) | CBLACK)
-#define CTBLMODVAL ((CBG << 4) | CCYAN)
-#define CTBLEND ((CBG << 4) | CWHITE)
-#define CINSTRNUM ((CBG << 4) | CWHITE)
-#define CMARKBG ((CBG << 4) | CDRED)
-#define CHELP_HEADER ((CBG << 4) | CYELLOW)
-#define CHELP_NORMAL ((CBG << 4) | CGREY)
-#define CBOXCOLOR ((CBG << 4) | CPURPLE)
-#define CBOTTOMSTATUS ((CBG << 4) | CLRED)
-
 typedef struct
 {
+    int bgcolor;
     int boxcolor;
     int command;
     int command_value;
@@ -65,8 +43,10 @@ typedef struct
     int title;
 } COLORSCHEME;
 
-extern COLORSCHEME colscheme;
-
 void colscheme_init(unsigned theme);
+
+#ifndef GCOLORS_C
+extern COLORSCHEME colscheme;
+#endif
 
 #endif

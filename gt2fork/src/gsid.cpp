@@ -139,7 +139,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
         if (sidfp)
         {
             sidfp->setChipModel(reSIDfp::MOS8580);
-            sidfp->setFilter8580Curve(filtercurves.MOS8580);
+            sidfp->setFilter8580Curve((double)filtercurves.MOS8580);
         }
     }
     else
@@ -148,7 +148,7 @@ void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsign
         if (sidfp)
         {
             sidfp->setChipModel(reSIDfp::MOS6581);
-            sidfp->setFilter6581Curve(filtercurves.MOS6581);
+            sidfp->setFilter6581Curve((double)filtercurves.MOS6581);
         }
     }
 }

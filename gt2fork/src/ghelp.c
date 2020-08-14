@@ -6,8 +6,8 @@
 
 #include "goattrk2.h"
 
-#define HELP_HEADER CHELP_HEADER
-#define HELP_NORMAL CHELP_NORMAL
+#define HELP_HEADER colscheme.help_header
+#define HELP_NORMAL colscheme.help_normal
 
 int printrows(int column, int row, int color, char *strings[] ) {
   int n = 0;
@@ -327,11 +327,11 @@ void onlinehelp(int standalone,int context)
 
     printblank(0, 0, MAX_COLUMNS);
     sprintf(textbuffer, "%s Online Help     ", programname);
-    printtext(0, 0, CSTATUSBAR, textbuffer);
+    printtext(0, 0, colscheme.status_top, textbuffer);
     if(standalone) {
       printtext(55, 0, HELP_HEADER, "Arrows/PgUp/PgDn/Home/End scroll, ESC exits");
     } else {
-      printtext(34, 0, CSTATUSBAR, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
+      printtext(34, 0, colscheme.status_top, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
     }
     // printbg(0, 0, 1, MAX_COLUMNS);
 

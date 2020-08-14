@@ -190,7 +190,7 @@ void clearscreen(void)
 
   for (c = 0; c < MAX_ROWS * MAX_COLUMNS; c++)
   {
-    setcharcolor(dptr, 0x20, (CBG << 4));
+    setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
     dptr++;
   }
 }
@@ -234,7 +234,7 @@ void printblank(int x, int y, int length)
   if (y >= MAX_ROWS) return;
   while (length--)
   {
-    setcharcolor(dptr, 0x20, CBG);
+    setcharcolor(dptr, 0x20, colscheme.bgcolor);
     dptr++;
   }
 }

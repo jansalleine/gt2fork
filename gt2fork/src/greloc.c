@@ -264,7 +264,7 @@ void relocator(void)
   if (!songs)
   {
     clearscreen();
-    printtextc(MAX_ROWS/2, CTITLE, "NO SONGS, NO DATA TO SAVE!");
+    printtextc(MAX_ROWS/2, colscheme.title, "NO SONGS, NO DATA TO SAVE!");
     fliptoscreen();
     waitkeynoupdate();
     goto PRCLEANUP;
@@ -513,22 +513,22 @@ void relocator(void)
 #ifndef GT2RELOC
   clearscreen();
   // printblankc(0, 0, 15+16, MAX_COLUMNS);
-  printblankc(0, 0, CSTATUSBAR, MAX_COLUMNS);
+  printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[MAX_COLUMNS] = 0;
   // printtext(0, 0, 15+16, textbuffer);
-  printtext(0, 0, CSTATUSBAR, textbuffer);
-  printtext(1, 2, CTITLE, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
+  printtext(0, 0, colscheme.status_top, textbuffer);
+  printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
   selectdone = 0;
   while (!selectdone)
   {
     for (c = 0; c < MAX_OPTIONS; c++)
     {
-      int color = CNORMAL;
-      if (opt == c) color = CEDIT;
+      int color = colscheme.normal;
+      if (opt == c) color = colscheme.edit;
 
       printtext(1, 3+c, color, playeroptname[c]);
       if (playerversion & (PLAYER_BUFFERED << c))
@@ -644,7 +644,7 @@ void relocator(void)
   if (!songwork)
   {
     clearscreen();
-    printtextc(MAX_ROWS/2, CTITLE, "OUT OF MEMORY IN PACKER/RELOCATOR!");
+    printtextc(MAX_ROWS/2, colscheme.title, "OUT OF MEMORY IN PACKER/RELOCATOR!");
     fliptoscreen();
     waitkeynoupdate();
     goto PRCLEANUP;
@@ -734,7 +734,7 @@ void relocator(void)
   if (!pattwork)
   {
     clearscreen();
-    printtextc(MAX_ROWS/2, CTITLE, "OUT OF MEMORY IN PACKER/RELOCATOR!");
+    printtextc(MAX_ROWS/2, colscheme.title, "OUT OF MEMORY IN PACKER/RELOCATOR!");
     fliptoscreen();
     waitkeynoupdate();
     goto PRCLEANUP;
@@ -760,7 +760,7 @@ void relocator(void)
   if (!instrwork)
   {
     clearscreen();
-    printtextc(MAX_ROWS/2, CTITLE, "OUT OF MEMORY IN PACKER/RELOCATOR!");
+    printtextc(MAX_ROWS/2, colscheme.title, "OUT OF MEMORY IN PACKER/RELOCATOR!");
     fliptoscreen();
     waitkeynoupdate();
     goto PRCLEANUP;
@@ -1158,7 +1158,7 @@ void relocator(void)
   if (!insertfile(playername))
   {
     clearscreen();
-    printtextc(MAX_ROWS/2, CTITLE, "COULD NOT OPEN PLAYROUTINE!");
+    printtextc(MAX_ROWS/2, colscheme.title, "COULD NOT OPEN PLAYROUTINE!");
     fliptoscreen();
     waitkeynoupdate();
     goto PRCLEANUP;
@@ -1443,39 +1443,39 @@ void relocator(void)
 #else
   clearscreen();
   // printblankc(0, 0, 15+16, MAX_COLUMNS);
-  printblankc(0, 0, CSTATUSBAR, MAX_COLUMNS);
+  printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
   if (!strlen(loadedsongfilename))
     sprintf(textbuffer, "%s Packer/Relocator", programname);
   else
     sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
   textbuffer[80] = 0;
   // printtext(0, 0, 15+16, textbuffer);
-  printtext(0, 0, CSTATUSBAR, textbuffer);
+  printtext(0, 0, colscheme.status_top, textbuffer);
 
   sprintf(textbuffer, "PACKING RESULTS:");
-  printtext(1, 2, CHELP_HEADER, textbuffer);
+  printtext(1, 2, colscheme.help_header, textbuffer);
 
   sprintf(textbuffer, "Playroutine:     %d bytes", playersize);
-  printtext(1, 3, CHELP_NORMAL, textbuffer);
+  printtext(1, 3, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Songtable:       %d bytes", songtblsize);
-  printtext(1, 4, CHELP_NORMAL, textbuffer);
+  printtext(1, 4, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Song-orderlists: %d bytes", songdatasize);
-  printtext(1, 5, CHELP_NORMAL, textbuffer);
+  printtext(1, 5, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Patterntable:    %d bytes", patttblsize);
-  printtext(1, 6, CHELP_NORMAL, textbuffer);
+  printtext(1, 6, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Patterns:        %d bytes", pattdatasize);
-  printtext(1, 7, CHELP_NORMAL, textbuffer);
+  printtext(1, 7, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Instruments:     %d bytes", instrsize);
-  printtext(1, 8, CHELP_NORMAL, textbuffer);
+  printtext(1, 8, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Tables:          %d bytes", wavetblsize+pulsetblsize+filttblsize+speedtblsize);
-  printtext(1, 9, CHELP_NORMAL, textbuffer);
+  printtext(1, 9, colscheme.help_normal, textbuffer);
   sprintf(textbuffer, "Total size:      %d bytes", packedsize);
-  printtext(1, 11, CHELP_NORMAL, textbuffer);
+  printtext(1, 11, colscheme.help_normal, textbuffer);
   fliptoscreen();
 
 
   // Now ask for fileformat
-  printtext(1, 13, CTITLE, "SELECT FORMAT TO SAVE IN: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
+  printtext(1, 13, colscheme.title, "SELECT FORMAT TO SAVE IN: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
 
   selectdone = 0;
 
@@ -1484,17 +1484,17 @@ void relocator(void)
     switch(fileformat)
     {
       case FORMAT_SID:
-      printtext(1, 14, CEDIT, "SID - SIDPlay music file format          ");
+      printtext(1, 14, colscheme.edit, "SID - SIDPlay music file format          ");
       strcpy(packedfilter, "*.sid");
       break;
 
       case FORMAT_PRG:
-      printtext(1, 14, CEDIT, "PRG - C64 native format                  ");
+      printtext(1, 14, colscheme.edit, "PRG - C64 native format                  ");
       strcpy(packedfilter, "*.prg");
       break;
 
       case FORMAT_BIN:
-      printtext(1, 14, CEDIT, "BIN - Raw binary format (no startaddress)");
+      printtext(1, 14, colscheme.edit, "BIN - Raw binary format (no startaddress)");
       strcpy(packedfilter, "*.bin");
       break;
     }

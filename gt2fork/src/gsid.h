@@ -10,8 +10,8 @@ extern "C" {
 
 typedef struct
 {
-    double MOS6581;
-    double MOS8580;
+    float MOS6581;
+    float MOS8580;
 } FILTERCURVES;
 
 void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsigned customclockrate, unsigned usefp);
@@ -20,6 +20,7 @@ unsigned char sid_getorder(unsigned char index);
 
 #ifndef GSID_C
 extern unsigned char sidreg[NUMSIDREGS];
+extern FILTERCURVES filtercurves;
 #endif
 
 #ifdef __cplusplus

@@ -414,11 +414,11 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
       printblank(50-(MAX_FILENAME+10)/2, 3+c, MAX_FILENAME+10);
     }
     // drawbox(50-(MAX_FILENAME+10)/2, 3, 15, MAX_FILENAME+10, VISIBLEFILES+7);
-    drawbox(50-(MAX_FILENAME+10)/2, 3, CBOXCOLOR, MAX_FILENAME+10, VISIBLEFILES+7);
+    drawbox(50-(MAX_FILENAME+10)/2, 3, colscheme.boxcolor, MAX_FILENAME+10, VISIBLEFILES+7);
     // printblankc(50-(MAX_FILENAME+10)/2+1, 4, 15+16,MAX_FILENAME+8);
-    printblankc(50-(MAX_FILENAME+10)/2+1, 4, CTITLE,MAX_FILENAME+8);
+    printblankc(50-(MAX_FILENAME+10)/2+1, 4, colscheme.title,MAX_FILENAME+8);
     // printtext(50-(MAX_FILENAME+10)/2+1, 4, 15+16, title);
-    printtext(50-(MAX_FILENAME+10)/2+1, 4, CTITLE, title);
+    printtext(50-(MAX_FILENAME+10)/2+1, 4, colscheme.title, title);
 
     for (c = 0; c < VISIBLEFILES; c++)
     {
@@ -443,36 +443,36 @@ int fileselector(char *name, char *path, char *filter, char *title, int filemode
       {
         sprintf(textbuffer, "                                                                    ");
       }
-      color = CNORMAL;
-      if ((fileview+c) == filepos) color = CEDIT;
+      color = colscheme.normal;
+      if ((fileview+c) == filepos) color = colscheme.edit;
       textbuffer[68] = 0;
       printtext(50-(MAX_FILENAME+10)/2+1, 5+c, color, textbuffer);
       if ((!filemode) && ((fileview+c) == filepos)) printbg(50-(MAX_FILENAME+10)/2+1, 5+c, cc, 68);
     }
     //
-    printbg(50-(MAX_FILENAME+10)/2+1, 5+VISIBLEFILES, CBG, 68);
+    printbg(50-(MAX_FILENAME+10)/2+1, 5+VISIBLEFILES, colscheme.bgcolor, 68);
     //
-    printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, CTITLE, "PATH:   ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, colscheme.title, "PATH:   ");
     sprintf(textbuffer, "%-60s", path);
     textbuffer[MAX_FILENAME] = 0;
-    color = CNORMAL;
-    if (filemode == 1) color = CEDIT;
+    color = colscheme.normal;
+    if (filemode == 1) color = colscheme.edit;
     printtext(50-(MAX_FILENAME+10)/2+9, 6+VISIBLEFILES, color, textbuffer);
     if ((filemode == 1) && (strlen(path) < MAX_FILENAME)) printbg(50-(MAX_FILENAME+10)/2+9+strlen(path), 6+VISIBLEFILES, cc, 1);
 
-    printtext(50-(MAX_FILENAME+10)/2+1, 7+VISIBLEFILES, CTITLE, "FILTER: ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 7+VISIBLEFILES, colscheme.title, "FILTER: ");
     sprintf(textbuffer, "%-60s", filter);
     textbuffer[MAX_FILENAME] = 0;
-    color = CNORMAL;
-    if (filemode == 2) color = CEDIT;
+    color = colscheme.normal;
+    if (filemode == 2) color = colscheme.edit;
     printtext(50-(MAX_FILENAME+10)/2+9, 7+VISIBLEFILES, color, textbuffer);
     if (filemode == 2) printbg(50-(MAX_FILENAME+10)/2+9+strlen(filter), 7+VISIBLEFILES, cc, 1);
 
-    printtext(50-(MAX_FILENAME+10)/2+1, 8+VISIBLEFILES, CTITLE, "NAME:   ");
+    printtext(50-(MAX_FILENAME+10)/2+1, 8+VISIBLEFILES, colscheme.title, "NAME:   ");
     sprintf(textbuffer, "%-60s", name);
     textbuffer[MAX_FILENAME] = 0;
-    color = CNORMAL;
-    if (filemode == 3) color = CEDIT;
+    color = colscheme.normal;
+    if (filemode == 3) color = colscheme.edit;
     printtext(50-(MAX_FILENAME+10)/2+9, 8+VISIBLEFILES, color, textbuffer);
     if (filemode == 3) printbg(50-(MAX_FILENAME+10)/2+9+strlen(name), 8+VISIBLEFILES, cc, 1);
 

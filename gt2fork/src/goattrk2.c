@@ -148,7 +148,7 @@ int main(int argc, char **argv)
   filename[strlen(filename)-1] = 'g';
   #else
   strcpy(filename, getenv("HOME"));
-  strcat(filename, "/.config/gt2fork/gt2ftrk.cfg");
+  strcat(filename, "/.config/gt2fork/gt2fork.cfg");
   #endif
   configfile = fopen(filename, "rt");
   if (configfile)
@@ -177,6 +177,8 @@ int main(int argc, char **argv)
     getparam(configfile, &customclockrate);
     getparam(configfile, &hardsidbufinteractive);
     getparam(configfile, &hardsidbufplayback);
+    getfloatparam(configfile, &filtercurves.MOS6581);
+    getfloatparam(configfile, &filtercurves.MOS8580);
     getparam(configfile, (unsigned*)&win_fullscreen);
     getparam(configfile, &bigwindow);
     getparam(configfile, &theme);
@@ -427,7 +429,7 @@ int main(int argc, char **argv)
   strcpy(filename, getenv("HOME"));
   strcat(filename, "/.config/gt2fork");
   mkdir(filename, S_IRUSR | S_IWUSR | S_IXUSR);
-  strcat(filename, "/gt2ftrk.cfg");
+  strcat(filename, "/gt2fork.cfg");
   #endif
   configfile = fopen(filename, "wt");
   if (configfile)
@@ -461,6 +463,8 @@ int main(int argc, char **argv)
     ";Custom SID clock cycles per second (0 = use PAL/NTSC default)\n%d\n\n"
     ";HardSID interactive mode buffer size (in milliseconds, 0 = maximum/no flush)\n%d\n\n"
     ";HardSID playback mode buffer size (in milliseconds, 0 = maximum/no flush)\n%d\n\n"
+    ";reSID-FP 6581 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
+    ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
     ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
     ";window scale factor (1 = no scaling, 2 to 4 = 2 to 4 times bigger window)\n%d\n\n"
     ";Theme (0 = default, 1 = blue)\n%d\n\n"
@@ -492,6 +496,8 @@ int main(int argc, char **argv)
     customclockrate,
     hardsidbufinteractive,
     hardsidbufplayback,
+    filtercurves.MOS6581,
+    filtercurves.MOS8580,
     win_fullscreen,
     bigwindow,
     theme,
@@ -1165,7 +1171,7 @@ void quit(void)
   if ((!shiftpressed) || (mouseb))
   {
     // printtextcp(49, 36, 15, "Really Quit (y/n)?");
-    printtextcp(49, 36, CBOTTOMSTATUS, "Really Quit (y/n)?");
+    printtextcp(49, 36, colscheme.status_bottom, "Really Quit (y/n)?");
     waitkey();
     printblank(20, 36, 58);
     if ((key == 'y') || (key == 'Y')) exitprogram = 1;
@@ -1183,7 +1189,7 @@ void clear(void)
   int cn = 0;
 
   // printtextcp(49, 36, 15, "Optimize everything (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Optimize everything (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Optimize everything (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y'))
@@ -1195,31 +1201,31 @@ void clear(void)
   }
 
   // printtextcp(49, 36, 15, "Clear orderlists (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Clear orderlists (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Clear orderlists (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cs = 1;
 
   // printtextcp(49, 36, 15, "Clear patterns (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Clear patterns (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Clear patterns (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cp = 1;
 
   // printtextcp(49, 36, 15, "Clear instruments (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Clear instruments (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Clear instruments (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) ci = 1;
 
   // printtextcp(49, 36, 15, "Clear tables (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Clear tables (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Clear tables (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) ct = 1;
 
   // printtextcp(49, 36, 15, "Clear songname (y/n)?");
-  printtextcp(49, 36, CBOTTOMSTATUS, "Clear songname (y/n)?");
+  printtextcp(49, 36, colscheme.status_bottom, "Clear songname (y/n)?");
   waitkey();
   printblank(20, 36, 58);
   if ((key == 'y') || (key == 'Y')) cn = 1;
@@ -1230,12 +1236,12 @@ void clear(void)
     int olddpl = defaultpatternlength;
 
     // printtext(40, 36, 15,"Pattern length:");
-    printtext(40, 36, CBOTTOMSTATUS,"Pattern length:");
+    printtext(40, 36, colscheme.status_bottom,"Pattern length:");
     while (!selectdone)
     {
       sprintf(textbuffer, "%02d ", defaultpatternlength);
       // printtext(55, 36, 15, textbuffer);
-      printtext(55, 36, CEDIT, textbuffer);
+      printtext(55, 36, colscheme.edit, textbuffer);
       waitkey();
       switch(rawkey)
       {

@@ -2,13 +2,14 @@
 
 #include "goattrk2.h"
 
-extern COLORSCHEME colscheme = {};
+COLORSCHEME colscheme = {};
 
 void colscheme_init(unsigned theme)
 {
     switch (theme)
     {
         case 1:
+            colscheme.bgcolor = CDBLUE;
             colscheme.boxcolor = ((CDBLUE << 4) | CPURPLE);
             colscheme.command = ((CDBLUE << 4) | CDGREEN);
             colscheme.command_value = ((CDBLUE << 4) | CCYAN);
@@ -31,6 +32,7 @@ void colscheme_init(unsigned theme)
             colscheme.title = ((CDBLUE << 4) | CWHITE);
             break;
         default:
+            colscheme.bgcolor = CBLACK;
             colscheme.boxcolor = ((CBLACK << 4) | CPURPLE);
             colscheme.command = ((CBLACK << 4) | CDGREEN);
             colscheme.command_value = ((CBLACK << 4) | CCYAN);
