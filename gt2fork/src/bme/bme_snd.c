@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include "bme_main.h"
 #include "bme_cfg.h"
 #include "bme_win.h"
@@ -17,6 +17,10 @@
 int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned channels, int usedirectsound);
 void snd_uninit(void);
 void snd_setcustommixer(void (*custommixer)(Sint32 *dest, unsigned samples));
+
+
+static int snd_initchannels(unsigned channels);
+
 static int snd_initmixer(void);
 static void snd_uninitmixer(void);
 static void snd_mixdata(Uint8 *dest, unsigned bytes);
@@ -90,7 +94,7 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
             if (!desired.samples) break;
             bits++;
         }
-        desired.samples = 1 << bits;    
+        desired.samples = 1 << bits;
     }
 
     desired.callback = snd_mixer;
@@ -101,7 +105,11 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     snd_bpmcount = 0;
 
     // (Re)allocate channels if necessary
-
+    if (snd_initchannels(channels) != BME_OK)
+    {
+        return BME_ERROR;
+    }
+    /*
     if (snd_previouschannels != channels)
     {
         CHANNEL *chptr;
@@ -132,6 +140,7 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
             chptr++;
         }
     }
+    */
 
     SDL_PauseAudio(1);
 
@@ -172,6 +181,44 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     SDL_PauseAudio(0);
 
     bme_error = BME_OK;
+    return BME_OK;
+}
+
+int snd_initchannels(unsigned channels)
+{
+    int c;
+
+    if (snd_previouschannels != channels)
+    {
+        CHANNEL *chptr;
+        if (snd_channel)
+        {
+            free(snd_channel);
+            snd_channel = NULL;
+            snd_channels = 0;
+        }
+
+        snd_channel = malloc(channels * sizeof(CHANNEL));
+        if (!snd_channel)
+        {
+            bme_error = BME_OUT_OF_MEMORY;
+            snd_uninit();
+            return BME_ERROR;
+        }
+        chptr = &snd_channel[0];
+        snd_channels = channels;
+        snd_previouschannels = channels;
+
+        // Init all channels (no sound played, no sample, mastervolume 64)
+        for (c = snd_channels; c > 0; c--)
+        {
+            chptr->voicemode = VM_OFF;
+            chptr->smp = NULL;
+            chptr->mastervol = 64;
+            chptr++;
+        }
+    }
+
     return BME_OK;
 }
 

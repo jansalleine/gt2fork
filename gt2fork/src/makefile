@@ -2,18 +2,18 @@
 # Linux makefile
 #
 
-CFLAGS=`sdl-config --cflags`
+CFLAGS=`sdl2-config --cflags`
 PREFIX=../linux/
 SUFFIX=
-LIBS=`sdl-config --libs`
+LIBS=`sdl2-config --libs`
 
-CC=gcc
-CXX=g++
+CC?=gcc
+CXX?=g++
 CFLAGS+=-O3 -Wall -Ibme -Iasm
 ifdef QWERTZFIX
 	CFLAGS+=-DQWERTZFIX
 endif
-CXXFLAGS=$(CFLAGS)
+CXXFLAGS=$(CFLAGS) -fpermissive
 
 RESIDOBJECTS=resid/sid.o \
 	resid/voice.o \
@@ -95,11 +95,11 @@ goatdata.c: goattrk2.dat
 	./dat2inc $< $@
 
 datafile: bme/datafile.c bme/bme_end.c
-	$(CC) -o datafile bme/datafile.c bme/bme_end.c
+	$(CC) -o datafile bme/datafile.c bme/bme_end.c $(CFLAGS) $(LIBS)
 	strip datafile
 
 dat2inc: bme/dat2inc.c
-	$(CC) -o dat2inc bme/dat2inc.c
+	$(CC) -o dat2inc bme/dat2inc.c $(CFLAGS) $(LIBS)
 	strip dat2inc
 
 clean:

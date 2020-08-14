@@ -48,53 +48,59 @@ inline void setcolor(unsigned *dptr, short color)
 
 int initscreen(void)
 {
-  int handle;
+    int handle;
+    unsigned xsize = MAX_COLUMNS * 8;
+    unsigned ysize = MAX_ROWS * 16;
 
-  if (bigwindow - 1)
-  {
-    fontwidth *= bigwindow;
-    fontheight *= bigwindow;
-    mousesizex *= 2;
-    mousesizey *= 2;
-  }
+    if (bigwindow - 1)
+    {
+        fontwidth *= bigwindow;
+        fontheight *= bigwindow;
+        mousesizex *= 2;
+        mousesizey *= 2;
+    }
 
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
-    return 0;
-  win_openwindow("GoatTracker", NULL);
-  win_setmousemode(MOUSE_ALWAYS_HIDDEN);
-  initicon();
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
+    {
+        return 0;
+    }
+    win_openwindow(xsize, ysize, "GoatTracker", NULL);
+    // win_setmousemode(MOUSE_ALWAYS_HIDDEN);
+    initicon();
 
-  if (!gfx_init(MAX_COLUMNS * fontwidth, MAX_ROWS * fontheight, 60, 0))
-  {
-    win_fullscreen = 0;
     if (!gfx_init(MAX_COLUMNS * fontwidth, MAX_ROWS * fontheight, 60, 0))
-      return 0;
-  }
+    {
+        win_fullscreen = 0;
+        if (!gfx_init(MAX_COLUMNS * fontwidth, MAX_ROWS * fontheight, 60, 0))
+        {
+            return 0;
+        }
+    }
 
-  scrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
-  prevscrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
-  if ((!scrbuffer) || (!prevscrbuffer)) return 0;
+    scrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
+    prevscrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
+    if ((!scrbuffer) || (!prevscrbuffer)) return 0;
 
-  memset(region, 0, sizeof region);
+    memset(region, 0, sizeof region);
 
-  chardata = (unsigned char*)malloc(4096);
-  if (!chardata) return 0;
-  handle = io_open("chargen.bin");
-  if (handle == -1) return 0;
-  io_read(handle, &chardata[0], 4096);
-  io_close(handle);
+    chardata = (unsigned char*)malloc(4096);
+    if (!chardata) return 0;
+    handle = io_open("chargen.bin");
+    if (handle == -1) return 0;
+    io_read(handle, &chardata[0], 4096);
+    io_close(handle);
 
-  gfx_loadpalette("palette.bin");
-  loadexternalpalette();
-  gfx_setpalette();
+    gfx_loadpalette("palette.bin");
+    loadexternalpalette();
+    gfx_setpalette();
 
-  if (bigwindow - 1) gfx_loadsprites(0, "bcursor.bin");
-  else gfx_loadsprites(0, "cursor.bin");
+  // if (bigwindow - 1) gfx_loadsprites(0, "bcursor.bin");
+  // else gfx_loadsprites(0, "cursor.bin");
 
-  gfxinitted = 1;
-  clearscreen();
-  atexit(closescreen);
-  return 1;
+    gfxinitted = 1;
+    clearscreen();
+    atexit(closescreen);
+    return 1;
 }
 
 void loadexternalpalette(void)
@@ -138,61 +144,62 @@ void loadexternalpalette(void)
 
 void initicon(void)
 {
-  int handle = io_open("goattrk2.bmp");
-  if (handle != -1)
-  {
-    SDL_RWops *rw;
-    SDL_Surface *icon;
-    char *iconbuffer;
-    int size;
-
-    size = io_lseek(handle, 0, SEEK_END);
-    io_lseek(handle, 0, SEEK_SET);
-    iconbuffer = (char*)malloc(size);
-    if (iconbuffer)
+    int handle = io_open("goattrk2.bmp");
+    if (handle != -1)
     {
-      io_read(handle, iconbuffer, size);
-      io_close(handle);
-      rw = SDL_RWFromMem(iconbuffer, size);
-      icon = SDL_LoadBMP_RW(rw, 0);
-      SDL_WM_SetIcon(icon, 0);
-      free(iconbuffer);
+        SDL_RWops *rw;
+        SDL_Surface *icon;
+        char *iconbuffer;
+        int size;
+
+        size = io_lseek(handle, 0, SEEK_END);
+        io_lseek(handle, 0, SEEK_SET);
+        iconbuffer = (char*)malloc(size);
+        if (iconbuffer)
+        {
+            io_read(handle, iconbuffer, size);
+            io_close(handle);
+            rw = SDL_RWFromMem(iconbuffer, size);
+            icon = SDL_LoadBMP_RW(rw, 0);
+            SDL_SetWindowIcon(win_window, icon);
+            free(iconbuffer);
+        }
     }
-  }
 }
+
 void closescreen(void)
 {
-  if (scrbuffer)
-  {
-    free(scrbuffer);
-    scrbuffer = NULL;
-  }
-  if (prevscrbuffer)
-  {
-    free(prevscrbuffer);
-    prevscrbuffer = NULL;
-  }
-  if (chardata)
-  {
-    free(chardata);
-    chardata = NULL;
-  }
+    if (scrbuffer)
+    {
+        free(scrbuffer);
+        scrbuffer = NULL;
+    }
+    if (prevscrbuffer)
+    {
+        free(prevscrbuffer);
+        prevscrbuffer = NULL;
+    }
+    if (chardata)
+    {
+        free(chardata);
+        chardata = NULL;
+    }
 
-  gfxinitted = 0;
+    gfxinitted = 0;
 }
 
 void clearscreen(void)
 {
-  int c;
-  unsigned *dptr = scrbuffer;
+    int c;
+    unsigned *dptr = scrbuffer;
 
-  if (!gfxinitted) return;
+    if (!gfxinitted) return;
 
-  for (c = 0; c < MAX_ROWS * MAX_COLUMNS; c++)
-  {
-    setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
-    dptr++;
-  }
+    for (c = 0; c < MAX_ROWS * MAX_COLUMNS; c++)
+    {
+        setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
+        dptr++;
+    }
 }
 
 void printtext(int x, int y, int color, const char *text)
@@ -571,67 +578,64 @@ void fliptoscreen(void)
 
   // Redraw changed screen regions
   gfx_unlock();
-  for (y = 0; y < MAX_ROWS; y++)
-  {
-    if (region[y])
-    {
-      SDL_UpdateRect(gfx_screen, 0, y*fontheight, MAX_COLUMNS*fontwidth, fontheight);
-      region[y] = 0;
-    }
-  }
+  gfx_flip();
 }
 
 void getkey(void)
 {
-  int c;
-  win_asciikey = 0;
-  cursorflashdelay += win_getspeed(50);
+    int c;
+    win_asciikey = 0;
+    cursorflashdelay += win_getspeed(50);
 
-  prevmouseb = mouseb;
+    prevmouseb = mouseb;
 
-  mou_getpos(&mousepixelx, &mousepixely);
-  mouseb = mou_getbuttons();
-  mousex = mousepixelx / fontwidth;
-  mousey = mousepixely / fontheight;
+    mou_getpos(&mousepixelx, &mousepixely);
+    mouseb = mou_getbuttons();
+    mousex = mousepixelx / fontwidth;
+    mousey = mousepixely / fontheight;
 
-  if (mouseb) mouseheld++;
-  else mouseheld = 0;
+    if (mouseb) mouseheld++;
+    else mouseheld = 0;
 
-  key = win_asciikey;
-  rawkey = 0;
-  for (c = 0; c < MAX_KEYS; c++)
-  {
-    if (win_keytable[c])
+    key = win_asciikey;
+    rawkey = 0;
+    for (c = 0; c < SDL_NUM_SCANCODES; c++)
     {
-      if ((c != KEY_LEFTSHIFT) && (c != KEY_RIGHTSHIFT) &&
-          (c != KEY_CTRL) && (c != KEY_RIGHTCTRL))
-      {
-        rawkey = c;
-        win_keytable[c] = 0;
-        break;
-      }
+        if (win_keytable[c])
+        {
+            if ((c != SDL_SCANCODE_LSHIFT) && (c != SDL_SCANCODE_RSHIFT) &&
+              (c != SDL_SCANCODE_LCTRL) && (c != SDL_SCANCODE_RCTRL))
+            {
+                rawkey = c;
+                win_keytable[c] = 0;
+                break;
+            }
+        }
+  }
+
+    shiftpressed = 0;
+    if ((win_keystate[SDL_SCANCODE_LSHIFT])||
+        (win_keystate[SDL_SCANCODE_RSHIFT])||
+        (win_keystate[SDL_SCANCODE_LCTRL])||
+        (win_keystate[SDL_SCANCODE_RCTRL]))
+    {
+        shiftpressed = 1;
     }
-  }
 
-  shiftpressed = 0;
-  if ((win_keystate[KEY_LEFTSHIFT])||(win_keystate[KEY_RIGHTSHIFT])||
-      (win_keystate[KEY_CTRL])||(win_keystate[KEY_RIGHTCTRL]))
-    shiftpressed = 1;
+    if (rawkey == SDL_SCANCODE_KP_ENTER)
+    {
+        key = KEY_ENTER;
+        rawkey = SDL_SCANCODE_RETURN;
+    }
 
-  if (rawkey == SDLK_KP_ENTER)
-  {
-    key = KEY_ENTER;
-    rawkey = SDLK_RETURN;
-  }
-
-  if (rawkey == SDLK_KP0) key = '0';
-  if (rawkey == SDLK_KP1) key = '1';
-  if (rawkey == SDLK_KP2) key = '2';
-  if (rawkey == SDLK_KP3) key = '3';
-  if (rawkey == SDLK_KP4) key = '4';
-  if (rawkey == SDLK_KP5) key = '5';
-  if (rawkey == SDLK_KP6) key = '6';
-  if (rawkey == SDLK_KP7) key = '7';
-  if (rawkey == SDLK_KP8) key = '8';
-  if (rawkey == SDLK_KP9) key = '9';
+    if (rawkey == SDL_SCANCODE_KP_0) key = '0';
+    if (rawkey == SDL_SCANCODE_KP_1) key = '1';
+    if (rawkey == SDL_SCANCODE_KP_2) key = '2';
+    if (rawkey == SDL_SCANCODE_KP_3) key = '3';
+    if (rawkey == SDL_SCANCODE_KP_4) key = '4';
+    if (rawkey == SDL_SCANCODE_KP_5) key = '5';
+    if (rawkey == SDL_SCANCODE_KP_6) key = '6';
+    if (rawkey == SDL_SCANCODE_KP_7) key = '7';
+    if (rawkey == SDL_SCANCODE_KP_8) key = '8';
+    if (rawkey == SDL_SCANCODE_KP_9) key = '9';
 }

@@ -29,3 +29,13 @@ gt2stereo/win32/mod2sng2.exe
 gt2stereo/win32/ss2stereo.exe
 goattrk2/win32/goattrk2.cfg
 gt2stereo/win32/gt2stereo.cfg
+gt2fork/linux/betaconv
+gt2fork/linux/goattrk2
+gt2fork/linux/gt2reloc
+gt2fork/linux/ins2snd2
+gt2fork/linux/mod2sng
+gt2fork/linux/sngspli2
+gt2fork/src/dat2inc
+gt2fork/src/datafile
+gt2fork/src/goatdata.c
+gt2fork/src/goattrk2.dat
