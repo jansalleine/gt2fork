@@ -103,7 +103,6 @@ char* usage[] = {
     "-Exx Set emulated SID model (0 = 6581 1 = 8580) DEFAULT=8580",
     "-Fxx Set custom SID clock cycles per second (0 = use PAL/NTSC default)",
     "-Gxx Set pitch of A-4 in Hz (0 = use default frequencytable, close to 440Hz)",
-    "-Hxx Use HardSID (0 = off, 1 = HardSID ID0 2 = HardSID ID1 etc.)",
     "-Ixx Set reSID/-FP settings (0 = reSID Fast Resample, 1 = reSID Resample, 2 = reSID-FP Interpolate, 3 = reSID-FP Interpolate Resample) DEFAULT = reSID Resample",
     "-Jxx Set special note names (2 chars for every note in an octave/cycle, e.g. C-DbD-EbE-F-GbG-AbA-BbB-)",
     "-Kxx Note-entry mode (0 = Protracker, 1 = DMC, 2 = Janko) DEFAULT=Protracker",
@@ -113,8 +112,6 @@ char* usage[] = {
     "-Qxx Set equal divisions per octave (12 = default, 8.2019143 = Bohlen-Pierce)",
     "-Rxx Set realtime-effect optimization/skipping (0 = off, 1 = on) DEFAULT=on",
     "-Sxx Set speed multiplier (0 for 25Hz, 1 for 1x, 2 for 2x etc.)",
-    "-Txx Set HardSID interactive mode sound buffer length in milliseconds DEFAULT=20, max.buffering=0",
-    "-Uxx Set HardSID playback mode sound buffer length in milliseconds DEFAULT=400, max.buffering=0",
     "-Vxx Set finevibrato conversion (0 = off, 1 = on) DEFAULT=on",
     "-Xxx Set window type (0 = window, 1 = fullscreen) DEFAULT=window",
     "-Yxx Path to a Scala tuning file .scl",
@@ -154,7 +151,6 @@ int main(int argc, char **argv)
   {
     getparam(configfile, &b);
     getparam(configfile, &mr);
-    getparam(configfile, &hardsid);
     getparam(configfile, &sidmodel);
     getparam(configfile, &ntsc);
     getparam(configfile, (unsigned *)&fileformat);
@@ -174,8 +170,6 @@ int main(int argc, char **argv)
     getparam(configfile, &optimizerealtime);
     getparam(configfile, &residdelay);
     getparam(configfile, &customclockrate);
-    getparam(configfile, &hardsidbufinteractive);
-    getparam(configfile, &hardsidbufplayback);
     getfloatparam(configfile, &filtercurves.MOS6581);
     getfloatparam(configfile, &filtercurves.MOS8580);
     getparam(configfile, (unsigned*)&win_fullscreen);
@@ -287,20 +281,8 @@ int main(int argc, char **argv)
         sscanf(&argv[c][2], "%u", &optimizerealtime);
         break;
 
-        case 'H':
-        sscanf(&argv[c][2], "%u", &hardsid);
-        break;
-
         case 'V':
         sscanf(&argv[c][2], "%u", &finevibrato);
-        break;
-
-        case 'T':
-        sscanf(&argv[c][2], "%u", &hardsidbufinteractive);
-        break;
-
-        case 'U':
-        sscanf(&argv[c][2], "%u", &hardsidbufplayback);
         break;
 
         case 'W':
@@ -428,14 +410,13 @@ int main(int argc, char **argv)
   configfile = fopen(filename, "wt");
   if (configfile)
   {
-    fprintf(configfile, ";------------------------------------------------------------------------------\n"
+    fprintf(configfile, ";-------------------------------------------------------------------------------\n"
     ";GT2F config file. Rows starting with ; are comments. Hexadecimal parameters are\n"
-    ";to be preceded with $ and decimal parameters with nothing.                    \n"
-    ";------------------------------------------------------------------------------\n"
+    ";to be preceded with $ and decimal parameters with nothing.                     \n"
+    ";-------------------------------------------------------------------------------\n"
     "\n"
     ";reSID buffer length (in milliseconds)\n%d\n\n"
     ";reSID mixing rate (in Hz)\n%d\n\n"
-    ";Hardsid device number (0 = off)\n%d\n\n"
     ";reSID model (0 = 6581, 1 = 8580)\n%d\n\n"
     ";Timing mode (0 = PAL, 1 = NTSC)\n%d\n\n"
     ";Packer/relocator fileformat (0 = SID, 1 = PRG, 2 = BIN)\n%d\n\n"
@@ -455,8 +436,6 @@ int main(int argc, char **argv)
     ";Realtime effect skipping (0 = off, 1 = on)\n%d\n\n"
     ";Random reSID write delay in cycles (0 = off)\n%d\n\n"
     ";Custom SID clock cycles per second (0 = use PAL/NTSC default)\n%d\n\n"
-    ";HardSID interactive mode buffer size (in milliseconds, 0 = maximum/no flush)\n%d\n\n"
-    ";HardSID playback mode buffer size (in milliseconds, 0 = maximum/no flush)\n%d\n\n"
     ";reSID-FP 6581 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
     ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
     ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
@@ -467,7 +446,6 @@ int main(int argc, char **argv)
     ";Path to a Scala tuning file .scl\n%s\n\n",
     b,
     mr,
-    hardsid,
     sidmodel,
     ntsc,
     fileformat,
@@ -487,8 +465,6 @@ int main(int argc, char **argv)
     optimizerealtime,
     residdelay,
     customclockrate,
-    hardsidbufinteractive,
-    hardsidbufplayback,
     filtercurves.MOS6581,
     filtercurves.MOS8580,
     win_fullscreen,

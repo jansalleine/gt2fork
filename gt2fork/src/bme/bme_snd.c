@@ -85,7 +85,7 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     desired.format = AUDIO_U8;
     if (mixmode & SIXTEENBIT)
     {
-        printf("mixmode & SIXTEENBIT -> desired.format = AUDIO_S16SYS\n");
+        printf("if (mixmode & SIXTEENBIT) -> desired.format = AUDIO_S16SYS\n");
         desired.format = AUDIO_S16SYS;
     }
     desired.channels = 1;
@@ -136,10 +136,6 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
 
     printf("obtained.channels: %d\n", obtained.channels);
 
-    if (SDL_AUDIO_ISINT(obtained.format))
-    {
-        printf("ISINT obtained.format: %d\n", obtained.format);
-    }
     if (SDL_AUDIO_ISFLOAT(obtained.format))
     {
         printf("ISFLOAT obtained.format: %d\n", obtained.format);
@@ -147,9 +143,18 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
         is32Bit = 1;
         snd_mixmode |= SIXTEENBIT;
     }
+    else if (SDL_AUDIO_ISINT(obtained.format))
+    {
+        printf("ISINT obtained.format: %d\n", obtained.format);
+    }
+
     if (SDL_AUDIO_ISSIGNED(obtained.format))
     {
         printf("ISSIGNED\n");
+    }
+    else
+    {
+        printf("ISUNSIGNED\n");
     }
 
     if ((obtained.format == AUDIO_S16SYS) ||
@@ -369,7 +374,7 @@ static void snd_float_postprocess(Sint32* src, float_t* dest, unsigned samples)
         int sample = *src++;
         if (sample > 32767) sample = 32767;
         if (sample < -32768) sample = -32768;
-        *dest++ = sample / 32768.0;
+        *dest++ = sample;
     }
 }
 
