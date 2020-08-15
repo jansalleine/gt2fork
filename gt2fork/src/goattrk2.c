@@ -19,7 +19,7 @@
 #define GOATTRK2_C
 
 #ifdef __WIN32__
-#include <windows.h>
+    #include <windows.h>
 #endif
 
 #include "goattrk2.h"
@@ -84,8 +84,10 @@ char tuningname[64];
 
 char textbuffer[MAX_PATHNAME];
 
-unsigned char hexkeytbl[] = {'0', '1', '2', '3', '4', '5', '6', '7',
-  '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+unsigned char hexkeytbl[] = {
+    '0', '1', '2', '3', '4', '5', '6', '7',
+    '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+};
 
 extern unsigned char datafile[];
 
@@ -123,818 +125,871 @@ int usagelen = (sizeof usage / sizeof usage[0]);
 
 int main(int argc, char **argv)
 {
-  char filename[MAX_PATHNAME];
-  FILE *configfile;
-  int c,d;
+    char filename[MAX_PATHNAME];
+    FILE *configfile;
+    int c,d;
 
-  programname += sizeof "$VER:";
-  // Open datafile
-  io_openlinkeddatafile(datafile);
+    programname += sizeof "$VER:";
+    // Open datafile
+    io_openlinkeddatafile(datafile);
 
-  // Load configuration
-  #ifdef __WIN32__
-  GetModuleFileName(NULL, filename, MAX_PATHNAME);
-  filename[strlen(filename)-3] = 'c';
-  filename[strlen(filename)-2] = 'f';
-  filename[strlen(filename)-1] = 'g';
-  #else
-  strcpy(filename, getenv("HOME"));
-  strcat(filename, "/.config/gt2fork/gt2fork.cfg");
-  #endif
-  configfile = fopen(filename, "rt");
-  if (configfile)
-  {
-    getparam(configfile, &b);
-    getparam(configfile, &mr);
-    getparam(configfile, &sidmodel);
-    getparam(configfile, &ntsc);
-    getparam(configfile, (unsigned *)&fileformat);
-    getparam(configfile, (unsigned *)&playeradr);
-    getparam(configfile, (unsigned *)&zeropageadr);
-    getparam(configfile, &playerversion);
-    getparam(configfile, &keypreset);
-    getparam(configfile, (unsigned *)&stepsize);
-    getparam(configfile, &multiplier);
-    getparam(configfile, &adparam);
-    getparam(configfile, &interpolate);
-    getparam(configfile, &patterndispmode);
-    getparam(configfile, &sidaddress);
-    getparam(configfile, &finevibrato);
-    getparam(configfile, &optimizepulse);
-    getparam(configfile, &optimizerealtime);
-    getparam(configfile, &residdelay);
-    getparam(configfile, &customclockrate);
-    getfloatparam(configfile, &filtercurves.MOS6581);
-    getfloatparam(configfile, &filtercurves.MOS8580);
-    getparam(configfile, (unsigned*)&win_fullscreen);
-    getparam(configfile, &theme);
-    getfloatparam(configfile, &basepitch);
-    getfloatparam(configfile, &equaldivisionsperoctave);
-    getstringparam(configfile, specialnotenames);
-    getstringparam(configfile, scalatuningfilepath);
-    fclose(configfile);
-  }
-
-  // Init pathnames
-  initpaths();
-
-  // Scan command line
-  for (c = 1; c < argc; c++)
-  {
+    // Load configuration
     #ifdef __WIN32__
-    if ((argv[c][0] == '-') || (argv[c][0] == '/'))
+        GetModuleFileName(NULL, filename, MAX_PATHNAME);
+        filename[strlen(filename)-3] = 'c';
+        filename[strlen(filename)-2] = 'f';
+        filename[strlen(filename)-1] = 'g';
     #else
-    if (argv[c][0] == '-')
+        strcpy(filename, getenv("HOME"));
+        strcat(filename, "/.config/gt2fork/gt2fork.cfg");
     #endif
+
+    configfile = fopen(filename, "rt");
+
+    if (configfile)
     {
-      int y;
-      switch (argv[c][1]) // switch(toupper(argv[c][1]))
-      {
-        case '-':
-        if (strcmp(argv[c], "--help"))
-            break;
-        case '?':
-        if(argv[c][2]=='?')
+        getparam(configfile, &b);
+        getparam(configfile, &mr);
+        getparam(configfile, &sidmodel);
+        getparam(configfile, &ntsc);
+        getparam(configfile, (unsigned *)&fileformat);
+        getparam(configfile, (unsigned *)&playeradr);
+        getparam(configfile, (unsigned *)&zeropageadr);
+        getparam(configfile, &playerversion);
+        getparam(configfile, &keypreset);
+        getparam(configfile, (unsigned *)&stepsize);
+        getparam(configfile, &multiplier);
+        getparam(configfile, &adparam);
+        getparam(configfile, &interpolate);
+        getparam(configfile, &patterndispmode);
+        getparam(configfile, &sidaddress);
+        getparam(configfile, &finevibrato);
+        getparam(configfile, &optimizepulse);
+        getparam(configfile, &optimizerealtime);
+        getparam(configfile, &residdelay);
+        getparam(configfile, &customclockrate);
+        getfloatparam(configfile, &filtercurves.MOS6581);
+        getfloatparam(configfile, &filtercurves.MOS8580);
+        getparam(configfile, (unsigned*)&win_fullscreen);
+        getparam(configfile, &theme);
+        getfloatparam(configfile, &basepitch);
+        getfloatparam(configfile, &equaldivisionsperoctave);
+        getstringparam(configfile, specialnotenames);
+        getstringparam(configfile, scalatuningfilepath);
+        fclose(configfile);
+    }
+
+    // Init pathnames
+    initpaths();
+
+    // Scan command line
+    for (c = 1; c < argc; c++)
+    {
+        #ifdef __WIN32__
+            if ((argv[c][0] == '-') || (argv[c][0] == '/'))
+        #else
+            if (argv[c][0] == '-')
+        #endif
         {
-          if (!initscreen())
-            return EXIT_FAILURE;
-          onlinehelp(1,0);
-          return EXIT_SUCCESS;
+            int y;
+            switch (argv[c][1]) // switch(toupper(argv[c][1]))
+            {
+                case '-':
+                    if (strcmp(argv[c], "--help"))
+                    break;
+
+                case '?':
+                    if(argv[c][2]=='?')
+                    {
+                        if (!initscreen())
+                        {
+                            return EXIT_FAILURE;
+                        }
+                        onlinehelp(1,0);
+                        return EXIT_SUCCESS;
+                    }
+
+                    #ifdef __WIN32__
+                        if (!initscreen())
+                        return EXIT_FAILURE;
+                        for (y = 0; y < usagelen; ++y)
+                        {
+                            printtext(0,y,15,usage[y]);
+                        }
+                        waitkeynoupdate();
+                    #else
+                        for (y = 0; y < usagelen; ++y)
+                        {
+                            printf("%s\n", usage[y]);
+                        }
+                    #endif
+
+                    return EXIT_SUCCESS;
+
+                case 'Z':
+                    sscanf(&argv[c][2], "%u", &residdelay);
+                    break;
+
+                case 'A':
+                    sscanf(&argv[c][2], "%x", &adparam);
+                    break;
+
+                case 'S':
+                    sscanf(&argv[c][2], "%u", &multiplier);
+                    break;
+
+                case 'B':
+                    sscanf(&argv[c][2], "%u", &b);
+                    break;
+
+                case 'D':
+                    sscanf(&argv[c][2], "%u", &patterndispmode);
+                    break;
+
+                case 'E':
+                    sscanf(&argv[c][2], "%u", &sidmodel);
+                    break;
+
+                case 'I':
+                    sscanf(&argv[c][2], "%u", &interpolate);
+                    break;
+
+                case 'K':
+                    sscanf(&argv[c][2], "%u", &keypreset);
+                    break;
+
+                case 'L':
+                    sscanf(&argv[c][2], "%x", &sidaddress);
+                    break;
+
+                case 'N':
+                    ntsc = 1;
+                    customclockrate = 0;
+                    break;
+
+                case 'P':
+                    ntsc = 0;
+                    customclockrate = 0;
+                    break;
+
+                case 'F':
+                    sscanf(&argv[c][2], "%u", &customclockrate);
+                    break;
+
+                case 'M':
+                    sscanf(&argv[c][2], "%u", &mr);
+                    break;
+
+                case 'O':
+                    sscanf(&argv[c][2], "%u", &optimizepulse);
+                    break;
+
+                case 'R':
+                    sscanf(&argv[c][2], "%u", &optimizerealtime);
+                    break;
+
+                case 'V':
+                    sscanf(&argv[c][2], "%u", &finevibrato);
+                    break;
+
+                case 'W':
+                    writer = 1;
+                    break;
+
+                case 'X':
+                    sscanf(&argv[c][2], "%u", &win_fullscreen);
+                    break;
+
+                case 'G':
+                    sscanf(&argv[c][2], "%f", &basepitch);
+                    break;
+
+                case 'Q':
+                    sscanf(&argv[c][2], "%f", &equaldivisionsperoctave);
+                    break;
+
+                case 'J':
+                    sscanf(&argv[c][2], "%s", specialnotenames);
+                    break;
+
+                case 'Y':
+                    sscanf(&argv[c][2], "%s", scalatuningfilepath);
+                    break;
+            }
         }
-#ifdef __WIN32__
-        if (!initscreen())
-          return EXIT_FAILURE;
-        for (y = 0; y < usagelen; ++y)
-          printtext(0,y,15,usage[y]);
+        else
+        {
+            char startpath[MAX_PATHNAME];
+
+            strcpy(songfilename, argv[c]);
+            for (d = strlen(argv[c])-1; d >= 0; d--)
+            {
+                if ((argv[c][d] == '/') || (argv[c][d] == '\\'))
+                {
+                    strcpy(startpath, argv[c]);
+                    startpath[d+1] = 0;
+                    chdir(startpath);
+                    initpaths();
+                    strcpy(songfilename, &argv[c][d+1]);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Validate parameters
+    sidmodel &= 1;
+    adparam &= 0xffff;
+    zeropageadr &= 0xff;
+    playeradr &= 0xff00;
+    sidaddress &= 0xffff;
+    if (!stepsize) stepsize = 4;
+    if (multiplier > 16) multiplier = 16;
+    if (keypreset > 2) keypreset = 0;
+    if ((finevibrato == 1) && (multiplier < 2)) usefinevib = 1;
+    if (finevibrato > 1) usefinevib = 1;
+    if (optimizepulse > 1) optimizepulse = 1;
+    if (optimizerealtime > 1) optimizerealtime = 1;
+    if (residdelay > 63) residdelay = 63;
+    if (customclockrate < 100) customclockrate = 0;
+    if (theme > 1) theme = 0;
+
+    colscheme_init(theme);
+
+    // Read Scala tuning file
+    if (scalatuningfilepath[0] != '0' && scalatuningfilepath[1] != '\0')
+    {
+        readscalatuningfile();
+    }
+
+    // Calculate frequencytable if necessary
+    if (basepitch < 0.0f)
+    {
+        basepitch = 0.0f;
+    }
+    if (basepitch > 0.0f)
+    {
+        calculatefreqtable();
+    }
+
+    // Set special note names
+    if (specialnotenames[1] != '\0')
+    {
+        setspecialnotenames();
+    }
+
+    // Set screenmode
+    if (!initscreen())
+    {
+        return EXIT_FAILURE;
+    }
+
+    // Reset channels/song
+    initchannels();
+    clearsong(1,1,1,1,1);
+
+    // Init sound
+    if (!sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate))
+    {
+        printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
         waitkeynoupdate();
-#else
-        for (y = 0; y < usagelen; ++y)
-          printf("%s\n", usage[y]);
-#endif
-        return EXIT_SUCCESS;
-
-        case 'Z':
-        sscanf(&argv[c][2], "%u", &residdelay);
-        break;
-
-        case 'A':
-        sscanf(&argv[c][2], "%x", &adparam);
-        break;
-
-        case 'S':
-        sscanf(&argv[c][2], "%u", &multiplier);
-        break;
-
-        case 'B':
-        sscanf(&argv[c][2], "%u", &b);
-        break;
-
-        case 'D':
-        sscanf(&argv[c][2], "%u", &patterndispmode);
-        break;
-
-        case 'E':
-        sscanf(&argv[c][2], "%u", &sidmodel);
-        break;
-
-        case 'I':
-        sscanf(&argv[c][2], "%u", &interpolate);
-        break;
-
-        case 'K':
-        sscanf(&argv[c][2], "%u", &keypreset);
-        break;
-
-        case 'L':
-        sscanf(&argv[c][2], "%x", &sidaddress);
-        break;
-
-        case 'N':
-        ntsc = 1;
-        customclockrate = 0;
-        break;
-
-        case 'P':
-        ntsc = 0;
-        customclockrate = 0;
-        break;
-
-        case 'F':
-        sscanf(&argv[c][2], "%u", &customclockrate);
-        break;
-
-        case 'M':
-        sscanf(&argv[c][2], "%u", &mr);
-        break;
-
-        case 'O':
-        sscanf(&argv[c][2], "%u", &optimizepulse);
-        break;
-
-        case 'R':
-        sscanf(&argv[c][2], "%u", &optimizerealtime);
-        break;
-
-        case 'V':
-        sscanf(&argv[c][2], "%u", &finevibrato);
-        break;
-
-        case 'W':
-        writer = 1;
-        break;
-
-        case 'X':
-        sscanf(&argv[c][2], "%u", &win_fullscreen);
-        break;
-
-        case 'G':
-        sscanf(&argv[c][2], "%f", &basepitch);
-        break;
-
-        case 'Q':
-        sscanf(&argv[c][2], "%f", &equaldivisionsperoctave);
-        break;
-
-        case 'J':
-        sscanf(&argv[c][2], "%s", specialnotenames);
-        break;
-
-        case 'Y':
-        sscanf(&argv[c][2], "%s", scalatuningfilepath);
-        break;
-      }
     }
-    else
+
+    // Load song if applicable
+    if (strlen(songfilename)) loadsong();
+
+    // Start editor mainloop
+    printmainscreen();
+    while (!exitprogram)
     {
-      char startpath[MAX_PATHNAME];
-
-      strcpy(songfilename, argv[c]);
-      for (d = strlen(argv[c])-1; d >= 0; d--)
-      {
-        if ((argv[c][d] == '/') || (argv[c][d] == '\\'))
-        {
-          strcpy(startpath, argv[c]);
-          startpath[d+1] = 0;
-          chdir(startpath);
-          initpaths();
-          strcpy(songfilename, &argv[c][d+1]);
-          break;
-        }
-      }
+        waitkeymouse();
+        docommand();
     }
-  }
 
-  // Validate parameters
-  sidmodel &= 1;
-  adparam &= 0xffff;
-  zeropageadr &= 0xff;
-  playeradr &= 0xff00;
-  sidaddress &= 0xffff;
-  if (!stepsize) stepsize = 4;
-  if (multiplier > 16) multiplier = 16;
-  if (keypreset > 2) keypreset = 0;
-  if ((finevibrato == 1) && (multiplier < 2)) usefinevib = 1;
-  if (finevibrato > 1) usefinevib = 1;
-  if (optimizepulse > 1) optimizepulse = 1;
-  if (optimizerealtime > 1) optimizerealtime = 1;
-  if (residdelay > 63) residdelay = 63;
-  if (customclockrate < 100) customclockrate = 0;
-  if (theme > 1) theme = 0;
+    // Shutdown sound output now
+    sound_uninit();
 
-  colscheme_init(theme);
+    // Save configuration
+    #ifndef __WIN32__
+        strcpy(filename, getenv("HOME"));
+        strcat(filename, "/.config/gt2fork");
+        mkdir(filename, S_IRUSR | S_IWUSR | S_IXUSR);
+        strcat(filename, "/gt2fork.cfg");
+    #endif
 
-  // Read Scala tuning file
-  if (scalatuningfilepath[0] != '0' && scalatuningfilepath[1] != '\0')
-  {
-    readscalatuningfile();
-  }
+    configfile = fopen(filename, "wt");
 
-  // Calculate frequencytable if necessary
-  if (basepitch < 0.0f)
-    basepitch = 0.0f;
-  if (basepitch > 0.0f)
-    calculatefreqtable();
+    if (configfile)
+    {
+        fprintf(configfile,
+            ";-------------------------------------------------------------------------------\n"
+            ";GT2F config file. Rows starting with ; are comments. Hexadecimal parameters are\n"
+            ";to be preceded with $ and decimal parameters with nothing.                     \n"
+            ";-------------------------------------------------------------------------------\n"
+            "\n"
+            ";reSID buffer length (in milliseconds)\n%d\n\n"
+            ";reSID mixing rate (in Hz)\n%d\n\n"
+            ";reSID model (0 = 6581, 1 = 8580)\n%d\n\n"
+            ";Timing mode (0 = PAL, 1 = NTSC)\n%d\n\n"
+            ";Packer/relocator fileformat (0 = SID, 1 = PRG, 2 = BIN)\n%d\n\n"
+            ";Packer/relocator player address\n$%04x\n\n"
+            ";Packer/relocator zeropage baseaddress\n$%02x\n\n"
+            ";Packer/relocator player type (0 = standard ... 3 = minimal)\n%d\n\n"
+            ";Key entry mode (0 = Protracker, 1 = DMC, 2 = Janko)\n%d\n\n"
+            ";Pattern highlight step size\n%d\n\n"
+            ";Speed multiplier (0 = 25Hz, 1 = 1X, 2 = 2X etc.)\n%d\n\n"
+            ";Hardrestart ADSR parameter\n$%04x\n\n"
+            ";reSID/-FP settings (0 = reSID Fast Resample, 1 = reSID Resample, 2 = reSID-FP Interpolate, 3 = reSID-FP Interpolate Resample)\n%d\n\n"
+            ";Hexadecimal pattern display (0 = off, 1 = on)\n%d\n\n"
+            ";SID baseaddress\n$%04x\n\n"
+            ";Finevibrato mode (0 = off, 1 = on)\n%d\n\n"
+            ";Pulseskipping (0 = off, 1 = on)\n%d\n\n"
+            ";Realtime effect skipping (0 = off, 1 = on)\n%d\n\n"
+            ";Random reSID write delay in cycles (0 = off)\n%d\n\n"
+            ";Custom SID clock cycles per second (0 = use PAL/NTSC default)\n%d\n\n"
+            ";reSID-FP 6581 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
+            ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
+            ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
+            ";Theme (0 = default, 1 = blue)\n%d\n\n"
+            ";Base pitch of A-4 in Hz (0 = use default frequencytable)\n%f\n\n"
+            ";Equal divisions per octave (12 = default, 8.2019143 = Bohlen-Pierce)\n%f\n\n"
+            ";Special note names (2 chars for every note in an octave/cycle)\n%s\n\n"
+            ";Path to a Scala tuning file .scl\n%s\n\n",
+            b,
+            mr,
+            sidmodel,
+            ntsc,
+            fileformat,
+            playeradr,
+            zeropageadr,
+            playerversion,
+            keypreset,
+            stepsize,
+            multiplier,
+            adparam,
+            interpolate,
+            patterndispmode,
+            sidaddress,
+            finevibrato,
+            optimizepulse,
+            optimizerealtime,
+            residdelay,
+            customclockrate,
+            filtercurves.MOS6581,
+            filtercurves.MOS8580,
+            win_fullscreen,
+            theme,
+            basepitch,
+            equaldivisionsperoctave,
+            specialnotenames,
+            scalatuningfilepath
+        );
+        fclose(configfile);
+    }
 
-  // Set special note names
-  if (specialnotenames[1] != '\0')
-  {
-    setspecialnotenames();
-  }
-
-  // Set screenmode
-  if (!initscreen())
-    return EXIT_FAILURE;
-
-  // Reset channels/song
-  initchannels();
-  clearsong(1,1,1,1,1);
-
-  // Init sound
-  if (!sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate))
-  {
-    printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
-    waitkeynoupdate();
-  }
-
-  // Load song if applicable
-  if (strlen(songfilename)) loadsong();
-
-  // Start editor mainloop
-  printmainscreen();
-  while (!exitprogram)
-  {
-    waitkeymouse();
-    docommand();
-  }
-
-  // Shutdown sound output now
-  sound_uninit();
-
-  // Save configuration
-  #ifndef __WIN32__
-  strcpy(filename, getenv("HOME"));
-  strcat(filename, "/.config/gt2fork");
-  mkdir(filename, S_IRUSR | S_IWUSR | S_IXUSR);
-  strcat(filename, "/gt2fork.cfg");
-  #endif
-  configfile = fopen(filename, "wt");
-  if (configfile)
-  {
-    fprintf(configfile, ";-------------------------------------------------------------------------------\n"
-    ";GT2F config file. Rows starting with ; are comments. Hexadecimal parameters are\n"
-    ";to be preceded with $ and decimal parameters with nothing.                     \n"
-    ";-------------------------------------------------------------------------------\n"
-    "\n"
-    ";reSID buffer length (in milliseconds)\n%d\n\n"
-    ";reSID mixing rate (in Hz)\n%d\n\n"
-    ";reSID model (0 = 6581, 1 = 8580)\n%d\n\n"
-    ";Timing mode (0 = PAL, 1 = NTSC)\n%d\n\n"
-    ";Packer/relocator fileformat (0 = SID, 1 = PRG, 2 = BIN)\n%d\n\n"
-    ";Packer/relocator player address\n$%04x\n\n"
-    ";Packer/relocator zeropage baseaddress\n$%02x\n\n"
-    ";Packer/relocator player type (0 = standard ... 3 = minimal)\n%d\n\n"
-    ";Key entry mode (0 = Protracker, 1 = DMC, 2 = Janko)\n%d\n\n"
-    ";Pattern highlight step size\n%d\n\n"
-    ";Speed multiplier (0 = 25Hz, 1 = 1X, 2 = 2X etc.)\n%d\n\n"
-    ";Hardrestart ADSR parameter\n$%04x\n\n"
-    ";reSID/-FP settings (0 = reSID Fast Resample, 1 = reSID Resample, 2 = reSID-FP Interpolate, 3 = reSID-FP Interpolate Resample)\n%d\n\n"
-    ";Hexadecimal pattern display (0 = off, 1 = on)\n%d\n\n"
-    ";SID baseaddress\n$%04x\n\n"
-    ";Finevibrato mode (0 = off, 1 = on)\n%d\n\n"
-    ";Pulseskipping (0 = off, 1 = on)\n%d\n\n"
-    ";Realtime effect skipping (0 = off, 1 = on)\n%d\n\n"
-    ";Random reSID write delay in cycles (0 = off)\n%d\n\n"
-    ";Custom SID clock cycles per second (0 = use PAL/NTSC default)\n%d\n\n"
-    ";reSID-FP 6581 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
-    ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
-    ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
-    ";Theme (0 = default, 1 = blue)\n%d\n\n"
-    ";Base pitch of A-4 in Hz (0 = use default frequencytable)\n%f\n\n"
-    ";Equal divisions per octave (12 = default, 8.2019143 = Bohlen-Pierce)\n%f\n\n"
-    ";Special note names (2 chars for every note in an octave/cycle)\n%s\n\n"
-    ";Path to a Scala tuning file .scl\n%s\n\n",
-    b,
-    mr,
-    sidmodel,
-    ntsc,
-    fileformat,
-    playeradr,
-    zeropageadr,
-    playerversion,
-    keypreset,
-    stepsize,
-    multiplier,
-    adparam,
-    interpolate,
-    patterndispmode,
-    sidaddress,
-    finevibrato,
-    optimizepulse,
-    optimizerealtime,
-    residdelay,
-    customclockrate,
-    filtercurves.MOS6581,
-    filtercurves.MOS8580,
-    win_fullscreen,
-    theme,
-    basepitch,
-    equaldivisionsperoctave,
-    specialnotenames,
-    scalatuningfilepath);
-    fclose(configfile);
-  }
-
-  // Exit
-  return EXIT_SUCCESS;
+    // Exit
+    return EXIT_SUCCESS;
 }
 
 void waitkey(void)
 {
-  for (;;)
-  {
-    displayupdate();
-    getkey();
-    if ((rawkey) || (key)) break;
-    if (win_quitted) break;
-  }
+    for (;;)
+    {
+        displayupdate();
+        getkey();
+        if ((rawkey) || (key)) break;
+        if (win_quitted) break;
+    }
 
-  converthex();
+    converthex();
 }
 
 void waitkeymouse(void)
 {
-  for (;;)
-  {
-    displayupdate();
-    getkey();
-    if ((rawkey) || (key)) break;
-    if (win_quitted) break;
-    if (mouseb) break;
-  }
+    for (;;)
+    {
+        displayupdate();
+        getkey();
+        if ((rawkey) || (key)) break;
+        if (win_quitted) break;
+        if (mouseb) break;
+    }
 
-  converthex();
+    converthex();
 }
 
 void waitkeymousenoupdate(void)
 {
-  for (;;)
-  {
-      fliptoscreen();
-    getkey();
-    if ((rawkey) || (key)) break;
-    if (win_quitted) break;
-    if (mouseb) break;
-  }
+    for (;;)
+    {
+        fliptoscreen();
+        getkey();
+        if ((rawkey) || (key)) break;
+        if (win_quitted) break;
+        if (mouseb) break;
+    }
 
-  converthex();
+    converthex();
 }
 
 void waitkeynoupdate(void)
 {
-  for (;;)
-  {
-      fliptoscreen();
-    getkey();
-    if ((rawkey) || (key)) break;
-    if ((mouseb) && (!prevmouseb)) break;
-    if (win_quitted) break;
-  }
+    for (;;)
+    {
+        fliptoscreen();
+        getkey();
+        if ((rawkey) || (key)) break;
+        if ((mouseb) && (!prevmouseb)) break;
+        if (win_quitted) break;
+    }
 }
 
 void converthex()
 {
-  int c;
+    int c;
 
-  hexnybble = -1;
-  for (c = 0; c < 16; c++)
-  {
-    if (tolower(key) == hexkeytbl[c])
+    hexnybble = -1;
+    for (c = 0; c < 16; c++)
     {
-      if (c >= 10)
-      {
-        if (!shiftpressed) hexnybble = c;
-      }
-      else
-      {
-        hexnybble = c;
-      }
+        if (tolower(key) == hexkeytbl[c])
+        {
+            if (c >= 10)
+            {
+                if (!shiftpressed) hexnybble = c;
+            }
+            else
+            {
+                hexnybble = c;
+            }
+        }
     }
-  }
 }
 
 
 void docommand(void)
 {
-  // "GUI" operation :)
-  mousecommands();
+    // "GUI" operation :)
+    mousecommands();
 
-  // Mode-specific commands
-  switch(editmode)
-  {
-    case EDIT_ORDERLIST:
-    orderlistcommands();
-    break;
+    // Mode-specific commands
+    switch(editmode)
+    {
+        case EDIT_ORDERLIST:
+            orderlistcommands();
+            break;
 
-    case EDIT_INSTRUMENT:
-    instrumentcommands();
-    break;
+        case EDIT_INSTRUMENT:
+            instrumentcommands();
+            break;
 
-    case EDIT_TABLES:
-    tablecommands();
-    break;
+        case EDIT_TABLES:
+            tablecommands();
+            break;
 
-    case EDIT_PATTERN:
-    patterncommands();
-    break;
+        case EDIT_PATTERN:
+            patterncommands();
+            break;
 
-    case EDIT_NAMES:
-    namecommands();
-    break;
-  }
+        case EDIT_NAMES:
+            namecommands();
+            break;
+    }
 
-  // General commands
-  generalcommands();
+    // General commands
+    generalcommands();
 }
 
 void mousecommands(void)
 {
-  int c;
+    int c;
 
-  if (!mouseb) return;
+    if (!mouseb) return;
 
-  // Pattern editpos & pattern number selection
-  for (c = 0; c < MAX_CHN; c++)
-  {
-    if ((mousey == 2) && (mousex >= 13 + c*15) && (mousex <= 14 + c*15))
+    // Pattern editpos & pattern number selection
+    for (c = 0; c < MAX_CHN; c++)
     {
-        if ((!prevmouseb) || (mouseheld > HOLDDELAY))
+        if ((mousey == 2) && (mousex >= 13 + c*15) && (mousex <= 14 + c*15))
         {
-        if (mouseb & MOUSEB_LEFT)
-        {
-          epchn = c;
-          nextpattern();
-        }
-        if (mouseb & MOUSEB_RIGHT)
-        {
-          epchn = c;
-          prevpattern();
-        }
-      }
-    }
-    else
-    {
-      if ((mousey >= 2) && (mousey <= 34) && (mousex >= 6 + c*15) && (mousex <= 14 + c*15))
-      {
-        int x = mousex-6-c*15;
-        int newpos = mousey-3+epview;
-        if (newpos < 0) newpos = 0;
-        if (newpos > pattlen[epnum[epchn]]) newpos = pattlen[epnum[epchn]];
-
-        editmode = EDIT_PATTERN;
-
-        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb))
-        {
-          if ((epmarkchn != c) || (newpos != epmarkend))
-          {
-            epmarkchn = c;
-            epmarkstart = epmarkend = newpos;
-          }
-        }
-
-        if (mouseb & MOUSEB_LEFT)
-        {
-          epchn = c;
-          if (x < 4) epcolumn = 0;
-          if (x >= 4) epcolumn = x-3;
-        }
-
-        if (!prevmouseb)
-        {
-          if (mouseb & MOUSEB_LEFT)
-            eppos = newpos;
+            if ((!prevmouseb) || (mouseheld > HOLDDELAY))
+            {
+                if (mouseb & MOUSEB_LEFT)
+                {
+                    epchn = c;
+                    nextpattern();
+                }
+                if (mouseb & MOUSEB_RIGHT)
+                {
+                    epchn = c;
+                    prevpattern();
+                }
+            }
         }
         else
         {
+            if ((mousey >= 2) && (mousey <= 34) && (mousex >= 6 + c*15) && (mousex <= 14 + c*15))
+            {
+                int x = mousex-6-c*15;
+                int newpos = mousey-3+epview;
+                if (newpos < 0) newpos = 0;
+                if (newpos > pattlen[epnum[epchn]]) newpos = pattlen[epnum[epchn]];
+
+                editmode = EDIT_PATTERN;
+
+                if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb))
+                {
+                    if ((epmarkchn != c) || (newpos != epmarkend))
+                    {
+                        epmarkchn = c;
+                        epmarkstart = epmarkend = newpos;
+                    }
+                }
+
+                if (mouseb & MOUSEB_LEFT)
+                {
+                    epchn = c;
+                    if (x < 4) epcolumn = 0;
+                    if (x >= 4) epcolumn = x-3;
+                }
+
+                if (!prevmouseb)
+                {
+                    if (mouseb & MOUSEB_LEFT) eppos = newpos;
+                }
+                else
+                {
+                    if (mouseb & MOUSEB_LEFT)
+                    {
+                        if (mousey == 2) eppos--;
+                        if (mousey == 34) eppos++;
+                    }
+                }
+                if (eppos < 0) eppos = 0;
+                if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
+
+                if (mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) epmarkend = newpos;
+            }
+        }
+    }
+
+    // Song editpos & songnumber selection
+    if ((mousey >= 3) && (mousey <= 8) && (mousex >= 40+10))
+    {
+        int newpos = esview + (mousex-44-10) / 3;
+        int newcolumn = (mousex-44-10) % 3;
+        int newchn = mousey - 3;
+        if (newcolumn < 0) newcolumn = 0;
+        if (newcolumn > 1) newcolumn = 1;
+
+        if (newpos < 0)
+        {
+            newpos = 0;
+            newcolumn = 0;
+        }
+        if (newpos == songlen[esnum][eschn])
+        {
+            newpos++;
+            newcolumn = 0;
+        }
+        if (newpos > songlen[esnum][eschn]+1)
+        {
+            newpos = songlen[esnum][eschn] + 1;
+            newcolumn = 1;
+        }
+
+        editmode = EDIT_ORDERLIST;
+
+        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb) && (newpos < songlen[esnum][eschn]))
+        {
+            if ((esmarkchn != newchn) || (newpos != esmarkend))
+            {
+                esmarkchn = newchn;
+                esmarkstart = esmarkend = newpos;
+            }
+        }
+
+        if (mouseb & MOUSEB_LEFT)
+        {
+            eschn = newchn;
+            eseditpos = newpos;
+            escolumn = newcolumn;
+        }
+
+        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (newpos < songlen[esnum][eschn])) esmarkend = newpos;
+    }
+
+    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 2) && (mousex >= 63+10) && (mousex <= 64+10))
+    {
+        if (mouseb & MOUSEB_LEFT) nextsong();
+        if (mouseb & MOUSEB_RIGHT) prevsong();
+    }
+
+    // Instrument editpos & instrument number selection
+    if ((mousey >= 8) && (mousey <= 12) && (mousex >= 56+10) && (mousex <= 57+10))
+    {
+        editmode = EDIT_INSTRUMENT;
+        eipos = mousey-8;
+        eicolumn = mousex-56-10;
+    }
+    if ((mousey >= 8) && (mousey <= 11) && (mousex >= 76+10) && (mousex <= 77+10))
+    {
+        editmode = EDIT_INSTRUMENT;
+        eipos = mousey-8+5;
+        eicolumn = mousex-76-10;
+    }
+    if ((mousey == 7) && (mousex >= 60+10))
+    {
+        editmode = EDIT_INSTRUMENT;
+        eipos = 9;
+    }
+    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 7) && (mousex >= 56+10) && (mousex <= 57+10))
+    {
+        if (mouseb & MOUSEB_LEFT) nextinstr();
+        if (mouseb & MOUSEB_RIGHT) previnstr();
+    }
+
+
+    // Table editpos
+    for (c = 0; c < MAX_TABLES; c++)
+    {
+        if ((mousey >= 14) && (mousey <= 30) && (mousex >= 43+10+c*10) && (mousex <= 47+10+c*10))
+        {
+            int newpos = mousey-15+etview[etnum];
+            if (newpos < 0) newpos = 0;
+            if (newpos >= MAX_TABLELEN) newpos = MAX_TABLELEN-1;
+
+            editmode = EDIT_TABLES;
+
+            if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb))
+            {
+                if ((etmarknum != etnum) || (newpos != etmarkend))
+                {
+                    etmarknum = c;
+                    etmarkstart = etmarkend = newpos;
+                }
+            }
             if (mouseb & MOUSEB_LEFT)
             {
-            if (mousey == 2) eppos--;
-            if (mousey == 34) eppos++;
-          }
+                etnum = c;
+                etpos = mousey-15+etview[etnum];
+                etcolumn = mousex-43-10-c*10;
+            }
+            if (etcolumn >= 2) etcolumn--;
+            if (etpos < 0) etpos = 0;
+            if (etpos > MAX_TABLELEN-1) etpos = MAX_TABLELEN-1;
+
+            if (mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) etmarkend = newpos;
         }
-        if (eppos < 0) eppos = 0;
-        if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-
-        if (mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) epmarkend = newpos;
-      }
-    }
-  }
-
-  // Song editpos & songnumber selection
-  if ((mousey >= 3) && (mousey <= 8) && (mousex >= 40+10))
-  {
-    int newpos = esview + (mousex-44-10) / 3;
-    int newcolumn = (mousex-44-10) % 3;
-    int newchn = mousey - 3;
-    if (newcolumn < 0) newcolumn = 0;
-    if (newcolumn > 1) newcolumn = 1;
-    if (newpos < 0)
-    {
-      newpos = 0;
-      newcolumn = 0;
-    }
-    if (newpos == songlen[esnum][eschn])
-    {
-      newpos++;
-      newcolumn = 0;
-    }
-    if (newpos > songlen[esnum][eschn]+1)
-    {
-      newpos = songlen[esnum][eschn] + 1;
-      newcolumn = 1;
     }
 
-    editmode = EDIT_ORDERLIST;
-
-    if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb) && (newpos < songlen[esnum][eschn]))
+    // Name editpos
+    if ((mousey >= 31) && (mousey <= 33) && (mousex >= 47+10))
     {
-      if ((esmarkchn != newchn) || (newpos != esmarkend))
-      {
-        esmarkchn = newchn;
-        esmarkstart = esmarkend = newpos;
-      }
+        editmode = EDIT_NAMES;
+        enpos = mousey - 31;
     }
 
-    if (mouseb & MOUSEB_LEFT)
+    // Status panel
+    if ((!prevmouseb) && (mousex == 7) && (mousey == 23+3+9))
     {
-      eschn = newchn;
-      eseditpos = newpos;
-      escolumn = newcolumn;
-    }
-
-    if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (newpos < songlen[esnum][eschn])) esmarkend = newpos;
-  }
-  if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 2) && (mousex >= 63+10) && (mousex <= 64+10))
-  {
-    if (mouseb & MOUSEB_LEFT) nextsong();
-    if (mouseb & MOUSEB_RIGHT) prevsong();
-  }
-
-  // Instrument editpos & instrument number selection
-  if ((mousey >= 8) && (mousey <= 12) && (mousex >= 56+10) && (mousex <= 57+10))
-  {
-    editmode = EDIT_INSTRUMENT;
-    eipos = mousey-8;
-    eicolumn = mousex-56-10;
-  }
-  if ((mousey >= 8) && (mousey <= 11) && (mousex >= 76+10) && (mousex <= 77+10))
-  {
-    editmode = EDIT_INSTRUMENT;
-    eipos = mousey-8+5;
-    eicolumn = mousex-76-10;
-  }
-  if ((mousey == 7) && (mousex >= 60+10))
-  {
-    editmode = EDIT_INSTRUMENT;
-    eipos = 9;
-  }
-  if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 7) && (mousex >= 56+10) && (mousex <= 57+10))
-  {
-    if (mouseb & MOUSEB_LEFT) nextinstr();
-    if (mouseb & MOUSEB_RIGHT) previnstr();
-  }
-
-
-  // Table editpos
-  for (c = 0; c < MAX_TABLES; c++)
-  {
-    if ((mousey >= 14) && (mousey <= 30) && (mousex >= 43+10+c*10) && (mousex <= 47+10+c*10))
-    {
-      int newpos = mousey-15+etview[etnum];
-      if (newpos < 0) newpos = 0;
-      if (newpos >= MAX_TABLELEN) newpos = MAX_TABLELEN-1;
-
-      editmode = EDIT_TABLES;
-
-      if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb))
-      {
-        if ((etmarknum != etnum) || (newpos != etmarkend))
+        if (mouseb & (MOUSEB_LEFT))
         {
-          etmarknum = c;
-          etmarkstart = etmarkend = newpos;
+            if (epoctave < 7) epoctave++;
         }
-      }
-      if (mouseb & MOUSEB_LEFT)
-      {
-        etnum = c;
-        etpos = mousey-15+etview[etnum];
-        etcolumn = mousex-43-10-c*10;
-      }
-      if (etcolumn >= 2) etcolumn--;
-      if (etpos < 0) etpos = 0;
-      if (etpos > MAX_TABLELEN-1) etpos = MAX_TABLELEN-1;
-
-      if (mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) etmarkend = newpos;
+        if (mouseb & (MOUSEB_RIGHT))
+        {
+            if (epoctave > 0) epoctave--;
+        }
     }
-  }
 
-  // Name editpos
-  if ((mousey >= 31) && (mousey <= 33) && (mousex >= 47+10))
-  {
-    editmode = EDIT_NAMES;
-    enpos = mousey - 31;
-  }
-
-  // Status panel
-  if ((!prevmouseb) && (mousex == 7) && (mousey == 23+3+9))
-  {
-    if (mouseb & (MOUSEB_LEFT))
-      if (epoctave < 7) epoctave++;
-    if (mouseb & (MOUSEB_RIGHT))
-      if (epoctave > 0) epoctave--;
-  }
-  if ((!prevmouseb) && (mousex <= 7) && (mousey == 24+3+9))
-  {
-    recordmode ^= 1;
-  }
-  for (c = 0; c < MAX_CHN; c++)
-  {
-    if ((!prevmouseb) && (mousey >= 23+3+9) && (mousex >= 80 + 7*c) && (mousex <= 85 + 7*c))
-      mutechannel(c);
-  }
-
-  // Titlebar actions
-  if (!menu)
-  {
-    if ((mousey == 0) && (!prevmouseb) && (mouseb == MOUSEB_LEFT))
+    if ((!prevmouseb) && (mousex <= 7) && (mousey == 24+3+9))
     {
-      if ((mousex >= 40+10) && (mousex <= 41+10))
-      {
-        usefinevib ^= 1;
-      }
-      if ((mousex >= 43+10) && (mousex <= 44+10))
-      {
-        optimizepulse ^= 1;
-      }
-      if ((mousex >= 46+10) && (mousex <= 47+10))
-      {
-        optimizerealtime ^= 1;
-      }
-      if ((mousex >= 49+10) && (mousex <= 52+10))
-      {
-        ntsc ^= 1;
-        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
-      }
-      if ((mousex >= 54+10) && (mousex <= 57+10))
-      {
-        sidmodel ^= 1;
-        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
-      }
-      if ((mousex >= 62+10) && (mousex <= 65+10)) editadsr();
-      if ((mousex >= 67+10) && (mousex <= 68+10)) prevmultiplier();
-      if ((mousex >= 69+10) && (mousex <= 70+10)) nextmultiplier();
+        recordmode ^= 1;
     }
-  }
-  else
-  {
-    if ((!mousey) && (mouseb & MOUSEB_LEFT) && (!(prevmouseb & MOUSEB_LEFT)))
+        for (c = 0; c < MAX_CHN; c++)
+        {
+            if ((!prevmouseb) && (mousey >= 23+3+9) && (mousex >= 80 + 7*c) && (mousex <= 85 + 7*c))
+            {
+                mutechannel(c);
+            }
+        }
+
+    // Titlebar actions
+    if (!menu)
     {
-      if ((mousex >= 0) && (mousex <= 5))
-      {
-        initsong(esnum, PLAY_BEGINNING);
-        followplay = shiftpressed;
-      }
-      if ((mousex >= 7) && (mousex <= 15))
-      {
-        initsong(esnum, PLAY_POS);
-        followplay = shiftpressed;
-      }
-      if ((mousex >= 17) && (mousex <= 26))
-      {
-        initsong(esnum, PLAY_PATTERN);
-        followplay = shiftpressed;
-      }
-      if ((mousex >= 28) && (mousex <= 33))
-        stopsong();
-      if ((mousex >= 35) && (mousex <= 40))
-        load();
-      if ((mousex >= 42) && (mousex <= 47))
-        save();
-      if ((mousex >= 49) && (mousex <= 57))
-        relocator();
-      if ((mousex >= 59) && (mousex <= 64))
-        onlinehelp(0,0);
-      if ((mousex >= 66) && (mousex <= 72))
-        clear();
-      if ((mousex >= 74) && (mousex <= 79))
-        quit();
+        if ((mousey == 0) && (!prevmouseb) && (mouseb == MOUSEB_LEFT))
+        {
+            if ((mousex >= 40+10) && (mousex <= 41+10))
+            {
+                usefinevib ^= 1;
+            }
+            if ((mousex >= 43+10) && (mousex <= 44+10))
+            {
+                optimizepulse ^= 1;
+            }
+            if ((mousex >= 46+10) && (mousex <= 47+10))
+            {
+                optimizerealtime ^= 1;
+            }
+            if ((mousex >= 49+10) && (mousex <= 52+10))
+            {
+                ntsc ^= 1;
+                sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+            }
+            if ((mousex >= 54+10) && (mousex <= 57+10))
+            {
+                sidmodel ^= 1;
+                sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+            }
+            if ((mousex >= 62+10) && (mousex <= 65+10)) editadsr();
+            if ((mousex >= 67+10) && (mousex <= 68+10)) prevmultiplier();
+            if ((mousex >= 69+10) && (mousex <= 70+10)) nextmultiplier();
+        }
     }
-  }
+    else
+    {
+        if ((!mousey) && (mouseb & MOUSEB_LEFT) && (!(prevmouseb & MOUSEB_LEFT)))
+        {
+            if ((mousex >= 0) && (mousex <= 5))
+            {
+                initsong(esnum, PLAY_BEGINNING);
+                followplay = shiftpressed;
+            }
+            if ((mousex >= 7) && (mousex <= 15))
+            {
+                initsong(esnum, PLAY_POS);
+                followplay = shiftpressed;
+            }
+            if ((mousex >= 17) && (mousex <= 26))
+            {
+                initsong(esnum, PLAY_PATTERN);
+                followplay = shiftpressed;
+            }
+            if ((mousex >= 28) && (mousex <= 33))
+            {
+                stopsong();
+            }
+            if ((mousex >= 35) && (mousex <= 40))
+            {
+                load();
+            }
+            if ((mousex >= 42) && (mousex <= 47))
+            {
+                save();
+            }
+            if ((mousex >= 49) && (mousex <= 57))
+            {
+                relocator();
+            }
+            if ((mousex >= 59) && (mousex <= 64))
+            {
+                onlinehelp(0,0);
+            }
+            if ((mousex >= 66) && (mousex <= 72))
+            {
+                clear();
+            }
+            if ((mousex >= 74) && (mousex <= 79))
+            {
+                quit();
+            }
+        }
+    }
 }
 
 void generalcommands(void)
 {
-  int c;
+    int c;
 
-  switch(key)
-  {
-    case '?':
-    case '-':
-    if ((editmode != EDIT_NAMES) && (editmode != EDIT_ORDERLIST))
+    switch(key)
     {
-      if (!((editmode == EDIT_INSTRUMENT) && (eipos == 9))) previnstr();
+        case '?':
+        case '-':
+            if ((editmode != EDIT_NAMES) && (editmode != EDIT_ORDERLIST))
+            {
+                if (!((editmode == EDIT_INSTRUMENT) && (eipos == 9)))
+                {
+                    previnstr();
+                }
+            }
+            break;
+
+        case '+':
+        case '_':
+            if ((editmode != EDIT_NAMES) && (editmode != EDIT_ORDERLIST))
+            {
+                if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9)))
+                {
+                    nextinstr();
+                }
+            }
+            break;
+
+        case '*':
+            if (editmode != EDIT_NAMES)
+            {
+                if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9)))
+                {
+                    if (epoctave < 7) epoctave++;
+                }
+            }
+            break;
+
+        case '/':
+        case '\'':
+            if (editmode != EDIT_NAMES)
+            {
+                if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9)))
+                {
+                    if (epoctave > 0) epoctave--;
+                }
+            }
+            break;
+
+        case '<':
+            if (((editmode == EDIT_INSTRUMENT) && (eipos != 9)) || (editmode == EDIT_TABLES))
+            {
+                previnstr();
+            }
+            break;
+
+        case '>':
+            if (((editmode == EDIT_INSTRUMENT) && (eipos != 9)) || (editmode == EDIT_TABLES))
+            {
+                nextinstr();
+            }
+            break;
+
+        case ';':
+        for (c = 0; c < MAX_CHN; c++)
+        {
+          if (espos[c]) espos[c]--;
+          if (espos[c] < esview)
+          {
+            esview = espos[c];
+            eseditpos = espos[c];
+          }
+        }
+        updateviewtopos();
+        rewindsong();
+        break;
+
+        case ':':
+        for (c = 0; c < MAX_CHN; c++)
+        {
+          if (espos[c] < songlen[esnum][c]-1)
+            espos[c]++;
+          if (espos[c] - esview >= VISIBLEORDERLIST)
+          {
+            esview = espos[c] - VISIBLEORDERLIST + 1;
+            eseditpos = espos[c];
+          }
+        }
+        updateviewtopos();
+        rewindsong();
+        break;
+
     }
-    break;
 
-    case '+':
-    case '_':
-    if ((editmode != EDIT_NAMES) && (editmode != EDIT_ORDERLIST))
-    {
-      if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9))) nextinstr();
-
-    }
-    break;
-
-    case '*':
-    if (editmode != EDIT_NAMES)
-    {
-      if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9)))
-      {
-        if (epoctave < 7) epoctave++;
-      }
-    }
-    break;
-
-    case '/':
-    case '\'':
-    if (editmode != EDIT_NAMES)
-    {
-      if (!((editmode == EDIT_INSTRUMENT) && (eipos >= 9)))
-      {
-        if (epoctave > 0) epoctave--;
-      }
-    }
-    break;
-
-    case '<':
-    if (((editmode == EDIT_INSTRUMENT) && (eipos != 9)) || (editmode == EDIT_TABLES))
-      previnstr();
-    break;
-
-    case '>':
-    if (((editmode == EDIT_INSTRUMENT) && (eipos != 9)) || (editmode == EDIT_TABLES))
-      nextinstr();
-    break;
-
-    case ';':
-    for (c = 0; c < MAX_CHN; c++)
-    {
-      if (espos[c]) espos[c]--;
-      if (espos[c] < esview)
-      {
-        esview = espos[c];
-        eseditpos = espos[c];
-      }
-    }
-    updateviewtopos();
-    rewindsong();
-    break;
-
-    case ':':
-    for (c = 0; c < MAX_CHN; c++)
-    {
-      if (espos[c] < songlen[esnum][c]-1)
-        espos[c]++;
-      if (espos[c] - esview >= VISIBLEORDERLIST)
-      {
-        esview = espos[c] - VISIBLEORDERLIST + 1;
-        eseditpos = espos[c];
-      }
-    }
-    updateviewtopos();
-    rewindsong();
-    break;
-
-  }
   if (win_quitted) exitprogram = 1;
   switch(rawkey)
   {

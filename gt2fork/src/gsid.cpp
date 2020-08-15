@@ -43,7 +43,14 @@ reSIDfp::SID *sidfp = 0;
 extern unsigned residdelay;
 extern unsigned adparam;
 
-void sid_init(int speed, unsigned m, unsigned ntsc, unsigned interpolate, unsigned customclockrate, unsigned usefp)
+void sid_init(
+        int speed,
+        unsigned m,
+        unsigned ntsc,
+        unsigned interpolate,
+        unsigned customclockrate,
+        unsigned usefp
+    )
 {
     int c;
     /*
