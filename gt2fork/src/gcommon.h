@@ -62,13 +62,13 @@
 
 typedef struct
 {
-  unsigned char ad;
-  unsigned char sr;
-  unsigned char ptr[MAX_TABLES];
-  unsigned char vibdelay;
-  unsigned char gatetimer;
-  unsigned char firstwave;
-  char name[MAX_INSTRNAMELEN];
+    unsigned char ad;
+    unsigned char sr;
+    unsigned char ptr[MAX_TABLES];
+    unsigned char vibdelay;
+    unsigned char gatetimer;
+    unsigned char firstwave;
+    char name[MAX_INSTRNAMELEN];
 } INSTR;
 
 #endif

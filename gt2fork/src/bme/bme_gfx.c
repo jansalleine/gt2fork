@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 
 #include "bme_main.h"
@@ -131,9 +131,9 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     SDL_RenderSetLogicalSize(gfx_renderer, xsize, ysize);
     gfx_screen = SDL_CreateRGBSurfaceWithFormat(0, xsize, ysize, 8, SDL_PIXELFORMAT_INDEX8);
     sdlTexture = SDL_CreateTexture(gfx_renderer,
-                                             SDL_PIXELFORMAT_RGBA32,
-                                             SDL_TEXTUREACCESS_STREAMING,
-                                             xsize, ysize);
+                                   SDL_PIXELFORMAT_RGBA32,
+                                   SDL_TEXTUREACCESS_STREAMING,
+                                   xsize, ysize);
 
     SDL_GetWindowPosition( win_window, &gfx_last_x, &gfx_last_y );
     gfx_reinit();
@@ -414,7 +414,7 @@ void gfx_getspriteinfo(unsigned num)
     SPRITEHEADER *hptr;
 
     if ((sprf >= gfx_maxspritefiles) || (!gfx_spriteheaders[sprf]) ||
-        (spr >= gfx_spriteamount[sprf])) hptr = NULL;
+            (spr >= gfx_spriteamount[sprf])) hptr = NULL;
     else hptr = gfx_spriteheaders[sprf] + spr;
 
     if (!hptr)
@@ -446,7 +446,7 @@ void gfx_drawsprite(int x, int y, unsigned num)
     if (!gfx_locked) return;
 
     if ((sprf >= gfx_maxspritefiles) || (!gfx_spriteheaders[sprf]) ||
-        (spr >= gfx_spriteamount[sprf]))
+            (spr >= gfx_spriteamount[sprf]))
     {
         spr_xsize = 0;
         spr_ysize = 0;
@@ -523,7 +523,7 @@ void gfx_drawsprite(int x, int y, unsigned num)
                     dptr++;
                     dec--;
                 }
-                SKIP:
+SKIP:
                 cx += dec;
                 sptr += dec;
                 dptr += dec;

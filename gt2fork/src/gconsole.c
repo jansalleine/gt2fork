@@ -37,12 +37,12 @@ void initicon(void);
 
 inline void setcharcolor(unsigned *dptr, short ch, short color)
 {
-  *dptr = (ch & 0xff) | (color << 16);
+    *dptr = (ch & 0xff) | (color << 16);
 }
 
 inline void setcolor(unsigned *dptr, short color)
 {
-  *dptr = (*dptr & 0xffff) | (color << 16);
+    *dptr = (*dptr & 0xffff) | (color << 16);
 }
 
 int initscreen(void)
@@ -93,41 +93,41 @@ int initscreen(void)
 
 void loadexternalpalette(void)
 {
-  FILE *ext_f;
-  if ((ext_f = fopen("custom.pal", "rt")))
-  {
-    int p = 0;
-    char ln[100];
-    strcpy(ln, "");
-    fgets(ln, sizeof(ln), ext_f);
-
-    if (strncmp("JASC-PAL", ln, 8) == 0)
+    FILE *ext_f;
+    if ((ext_f = fopen("custom.pal", "rt")))
     {
-      int colors;
-      fgets(ln, sizeof(ln), ext_f);
-      fgets(ln, sizeof(ln), ext_f);
-      if (sscanf(ln, "%d", &colors) == 1 && colors == 256)
-      {
-        while (!feof(ext_f))
+        int p = 0;
+        char ln[100];
+        strcpy(ln, "");
+        fgets(ln, sizeof(ln), ext_f);
+
+        if (strncmp("JASC-PAL", ln, 8) == 0)
         {
-          int r, g, b;
-          if (!fgets(ln, sizeof(ln), ext_f)) break;
-          if (sscanf(ln, "%d %d %d", &r, &g, &b) == 3)
-          {
-            // JASC palette is 8-bit and goat palette is 6-bit
-            gfx_palette[p++] = r / 4;
-            gfx_palette[p++] = g / 4;
-            gfx_palette[p++] = b / 4;
-          }
+            int colors;
+            fgets(ln, sizeof(ln), ext_f);
+            fgets(ln, sizeof(ln), ext_f);
+            if (sscanf(ln, "%d", &colors) == 1 && colors == 256)
+            {
+                while (!feof(ext_f))
+                {
+                    int r, g, b;
+                    if (!fgets(ln, sizeof(ln), ext_f)) break;
+                    if (sscanf(ln, "%d %d %d", &r, &g, &b) == 3)
+                    {
+                        // JASC palette is 8-bit and goat palette is 6-bit
+                        gfx_palette[p++] = r / 4;
+                        gfx_palette[p++] = g / 4;
+                        gfx_palette[p++] = b / 4;
+                    }
 
-          if (p >= 768) break;
+                    if (p >= 768) break;
+                }
+                gfx_calcpalette(64, 0, 0, 0);
+            }
         }
-        gfx_calcpalette(64, 0, 0, 0);
-      }
-    }
 
-    fclose(ext_f);
-  }
+        fclose(ext_f);
+    }
 }
 
 void initicon(void)
@@ -192,123 +192,123 @@ void clearscreen(void)
 
 void printtext(int x, int y, int color, const char *text)
 {
-  unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
 
-  if (!gfxinitted) return;
-  if (y < 0) return;
-  if (y >= MAX_ROWS) return;
-  while (*text)
-  {
-    setcharcolor(dptr, *text, color);
-    dptr++;
-    text++;
-  }
+    if (!gfxinitted) return;
+    if (y < 0) return;
+    if (y >= MAX_ROWS) return;
+    while (*text)
+    {
+        setcharcolor(dptr, *text, color);
+        dptr++;
+        text++;
+    }
 }
 
 void printtextc(int y, int color, const char *text)
 {
-  int x = (MAX_COLUMNS - strlen(text)) / 2;
+    int x = (MAX_COLUMNS - strlen(text)) / 2;
 
-  printtext(x, y, color, text);
+    printtext(x, y, color, text);
 }
 
 void printtextcp(int cp, int y, int color, const char *text)
 {
-  int x = cp - (strlen(text) / 2);
+    int x = cp - (strlen(text) / 2);
 
-  printtext(x, y, color, text);
+    printtext(x, y, color, text);
 }
 
 
 void printblank(int x, int y, int length)
 {
-  unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
 
-  if (!gfxinitted) return;
-  if (y < 0) return;
-  if (y >= MAX_ROWS) return;
-  while (length--)
-  {
-    setcharcolor(dptr, 0x20, colscheme.bgcolor);
-    dptr++;
-  }
+    if (!gfxinitted) return;
+    if (y < 0) return;
+    if (y >= MAX_ROWS) return;
+    while (length--)
+    {
+        setcharcolor(dptr, 0x20, colscheme.bgcolor);
+        dptr++;
+    }
 }
 
 void printblankc(int x, int y, int color, int length)
 {
-  unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
 
-  if (!gfxinitted) return;
-  if (y < 0) return;
-  if (y >= MAX_ROWS) return;
-  while (length--)
-  {
-    setcharcolor(dptr, 0x20, color);
-    dptr++;
-  }
+    if (!gfxinitted) return;
+    if (y < 0) return;
+    if (y >= MAX_ROWS) return;
+    while (length--)
+    {
+        setcharcolor(dptr, 0x20, color);
+        dptr++;
+    }
 }
 
 void drawbox(int x, int y, int color, int sx, int sy)
 {
-  unsigned *dptr;
-  unsigned *dptr2;
-  int counter;
+    unsigned *dptr;
+    unsigned *dptr2;
+    int counter;
 
-  if (!gfxinitted) return;
-  if (y < 0) return;
-  if (y >= MAX_ROWS) return;
-  if (y+sy > MAX_ROWS) return;
-  if ((!sx) || (!sy)) return;
+    if (!gfxinitted) return;
+    if (y < 0) return;
+    if (y >= MAX_ROWS) return;
+    if (y+sy > MAX_ROWS) return;
+    if ((!sx) || (!sy)) return;
 
-  dptr = scrbuffer + (x + y * MAX_COLUMNS);
-  dptr2 = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
-  counter = sy;
+    dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    dptr2 = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
+    counter = sy;
 
-  while (counter--)
-  {
-    setcharcolor(dptr, '|', color);
-    setcharcolor(dptr2, '|', color);
-    dptr += MAX_COLUMNS;
-    dptr2 += MAX_COLUMNS;
-  }
+    while (counter--)
+    {
+        setcharcolor(dptr, '|', color);
+        setcharcolor(dptr2, '|', color);
+        dptr += MAX_COLUMNS;
+        dptr2 += MAX_COLUMNS;
+    }
 
-  dptr = scrbuffer + (x + y * MAX_COLUMNS);
-  dptr2 = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
-  counter = sx;
+    dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    dptr2 = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
+    counter = sx;
 
-  while (counter--)
-  {
-    setcharcolor(dptr, '-', color);
-    setcharcolor(dptr2, '-', color);
-    dptr++;
-    dptr2++;
-  }
+    while (counter--)
+    {
+        setcharcolor(dptr, '-', color);
+        setcharcolor(dptr2, '-', color);
+        dptr++;
+        dptr2++;
+    }
 
-  dptr = scrbuffer + (x + y * MAX_COLUMNS);
-  setcharcolor(dptr, '+', color);
+    dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    setcharcolor(dptr, '+', color);
 
-  dptr = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
-  setcharcolor(dptr, '+', color);
+    dptr = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
+    setcharcolor(dptr, '+', color);
 
-  dptr = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
-  setcharcolor(dptr, '+', color);
+    dptr = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
+    setcharcolor(dptr, '+', color);
 
-  dptr = scrbuffer + ((x+sx-1) + (y+sy-1) * MAX_COLUMNS);
-  setcharcolor(dptr, '+', color);
+    dptr = scrbuffer + ((x+sx-1) + (y+sy-1) * MAX_COLUMNS);
+    setcharcolor(dptr, '+', color);
 }
 
 void printbg(int x, int y, int color, int length)
 {
-  unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
 
-  if (!gfxinitted) return;
-  if (y < 0) return;
-  if (y >= MAX_ROWS) return;
-  while (length--)
-  {
-    setcolor(dptr, 15 | (color << 4));
-    dptr++;
-  }
+    if (!gfxinitted) return;
+    if (y < 0) return;
+    if (y >= MAX_ROWS) return;
+    while (length--)
+    {
+        setcolor(dptr, 15 | (color << 4));
+        dptr++;
+    }
 }
 
 void fliptoscreen(void)
@@ -405,7 +405,7 @@ void getkey(void)
         if (win_keytable[c])
         {
             if ((c != SDL_SCANCODE_LSHIFT) && (c != SDL_SCANCODE_RSHIFT) &&
-              (c != SDL_SCANCODE_LCTRL) && (c != SDL_SCANCODE_RCTRL))
+                    (c != SDL_SCANCODE_LCTRL) && (c != SDL_SCANCODE_RCTRL))
             {
                 rawkey = c;
                 win_keytable[c] = 0;
@@ -416,9 +416,9 @@ void getkey(void)
 
     shiftpressed = 0;
     if ((win_keystate[SDL_SCANCODE_LSHIFT])||
-        (win_keystate[SDL_SCANCODE_RSHIFT])||
-        (win_keystate[SDL_SCANCODE_LCTRL])||
-        (win_keystate[SDL_SCANCODE_RCTRL]))
+            (win_keystate[SDL_SCANCODE_RSHIFT])||
+            (win_keystate[SDL_SCANCODE_LCTRL])||
+            (win_keystate[SDL_SCANCODE_RCTRL]))
     {
         shiftpressed = 1;
     }

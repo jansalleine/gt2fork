@@ -161,61 +161,61 @@
 
 typedef struct
 {
-	Sint8 *start;
-	Sint8 *repeat;
-	Sint8 *end;
-	unsigned char voicemode;
+    Sint8 *start;
+    Sint8 *repeat;
+    Sint8 *end;
+    unsigned char voicemode;
 } SAMPLE;
 
 typedef struct
 {
-	volatile Sint8 *pos;
-	Sint8 *repeat;
-	Sint8 *end;
-	SAMPLE *smp;
-	unsigned freq;
-	volatile unsigned fractpos;
-	int vol;
-	int mastervol;
-	unsigned panning;
-	volatile unsigned voicemode;
+    volatile Sint8 *pos;
+    Sint8 *repeat;
+    Sint8 *end;
+    SAMPLE *smp;
+    unsigned freq;
+    volatile unsigned fractpos;
+    int vol;
+    int mastervol;
+    unsigned panning;
+    volatile unsigned voicemode;
 } CHANNEL;
 
 typedef struct
 {
-  unsigned rawcode;
-  char *name;
+    unsigned rawcode;
+    char *name;
 } KEY;
 
 typedef struct
 {
-  Sint16 xsize;
-  Sint16 ysize;
-  Sint16 xhot;
-  Sint16 yhot;
-  Uint32 offset;
+    Sint16 xsize;
+    Sint16 ysize;
+    Sint16 xhot;
+    Sint16 yhot;
+    Uint32 offset;
 } SPRITEHEADER;
 
 typedef struct
 {
-  Uint32 type;
-  Uint32 offset;
+    Uint32 type;
+    Uint32 offset;
 } BLOCKHEADER;
 
 typedef struct
 {
-  Uint8 blocksname[13];
-  Uint8 palettename[13];
+    Uint8 blocksname[13];
+    Uint8 palettename[13];
 } MAPHEADER;
 
 typedef struct
 {
-  Sint32 xsize;
-  Sint32 ysize;
-  Uint8 xdivisor;
-  Uint8 ydivisor;
-  Uint8 xwrap;
-  Uint8 ywrap;
+    Sint32 xsize;
+    Sint32 ysize;
+    Uint8 xdivisor;
+    Uint8 ydivisor;
+    Uint8 xwrap;
+    Uint8 ywrap;
 } LAYERHEADER;
 
 extern int bme_error;

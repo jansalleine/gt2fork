@@ -4,9 +4,9 @@
 #define BME_H
 
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 #include "bme_main.h"
 #include "bme_cfg.h"

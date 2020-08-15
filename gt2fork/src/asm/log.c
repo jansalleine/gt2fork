@@ -26,7 +26,7 @@
  * This file is a part of the Exomizer v1.1 release
  *
  */
- 
+
 // Modified for GoatTracker2 to compile with -Werror=format-security
 
 #include <stdio.h>

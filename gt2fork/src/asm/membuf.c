@@ -62,7 +62,7 @@ void membuf_new(struct membuf **sbp)
         fprintf(stderr, "error, can't allocate memory\n");
         exit(1);
     }
-    
+
     sb->buf = NULL;
     sb->len = 0;
     sb->size = 0;

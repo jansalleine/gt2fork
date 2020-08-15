@@ -7,8 +7,8 @@
 
 typedef struct
 {
-  char *name;
-  int attribute;
+    char *name;
+    int attribute;
 } DIRENTRY;
 
 void initpaths(void);

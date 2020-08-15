@@ -7,9 +7,9 @@
 #include <string.h>
 #include <ctype.h>
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 
 #include "bme_main.h"
@@ -182,9 +182,9 @@ int io_open(char *name)
                 {
                     if (!strcmp(namecopy, handle[index].currentheader->name))
                     {
-                         handle[index].open = 1;
-                         handle[index].filepos = 0;
-                         return index;
+                        handle[index].open = 1;
+                        handle[index].filepos = 0;
+                        return index;
                     }
                     count--;
                     handle[index].currentheader++;
@@ -202,8 +202,8 @@ int io_lseek(int index, int offset, int whence)
 {
     if (!io_usedatafile)
     {
-         fseek(fileptr[index], offset, whence);
-         return ftell(fileptr[index]);
+        fseek(fileptr[index], offset, whence);
+        return ftell(fileptr[index]);
     }
     else
     {
@@ -214,16 +214,16 @@ int io_lseek(int index, int offset, int whence)
         if (!handle[index].open) return -1;
         switch(whence)
         {
-            default:
-            case SEEK_SET:
+        default:
+        case SEEK_SET:
             newpos = offset;
             break;
 
-            case SEEK_CUR:
+        case SEEK_CUR:
             newpos = offset + handle[index].filepos;
             break;
 
-            case SEEK_END:
+        case SEEK_END:
             newpos = offset + handle[index].currentheader->length;
             break;
         }
@@ -250,7 +250,7 @@ int io_read(int index, void *buffer, int length)
 
         if (!handle[index].open) return -1;
         if (length + handle[index].filepos > handle[index].currentheader->length)
-        length = handle[index].currentheader->length - handle[index].filepos;
+            length = handle[index].currentheader->length - handle[index].filepos;
 
         if (datafilehandle)
         {

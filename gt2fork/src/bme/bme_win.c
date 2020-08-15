@@ -7,9 +7,9 @@
 #include <string.h>
 
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 #include "bme_main.h"
 #include "bme_gfx.h"
@@ -76,10 +76,10 @@ int win_openwindow(unsigned xsize, unsigned ysize, char *appname, char *icon)
     }
 
     win_window = SDL_CreateWindow(appname,
-                             SDL_WINDOWPOS_UNDEFINED,
-                             SDL_WINDOWPOS_UNDEFINED,
-                             xsize, ysize,
-                             flags);
+                                  SDL_WINDOWPOS_UNDEFINED,
+                                  SDL_WINDOWPOS_UNDEFINED,
+                                  xsize, ysize,
+                                  flags);
     return BME_OK;
 }
 
@@ -140,108 +140,108 @@ void win_checkmessages(void)
     {
         switch (event.type)
         {
-            case SDL_JOYBUTTONDOWN:
-                joybuttons[event.jbutton.which] |= 1 << event.jbutton.button;
-                break;
-
-            case SDL_JOYBUTTONUP:
-                joybuttons[event.jbutton.which] &= ~(1 << event.jbutton.button);
-                break;
-
-            case SDL_JOYAXISMOTION:
-                switch (event.jaxis.axis)
-                {
-                    case 0:
-                        joyx[event.jaxis.which] = event.jaxis.value;
-                        break;
-
-                    case 1:
-                        joyy[event.jaxis.which] = event.jaxis.value;
-                        break;
-                }
-                break;
-
-            case SDL_MOUSEMOTION:
-                win_mousexpos = event.motion.x;
-                win_mouseypos = event.motion.y;
-                win_mousexrel += event.motion.xrel;
-                win_mouseyrel += event.motion.yrel;
-                break;
-
-            case SDL_MOUSEBUTTONDOWN:
-                switch(event.button.button)
-                {
-                    case SDL_BUTTON_LEFT:
-                        win_mousebuttons |= MOUSEB_LEFT;
-                        break;
-
-                    case SDL_BUTTON_MIDDLE:
-                        win_mousebuttons |= MOUSEB_MIDDLE;
-                        break;
-
-                    case SDL_BUTTON_RIGHT:
-                        win_mousebuttons |= MOUSEB_RIGHT;
-                        break;
-                }
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                switch(event.button.button)
-                {
-                    case SDL_BUTTON_LEFT:
-                        win_mousebuttons &= ~MOUSEB_LEFT;
-                        break;
-
-                    case SDL_BUTTON_MIDDLE:
-                        win_mousebuttons &= ~MOUSEB_MIDDLE;
-                        break;
-
-                    case SDL_BUTTON_RIGHT:
-                        win_mousebuttons &= ~MOUSEB_RIGHT;
-                        break;
-                }
+        case SDL_JOYBUTTONDOWN:
+            joybuttons[event.jbutton.which] |= 1 << event.jbutton.button;
             break;
 
-            case SDL_QUIT:
-                win_quitted = 1;
+        case SDL_JOYBUTTONUP:
+            joybuttons[event.jbutton.which] &= ~(1 << event.jbutton.button);
+            break;
+
+        case SDL_JOYAXISMOTION:
+            switch (event.jaxis.axis)
+            {
+            case 0:
+                joyx[event.jaxis.which] = event.jaxis.value;
                 break;
 
-            case SDL_TEXTINPUT:
-                win_asciikey = event.text.text[0];
+            case 1:
+                joyy[event.jaxis.which] = event.jaxis.value;
+                break;
+            }
+            break;
+
+        case SDL_MOUSEMOTION:
+            win_mousexpos = event.motion.x;
+            win_mouseypos = event.motion.y;
+            win_mousexrel += event.motion.xrel;
+            win_mouseyrel += event.motion.yrel;
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            switch(event.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                win_mousebuttons |= MOUSEB_LEFT;
                 break;
 
-            case SDL_KEYDOWN:
-                win_virtualkey = event.key.keysym.sym;
-                keynum = event.key.keysym.scancode;
-                if (keynum < SDL_NUM_SCANCODES)
-                {
-                    if ((keynum == SDL_SCANCODE_RETURN) &&
+            case SDL_BUTTON_MIDDLE:
+                win_mousebuttons |= MOUSEB_MIDDLE;
+                break;
+
+            case SDL_BUTTON_RIGHT:
+                win_mousebuttons |= MOUSEB_RIGHT;
+                break;
+            }
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            switch(event.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                win_mousebuttons &= ~MOUSEB_LEFT;
+                break;
+
+            case SDL_BUTTON_MIDDLE:
+                win_mousebuttons &= ~MOUSEB_MIDDLE;
+                break;
+
+            case SDL_BUTTON_RIGHT:
+                win_mousebuttons &= ~MOUSEB_RIGHT;
+                break;
+            }
+            break;
+
+        case SDL_QUIT:
+            win_quitted = 1;
+            break;
+
+        case SDL_TEXTINPUT:
+            win_asciikey = event.text.text[0];
+            break;
+
+        case SDL_KEYDOWN:
+            win_virtualkey = event.key.keysym.sym;
+            keynum = event.key.keysym.scancode;
+            if (keynum < SDL_NUM_SCANCODES)
+            {
+                if ((keynum == SDL_SCANCODE_RETURN) &&
                         ((win_keystate[SDL_SCANCODE_LALT])
-                        || (win_keystate[SDL_SCANCODE_RALT])))
-                    {
-                        win_fullscreen ^= 1;
-                        gfx_reinit();
-                    }
-                    else
-                    {
-                        win_keytable[keynum] = 1;
-                        win_keystate[keynum] = 1;
-                    }
-                }
-                break;
-
-            case SDL_KEYUP:
-                keynum = event.key.keysym.scancode;
-                if (keynum < SDL_NUM_SCANCODES)
+                         || (win_keystate[SDL_SCANCODE_RALT])))
                 {
-                    win_keytable[keynum] = 0;
-                    win_keystate[keynum] = 0;
+                    win_fullscreen ^= 1;
+                    gfx_reinit();
                 }
-                break;
+                else
+                {
+                    win_keytable[keynum] = 1;
+                    win_keystate[keynum] = 1;
+                }
+            }
+            break;
 
-            case SDL_WINDOWEVENT_RESIZED:
-                gfx_redraw = 1;
-                break;
+        case SDL_KEYUP:
+            keynum = event.key.keysym.scancode;
+            if (keynum < SDL_NUM_SCANCODES)
+            {
+                win_keytable[keynum] = 0;
+                win_keystate[keynum] = 0;
+            }
+            break;
+
+        case SDL_WINDOWEVENT_RESIZED:
+            gfx_redraw = 1;
+            break;
         }
     }
 }
@@ -252,24 +252,24 @@ void win_setmousemode(int mode)
 
     switch(mode)
     {
-        case MOUSE_ALWAYS_VISIBLE:
-            SDL_ShowCursor(SDL_ENABLE);
-            break;
+    case MOUSE_ALWAYS_VISIBLE:
+        SDL_ShowCursor(SDL_ENABLE);
+        break;
 
-        case MOUSE_FULLSCREEN_HIDDEN:
-            if (gfx_fullscreen)
-            {
-                SDL_ShowCursor(SDL_DISABLE);
-            }
-            else
-            {
-                SDL_ShowCursor(SDL_ENABLE);
-            }
-            break;
-
-        case MOUSE_ALWAYS_HIDDEN:
+    case MOUSE_FULLSCREEN_HIDDEN:
+        if (gfx_fullscreen)
+        {
             SDL_ShowCursor(SDL_DISABLE);
-            break;
+        }
+        else
+        {
+            SDL_ShowCursor(SDL_ENABLE);
+        }
+        break;
+
+    case MOUSE_ALWAYS_HIDDEN:
+        SDL_ShowCursor(SDL_DISABLE);
+        break;
     }
 }
 

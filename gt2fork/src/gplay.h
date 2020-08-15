@@ -10,33 +10,33 @@
 
 typedef struct
 {
-  unsigned char trans;
-  unsigned char instr;
-  unsigned char note;
-  unsigned char lastnote;
-  unsigned char newnote;
-  unsigned pattptr;
-  unsigned char pattnum;
-  unsigned char songptr;
-  unsigned char repeat;
-  unsigned short freq;
-  unsigned char gate;
-  unsigned char wave;
-  unsigned short pulse;
-  unsigned char ptr[2];
-  unsigned char pulsetime;
-  unsigned char wavetime;
-  unsigned char vibtime;
-  unsigned char vibdelay;
-  unsigned char command;
-  unsigned char cmddata;
-  unsigned char newcommand;
-  unsigned char newcmddata;
-  unsigned char tick;
-  unsigned char tempo;
-  unsigned char mute;
-  unsigned char advance;
-  unsigned char gatetimer;
+    unsigned char trans;
+    unsigned char instr;
+    unsigned char note;
+    unsigned char lastnote;
+    unsigned char newnote;
+    unsigned pattptr;
+    unsigned char pattnum;
+    unsigned char songptr;
+    unsigned char repeat;
+    unsigned short freq;
+    unsigned char gate;
+    unsigned char wave;
+    unsigned short pulse;
+    unsigned char ptr[2];
+    unsigned char pulsetime;
+    unsigned char wavetime;
+    unsigned char vibtime;
+    unsigned char vibdelay;
+    unsigned char command;
+    unsigned char cmddata;
+    unsigned char newcommand;
+    unsigned char newcmddata;
+    unsigned char tick;
+    unsigned char tempo;
+    unsigned char mute;
+    unsigned char advance;
+    unsigned char gatetimer;
 } CHN;
 
 #ifndef GPLAY_C

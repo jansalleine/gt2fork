@@ -114,236 +114,236 @@ void usage(void)
 
 int main(int argc, char **argv)
 {
-  int c;
+    int c;
 
 #ifdef __WIN32__
-  /*
-    SDL_Init() reroutes stdout and stderr, either to stdout.txt and stderr.txt
-    or to nirwana. simply reopening these handles does, other than suggested on
-    some web pages, not work reliably - opening new files on CON using different
-    handles however does.
-  */
-  STDOUT = fopen("CON", "w");
-  STDERR = fopen("CON", "w");
+    /*
+      SDL_Init() reroutes stdout and stderr, either to stdout.txt and stderr.txt
+      or to nirwana. simply reopening these handles does, other than suggested on
+      some web pages, not work reliably - opening new files on CON using different
+      handles however does.
+    */
+    STDOUT = fopen("CON", "w");
+    STDERR = fopen("CON", "w");
 #endif
 
-  programname += sizeof "$VER:";
-  // Open datafile
-  io_openlinkeddatafile(datafile);
+    programname += sizeof "$VER:";
+    // Open datafile
+    io_openlinkeddatafile(datafile);
 
-  // Reset channels/song
-  initchannels();
-  clearsong(1,1,1,1,1);
+    // Reset channels/song
+    initchannels();
+    clearsong(1,1,1,1,1);
 
-  // get input- and output file names
-  if (argc >= 3) {
-      strcpy(songfilename, argv[1]);
-      strcpy(packedsongname, argv[2]);
-  } else {
-      usage();
-      exit(-1);
-  }
-
-  // Load song
-  if (strlen(songfilename)) {
-      loadsong();
-  } else {
-      fprintf(STDERR, "error: no song filename given.\n");
-      exit (-1);
-  }
-
-  c = strlen(packedsongname);
-  if (strlen(packedsongname) <= 0) {
-      fprintf(STDERR, "error: no output filename given.\n");
-      exit (-1);
-  }
-
-  // determine output format from file extension of the output filename
-  c--;
-  while ((c > 0) && (packedsongname[c] != '.')) c--;
-  if (packedsongname[c] == '.') c++;
-
-  if (!strcmp(&packedsongname[c], "sid")) {
-      fileformat = FORMAT_SID;
-  } else if (!strcmp(&packedsongname[c], "prg")) {
-      fileformat = FORMAT_PRG;
-  } else if (!strcmp(&packedsongname[c], "bin")) {
-      fileformat = FORMAT_BIN;
-  } else {
-      fileformat = FORMAT_PRG;
-  }
-
-  fprintf(STDOUT, "%s Packer/Relocator\n", programname);
-  fprintf(STDOUT, "song file:       %s\n", loadedsongfilename);
-  fprintf(STDOUT, "output file:     %s\n", packedsongname);
-  fprintf(STDOUT, "output format:   ");
-  if (fileformat == FORMAT_SID) {
-      fprintf(STDOUT, "sid\n");
-  } else if (fileformat == FORMAT_BIN) {
-      fprintf(STDOUT, "bin\n");
-  } else {
-      fprintf(STDOUT, "prg\n");
-  }
-
-  // Scan command line
-  for (c = 3; c < argc; c++)
-  {
-    #ifdef __WIN32__
-    if ((argv[c][0] == '-') || (argv[c][0] == '/'))
-    #else
-    if (argv[c][0] == '-')
-    #endif
-    {
-      switch(toupper(argv[c][1]))
-      {
-        case '?':
-        return 0;
-
-        case 'A':
-        sscanf(&argv[c][2], "%x", &adparam);
-        break;
-
-        case 'G':
-        sscanf(&argv[c][2], "%f", &basepitch);
-        break;
-
-        case 'L':
-        sscanf(&argv[c][2], "%x", &sidaddress);
-        break;
-
-        case 'O':
-        sscanf(&argv[c][2], "%u", &optimizepulse);
-        break;
-
-        case 'R':
-        sscanf(&argv[c][2], "%u", &optimizerealtime);
-        break;
-
-        case 'V':
-        sscanf(&argv[c][2], "%u", &finevibrato);
-        break;
-
-        case 'S':
-        sscanf(&argv[c][2], "%u", &multiplier);
-        break;
-
-        // NTSC timing
-        case 'N':
-        ntsc = 1;
-        customclockrate = 0;
-        break;
-        // PAL timing
-        case 'P':
-        ntsc = 0;
-        customclockrate = 0;
-        break;
-        // custom clock rate
-        case 'F':
-        sscanf(&argv[c][2], "%u", &customclockrate);
-        break;
-
-        // player options (first menu)
-        // 0: Buffered SID-writes
-        case 'B':
-            if (argv[c][2] == '1') {
-                playerversion |= PLAYER_BUFFERED;
-            } else {
-                playerversion &= ~PLAYER_BUFFERED;
-            }
-        break;
-        // 1: Sound effect support
-        case 'D':
-            if (argv[c][2] == '1') {
-                playerversion |= PLAYER_SOUNDEFFECTS;
-            } else {
-                playerversion &= ~PLAYER_SOUNDEFFECTS;
-            }
-        break;
-        // 2: Volume change support
-        case 'E':
-            if (argv[c][2] == '1') {
-                playerversion |= PLAYER_VOLUME;
-            } else {
-                playerversion &= ~PLAYER_VOLUME;
-            }
-        break;
-        // 3: Store author-info
-        case 'H':
-            if (argv[c][2] == '1') {
-                playerversion |= PLAYER_AUTHORINFO;
-            } else {
-                playerversion &= ~PLAYER_AUTHORINFO;
-            }
-        break;
-        // 4: Use zeropage ghostregs
-        case 'C':
-            if (argv[c][2] == '1') {
-                playerversion |= PLAYER_ZPGHOSTREGS;
-            } else {
-                playerversion &= ~PLAYER_ZPGHOSTREGS;
-            }
-        break;
-        // 5: Disable optimization
-        case 'I':
-            if (argv[c][2] == '1') {
-                playerversion &= ~PLAYER_NOOPTIMIZATION;
-            } else {
-                playerversion |= PLAYER_NOOPTIMIZATION;
-            }
-        // 6: Full buffering
-        case 'J':
-            if (argv[c][2] == '1') {
-                playerversion &= ~PLAYER_FULLBUFFERED;
-            } else {
-                playerversion |= PLAYER_FULLBUFFERED;
-            }
-        break;
-
-        // start address (second menu)
-        case 'W':
-        sscanf(&argv[c][2], "%x", &playeradr);
-        playeradr<<=8;
-        break;
-
-        // zeropage address (third menu)
-        case 'Z':
-        sscanf(&argv[c][2], "%x", &zeropageadr);
-        break;
-      }
+    // get input- and output file names
+    if (argc >= 3) {
+        strcpy(songfilename, argv[1]);
+        strcpy(packedsongname, argv[2]);
+    } else {
+        usage();
+        exit(-1);
     }
-    else
-    {
-      fprintf(STDERR, "error: unknown option\n");
-      usage();
-      exit(-1);
+
+    // Load song
+    if (strlen(songfilename)) {
+        loadsong();
+    } else {
+        fprintf(STDERR, "error: no song filename given.\n");
+        exit (-1);
     }
-  }
 
-  // Validate parameters
-  sidmodel &= 1;
-  adparam &= 0xffff;
-  zeropageadr &= 0xff;
-  playeradr &= 0xff00;
-  sidaddress &= 0xffff;
+    c = strlen(packedsongname);
+    if (strlen(packedsongname) <= 0) {
+        fprintf(STDERR, "error: no output filename given.\n");
+        exit (-1);
+    }
 
-  if (multiplier > 16) multiplier = 16;
-  if ((finevibrato == 1) && (multiplier < 2)) usefinevib = 1;
-  if (finevibrato > 1) usefinevib = 1;
-  if (optimizepulse > 1) optimizepulse = 1;
-  if (optimizerealtime > 1) optimizerealtime = 1;
-  if (customclockrate < 100) customclockrate = 0;
+    // determine output format from file extension of the output filename
+    c--;
+    while ((c > 0) && (packedsongname[c] != '.')) c--;
+    if (packedsongname[c] == '.') c++;
 
-  // Calculate frequencytable if necessary
-  if (basepitch < 0.0f)
-    basepitch = 0.0f;
-  if (basepitch > 0.0f)
-    calculatefreqtable();
+    if (!strcmp(&packedsongname[c], "sid")) {
+        fileformat = FORMAT_SID;
+    } else if (!strcmp(&packedsongname[c], "prg")) {
+        fileformat = FORMAT_PRG;
+    } else if (!strcmp(&packedsongname[c], "bin")) {
+        fileformat = FORMAT_BIN;
+    } else {
+        fileformat = FORMAT_PRG;
+    }
 
-  // perform relocation
-  relocator();
+    fprintf(STDOUT, "%s Packer/Relocator\n", programname);
+    fprintf(STDOUT, "song file:       %s\n", loadedsongfilename);
+    fprintf(STDOUT, "output file:     %s\n", packedsongname);
+    fprintf(STDOUT, "output format:   ");
+    if (fileformat == FORMAT_SID) {
+        fprintf(STDOUT, "sid\n");
+    } else if (fileformat == FORMAT_BIN) {
+        fprintf(STDOUT, "bin\n");
+    } else {
+        fprintf(STDOUT, "prg\n");
+    }
 
-  // Exit
-  return 0;
+    // Scan command line
+    for (c = 3; c < argc; c++)
+    {
+#ifdef __WIN32__
+        if ((argv[c][0] == '-') || (argv[c][0] == '/'))
+#else
+        if (argv[c][0] == '-')
+#endif
+        {
+            switch(toupper(argv[c][1]))
+            {
+            case '?':
+                return 0;
+
+            case 'A':
+                sscanf(&argv[c][2], "%x", &adparam);
+                break;
+
+            case 'G':
+                sscanf(&argv[c][2], "%f", &basepitch);
+                break;
+
+            case 'L':
+                sscanf(&argv[c][2], "%x", &sidaddress);
+                break;
+
+            case 'O':
+                sscanf(&argv[c][2], "%u", &optimizepulse);
+                break;
+
+            case 'R':
+                sscanf(&argv[c][2], "%u", &optimizerealtime);
+                break;
+
+            case 'V':
+                sscanf(&argv[c][2], "%u", &finevibrato);
+                break;
+
+            case 'S':
+                sscanf(&argv[c][2], "%u", &multiplier);
+                break;
+
+            // NTSC timing
+            case 'N':
+                ntsc = 1;
+                customclockrate = 0;
+                break;
+            // PAL timing
+            case 'P':
+                ntsc = 0;
+                customclockrate = 0;
+                break;
+            // custom clock rate
+            case 'F':
+                sscanf(&argv[c][2], "%u", &customclockrate);
+                break;
+
+            // player options (first menu)
+            // 0: Buffered SID-writes
+            case 'B':
+                if (argv[c][2] == '1') {
+                    playerversion |= PLAYER_BUFFERED;
+                } else {
+                    playerversion &= ~PLAYER_BUFFERED;
+                }
+                break;
+            // 1: Sound effect support
+            case 'D':
+                if (argv[c][2] == '1') {
+                    playerversion |= PLAYER_SOUNDEFFECTS;
+                } else {
+                    playerversion &= ~PLAYER_SOUNDEFFECTS;
+                }
+                break;
+            // 2: Volume change support
+            case 'E':
+                if (argv[c][2] == '1') {
+                    playerversion |= PLAYER_VOLUME;
+                } else {
+                    playerversion &= ~PLAYER_VOLUME;
+                }
+                break;
+            // 3: Store author-info
+            case 'H':
+                if (argv[c][2] == '1') {
+                    playerversion |= PLAYER_AUTHORINFO;
+                } else {
+                    playerversion &= ~PLAYER_AUTHORINFO;
+                }
+                break;
+            // 4: Use zeropage ghostregs
+            case 'C':
+                if (argv[c][2] == '1') {
+                    playerversion |= PLAYER_ZPGHOSTREGS;
+                } else {
+                    playerversion &= ~PLAYER_ZPGHOSTREGS;
+                }
+                break;
+            // 5: Disable optimization
+            case 'I':
+                if (argv[c][2] == '1') {
+                    playerversion &= ~PLAYER_NOOPTIMIZATION;
+                } else {
+                    playerversion |= PLAYER_NOOPTIMIZATION;
+                }
+            // 6: Full buffering
+            case 'J':
+                if (argv[c][2] == '1') {
+                    playerversion &= ~PLAYER_FULLBUFFERED;
+                } else {
+                    playerversion |= PLAYER_FULLBUFFERED;
+                }
+                break;
+
+            // start address (second menu)
+            case 'W':
+                sscanf(&argv[c][2], "%x", &playeradr);
+                playeradr<<=8;
+                break;
+
+            // zeropage address (third menu)
+            case 'Z':
+                sscanf(&argv[c][2], "%x", &zeropageadr);
+                break;
+            }
+        }
+        else
+        {
+            fprintf(STDERR, "error: unknown option\n");
+            usage();
+            exit(-1);
+        }
+    }
+
+    // Validate parameters
+    sidmodel &= 1;
+    adparam &= 0xffff;
+    zeropageadr &= 0xff;
+    playeradr &= 0xff00;
+    sidaddress &= 0xffff;
+
+    if (multiplier > 16) multiplier = 16;
+    if ((finevibrato == 1) && (multiplier < 2)) usefinevib = 1;
+    if (finevibrato > 1) usefinevib = 1;
+    if (optimizepulse > 1) optimizepulse = 1;
+    if (optimizerealtime > 1) optimizerealtime = 1;
+    if (customclockrate < 100) customclockrate = 0;
+
+    // Calculate frequencytable if necessary
+    if (basepitch < 0.0f)
+        basepitch = 0.0f;
+    if (basepitch > 0.0f)
+        calculatefreqtable();
+
+    // perform relocation
+    relocator();
+
+    // Exit
+    return 0;
 }
 
 void waitkeymousenoupdate(void)
@@ -352,87 +352,87 @@ void waitkeymousenoupdate(void)
 
 void getparam(FILE *handle, unsigned *value)
 {
-  char *configptr;
+    char *configptr;
 
-  for (;;)
-  {
-    if (feof(handle)) return;
-    fgets(configbuf, MAX_PATHNAME, handle);
-    if ((configbuf[0]) && (configbuf[0] != ';') && (configbuf[0] != ' ') && (configbuf[0] != 13) && (configbuf[0] != 10)) break;
-  }
-
-  configptr = configbuf;
-  if (*configptr == '$')
-  {
-    *value = 0;
-    configptr++;
     for (;;)
     {
-      char c = tolower(*configptr++);
-      int h = -1;
-
-      if ((c >= 'a') && (c <= 'f')) h = c - 'a' + 10;
-      if ((c >= '0') && (c <= '9')) h = c - '0';
-
-      if (h >= 0)
-      {
-        *value *= 16;
-        *value += h;
-      }
-      else break;
+        if (feof(handle)) return;
+        fgets(configbuf, MAX_PATHNAME, handle);
+        if ((configbuf[0]) && (configbuf[0] != ';') && (configbuf[0] != ' ') && (configbuf[0] != 13) && (configbuf[0] != 10)) break;
     }
-  }
-  else
-  {
-    *value = 0;
-    for (;;)
+
+    configptr = configbuf;
+    if (*configptr == '$')
     {
-      char c = tolower(*configptr++);
-      int d = -1;
+        *value = 0;
+        configptr++;
+        for (;;)
+        {
+            char c = tolower(*configptr++);
+            int h = -1;
 
-      if ((c >= '0') && (c <= '9')) d = c - '0';
+            if ((c >= 'a') && (c <= 'f')) h = c - 'a' + 10;
+            if ((c >= '0') && (c <= '9')) h = c - '0';
 
-      if (d >= 0)
-      {
-        *value *= 10;
-        *value += d;
-      }
-      else break;
+            if (h >= 0)
+            {
+                *value *= 16;
+                *value += h;
+            }
+            else break;
+        }
     }
-  }
+    else
+    {
+        *value = 0;
+        for (;;)
+        {
+            char c = tolower(*configptr++);
+            int d = -1;
+
+            if ((c >= '0') && (c <= '9')) d = c - '0';
+
+            if (d >= 0)
+            {
+                *value *= 10;
+                *value += d;
+            }
+            else break;
+        }
+    }
 }
 
 void getfloatparam(FILE *handle, float *value)
 {
-  char *configptr;
+    char *configptr;
 
-  for (;;)
-  {
-    if (feof(handle)) return;
-    fgets(configbuf, MAX_PATHNAME, handle);
-    if ((configbuf[0]) && (configbuf[0] != ';') && (configbuf[0] != ' ') && (configbuf[0] != 13) && (configbuf[0] != 10)) break;
-  }
+    for (;;)
+    {
+        if (feof(handle)) return;
+        fgets(configbuf, MAX_PATHNAME, handle);
+        if ((configbuf[0]) && (configbuf[0] != ';') && (configbuf[0] != ' ') && (configbuf[0] != 13) && (configbuf[0] != 10)) break;
+    }
 
-  configptr = configbuf;
-  *value = 0.0f;
-  sscanf(configptr, "%f", value);
+    configptr = configbuf;
+    *value = 0.0f;
+    sscanf(configptr, "%f", value);
 }
 
 void calculatefreqtable()
 {
-  double basefreq = (double)basepitch * (16777216.0 / 985248.0) * pow(2.0, 0.25) / 32.0;
-  int c;
+    double basefreq = (double)basepitch * (16777216.0 / 985248.0) * pow(2.0, 0.25) / 32.0;
+    int c;
 
-  for (c = 0; c < 8*12 ; c++)
-  {
-    double note = c;
-    double freq = basefreq * pow(2.0, note/12.0);
-    int intfreq = freq + 0.5;
-    if (intfreq > 0xffff)
-        intfreq = 0xffff;
-    freqtbllo[c] = intfreq & 0xff;
-    freqtblhi[c] = intfreq >> 8;
-  }
+    for (c = 0; c < 8*12 ; c++)
+    {
+        double note = c;
+        double freq = basefreq * pow(2.0, note/12.0);
+        int intfreq = freq + 0.5;
+        if (intfreq > 0xffff)
+            intfreq = 0xffff;
+        freqtbllo[c] = intfreq & 0xff;
+        freqtblhi[c] = intfreq >> 8;
+    }
 }
 
 #define GT2RELOC

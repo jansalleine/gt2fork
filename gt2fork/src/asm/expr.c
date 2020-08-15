@@ -93,9 +93,9 @@ struct expr *new_expr_op2(i16 op, struct expr *arg1, struct expr *arg2)
     struct expr *val;
 
     if(op == vNEG ||
-       op == LNOT ||
-       op == NUMBER ||
-       op == SYMBOL)
+            op == LNOT ||
+            op == NUMBER ||
+            op == SYMBOL)
     {
         /* error, invalid binary operator  */
         printf("op %d, vNEG %d, NUMBER %d, SYMBOL %d\n", op, vNEG, NUMBER, SYMBOL);

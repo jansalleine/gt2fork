@@ -7,14 +7,15 @@
 #include "goattrk2.h"
 
 char *notename[] =
- {"C-0", "C#0", "D-0", "D#0", "E-0", "F-0", "F#0", "G-0", "G#0", "A-0", "A#0", "B-0",
-  "C-1", "C#1", "D-1", "D#1", "E-1", "F-1", "F#1", "G-1", "G#1", "A-1", "A#1", "B-1",
-  "C-2", "C#2", "D-2", "D#2", "E-2", "F-2", "F#2", "G-2", "G#2", "A-2", "A#2", "B-2",
-  "C-3", "C#3", "D-3", "D#3", "E-3", "F-3", "F#3", "G-3", "G#3", "A-3", "A#3", "B-3",
-  "C-4", "C#4", "D-4", "D#4", "E-4", "F-4", "F#4", "G-4", "G#4", "A-4", "A#4", "B-4",
-  "C-5", "C#5", "D-5", "D#5", "E-5", "F-5", "F#5", "G-5", "G#5", "A-5", "A#5", "B-5",
-  "C-6", "C#6", "D-6", "D#6", "E-6", "F-6", "F#6", "G-6", "G#6", "A-6", "A#6", "B-6",
-  "C-7", "C#7", "D-7", "D#7", "E-7", "F-7", "F#7", "G-7", "G#7", "...", "---", "+++"};
+{   "C-0", "C#0", "D-0", "D#0", "E-0", "F-0", "F#0", "G-0", "G#0", "A-0", "A#0", "B-0",
+    "C-1", "C#1", "D-1", "D#1", "E-1", "F-1", "F#1", "G-1", "G#1", "A-1", "A#1", "B-1",
+    "C-2", "C#2", "D-2", "D#2", "E-2", "F-2", "F#2", "G-2", "G#2", "A-2", "A#2", "B-2",
+    "C-3", "C#3", "D-3", "D#3", "E-3", "F-3", "F#3", "G-3", "G#3", "A-3", "A#3", "B-3",
+    "C-4", "C#4", "D-4", "D#4", "E-4", "F-4", "F#4", "G-4", "G#4", "A-4", "A#4", "B-4",
+    "C-5", "C#5", "D-5", "D#5", "E-5", "F-5", "F#5", "G-5", "G#5", "A-5", "A#5", "B-5",
+    "C-6", "C#6", "D-6", "D#6", "E-6", "F-6", "F#6", "G-6", "G#6", "A-6", "A#6", "B-6",
+    "C-7", "C#7", "D-7", "D#7", "E-7", "F-7", "F#7", "G-7", "G#7", "...", "---", "+++"
+};
 
 char timechar[] = {':', ' '};
 
@@ -24,590 +25,608 @@ int timeframe = 0;
 
 void printmainscreen(void)
 {
-  clearscreen();
-  printstatus();
-  fliptoscreen();
+    clearscreen();
+    printstatus();
+    fliptoscreen();
 }
 
 void displayupdate(void)
 {
-  if (cursorflashdelay >= 6)
-  {
-    cursorflashdelay %= 6;
-    cursorflash++;
-    cursorflash &= 3;
-  }
-  printstatus();
-  fliptoscreen();
+    if (cursorflashdelay >= 6)
+    {
+        cursorflashdelay %= 6;
+        cursorflash++;
+        cursorflash &= 3;
+    }
+    printstatus();
+    fliptoscreen();
 }
 
 void printstatus(void)
 {
-  int c, d, color;
-  int cc = cursorcolortable[cursorflash];
-  menu = 0;
+    int c, d, color;
+    int cc = cursorcolortable[cursorflash];
+    menu = 0;
 
-  if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
+    if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
 
-  printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
 
-  if (!menu)
-  {
-    if (!strlen(loadedsongfilename))
-      sprintf(textbuffer, "%s", programname);
-    else
-      sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
-    textbuffer[49] = 0;
-    printtext(0, 0, colscheme.status_top, textbuffer);
-
-    if (usefinevib)
-      printtext(40+10, 0, colscheme.status_top, "FV");
-
-    if (optimizepulse)
-      printtext(43+10, 0, colscheme.status_top, "PO");
-
-    if (optimizerealtime)
-      printtext(46+10, 0, colscheme.status_top, "RO");
-
-    if (ntsc)
-      printtext(49+10, 0, colscheme.status_top, "NTSC");
-    else
-      printtext(49+10, 0, colscheme.status_top, " PAL");
-
-    if (!sidmodel)
-      printtext(54+10, 0, colscheme.status_top, "6581");
-    else
-      printtext(54+10, 0, colscheme.status_top, "8580");
-
-    sprintf(textbuffer, "HR:%04X", adparam);
-    printtext(59+10, 0, colscheme.status_top, textbuffer);
-    if (eamode) printbg(62+10+eacolumn, 0, cc, 1);
-
-    if (multiplier)
+    if (!menu)
     {
-      sprintf(textbuffer, "%2dX", multiplier);
-      printtext(67+10, 0, colscheme.status_top, textbuffer);
+        if (!strlen(loadedsongfilename))
+            sprintf(textbuffer, "%s", programname);
+        else
+            sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
+        textbuffer[49] = 0;
+        printtext(0, 0, colscheme.status_top, textbuffer);
+
+        if (usefinevib)
+            printtext(40+10, 0, colscheme.status_top, "FV");
+
+        if (optimizepulse)
+            printtext(43+10, 0, colscheme.status_top, "PO");
+
+        if (optimizerealtime)
+            printtext(46+10, 0, colscheme.status_top, "RO");
+
+        if (ntsc)
+            printtext(49+10, 0, colscheme.status_top, "NTSC");
+        else
+            printtext(49+10, 0, colscheme.status_top, " PAL");
+
+        if (!sidmodel)
+            printtext(54+10, 0, colscheme.status_top, "6581");
+        else
+            printtext(54+10, 0, colscheme.status_top, "8580");
+
+        sprintf(textbuffer, "HR:%04X", adparam);
+        printtext(59+10, 0, colscheme.status_top, textbuffer);
+        if (eamode) printbg(62+10+eacolumn, 0, cc, 1);
+
+        if (multiplier)
+        {
+            sprintf(textbuffer, "%2dX", multiplier);
+            printtext(67+10, 0, colscheme.status_top, textbuffer);
+        }
+        else printtext(67+10, 0, colscheme.status_top, "25Hz");
+
+        printtext(72+20, 0, colscheme.status_top, "F12=HELP");
     }
-    else printtext(67+10, 0, colscheme.status_top, "25Hz");
+    else
+    {
+        printtext(0, 0, colscheme.status_top, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+    }
 
-    printtext(72+20, 0, colscheme.status_top, "F12=HELP");
-  }
-  else
-  {
-    printtext(0, 0, colscheme.status_top, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
-  }
+    if ((followplay) && (isplaying()))
+    {
+        for (c = 0; c < MAX_CHN; c++)
+        {
+            int newpos = chn[c].pattptr / 4;
+            if (chn[c].advance) epnum[c] = chn[c].pattnum;
 
-  if ((followplay) && (isplaying()))
-  {
+            if (newpos > pattlen[epnum[c]]) newpos = pattlen[epnum[c]];
+
+            if (c == epchn)
+            {
+                eppos = newpos;
+                epview = newpos-VISIBLEPATTROWS/2;
+            }
+
+            newpos = chn[c].songptr;
+            newpos--;
+            if (newpos < 0) newpos = 0;
+            if (newpos > songlen[esnum][c]) newpos = songlen[esnum][c];
+
+            if ((c == eschn) && (chn[c].advance))
+            {
+                eseditpos = newpos;
+                if (newpos - esview < 0)
+                {
+                    esview = newpos;
+                }
+                if (newpos - esview >= VISIBLEORDERLIST)
+                {
+                    esview = newpos - VISIBLEORDERLIST + 1;
+                }
+            }
+        }
+    }
+
     for (c = 0; c < MAX_CHN; c++)
     {
-      int newpos = chn[c].pattptr / 4;
-      if (chn[c].advance) epnum[c] = chn[c].pattnum;
+        sprintf(textbuffer, "CHN %d PATT.", c+1);
+        printtext(2+c*15, 2, colscheme.pattcol, textbuffer);
+        sprintf(textbuffer, "%02X", epnum[c]);
+        printtext(13+c*15, 2, colscheme.edit, textbuffer);
 
-      if (newpos > pattlen[epnum[c]]) newpos = pattlen[epnum[c]];
-
-      if (c == epchn)
-      {
-        eppos = newpos;
-        epview = newpos-VISIBLEPATTROWS/2;
-      }
-
-      newpos = chn[c].songptr;
-      newpos--;
-      if (newpos < 0) newpos = 0;
-      if (newpos > songlen[esnum][c]) newpos = songlen[esnum][c];
-
-      if ((c == eschn) && (chn[c].advance))
-      {
-        eseditpos = newpos;
-        if (newpos - esview < 0)
+        for (d = 0; d < VISIBLEPATTROWS; d++)
         {
-          esview = newpos;
-        }
-        if (newpos - esview >= VISIBLEORDERLIST)
-        {
-          esview = newpos - VISIBLEORDERLIST + 1;
-        }
-      }
-    }
-  }
-
-  for (c = 0; c < MAX_CHN; c++)
-  {
-    sprintf(textbuffer, "CHN %d PATT.", c+1);
-    printtext(2+c*15, 2, colscheme.pattcol, textbuffer);
-    sprintf(textbuffer, "%02X", epnum[c]);
-    printtext(13+c*15, 2, colscheme.edit, textbuffer);
-
-    for (d = 0; d < VISIBLEPATTROWS; d++)
-    {
-      int p = epview+d;
-      color = colscheme.normal;
-      if ((epnum[c] == chn[c].pattnum) && (isplaying()))
-      {
-        int chnrow = chn[c].pattptr / 4;
-        if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
-        // if (chnrow == p) color = colscheme.playing;
-        if (chnrow == p) color = colscheme.playing_inv;
-      }
-
-      if (chn[c].mute) color = colscheme.mute;
-      if (p == eppos) color = colscheme.edit;
-      //
-      if ((p == eppos) && (followplay)) color = colscheme.playing_inv;
-      //
-      if ((p < 0) || (p > pattlen[epnum[c]]))
-      {
-        sprintf(textbuffer, "             ");
-      }
-      else
-      {
-        if (!(patterndispmode & 1))
-        {
-          if (p < 100)
-            sprintf(textbuffer, " %02d", p);
-          else
-            sprintf(textbuffer, "%03d", p);
-        }
-        else
-          sprintf(textbuffer, " %02X", p);
-
-        if (pattern[epnum[c]][p*4] == ENDPATT)
-        {
-          sprintf(&textbuffer[3], " PATT. END");
-          // if (color == colscheme.normal) color = colscheme.command;
-          // @TODO
-          if (color == colscheme.normal) color = colscheme.table_end;
-        }
-        else
-        {
-          sprintf(&textbuffer[3], " %s ",
-            notename[pattern[epnum[c]][p*4]-FIRSTNOTE]);
-          if ( pattern[epnum[c]][p*4+1] )
-          {
-            sprintf(&textbuffer[8], "%02X", pattern[epnum[c]][p*4+1]);
-          }
-          else
-          {
-            sprintf(&textbuffer[8], "..");
-          }
-          if ( pattern[epnum[c]][p*4+2] )
-          {
-            sprintf(&textbuffer[10], "%01X%02X", pattern[epnum[c]][p*4+2], pattern[epnum[c]][p*4+3]);
-          }
-          else
-          {
-            sprintf(&textbuffer[10], "...");
-          }
-        }
-      }
-      textbuffer[3] = 0;
-
-      /*
-      if (p%stepsize)
-      {
-        printtext(2+c*15, 3+d, colscheme.normal, textbuffer);
-      }
-      else
-      {
-        printtext(2+c*15, 3+d, colscheme.command, textbuffer);
-      }
-      printtext(6+c*15, 3+d, color, &textbuffer[4]);
-      */
-      // @TODO
-      if (!(p%stepsize) && !((p < 0) || (p > pattlen[epnum[c]])))
-      {
-        if (!(patterndispmode & 1)) printtext(2+c*15, 3+d, colscheme.indexes_inv, textbuffer);
-        else printtext(3+c*15, 3+d, colscheme.indexes_inv, &textbuffer[1]);
-      }
-      else
-      {
-        printtext(2+c*15, 3+d, colscheme.indexes, textbuffer);
-      }
-      int tmp, tmpc;
-      tmp = textbuffer[8];
-      textbuffer[8] = 0;
-      printtext(6+c*15, 3+d, color, &textbuffer[4]);
-      textbuffer[8] = tmp;
-      tmp = textbuffer[10];
-      textbuffer[10] = 0;
-      tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.instrnum;
-      printtext(10+c*15, 3+d, tmpc, &textbuffer[8]);
-      textbuffer[10] = tmp;
-      tmp = textbuffer[11];
-      textbuffer[11] = 0;
-      tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command;
-      printtext(12+c*15, 3+d, tmpc, &textbuffer[10]);
-      textbuffer[11] = tmp;
-      tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command_value;
-      printtext(13+c*15, 3+d, tmpc, &textbuffer[11]);
-
-      /* ====================================== */
-
-      if (c == epmarkchn)
-      {
-        if (epmarkstart <= epmarkend)
-        {
-          if ((p >= epmarkstart) && (p <= epmarkend))
-            // @TODO
-            printbg(2+c*15+4, 3+d, colscheme.mark_bg, 9);
-        }
-        else
-        {
-          if ((p <= epmarkstart) && (p >= epmarkend))
-            // @TODO
-            printbg(2+c*15+4, 3+d, colscheme.mark_bg, 9);
-        }
-      }
-      if ((color == colscheme.edit) && (editmode == EDIT_PATTERN) && (epchn == c))
-      {
-        switch(epcolumn)
-        {
-          case 0:
-          if (!eamode) printbg(2+c*15+4, 3+d, cc, 3);
-          break;
-
-          default:
-          if (!eamode) printbg(2+c*15+7+epcolumn, 3+d, cc, 1);
-          break;
-        }
-      }
-    }
-  }
-
-  sprintf(textbuffer, "CHN ORDERLIST (SUBTUNE %02X, POS %02X)", esnum, eseditpos);
-  printtext(40+10, 2, colscheme.title, textbuffer);
-  for (c = 0; c < MAX_CHN; c++)
-  {
-    sprintf(textbuffer, " %d ", c+1);
-    printtext(40+10, 3+c, colscheme.title, textbuffer);
-    for (d = 0; d < VISIBLEORDERLIST; d++)
-    {
-      int p = esview+d;
-      color = colscheme.normal;
-      if (isplaying())
-      {
-        int chnpos = chn[c].songptr;
-        chnpos--;
-        if (chnpos < 0) chnpos = 0;
-        if ((p == chnpos) && (chn[c].advance)) color = colscheme.playing;
-      }
-      if (p == espos[c]) color = colscheme.edit;
-      if ((esend[c]) && (p == esend[c])) color = colscheme.edit;
-
-      if ((p < 0) || (p > (songlen[esnum][c]+1)) || (p > MAX_SONGLEN+1))
-      {
-        sprintf(textbuffer, "   ");
-      }
-      else
-      {
-        if (songorder[esnum][c][p] < LOOPSONG)
-        {
-          if ((songorder[esnum][c][p] < REPEAT) || (p >= songlen[esnum][c]))
-          {
-            sprintf(textbuffer, "%02X ", songorder[esnum][c][p]);
-            if ((p >= songlen[esnum][c]) && (color == colscheme.normal)) color = colscheme.command;
-          }
-          else
-          {
-            if (songorder[esnum][c][p] >= TRANSUP)
+            int p = epview+d;
+            color = colscheme.normal;
+            if ((epnum[c] == chn[c].pattnum) && (isplaying()))
             {
-              sprintf(textbuffer, "+%01X ", songorder[esnum][c][p]&0xf);
-              if (color == colscheme.normal) color = colscheme.command;
+                int chnrow = chn[c].pattptr / 4;
+                if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
+                // if (chnrow == p) color = colscheme.playing;
+                if (chnrow == p) color = colscheme.playing_inv;
+            }
+
+            if (chn[c].mute) color = colscheme.mute;
+            if (p == eppos) color = colscheme.edit;
+            //
+            if ((p == eppos) && (followplay)) color = colscheme.playing_inv;
+            //
+            if ((p < 0) || (p > pattlen[epnum[c]]))
+            {
+                sprintf(textbuffer, "             ");
             }
             else
             {
-              if (songorder[esnum][c][p] >= TRANSDOWN)
-              {
-                sprintf(textbuffer, "-%01X ", 16-(songorder[esnum][c][p] & 0x0f));
-                if (color == colscheme.normal) color = colscheme.command;
-              }
-              else
-              {
-                sprintf(textbuffer, "R%01X ", (songorder[esnum][c][p]+1) & 0x0f);
-                if (color == colscheme.normal) color = colscheme.command;
-              }
+                if (!(patterndispmode & 1))
+                {
+                    if (p < 100)
+                        sprintf(textbuffer, " %02d", p);
+                    else
+                        sprintf(textbuffer, "%03d", p);
+                }
+                else
+                    sprintf(textbuffer, " %02X", p);
+
+                if (pattern[epnum[c]][p*4] == ENDPATT)
+                {
+                    sprintf(&textbuffer[3], " PATT. END");
+                    // if (color == colscheme.normal) color = colscheme.command;
+                    // @TODO
+                    if (color == colscheme.normal) color = colscheme.table_end;
+                }
+                else
+                {
+                    sprintf(&textbuffer[3], " %s ",
+                            notename[pattern[epnum[c]][p*4]-FIRSTNOTE]);
+                    if ( pattern[epnum[c]][p*4+1] )
+                    {
+                        sprintf(&textbuffer[8], "%02X", pattern[epnum[c]][p*4+1]);
+                    }
+                    else
+                    {
+                        sprintf(&textbuffer[8], "..");
+                    }
+                    if ( pattern[epnum[c]][p*4+2] )
+                    {
+                        sprintf(&textbuffer[10], "%01X%02X", pattern[epnum[c]][p*4+2], pattern[epnum[c]][p*4+3]);
+                    }
+                    else
+                    {
+                        sprintf(&textbuffer[10], "...");
+                    }
+                }
             }
-          }
-        }
-        if (songorder[esnum][c][p] == LOOPSONG)
-        {
-          sprintf(textbuffer, "RST");
-          if (color == colscheme.normal) color = colscheme.command;
-        }
-      }
-      printtext(44+10+d*3, 3+c, color, textbuffer);
-      if (c == esmarkchn)
-      {
-        if (esmarkstart <= esmarkend)
-        {
-          if ((p >= esmarkstart) && (p <= esmarkend))
-          {
-            if (p != esmarkend)
-              printbg(44+10+d*3, 3+c, colscheme.mark_bg, 3);
+            textbuffer[3] = 0;
+
+            /*
+            if (p%stepsize)
+            {
+              printtext(2+c*15, 3+d, colscheme.normal, textbuffer);
+            }
             else
-              printbg(44+10+d*3, 3+c, colscheme.mark_bg, 2);
-          }
+            {
+              printtext(2+c*15, 3+d, colscheme.command, textbuffer);
+            }
+            printtext(6+c*15, 3+d, color, &textbuffer[4]);
+            */
+            // @TODO
+            if (!(p%stepsize) && !((p < 0) || (p > pattlen[epnum[c]])))
+            {
+                if (!(patterndispmode & 1)) printtext(2+c*15, 3+d, colscheme.indexes_inv, textbuffer);
+                else printtext(3+c*15, 3+d, colscheme.indexes_inv, &textbuffer[1]);
+            }
+            else
+            {
+                printtext(2+c*15, 3+d, colscheme.indexes, textbuffer);
+            }
+            int tmp, tmpc;
+            tmp = textbuffer[8];
+            textbuffer[8] = 0;
+            printtext(6+c*15, 3+d, color, &textbuffer[4]);
+            textbuffer[8] = tmp;
+            tmp = textbuffer[10];
+            textbuffer[10] = 0;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.instrnum;
+            printtext(10+c*15, 3+d, tmpc, &textbuffer[8]);
+            textbuffer[10] = tmp;
+            tmp = textbuffer[11];
+            textbuffer[11] = 0;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command;
+            printtext(12+c*15, 3+d, tmpc, &textbuffer[10]);
+            textbuffer[11] = tmp;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command_value;
+            printtext(13+c*15, 3+d, tmpc, &textbuffer[11]);
+
+            /* ====================================== */
+
+            if (c == epmarkchn)
+            {
+                if (epmarkstart <= epmarkend)
+                {
+                    if ((p >= epmarkstart) && (p <= epmarkend))
+                        // @TODO
+                        printbg(2+c*15+4, 3+d, colscheme.mark_bg, 9);
+                }
+                else
+                {
+                    if ((p <= epmarkstart) && (p >= epmarkend))
+                        // @TODO
+                        printbg(2+c*15+4, 3+d, colscheme.mark_bg, 9);
+                }
+            }
+            if ((color == colscheme.edit) && (editmode == EDIT_PATTERN) && (epchn == c))
+            {
+                switch(epcolumn)
+                {
+                case 0:
+                    if (!eamode) printbg(2+c*15+4, 3+d, cc, 3);
+                    break;
+
+                default:
+                    if (!eamode) printbg(2+c*15+7+epcolumn, 3+d, cc, 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    sprintf(textbuffer, "CHN ORDERLIST (SUBTUNE %02X, POS %02X)", esnum, eseditpos);
+    printtext(40+10, 2, colscheme.title, textbuffer);
+    for (c = 0; c < MAX_CHN; c++)
+    {
+        sprintf(textbuffer, " %d ", c+1);
+        printtext(40+10, 3+c, colscheme.title, textbuffer);
+        for (d = 0; d < VISIBLEORDERLIST; d++)
+        {
+            int p = esview+d;
+            color = colscheme.normal;
+            if (isplaying())
+            {
+                int chnpos = chn[c].songptr;
+                chnpos--;
+                if (chnpos < 0) chnpos = 0;
+                if ((p == chnpos) && (chn[c].advance)) color = colscheme.playing;
+            }
+            if (p == espos[c]) color = colscheme.edit;
+            if ((esend[c]) && (p == esend[c])) color = colscheme.edit;
+
+            if ((p < 0) || (p > (songlen[esnum][c]+1)) || (p > MAX_SONGLEN+1))
+            {
+                sprintf(textbuffer, "   ");
+            }
+            else
+            {
+                if (songorder[esnum][c][p] < LOOPSONG)
+                {
+                    if ((songorder[esnum][c][p] < REPEAT) || (p >= songlen[esnum][c]))
+                    {
+                        sprintf(textbuffer, "%02X ", songorder[esnum][c][p]);
+                        if ((p >= songlen[esnum][c]) && (color == colscheme.normal)) color = colscheme.command;
+                    }
+                    else
+                    {
+                        if (songorder[esnum][c][p] >= TRANSUP)
+                        {
+                            sprintf(textbuffer, "+%01X ", songorder[esnum][c][p]&0xf);
+                            if (color == colscheme.normal) color = colscheme.command;
+                        }
+                        else
+                        {
+                            if (songorder[esnum][c][p] >= TRANSDOWN)
+                            {
+                                sprintf(textbuffer, "-%01X ", 16-(songorder[esnum][c][p] & 0x0f));
+                                if (color == colscheme.normal) color = colscheme.command;
+                            }
+                            else
+                            {
+                                sprintf(textbuffer, "R%01X ", (songorder[esnum][c][p]+1) & 0x0f);
+                                if (color == colscheme.normal) color = colscheme.command;
+                            }
+                        }
+                    }
+                }
+                if (songorder[esnum][c][p] == LOOPSONG)
+                {
+                    sprintf(textbuffer, "RST");
+                    if (color == colscheme.normal) color = colscheme.command;
+                }
+            }
+            printtext(44+10+d*3, 3+c, color, textbuffer);
+            if (c == esmarkchn)
+            {
+                if (esmarkstart <= esmarkend)
+                {
+                    if ((p >= esmarkstart) && (p <= esmarkend))
+                    {
+                        if (p != esmarkend)
+                            printbg(44+10+d*3, 3+c, colscheme.mark_bg, 3);
+                        else
+                            printbg(44+10+d*3, 3+c, colscheme.mark_bg, 2);
+                    }
+                }
+                else
+                {
+                    if ((p <= esmarkstart) && (p >= esmarkend))
+                    {
+                        if (p != esmarkstart)
+                            printbg(44+10+d*3, 3+c, colscheme.mark_bg, 3);
+                        else
+                            printbg(44+10+d*3, 3+c, colscheme.mark_bg, 2);
+                    }
+                }
+            }
+            if ((p == eseditpos) && (editmode == EDIT_ORDERLIST) && (eschn == c))
+            {
+                if (!eamode) printbg(44+10+d*3+escolumn, 3+c, cc, 1);
+            }
+        }
+    }
+
+    sprintf(textbuffer, "INSTRUMENT NUM. %02X  %-16s", einum, instr[einum].name);
+    printtext(40+10, 7, colscheme.title, textbuffer);
+
+    /*
+    sprintf(textbuffer, "Attack/Decay    %02X", instr[einum].ad);
+    if (eipos == 0) color = colscheme.edit; else color = colscheme.normal;
+    printtext(40+10, 8, color, textbuffer);
+
+    sprintf(textbuffer, "Sustain/Release %02X", instr[einum].sr);
+    if (eipos == 1) color = colscheme.edit; else color = colscheme.normal;
+    printtext(40+10, 9, color, textbuffer);
+
+    sprintf(textbuffer, "Wavetable Pos   %02X", instr[einum].ptr[WTBL]);
+    if (eipos == 2) color = colscheme.edit; else color = colscheme.normal;
+    printtext(40+10, 10, color, textbuffer);
+
+    sprintf(textbuffer, "Pulsetable Pos  %02X", instr[einum].ptr[PTBL]);
+    if (eipos == 3) color = colscheme.edit; else color = colscheme.normal;
+    printtext(40+10, 11, color, textbuffer);
+
+    sprintf(textbuffer, "Filtertable Pos %02X", instr[einum].ptr[FTBL]);
+    if (eipos == 4) color = colscheme.edit; else color = colscheme.normal;
+    printtext(40+10, 12, color, textbuffer);
+
+    sprintf(textbuffer, "Vibrato Param   %02X", instr[einum].ptr[STBL]);
+    if (eipos == 5) color = colscheme.edit; else color = colscheme.normal;
+    printtext(60+10, 8, color, textbuffer);
+
+    sprintf(textbuffer, "Vibrato Delay   %02X", instr[einum].vibdelay);
+    if (eipos == 6) color = colscheme.edit; else color = colscheme.normal;
+    printtext(60+10, 9, color, textbuffer);
+
+    sprintf(textbuffer, "HR/Gate Timer   %02X", instr[einum].gatetimer);
+    if (eipos == 7) color = colscheme.edit; else color = colscheme.normal;
+    printtext(60+10, 10, color, textbuffer);
+
+    sprintf(textbuffer, "1stFrame Wave   %02X", instr[einum].firstwave);
+    if (eipos == 8) color = colscheme.edit; else color = colscheme.normal;
+    printtext(60+10, 11, color, textbuffer);
+    */
+
+    sprintf(textbuffer, "Attack/Decay");
+    if (eipos == 0) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(40+10, 8, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].ad);
+    if (eipos == 0) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(40+26, 8, color, textbuffer);
+
+    sprintf(textbuffer, "Sustain/Release");
+    if (eipos == 1) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(40+10, 9, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].sr);
+    if (eipos == 1) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(40+26, 9, color, textbuffer);
+
+    sprintf(textbuffer, "Wavetable Pos");
+    if (eipos == 2) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(40+10, 10, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].ptr[WTBL]);
+    if (eipos == 2) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(40+26, 10, color, textbuffer);
+
+    sprintf(textbuffer, "Pulsetable Pos");
+    if (eipos == 3) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(40+10, 11, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].ptr[PTBL]);
+    if (eipos == 3) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(40+26, 11, color, textbuffer);
+
+    sprintf(textbuffer, "Filtertable Pos");
+    if (eipos == 4) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(40+10, 12, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].ptr[FTBL]);
+    if (eipos == 4) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(40+26, 12, color, textbuffer);
+
+    sprintf(textbuffer, "Vibrato Param");
+    if (eipos == 5) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(60+10, 8, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].ptr[STBL]);
+    if (eipos == 5) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(60+26, 8, color, textbuffer);
+
+    sprintf(textbuffer, "Vibrato Delay");
+    if (eipos == 6) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(60+10, 9, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].vibdelay);
+    if (eipos == 6) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(60+26, 9, color, textbuffer);
+
+    sprintf(textbuffer, "HR/Gate Timer");
+    if (eipos == 7) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(60+10, 10, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].gatetimer);
+    if (eipos == 7) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(60+26, 10, color, textbuffer);
+
+    sprintf(textbuffer, "1stFrame Wave");
+    if (eipos == 8) color = colscheme.edit;
+    else color = colscheme.normal & 0xF7;
+    printtext(60+10, 11, color, textbuffer);
+
+    sprintf(textbuffer, "%02X", instr[einum].firstwave);
+    if (eipos == 8) color = colscheme.normal;
+    else color = colscheme.playing;
+    printtext(60+26, 11, color, textbuffer);
+
+    if (editmode == EDIT_INSTRUMENT)
+    {
+        if (eipos < 9)
+        {
+            if (!eamode) printbg(56+10+eicolumn+20*(eipos/5), 8+(eipos%5), cc, 1);
         }
         else
         {
-          if ((p <= esmarkstart) && (p >= esmarkend))
-          {
-            if (p != esmarkstart)
-              printbg(44+10+d*3, 3+c, colscheme.mark_bg, 3);
+            if (!eamode) printbg(60+10+strlen(instr[einum].name), 7, cc, 1);
+        }
+    }
+
+    sprintf(textbuffer, "WAVE TBL  PULSETBL  FILT.TBL  SPEEDTBL");
+    printtext(40+10, 14, colscheme.title, textbuffer);
+
+    for (c = 0; c < MAX_TABLES; c++)
+    {
+        for (d = 0; d < VISIBLETABLEROWS; d++)
+        {
+            int p = etview[c]+d;
+
+            color = colscheme.normal;
+            switch (c)
+            {
+            case WTBL:
+                // if (ltable[c][p] >= WAVECMD) color = colscheme.command;
+                // @TODO
+                if (ltable[c][p] >= WAVECMD) color = colscheme.table_modval;
+                if (ltable[c][p] <= 0x10) color = colscheme.table_modval;
+                break;
+
+            case PTBL:
+                // if (ltable[c][p] >= 0x80) color = colscheme.command;
+                // @TODO
+                if (ltable[c][p] >= 0x80) color = colscheme.normal;
+                else color = colscheme.table_modval;
+                break;
+
+            case FTBL:
+                // if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = colscheme.command;
+                // @TODO
+                if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = colscheme.normal;
+                else color = colscheme.table_modval;
+                break;
+            }
+            // added
+            if (ltable[c][p] == 0xFF) color = colscheme.table_end;
+            // end
+            if ((p == etpos) && (etnum == c)) color = colscheme.edit;
+            /*
+            sprintf(textbuffer, "%02X:%02X %02X", p+1, ltable[c][p], rtable[c][p]);
+            printtext(40+10+10*c, 15+d, color, textbuffer);
+            */
+            sprintf(textbuffer, "%02X:", p+1);
+            // @TODO
+            printtext(40+10+10*c, 15+d, colscheme.indexes, textbuffer);
+            // if ( ltable[c][p] || rtable[c][p] )
+            // allow single 00 00 columns:
+            if ( ltable[c][p] || rtable[c][p] || ltable[c][p+1] || rtable[c][p+1] )
+            {
+                sprintf(textbuffer, "%02X %02X", ltable[c][p], rtable[c][p]);
+            }
             else
-              printbg(44+10+d*3, 3+c, colscheme.mark_bg, 2);
-          }
+            {
+                sprintf(textbuffer, ".. ..");
+            }
+            printtext(40+10+10*c+3, 15+d, color, textbuffer);
+
+            if (etmarknum == c)
+            {
+                if (etmarkstart <= etmarkend)
+                {
+                    if ((p >= etmarkstart) && (p <= etmarkend))
+                        printbg(40+10+10*c+3, 15+d, colscheme.mark_bg, 5);
+                }
+                else
+                {
+                    if ((p <= etmarkstart) && (p >= etmarkend))
+                        printbg(40+10+10*c+3, 15+d, colscheme.mark_bg, 5);
+                }
+            }
         }
-      }
-      if ((p == eseditpos) && (editmode == EDIT_ORDERLIST) && (eschn == c))
-      {
-        if (!eamode) printbg(44+10+d*3+escolumn, 3+c, cc, 1);
-      }
     }
-  }
 
-  sprintf(textbuffer, "INSTRUMENT NUM. %02X  %-16s", einum, instr[einum].name);
-  printtext(40+10, 7, colscheme.title, textbuffer);
-
-  /*
-  sprintf(textbuffer, "Attack/Decay    %02X", instr[einum].ad);
-  if (eipos == 0) color = colscheme.edit; else color = colscheme.normal;
-  printtext(40+10, 8, color, textbuffer);
-
-  sprintf(textbuffer, "Sustain/Release %02X", instr[einum].sr);
-  if (eipos == 1) color = colscheme.edit; else color = colscheme.normal;
-  printtext(40+10, 9, color, textbuffer);
-
-  sprintf(textbuffer, "Wavetable Pos   %02X", instr[einum].ptr[WTBL]);
-  if (eipos == 2) color = colscheme.edit; else color = colscheme.normal;
-  printtext(40+10, 10, color, textbuffer);
-
-  sprintf(textbuffer, "Pulsetable Pos  %02X", instr[einum].ptr[PTBL]);
-  if (eipos == 3) color = colscheme.edit; else color = colscheme.normal;
-  printtext(40+10, 11, color, textbuffer);
-
-  sprintf(textbuffer, "Filtertable Pos %02X", instr[einum].ptr[FTBL]);
-  if (eipos == 4) color = colscheme.edit; else color = colscheme.normal;
-  printtext(40+10, 12, color, textbuffer);
-
-  sprintf(textbuffer, "Vibrato Param   %02X", instr[einum].ptr[STBL]);
-  if (eipos == 5) color = colscheme.edit; else color = colscheme.normal;
-  printtext(60+10, 8, color, textbuffer);
-
-  sprintf(textbuffer, "Vibrato Delay   %02X", instr[einum].vibdelay);
-  if (eipos == 6) color = colscheme.edit; else color = colscheme.normal;
-  printtext(60+10, 9, color, textbuffer);
-
-  sprintf(textbuffer, "HR/Gate Timer   %02X", instr[einum].gatetimer);
-  if (eipos == 7) color = colscheme.edit; else color = colscheme.normal;
-  printtext(60+10, 10, color, textbuffer);
-
-  sprintf(textbuffer, "1stFrame Wave   %02X", instr[einum].firstwave);
-  if (eipos == 8) color = colscheme.edit; else color = colscheme.normal;
-  printtext(60+10, 11, color, textbuffer);
-  */
-
-  sprintf(textbuffer, "Attack/Decay");
-  if (eipos == 0) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(40+10, 8, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].ad);
-  if (eipos == 0) color = colscheme.normal; else color = colscheme.playing;
-  printtext(40+26, 8, color, textbuffer);
-
-  sprintf(textbuffer, "Sustain/Release");
-  if (eipos == 1) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(40+10, 9, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].sr);
-  if (eipos == 1) color = colscheme.normal; else color = colscheme.playing;
-  printtext(40+26, 9, color, textbuffer);
-
-  sprintf(textbuffer, "Wavetable Pos");
-  if (eipos == 2) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(40+10, 10, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].ptr[WTBL]);
-  if (eipos == 2) color = colscheme.normal; else color = colscheme.playing;
-  printtext(40+26, 10, color, textbuffer);
-
-  sprintf(textbuffer, "Pulsetable Pos");
-  if (eipos == 3) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(40+10, 11, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].ptr[PTBL]);
-  if (eipos == 3) color = colscheme.normal; else color = colscheme.playing;
-  printtext(40+26, 11, color, textbuffer);
-
-  sprintf(textbuffer, "Filtertable Pos");
-  if (eipos == 4) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(40+10, 12, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].ptr[FTBL]);
-  if (eipos == 4) color = colscheme.normal; else color = colscheme.playing;
-  printtext(40+26, 12, color, textbuffer);
-
-  sprintf(textbuffer, "Vibrato Param");
-  if (eipos == 5) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(60+10, 8, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].ptr[STBL]);
-  if (eipos == 5) color = colscheme.normal; else color = colscheme.playing;
-  printtext(60+26, 8, color, textbuffer);
-
-  sprintf(textbuffer, "Vibrato Delay");
-  if (eipos == 6) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(60+10, 9, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].vibdelay);
-  if (eipos == 6) color = colscheme.normal; else color = colscheme.playing;
-  printtext(60+26, 9, color, textbuffer);
-
-  sprintf(textbuffer, "HR/Gate Timer");
-  if (eipos == 7) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(60+10, 10, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].gatetimer);
-  if (eipos == 7) color = colscheme.normal; else color = colscheme.playing;
-  printtext(60+26, 10, color, textbuffer);
-
-  sprintf(textbuffer, "1stFrame Wave");
-  if (eipos == 8) color = colscheme.edit; else color = colscheme.normal & 0xF7;
-  printtext(60+10, 11, color, textbuffer);
-
-  sprintf(textbuffer, "%02X", instr[einum].firstwave);
-  if (eipos == 8) color = colscheme.normal; else color = colscheme.playing;
-  printtext(60+26, 11, color, textbuffer);
-
-  if (editmode == EDIT_INSTRUMENT)
-  {
-    if (eipos < 9)
+    if (editmode == EDIT_TABLES)
     {
-      if (!eamode) printbg(56+10+eicolumn+20*(eipos/5), 8+(eipos%5), cc, 1);
+        if (!eamode) printbg(43+10+etnum*10+(etcolumn & 1)+(etcolumn/2)*3, 15+etpos-etview[etnum], cc, 1);
     }
-    else
+
+    printtext(40+10, 31, colscheme.title, "NAME   ");
+    sprintf(textbuffer, "%-32s", songname);
+    printtext(47+10, 31, colscheme.edit, textbuffer);
+
+    printtext(40+10, 32, colscheme.title, "AUTHOR ");
+    sprintf(textbuffer, "%-32s", authorname);
+    printtext(47+10, 32, colscheme.edit, textbuffer);
+
+    printtext(40+10, 33, colscheme.title, "COPYR. ");
+    sprintf(textbuffer, "%-32s", copyrightname);
+    printtext(47+10, 33, colscheme.edit, textbuffer);
+
+    if ((editmode == EDIT_NAMES) && (!eamode))
     {
-      if (!eamode) printbg(60+10+strlen(instr[einum].name), 7, cc, 1);
-    }
-  }
-
-  sprintf(textbuffer, "WAVE TBL  PULSETBL  FILT.TBL  SPEEDTBL");
-  printtext(40+10, 14, colscheme.title, textbuffer);
-
-  for (c = 0; c < MAX_TABLES; c++)
-  {
-    for (d = 0; d < VISIBLETABLEROWS; d++)
-    {
-      int p = etview[c]+d;
-
-      color = colscheme.normal;
-      switch (c)
-      {
-        case WTBL:
-        // if (ltable[c][p] >= WAVECMD) color = colscheme.command;
-        // @TODO
-        if (ltable[c][p] >= WAVECMD) color = colscheme.table_modval;
-        if (ltable[c][p] <= 0x10) color = colscheme.table_modval;
-        break;
-
-        case PTBL:
-        // if (ltable[c][p] >= 0x80) color = colscheme.command;
-        // @TODO
-        if (ltable[c][p] >= 0x80) color = colscheme.normal;
-        else color = colscheme.table_modval;
-        break;
-
-        case FTBL:
-        // if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = colscheme.command;
-        // @TODO
-        if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = colscheme.normal;
-        else color = colscheme.table_modval;
-        break;
-      }
-      // added
-      if (ltable[c][p] == 0xFF) color = colscheme.table_end;
-      // end
-      if ((p == etpos) && (etnum == c)) color = colscheme.edit;
-      /*
-      sprintf(textbuffer, "%02X:%02X %02X", p+1, ltable[c][p], rtable[c][p]);
-      printtext(40+10+10*c, 15+d, color, textbuffer);
-      */
-      sprintf(textbuffer, "%02X:", p+1);
-      // @TODO
-      printtext(40+10+10*c, 15+d, colscheme.indexes, textbuffer);
-      // if ( ltable[c][p] || rtable[c][p] )
-      // allow single 00 00 columns:
-      if ( ltable[c][p] || rtable[c][p] || ltable[c][p+1] || rtable[c][p+1] )
-      {
-        sprintf(textbuffer, "%02X %02X", ltable[c][p], rtable[c][p]);
-      }
-      else
-      {
-        sprintf(textbuffer, ".. ..");
-      }
-      printtext(40+10+10*c+3, 15+d, color, textbuffer);
-
-      if (etmarknum == c)
-      {
-        if (etmarkstart <= etmarkend)
+        switch(enpos)
         {
-          if ((p >= etmarkstart) && (p <= etmarkend))
-            printbg(40+10+10*c+3, 15+d, colscheme.mark_bg, 5);
+        case 0:
+            printbg(47+10+strlen(songname), 31, cc, 1);
+            break;
+        case 1:
+            printbg(47+10+strlen(authorname), 32, cc, 1);
+            break;
+        case 2:
+            printbg(47+10+strlen(copyrightname), 33, cc, 1);
+            break;
         }
-        else
-        {
-          if ((p <= etmarkstart) && (p >= etmarkend))
-            printbg(40+10+10*c+3, 15+d, colscheme.mark_bg, 5);
-        }
-      }
     }
-  }
+    /*
+    sprintf(textbuffer, "OCTAVE %d", epoctave);
+    printtext(0, 35, colscheme.title, textbuffer);
+    */
+    sprintf(textbuffer, "OCTAVE");
+    printtext(0, 35, colscheme.title, textbuffer);
 
-  if (editmode == EDIT_TABLES)
-  {
-    if (!eamode) printbg(43+10+etnum*10+(etcolumn & 1)+(etcolumn/2)*3, 15+etpos-etview[etnum], cc, 1);
-  }
+    sprintf(textbuffer, "%d", epoctave);
+    printtext(0+7, 35, colscheme.playing, textbuffer);
 
-  printtext(40+10, 31, colscheme.title, "NAME   ");
-  sprintf(textbuffer, "%-32s", songname);
-  printtext(47+10, 31, colscheme.edit, textbuffer);
-
-  printtext(40+10, 32, colscheme.title, "AUTHOR ");
-  sprintf(textbuffer, "%-32s", authorname);
-  printtext(47+10, 32, colscheme.edit, textbuffer);
-
-  printtext(40+10, 33, colscheme.title, "COPYR. ");
-  sprintf(textbuffer, "%-32s", copyrightname);
-  printtext(47+10, 33, colscheme.edit, textbuffer);
-
-  if ((editmode == EDIT_NAMES) && (!eamode))
-  {
-    switch(enpos)
+    switch(autoadvance)
     {
-      case 0:
-      printbg(47+10+strlen(songname), 31, cc, 1);
-      break;
-      case 1:
-      printbg(47+10+strlen(authorname), 32, cc, 1);
-      break;
-      case 2:
-      printbg(47+10+strlen(copyrightname), 33, cc, 1);
-      break;
-    }
-  }
-  /*
-  sprintf(textbuffer, "OCTAVE %d", epoctave);
-  printtext(0, 35, colscheme.title, textbuffer);
-  */
-  sprintf(textbuffer, "OCTAVE");
-  printtext(0, 35, colscheme.title, textbuffer);
-
-  sprintf(textbuffer, "%d", epoctave);
-  printtext(0+7, 35, colscheme.playing, textbuffer);
-
-  switch(autoadvance)
-  {
     /*
     case 0:
     color = 10;
@@ -623,98 +642,98 @@ void printstatus(void)
     */
     // @TODO: what does this do?
     case 0:
-    color = ( color & 0xF0 ) + 10;
-    break;
+        color = ( color & 0xF0 ) + 10;
+        break;
 
     case 1:
-    color = ( color & 0xF0 ) + 14;
-    break;
+        color = ( color & 0xF0 ) + 14;
+        break;
 
     case 2:
-    color = ( color & 0xF0 ) + 12;
-    break;
-  }
+        color = ( color & 0xF0 ) + 12;
+        break;
+    }
 
-  if (recordmode) printtext(0, 36, color, "EDITMODE");
-  // else printtext(0, 36, color, "JAM MODE");
-  else printtext(0, 36, colscheme.playing, "JAM MODE");
+    if (recordmode) printtext(0, 36, color, "EDITMODE");
+    // else printtext(0, 36, color, "JAM MODE");
+    else printtext(0, 36, colscheme.playing, "JAM MODE");
 
-  if (isplaying()) printtext(10, 35, colscheme.title, "PLAYING");
-  // else printtext(10, 35, colscheme.title, "STOPPED");
-  else printtext(10, 35, colscheme.normal, "STOPPED");
+    if (isplaying()) printtext(10, 35, colscheme.title, "PLAYING");
+    // else printtext(10, 35, colscheme.title, "STOPPED");
+    else printtext(10, 35, colscheme.normal, "STOPPED");
 
-  if (multiplier)
-  {
-    if (!ntsc)
-      sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[timeframe/(25*multiplier) & 1], timesec);
+    if (multiplier)
+    {
+        if (!ntsc)
+            sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[timeframe/(25*multiplier) & 1], timesec);
+        else
+            sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[timeframe/(30*multiplier) & 1], timesec);
+    }
     else
-      sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[timeframe/(30*multiplier) & 1], timesec);
-  }
-  else
-  {
-    if (!ntsc)
-      sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[(timeframe/13) & 1], timesec);
-    else
-      sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[(timeframe/15) & 1], timesec);
-  }
+    {
+        if (!ntsc)
+            sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[(timeframe/13) & 1], timesec);
+        else
+            sprintf(textbuffer, " %02d%c%02d ", timemin, timechar[(timeframe/15) & 1], timesec);
+    }
 
-  printtext(10, 36, colscheme.edit, textbuffer);
+    printtext(10, 36, colscheme.edit, textbuffer);
 
-  printtext(80, 35, colscheme.title, " CHN1   CHN2   CHN3 ");
-  for (c = 0; c < MAX_CHN; c++)
-  {
-    int chnpos = chn[c].songptr;
-    int chnrow = chn[c].pattptr/4;
-    chnpos--;
-    if (chnpos < 0) chnpos = 0;
-    if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
-    if (chnrow >= 100) chnrow -= 100;
+    printtext(80, 35, colscheme.title, " CHN1   CHN2   CHN3 ");
+    for (c = 0; c < MAX_CHN; c++)
+    {
+        int chnpos = chn[c].songptr;
+        int chnrow = chn[c].pattptr/4;
+        chnpos--;
+        if (chnpos < 0) chnpos = 0;
+        if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
+        if (chnrow >= 100) chnrow -= 100;
 
-    sprintf(textbuffer, "%03d/%02d",
-      chnpos,chnrow);
-    printtext(80+7*c, 36, colscheme.edit, textbuffer);
-  }
+        sprintf(textbuffer, "%03d/%02d",
+                chnpos,chnrow);
+        printtext(80+7*c, 36, colscheme.edit, textbuffer);
+    }
 
-  if (etlock) printtext(78, 36, colscheme.title, " ");
+    if (etlock) printtext(78, 36, colscheme.title, " ");
     else printtext(78, 36, colscheme.title, "U");
 }
 
 
 void resettime(void)
 {
-  timemin = 0;
-  timesec = 0;
-  timeframe = 0;
+    timemin = 0;
+    timesec = 0;
+    timeframe = 0;
 }
 
 void incrementtime(void)
 {
-  {
-    timeframe++;
-    if (!ntsc)
     {
-      if (((multiplier) && (timeframe >= PALFRAMERATE*multiplier))
-          || ((!multiplier) && (timeframe >= PALFRAMERATE/2)))
-      {
-        timeframe = 0;
-        timesec++;
-      }
+        timeframe++;
+        if (!ntsc)
+        {
+            if (((multiplier) && (timeframe >= PALFRAMERATE*multiplier))
+                    || ((!multiplier) && (timeframe >= PALFRAMERATE/2)))
+            {
+                timeframe = 0;
+                timesec++;
+            }
+        }
+        else
+        {
+            if (((multiplier) && (timeframe >= NTSCFRAMERATE*multiplier))
+                    || ((!multiplier) && (timeframe >= NTSCFRAMERATE/2)))
+            {
+                timeframe = 0;
+                timesec++;
+            }
+        }
+        if (timesec == 60)
+        {
+            timesec = 0;
+            timemin++;
+            timemin %= 60;
+        }
     }
-    else
-    {
-      if (((multiplier) && (timeframe >= NTSCFRAMERATE*multiplier))
-          || ((!multiplier) && (timeframe >= NTSCFRAMERATE/2)))
-      {
-        timeframe = 0;
-        timesec++;
-      }
-    }
-    if (timesec == 60)
-    {
-      timesec = 0;
-      timemin++;
-      timemin %= 60;
-    }
-  }
 }
 

@@ -7,9 +7,9 @@
 #include <stdio.h>
 
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 #include "bme_main.h"
 #include "bme_cfg.h"
@@ -158,8 +158,8 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
     }
 
     if ((obtained.format == AUDIO_S16SYS) ||
-       (obtained.format == AUDIO_S16LSB) ||
-       (obtained.format == AUDIO_S16MSB))
+            (obtained.format == AUDIO_S16LSB) ||
+            (obtained.format == AUDIO_S16MSB))
     {
         snd_mixmode |= SIXTEENBIT;
         snd_samplesize <<= 1;
@@ -393,10 +393,10 @@ static void snd_8bit_postprocess(Sint32 *src, Uint8 *dest, unsigned samples)
 {
     while (samples--)
     {
-          int sample = *src++;
-          if (sample > 32767) sample = 32767;
-          if (sample < -32768) sample = -32768;
-          *dest++ = (sample >> 8) + 128;
+        int sample = *src++;
+        if (sample > 32767) sample = 32767;
+        if (sample < -32768) sample = -32768;
+        *dest++ = (sample >> 8) + 128;
     }
 }
 
@@ -404,213 +404,213 @@ static void snd_mixchannel(CHANNEL *chptr, Sint32 *dest, unsigned samples)
 {
     if (chptr->voicemode & VM_ON)
     {
-          unsigned freq, intadd, fractadd;
+        unsigned freq, intadd, fractadd;
 
-          freq = chptr->freq;
-          if (freq > 535232) freq = 535232;
-          intadd = freq / snd_mixrate;
-          fractadd = (((freq % snd_mixrate) << 16) / snd_mixrate) & 65535;
+        freq = chptr->freq;
+        if (freq > 535232) freq = 535232;
+        intadd = freq / snd_mixrate;
+        fractadd = (((freq % snd_mixrate) << 16) / snd_mixrate) & 65535;
 
-          if (snd_mixmode & STEREO)
-          {
-                int leftvol = (((chptr->vol * chptr->mastervol) >> 6) * (255-chptr->panning)) >> 7;
-                int rightvol = (((chptr->vol * chptr->mastervol) >> 6) * (chptr->panning)) >> 7;
-                if (leftvol > 255) leftvol = 255;
-                if (rightvol > 255) rightvol = 255;
-                if (leftvol < 0) leftvol = 0;
-                if (rightvol < 0) rightvol = 0;
+        if (snd_mixmode & STEREO)
+        {
+            int leftvol = (((chptr->vol * chptr->mastervol) >> 6) * (255-chptr->panning)) >> 7;
+            int rightvol = (((chptr->vol * chptr->mastervol) >> 6) * (chptr->panning)) >> 7;
+            if (leftvol > 255) leftvol = 255;
+            if (rightvol > 255) rightvol = 255;
+            if (leftvol < 0) leftvol = 0;
+            if (rightvol < 0) rightvol = 0;
 
-                if (chptr->voicemode & VM_16BIT)
+            if (chptr->voicemode & VM_16BIT)
+            {
+                Sint16 *pos = (Sint16 *)chptr->pos;
+                Sint16 *end = (Sint16 *)chptr->end;
+                Sint16 *repeat = (Sint16 *)chptr->repeat;
+
+                if (chptr->voicemode & VM_LOOP)
                 {
-                    Sint16 *pos = (Sint16 *)chptr->pos;
-                    Sint16 *end = (Sint16 *)chptr->end;
-                    Sint16 *repeat = (Sint16 *)chptr->repeat;
-
-                    if (chptr->voicemode & VM_LOOP)
+                    while (samples--)
                     {
-                          while (samples--)
-                          {
-                                *dest = *dest + ((*pos * leftvol) >> 8);
-                                dest++;
-                                *dest = *dest + ((*pos * rightvol) >> 8);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                while (pos >= end) pos -= (end - repeat);
-                          }
+                        *dest = *dest + ((*pos * leftvol) >> 8);
+                        dest++;
+                        *dest = *dest + ((*pos * rightvol) >> 8);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        while (pos >= end) pos -= (end - repeat);
                     }
-                    else
-                    {
-                          while (samples--)
-                          {
-                                *dest = *dest + ((*pos * leftvol) >> 8);
-                                dest++;
-                                *dest = *dest + ((*pos * rightvol) >> 8);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                if (pos >= end)
-                                {
-                                    chptr->voicemode &= ~VM_ON;
-                                    break;
-                                }
-                          }
-                    }
-                    chptr->pos = (Sint8 *)pos;
                 }
                 else
                 {
-                    Sint8 *pos = (Sint8 *)chptr->pos;
-                    Sint8 *end = chptr->end;
-                    Sint8 *repeat = chptr->repeat;
-
-                    if (chptr->voicemode & VM_LOOP)
+                    while (samples--)
                     {
-                          while (samples--)
-                          {
-                                *dest = *dest + (*pos * leftvol);
-                                dest++;
-                                *dest = *dest + (*pos * rightvol);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                while (pos >= end) pos -= (end - repeat);
-                          }
+                        *dest = *dest + ((*pos * leftvol) >> 8);
+                        dest++;
+                        *dest = *dest + ((*pos * rightvol) >> 8);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        if (pos >= end)
+                        {
+                            chptr->voicemode &= ~VM_ON;
+                            break;
+                        }
                     }
-                    else
-                    {
-                          while (samples--)
-                          {
-                                *dest = *dest + (*pos * leftvol);
-                                dest++;
-                                *dest = *dest + (*pos * rightvol);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                if (pos >= end)
-                                {
-                                    chptr->voicemode &= ~VM_ON;
-                                    break;
-                                }
-                          }
-                    }
-                    chptr->pos = (Sint8 *)pos;
                 }
-          }
-          else
-          {
-                int vol = ((chptr->vol * chptr->mastervol) >> 6);
-                if (vol > 255) vol = 255;
-                if (vol < 0) vol = 0;
+                chptr->pos = (Sint8 *)pos;
+            }
+            else
+            {
+                Sint8 *pos = (Sint8 *)chptr->pos;
+                Sint8 *end = chptr->end;
+                Sint8 *repeat = chptr->repeat;
 
-                if (chptr->voicemode & VM_16BIT)
+                if (chptr->voicemode & VM_LOOP)
                 {
-                    Sint16 *pos = (Sint16 *)chptr->pos;
-                    Sint16 *end = (Sint16 *)chptr->end;
-                    Sint16 *repeat = (Sint16 *)chptr->repeat;
-
-                    if (chptr->voicemode & VM_LOOP)
+                    while (samples--)
                     {
-                          while (samples--)
-                          {
-                                *dest = *dest + ((*pos * vol) >> 8);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                while (pos >= end) pos -= (end - repeat);
-                          }
+                        *dest = *dest + (*pos * leftvol);
+                        dest++;
+                        *dest = *dest + (*pos * rightvol);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        while (pos >= end) pos -= (end - repeat);
                     }
-                    else
-                    {
-                          while (samples--)
-                          {
-                                *dest = *dest + ((*pos * vol) >> 8);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                if (pos >= end)
-                                {
-                                    chptr->voicemode &= ~VM_ON;
-                                    break;
-                                }
-                          }
-                    }
-                    chptr->pos = (Sint8 *)pos;
                 }
                 else
                 {
-                    Sint8 *pos = (Sint8 *)chptr->pos;
-                    Sint8 *end = chptr->end;
-                    Sint8 *repeat = chptr->repeat;
-
-                    if (chptr->voicemode & VM_LOOP)
+                    while (samples--)
                     {
-                          while (samples--)
-                          {
-                                *dest = *dest + (*pos * vol);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                while (pos >= end) pos -= (end - repeat);
-                          }
+                        *dest = *dest + (*pos * leftvol);
+                        dest++;
+                        *dest = *dest + (*pos * rightvol);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        if (pos >= end)
+                        {
+                            chptr->voicemode &= ~VM_ON;
+                            break;
+                        }
                     }
-                    else
-                    {
-                          while (samples--)
-                          {
-                                *dest = *dest + (*pos * vol);
-                                dest++;
-                                chptr->fractpos += fractadd;
-                                if (chptr->fractpos > 65535)
-                                {
-                                    chptr->fractpos &= 65535;
-                                    pos++;
-                                }
-                                pos += intadd;
-                                if (pos >= end)
-                                {
-                                    chptr->voicemode &= ~VM_ON;
-                                    break;
-                                }
-                          }
-                    }
-                    chptr->pos = (Sint8 *)pos;
                 }
-          }
+                chptr->pos = (Sint8 *)pos;
+            }
+        }
+        else
+        {
+            int vol = ((chptr->vol * chptr->mastervol) >> 6);
+            if (vol > 255) vol = 255;
+            if (vol < 0) vol = 0;
+
+            if (chptr->voicemode & VM_16BIT)
+            {
+                Sint16 *pos = (Sint16 *)chptr->pos;
+                Sint16 *end = (Sint16 *)chptr->end;
+                Sint16 *repeat = (Sint16 *)chptr->repeat;
+
+                if (chptr->voicemode & VM_LOOP)
+                {
+                    while (samples--)
+                    {
+                        *dest = *dest + ((*pos * vol) >> 8);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        while (pos >= end) pos -= (end - repeat);
+                    }
+                }
+                else
+                {
+                    while (samples--)
+                    {
+                        *dest = *dest + ((*pos * vol) >> 8);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        if (pos >= end)
+                        {
+                            chptr->voicemode &= ~VM_ON;
+                            break;
+                        }
+                    }
+                }
+                chptr->pos = (Sint8 *)pos;
+            }
+            else
+            {
+                Sint8 *pos = (Sint8 *)chptr->pos;
+                Sint8 *end = chptr->end;
+                Sint8 *repeat = chptr->repeat;
+
+                if (chptr->voicemode & VM_LOOP)
+                {
+                    while (samples--)
+                    {
+                        *dest = *dest + (*pos * vol);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        while (pos >= end) pos -= (end - repeat);
+                    }
+                }
+                else
+                {
+                    while (samples--)
+                    {
+                        *dest = *dest + (*pos * vol);
+                        dest++;
+                        chptr->fractpos += fractadd;
+                        if (chptr->fractpos > 65535)
+                        {
+                            chptr->fractpos &= 65535;
+                            pos++;
+                        }
+                        pos += intadd;
+                        if (pos >= end)
+                        {
+                            chptr->voicemode &= ~VM_ON;
+                            break;
+                        }
+                    }
+                }
+                chptr->pos = (Sint8 *)pos;
+            }
+        }
     }
 }

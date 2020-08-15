@@ -24,20 +24,20 @@ void sound_mixer(Sint32 *dest, unsigned samples);
 Uint32 sound_timer(Uint32 interval, void *param);
 
 int sound_init(
-        unsigned b,
-        unsigned mr,
-        unsigned writer,
-        unsigned m,
-        unsigned ntsc,
-        unsigned multiplier,
-        unsigned interpolate,
-        unsigned customclockrate
-    )
+    unsigned b,
+    unsigned mr,
+    unsigned writer,
+    unsigned m,
+    unsigned ntsc,
+    unsigned multiplier,
+    unsigned interpolate,
+    unsigned customclockrate
+)
 {
-    #ifdef __WIN32__
+#ifdef __WIN32__
     if (!flushmutex)
         flushmutex = SDL_CreateMutex();
-    #endif
+#endif
 
     sound_uninit();
 
@@ -128,20 +128,20 @@ void sound_uninit(void)
 
 void sound_suspend(void)
 {
-    #ifdef __WIN32__
-        SDL_LockMutex(flushmutex);
-        suspendplayroutine = TRUE;
-        SDL_UnlockMutex(flushmutex);
-    #endif
+#ifdef __WIN32__
+    SDL_LockMutex(flushmutex);
+    suspendplayroutine = TRUE;
+    SDL_UnlockMutex(flushmutex);
+#endif
 }
 
 void sound_flush(void)
 {
-    #ifdef __WIN32__
-        SDL_LockMutex(flushmutex);
-        flushplayerthread = TRUE;
-        SDL_UnlockMutex(flushmutex);
-    #endif
+#ifdef __WIN32__
+    SDL_LockMutex(flushmutex);
+    flushplayerthread = TRUE;
+    SDL_UnlockMutex(flushmutex);
+#endif
 }
 
 Uint32 sound_timer(Uint32 interval, void *param)

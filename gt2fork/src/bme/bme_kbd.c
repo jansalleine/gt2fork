@@ -7,9 +7,9 @@
 #include <string.h>
 
 #ifdef __WIN32__
-    #include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #else
-    #include <SDL.h>
+#include <SDL.h>
 #endif
 #include "bme_main.h"
 #include "bme_cfg.h"
@@ -110,7 +110,8 @@ static KEY keyname[] = {{KEY_BACKSPACE, "BACKSPACE"},
     {KEY_WINDOWSL, "WINDOWS KEY"},
     {KEY_WINDOWSR, "WINDOWS KEY"},
     {KEY_MENU, "MENU KEY"},
-    {0xff, "?"}};
+    {0xff, "?"}
+};
 
 int kbd_init(void)
 {
