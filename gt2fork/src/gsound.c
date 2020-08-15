@@ -8,7 +8,7 @@
 #include <windows.h>
 #endif
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 // General / reSID output
 int playspeed;
@@ -34,11 +34,6 @@ int sound_init(
     unsigned customclockrate
 )
 {
-#ifdef __WIN32__
-    if (!flushmutex)
-        flushmutex = SDL_CreateMutex();
-#endif
-
     sound_uninit();
 
     if (multiplier)
@@ -124,24 +119,6 @@ void sound_uninit(void)
         free(buffer);
         buffer = NULL;
     }
-}
-
-void sound_suspend(void)
-{
-#ifdef __WIN32__
-    SDL_LockMutex(flushmutex);
-    suspendplayroutine = TRUE;
-    SDL_UnlockMutex(flushmutex);
-#endif
-}
-
-void sound_flush(void)
-{
-#ifdef __WIN32__
-    SDL_LockMutex(flushmutex);
-    flushplayerthread = TRUE;
-    SDL_UnlockMutex(flushmutex);
-#endif
 }
 
 Uint32 sound_timer(Uint32 interval, void *param)

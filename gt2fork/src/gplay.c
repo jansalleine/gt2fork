@@ -4,7 +4,7 @@
 
 #define GPLAY_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 unsigned char freqtbllo[] = {
     0x17,0x27,0x39,0x4b,0x5f,0x74,0x8a,0xa1,0xba,0xd4,0xf0,0x0e,
@@ -83,31 +83,31 @@ void initchannels(void)
 
 void initsong(int num, int mode)
 {
-    sound_suspend();
+    // sound_suspend();
     songinit = PLAY_STOPPED;
     psnum = num;
     songinit = mode;
     startpattpos = 0;
-    sound_flush();
+    // sound_flush();
 }
 
 void initsongpos(int num, int mode, int pattpos)
 {
-    sound_suspend();
+    // sound_suspend();
     songinit = PLAY_STOPPED;
     psnum = num;
     songinit = mode;
     startpattpos = pattpos;
-    sound_flush();
+    // sound_flush();
 }
 
 void stopsong(void)
 {
     if (songinit != PLAY_STOPPED)
     {
-        sound_suspend();
+        // sound_suspend();
         songinit = PLAY_STOP;
-        sound_flush();
+        // sound_flush();
     }
 }
 

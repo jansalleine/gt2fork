@@ -26,7 +26,5 @@ int sound_init(
     unsigned customclockrate
 );
 void sound_uninit(void);
-void sound_suspend(void);
-void sound_flush(void);
 
 #endif

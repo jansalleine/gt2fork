@@ -4,7 +4,7 @@
 
 #define GSONG_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 INSTR instr[MAX_INSTR];
 unsigned char ltable[MAX_TABLES][MAX_TABLELEN];

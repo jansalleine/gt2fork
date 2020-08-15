@@ -4,7 +4,7 @@
 
 #define GORDER_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 unsigned char trackcopybuffer[MAX_SONGLEN+2];
 int trackcopyrows = 0;

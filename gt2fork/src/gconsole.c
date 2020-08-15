@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 int gfxinitted = 0;
 unsigned *scrbuffer = NULL;

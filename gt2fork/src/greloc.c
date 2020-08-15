@@ -4,7 +4,7 @@
 
 #define GRELOC_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 #include "membuf.h"
 #include "parse.h"
 

@@ -1,5 +1,5 @@
-#ifndef GOATTRK2_H
-#define GOATTRK2_H
+#ifndef GT2FORK_H
+#define GT2FORK_H
 
 #include <unistd.h>
 #include <stdio.h>
@@ -43,7 +43,7 @@
 
 #define PGUPDNREPEAT 8
 
-#ifndef GOATTRK2_C
+#ifndef GT2FORK_C
 extern int menu;
 extern int editmode;
 extern int recordmode;

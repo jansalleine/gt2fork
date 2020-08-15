@@ -16,13 +16,13 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#define GOATTRK2_C
+#define GT2FORK_C
 
 #ifdef __WIN32__
 #include <windows.h>
 #endif
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 #include "bme.h"
 
 int menu = 0;

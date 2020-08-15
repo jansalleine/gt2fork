@@ -1,6 +1,6 @@
 #define GCOLORS_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 COLORSCHEME colscheme = {};
 

@@ -38,7 +38,7 @@ RESIDFPOBJECTS=residfp/Dac.o \
 	residfp/WaveformGenerator.o \
 	residfp/resample/SincResampler.o
 
-EXE=	$(PREFIX)goattrk2$(SUFFIX) \
+EXE=	$(PREFIX)gt2fork$(SUFFIX) \
 	$(PREFIX)gt2reloc$(SUFFIX) \
 	$(PREFIX)ins2snd2$(SUFFIX) \
 	$(PREFIX)sngspli2$(SUFFIX) \
@@ -47,7 +47,7 @@ EXE=	$(PREFIX)goattrk2$(SUFFIX) \
 
 all: datafile dat2inc $(EXE)
 
-$(PREFIX)goattrk2$(SUFFIX): goatdata.o goattrk2.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
+$(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
 gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o gcolors.o \
 $(RESIDOBJECTS) \
 $(RESIDFPOBJECTS) \

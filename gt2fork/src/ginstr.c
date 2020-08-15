@@ -4,7 +4,7 @@
 
 #define GINSTR_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 INSTR instrcopybuffer;
 int cutinstr = -1;

@@ -4,7 +4,7 @@
 
 #define GPATTERN_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 unsigned char notekeytbl1[] = {KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_V,
                                KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_COMMA, KEY_L, KEY_COLON

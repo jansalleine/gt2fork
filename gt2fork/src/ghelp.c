@@ -4,7 +4,7 @@
 
 #define GHELP_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 #define HELP_HEADER colscheme.help_header
 #define HELP_NORMAL colscheme.help_normal

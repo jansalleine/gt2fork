@@ -4,7 +4,7 @@
 
 #define GTABLE_C
 
-#include "goattrk2.h"
+#include "gt2fork.h"
 
 unsigned char ltablecopybuffer[MAX_TABLELEN];
 unsigned char rtablecopybuffer[MAX_TABLELEN];
