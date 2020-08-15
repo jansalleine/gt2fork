@@ -58,12 +58,8 @@ unsigned usefinevib = 0;
 unsigned b = DEFAULTBUF;
 unsigned mr = DEFAULTMIXRATE;
 unsigned writer = 0;
-unsigned hardsid = 0;
-unsigned catweasel = 0;
 unsigned interpolate = 1;
 unsigned residdelay = 0;
-unsigned hardsidbufinteractive = 20;
-unsigned hardsidbufplayback = 400;
 float basepitch = 0.0f;
 float equaldivisionsperoctave = 12.0f;
 int tuningcount = 0;
@@ -98,7 +94,6 @@ char* usage[] = {
     "Options:",
     "-Axx Set ADSR parameter for hardrestart in hex. DEFAULT=0F00",
     "-Bxx Set sound buffer length in milliseconds DEFAULT=100",
-    "-Cxx Use CatWeasel MK3 PCI SID (0 = off, 1 = on)",
     "-Dxx Pattern row display (0 = decimal, 1 = hexadecimal)",
     "-Exx Set emulated SID model (0 = 6581 1 = 8580) DEFAULT=8580",
     "-Fxx Set custom SID clock cycles per second (0 = use PAL/NTSC default)",
@@ -160,7 +155,6 @@ int main(int argc, char **argv)
     getparam(configfile, &keypreset);
     getparam(configfile, (unsigned *)&stepsize);
     getparam(configfile, &multiplier);
-    getparam(configfile, &catweasel);
     getparam(configfile, &adparam);
     getparam(configfile, &interpolate);
     getparam(configfile, &patterndispmode);
@@ -293,10 +287,6 @@ int main(int argc, char **argv)
         sscanf(&argv[c][2], "%u", &win_fullscreen);
         break;
 
-        case 'C':
-        sscanf(&argv[c][2], "%u", &catweasel);
-        break;
-
         case 'G':
         sscanf(&argv[c][2], "%f", &basepitch);
         break;
@@ -380,7 +370,7 @@ int main(int argc, char **argv)
   clearsong(1,1,1,1,1);
 
   // Init sound
-  if (!sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate))
+  if (!sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate))
   {
     printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
     waitkeynoupdate();
@@ -426,7 +416,6 @@ int main(int argc, char **argv)
     ";Key entry mode (0 = Protracker, 1 = DMC, 2 = Janko)\n%d\n\n"
     ";Pattern highlight step size\n%d\n\n"
     ";Speed multiplier (0 = 25Hz, 1 = 1X, 2 = 2X etc.)\n%d\n\n"
-    ";Use CatWeasel SID (0 = off, 1 = on)\n%d\n\n"
     ";Hardrestart ADSR parameter\n$%04x\n\n"
     ";reSID/-FP settings (0 = reSID Fast Resample, 1 = reSID Resample, 2 = reSID-FP Interpolate, 3 = reSID-FP Interpolate Resample)\n%d\n\n"
     ";Hexadecimal pattern display (0 = off, 1 = on)\n%d\n\n"
@@ -455,7 +444,6 @@ int main(int argc, char **argv)
     keypreset,
     stepsize,
     multiplier,
-    catweasel,
     adparam,
     interpolate,
     patterndispmode,
@@ -814,12 +802,12 @@ void mousecommands(void)
       if ((mousex >= 49+10) && (mousex <= 52+10))
       {
         ntsc ^= 1;
-        sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate);
+        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
       }
       if ((mousex >= 54+10) && (mousex <= 57+10))
       {
         sidmodel ^= 1;
-        sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate);
+        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
       }
       if ((mousex >= 62+10) && (mousex <= 65+10)) editadsr();
       if ((mousex >= 67+10) && (mousex <= 68+10)) prevmultiplier();
@@ -1039,7 +1027,7 @@ void generalcommands(void)
     else
     {
       sidmodel ^= 1;
-      sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate);
+      sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
     }
     break;
 
@@ -1413,7 +1401,7 @@ void prevmultiplier(void)
   if (multiplier > 0)
   {
     multiplier--;
-    sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate);
+    sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
   }
 }
 
@@ -1422,7 +1410,7 @@ void nextmultiplier(void)
   if (multiplier < 16)
   {
     multiplier++;
-    sound_init(b, mr, writer, hardsid, sidmodel, ntsc, multiplier, catweasel, interpolate, customclockrate);
+    sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
   }
 }
 

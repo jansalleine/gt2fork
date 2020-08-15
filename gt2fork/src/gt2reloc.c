@@ -58,12 +58,8 @@ unsigned usefinevib = 0;
 unsigned b = DEFAULTBUF;
 unsigned mr = DEFAULTMIXRATE;
 unsigned writer = 0;
-unsigned hardsid = 0;
-unsigned catweasel = 0;
 unsigned interpolate = 0;
 unsigned residdelay = 0;
-unsigned hardsidbufinteractive = 20;
-unsigned hardsidbufplayback = 400;
 float basepitch = 0.0f;
 
 char configbuf[MAX_PATHNAME];
