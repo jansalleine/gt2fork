@@ -117,6 +117,7 @@ clean:
 	$(RM) residfp/*.o
 	$(RM) residfp/resample/*.o
 	$(RM) $(EXE)
+	$(RM) ../win32/*.cfg
 	$(RM) datafile
 	$(RM) dat2inc
 	$(RM) goatdata.c
