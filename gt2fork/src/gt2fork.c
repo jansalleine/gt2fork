@@ -77,7 +77,7 @@ char instrpath[MAX_PATHNAME];
 char packedpath[MAX_PATHNAME];
 
 extern char *notename[];
-char *programname = "$VER: GoatTracker v2.75";
+char *programname = "$VER: gt2fork v0.5";
 char specialnotenames[186];
 char scalatuningfilepath[MAX_PATHNAME];
 char tuningname[64];
@@ -400,6 +400,7 @@ int main(int argc, char **argv)
 
     // Start editor mainloop
     printmainscreen();
+
     while (!exitprogram)
     {
         waitkeymouse();
@@ -1181,10 +1182,9 @@ void quit(void)
 {
     if ((!shiftpressed) || (mouseb))
     {
-        // printtextcp(49, 36, 15, "Really Quit (y/n)?");
-        printtextcp(49, 36, colscheme.status_bottom, "Really Quit (y/n)?");
+        printtextcp(49, 39, colscheme.status_bottom, "Really Quit (y/n)?");
         waitkey();
-        printblank(20, 36, 58);
+        printblank(20, 39, 58);
         if ((key == 'y') || (key == 'Y')) exitprogram = 1;
     }
     key = 0;
@@ -1199,10 +1199,9 @@ void clear(void)
     int ct = 0;
     int cn = 0;
 
-    // printtextcp(49, 36, 15, "Optimize everything (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Optimize everything (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Optimize everything (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y'))
     {
         optimizeeverything(1, 1);
@@ -1211,34 +1210,29 @@ void clear(void)
         return;
     }
 
-    // printtextcp(49, 36, 15, "Clear orderlists (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Clear orderlists (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Clear orderlists (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y')) cs = 1;
 
-    // printtextcp(49, 36, 15, "Clear patterns (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Clear patterns (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Clear patterns (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y')) cp = 1;
 
-    // printtextcp(49, 36, 15, "Clear instruments (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Clear instruments (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Clear instruments (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y')) ci = 1;
 
-    // printtextcp(49, 36, 15, "Clear tables (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Clear tables (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Clear tables (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y')) ct = 1;
 
-    // printtextcp(49, 36, 15, "Clear songname (y/n)?");
-    printtextcp(49, 36, colscheme.status_bottom, "Clear songname (y/n)?");
+    printtextcp(49, 39, colscheme.status_bottom, "Clear songname (y/n)?");
     waitkey();
-    printblank(20, 36, 58);
+    printblank(20, 39, 58);
     if ((key == 'y') || (key == 'Y')) cn = 1;
 
     if (cp == 1)
@@ -1246,13 +1240,18 @@ void clear(void)
         int selectdone = 0;
         int olddpl = defaultpatternlength;
 
-        // printtext(40, 36, 15,"Pattern length:");
-        printtext(40, 36, colscheme.status_bottom,"Pattern length:");
+        printtext(40, 39, colscheme.status_bottom,"Pattern length:");
         while (!selectdone)
         {
-            sprintf(textbuffer, "%02d ", defaultpatternlength);
-            // printtext(55, 36, 15, textbuffer);
-            printtext(55, 36, colscheme.edit, textbuffer);
+            if (patterndispmode)
+            {
+                sprintf(textbuffer, "%02X ", defaultpatternlength);
+            }
+            else
+            {
+                sprintf(textbuffer, "%02d ", defaultpatternlength);
+            }
+            printtext(55, 39, colscheme.edit, textbuffer);
             waitkey();
             switch(rawkey)
             {
@@ -1280,7 +1279,7 @@ void clear(void)
                 break;
             }
         }
-        printblank(20, 36, 58);
+        printblank(20, 39, 58);
     }
 
     if (cs | cp | ci | ct | cn)

@@ -51,11 +51,13 @@ int initscreen(void)
     unsigned xsize = MAX_COLUMNS * 8;
     unsigned ysize = MAX_ROWS * 16;
 
+    printf("xsize: %d, ysize: %d", xsize, ysize);
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
     {
         return 0;
     }
-    win_openwindow(xsize, ysize, "GoatTracker", NULL);
+    win_openwindow(xsize, ysize, "gt2fork", NULL);
     // win_setmousemode(MOUSE_ALWAYS_HIDDEN);
     initicon();
 
@@ -229,7 +231,7 @@ void printblank(int x, int y, int length)
     if (y >= MAX_ROWS) return;
     while (length--)
     {
-        setcharcolor(dptr, 0x20, colscheme.bgcolor);
+        setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
         dptr++;
     }
 }
