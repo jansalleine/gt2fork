@@ -400,7 +400,11 @@ int main(int argc, char **argv)
 
     // Start editor mainloop
     printmainscreen();
-
+    /*
+    printtext(0, 1, colscheme.normal,
+        " 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... .....  01:.. ..  01:.. ..  01:.. ..  01:.. .."
+    );
+    */
     while (!exitprogram)
     {
         waitkeymouse();
@@ -1182,9 +1186,9 @@ void quit(void)
 {
     if ((!shiftpressed) || (mouseb))
     {
-        printtextcp(49, 39, colscheme.status_bottom, "Really Quit (y/n)?");
+        printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Really Quit (y/n)?");
         waitkey();
-        printblank(20, 39, 58);
+        printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
         if ((key == 'y') || (key == 'Y')) exitprogram = 1;
     }
     key = 0;
@@ -1199,9 +1203,9 @@ void clear(void)
     int ct = 0;
     int cn = 0;
 
-    printtextcp(49, 39, colscheme.status_bottom, "Optimize everything (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Optimize everything (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y'))
     {
         optimizeeverything(1, 1);
@@ -1210,29 +1214,29 @@ void clear(void)
         return;
     }
 
-    printtextcp(49, 39, colscheme.status_bottom, "Clear orderlists (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear orderlists (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y')) cs = 1;
 
-    printtextcp(49, 39, colscheme.status_bottom, "Clear patterns (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear patterns (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y')) cp = 1;
 
-    printtextcp(49, 39, colscheme.status_bottom, "Clear instruments (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear instruments (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y')) ci = 1;
 
-    printtextcp(49, 39, colscheme.status_bottom, "Clear tables (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear tables (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y')) ct = 1;
 
-    printtextcp(49, 39, colscheme.status_bottom, "Clear songname (y/n)?");
+    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear songname (y/n)?");
     waitkey();
-    printblank(20, 39, 58);
+    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     if ((key == 'y') || (key == 'Y')) cn = 1;
 
     if (cp == 1)
@@ -1240,7 +1244,7 @@ void clear(void)
         int selectdone = 0;
         int olddpl = defaultpatternlength;
 
-        printtext(40, 39, colscheme.status_bottom,"Pattern length:");
+        printtext(POSSTATUSBOTTOMX+20, POSSTATUSBOTTOMY, colscheme.status_bottom,"Pattern length:");
         while (!selectdone)
         {
             if (patterndispmode)
@@ -1251,7 +1255,7 @@ void clear(void)
             {
                 sprintf(textbuffer, "%02d ", defaultpatternlength);
             }
-            printtext(55, 39, colscheme.edit, textbuffer);
+            printtext(POSSTATUSBOTTOMX+35, POSSTATUSBOTTOMY, colscheme.edit, textbuffer);
             waitkey();
             switch(rawkey)
             {
@@ -1279,7 +1283,7 @@ void clear(void)
                 break;
             }
         }
-        printblank(20, 39, 58);
+        printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
     }
 
     if (cs | cp | ci | ct | cn)

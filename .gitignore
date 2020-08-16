@@ -49,3 +49,4 @@ gt2fork/win32/goattrk2.cfg
 gt2fork/linux/gt2fork
 gt2fork/win32/gt2fork
 gt2fork/win32/gt2fork.cfg
+gt2fork/linux/*.sng

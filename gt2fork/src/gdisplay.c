@@ -59,43 +59,43 @@ void printstatus(void)
         else
             sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
         textbuffer[49] = 0;
-        printtext(0, 0, colscheme.status_top, textbuffer);
+        printtext(POSSTATUSTOPX+1, POSSTATUSTOPY, colscheme.status_top, textbuffer);
 
         if (usefinevib)
-            printtext(40+10, 0, colscheme.status_top, "FV");
+            printtext(POSSTATUSTOPFVX, POSSTATUSTOPY, colscheme.status_top, "FV");
 
         if (optimizepulse)
-            printtext(43+10, 0, colscheme.status_top, "PO");
+            printtext(POSSTATUSTOPFVX+3, POSSTATUSTOPY, colscheme.status_top, "PO");
 
         if (optimizerealtime)
-            printtext(46+10, 0, colscheme.status_top, "RO");
+            printtext(POSSTATUSTOPFVX+6, POSSTATUSTOPY, colscheme.status_top, "RO");
 
         if (ntsc)
-            printtext(49+10, 0, colscheme.status_top, "NTSC");
+            printtext(POSSTATUSTOPFVX+9, POSSTATUSTOPY, colscheme.status_top, "NTSC");
         else
-            printtext(49+10, 0, colscheme.status_top, " PAL");
+            printtext(POSSTATUSTOPFVX+9, POSSTATUSTOPY, colscheme.status_top, " PAL");
 
         if (!sidmodel)
-            printtext(54+10, 0, colscheme.status_top, "6581");
+            printtext(POSSTATUSTOPFVX+14, POSSTATUSTOPY, colscheme.status_top, "6581");
         else
-            printtext(54+10, 0, colscheme.status_top, "8580");
+            printtext(POSSTATUSTOPFVX+19, POSSTATUSTOPY, colscheme.status_top, "8580");
 
         sprintf(textbuffer, "HR:%04X", adparam);
-        printtext(59+10, 0, colscheme.status_top, textbuffer);
-        if (eamode) printbg(62+10+eacolumn, 0, cc, 1);
+        printtext(POSSTATUSTOPFVX+19, POSSTATUSTOPY, colscheme.status_top, textbuffer);
+        if (eamode) printbg(POSSTATUSTOPFVX+22+eacolumn, POSSTATUSTOPY, cc, 1);
 
         if (multiplier)
         {
             sprintf(textbuffer, "%2dX", multiplier);
-            printtext(67+10, 0, colscheme.status_top, textbuffer);
+            printtext(POSSTATUSTOPFVX+27, POSSTATUSTOPY, colscheme.status_top, textbuffer);
         }
-        else printtext(67+10, 0, colscheme.status_top, "25Hz");
+        else printtext(POSSTATUSTOPFVX+27, POSSTATUSTOPY, colscheme.status_top, "25Hz");
 
-        printtext(72+20, 0, colscheme.status_top, "F12=HELP");
+        printtext(POSSTATUSTOPENDX-8, POSSTATUSTOPY, colscheme.status_top, "F12=HELP");
     }
     else
     {
-        printtext(0, 0, colscheme.status_top, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+        printtext(0, POSSTATUSTOPY, colscheme.status_top, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
     }
 
     if ((followplay) && (isplaying()))

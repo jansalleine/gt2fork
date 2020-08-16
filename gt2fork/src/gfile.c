@@ -411,14 +411,14 @@ ENTERFILE:
         if (isplaying()) printstatus();
         for (c = 0; c < VISIBLEFILES+7; c++)
         {
-            printblank(50-(MAX_FILENAME+10)/2, 3+c, MAX_FILENAME+10);
+            printblank(POSLOADBOXX-(MAX_FILENAME+10)/2, POSLOADBOXY+c, MAX_FILENAME+10);
         }
         // drawbox(50-(MAX_FILENAME+10)/2, 3, 15, MAX_FILENAME+10, VISIBLEFILES+7);
-        drawbox(50-(MAX_FILENAME+10)/2, 3, colscheme.boxcolor, MAX_FILENAME+10, VISIBLEFILES+7);
+        drawbox(POSLOADBOXX-(MAX_FILENAME+10)/2, POSLOADBOXY, colscheme.boxcolor, MAX_FILENAME+10, VISIBLEFILES+7);
         // printblankc(50-(MAX_FILENAME+10)/2+1, 4, 15+16,MAX_FILENAME+8);
-        printblankc(50-(MAX_FILENAME+10)/2+1, 4, colscheme.title,MAX_FILENAME+8);
+        printblankc(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+1, colscheme.title,MAX_FILENAME+8);
         // printtext(50-(MAX_FILENAME+10)/2+1, 4, 15+16, title);
-        printtext(50-(MAX_FILENAME+10)/2+1, 4, colscheme.title, title);
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+1, colscheme.title, title);
 
         for (c = 0; c < VISIBLEFILES; c++)
         {
@@ -446,35 +446,35 @@ ENTERFILE:
             color = colscheme.normal;
             if ((fileview+c) == filepos) color = colscheme.edit;
             textbuffer[68] = 0;
-            printtext(50-(MAX_FILENAME+10)/2+1, 5+c, color, textbuffer);
-            if ((!filemode) && ((fileview+c) == filepos)) printbg(50-(MAX_FILENAME+10)/2+1, 5+c, cc, 68);
+            printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+2+c, color, textbuffer);
+            if ((!filemode) && ((fileview+c) == filepos)) printbg(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+2+c, cc, 68);
         }
         //
-        printbg(50-(MAX_FILENAME+10)/2+1, 5+VISIBLEFILES, colscheme.bgcolor, 68);
+        printbg(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+2+VISIBLEFILES, colscheme.bgcolor, 68);
         //
-        printtext(50-(MAX_FILENAME+10)/2+1, 6+VISIBLEFILES, colscheme.title, "PATH:   ");
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+3+VISIBLEFILES, colscheme.title, "PATH:   ");
         sprintf(textbuffer, "%-60s", path);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
         if (filemode == 1) color = colscheme.edit;
-        printtext(50-(MAX_FILENAME+10)/2+9, 6+VISIBLEFILES, color, textbuffer);
-        if ((filemode == 1) && (strlen(path) < MAX_FILENAME)) printbg(50-(MAX_FILENAME+10)/2+9+strlen(path), 6+VISIBLEFILES, cc, 1);
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+9, POSLOADBOXY+3+VISIBLEFILES, color, textbuffer);
+        if ((filemode == 1) && (strlen(path) < MAX_FILENAME)) printbg(POSLOADBOXX-(MAX_FILENAME+10)/2+9+strlen(path), POSLOADBOXY+3+VISIBLEFILES, cc, 1);
 
-        printtext(50-(MAX_FILENAME+10)/2+1, 7+VISIBLEFILES, colscheme.title, "FILTER: ");
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+4+VISIBLEFILES, colscheme.title, "FILTER: ");
         sprintf(textbuffer, "%-60s", filter);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
         if (filemode == 2) color = colscheme.edit;
-        printtext(50-(MAX_FILENAME+10)/2+9, 7+VISIBLEFILES, color, textbuffer);
-        if (filemode == 2) printbg(50-(MAX_FILENAME+10)/2+9+strlen(filter), 7+VISIBLEFILES, cc, 1);
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+9, POSLOADBOXY+4+VISIBLEFILES, color, textbuffer);
+        if (filemode == 2) printbg(POSLOADBOXX-(MAX_FILENAME+10)/2+9+strlen(filter), POSLOADBOXY+4+VISIBLEFILES, cc, 1);
 
-        printtext(50-(MAX_FILENAME+10)/2+1, 8+VISIBLEFILES, colscheme.title, "NAME:   ");
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+1, POSLOADBOXY+5+VISIBLEFILES, colscheme.title, "NAME:   ");
         sprintf(textbuffer, "%-60s", name);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
         if (filemode == 3) color = colscheme.edit;
-        printtext(50-(MAX_FILENAME+10)/2+9, 8+VISIBLEFILES, color, textbuffer);
-        if (filemode == 3) printbg(50-(MAX_FILENAME+10)/2+9+strlen(name), 8+VISIBLEFILES, cc, 1);
+        printtext(POSLOADBOXX-(MAX_FILENAME+10)/2+9, POSLOADBOXY+5+VISIBLEFILES, color, textbuffer);
+        if (filemode == 3) printbg(POSLOADBOXX-(MAX_FILENAME+10)/2+9+strlen(name), POSLOADBOXY+5+VISIBLEFILES, cc, 1);
 
         if (win_quitted) exitfilesel = 0;
 
