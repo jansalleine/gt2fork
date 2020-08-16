@@ -684,10 +684,12 @@ void mousecommands(void)
     }
 
     // Song editpos & songnumber selection
-    if ((mousey >= 3) && (mousey <= 8) && (mousex >= 40+10))
+    if ((mousey >= dpos.orderlistY) &&
+        (mousey <= dpos.orderlistY + MAX_CHN + 2) &&
+        (mousex >= dpos.orderlistX))
     {
-        int newpos = esview + (mousex-44-10) / 3;
-        int newcolumn = (mousex-44-10) % 3;
+        int newpos = esview + (mousex-(dpos.orderlistX+4)) / 3;
+        int newcolumn = (mousex-(dpos.orderlistX+4)) % 3;
         int newchn = mousey - 3;
         if (newcolumn < 0) newcolumn = 0;
         if (newcolumn > 1) newcolumn = 1;
@@ -729,7 +731,9 @@ void mousecommands(void)
         if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (newpos < songlen[esnum][eschn])) esmarkend = newpos;
     }
 
-    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 2) && (mousex >= 63+10) && (mousex <= 64+10))
+    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) &&
+        (mousey == dpos.orderlistY) &&
+        (mousex >= dpos.orderlistX+23) && (mousex <= dpos.orderlistX+24))
     {
         if (mouseb & MOUSEB_LEFT) nextsong();
         if (mouseb & MOUSEB_RIGHT) prevsong();
