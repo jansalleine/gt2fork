@@ -33,7 +33,13 @@ void initpaths(void)
     strcpy(packedpath, songpath);
 }
 
-int fileselector(char *name, char *path, char *filter, char *title, int filemode)
+int fileselector(
+        char *name,
+        char *path,
+        char *filter,
+        char *title,
+        int filemode
+    )
 {
     int c, d, scrrep;
     int color;
@@ -216,20 +222,29 @@ NEWPATH:
         if (mouseb)
         {
             // Cancel (click outside)
-            if ((mousey < 3) || (mousey > 3+VISIBLEFILES+6) || (mousex <= 4+10) || (mousex >= 75+10))
+            if ((mousey < 3) ||
+                (mousey > 3+VISIBLEFILES+6) ||
+                (mousex <= 4+10) || (mousex >= 75+10))
             {
                 if ((!prevmouseb) && (lastclick)) exitfilesel = 0;
             }
 
             // Select dir,name,filter
-            if ((mousey >= 3+VISIBLEFILES+3) && (mousey <= 3+VISIBLEFILES+5) && (mousex >= 14+10) && (mousex <= 73+10))
+            if ((mousey >= 3+VISIBLEFILES+3) &&
+                (mousey <= 3+VISIBLEFILES+5) &&
+                (mousex >= 14+10) && (mousex <= 73+10))
             {
                 filemode = mousey - (3+VISIBLEFILES+3) + 1;
-                if ((filemode == 3) && (!prevmouseb) && (lastclick)) goto ENTERFILE;
+                if ((filemode == 3) && (!prevmouseb) && (lastclick))
+                {
+                    goto ENTERFILE;
+                }
             }
 
             // Select file from list
-            if ((mousey >= 3) && (mousey <= 3+VISIBLEFILES+2) && (mousex >= 6+10) && (mousex <= 73+10))
+            if ((mousey >= 3) &&
+                (mousey <= 3+VISIBLEFILES+2) &&
+                (mousex >= 6+10) && (mousex <= 73+10))
             {
                 filemode = 0;
                 filepos = mousey - 4 - 1 + fileview;
@@ -239,13 +254,18 @@ NEWPATH:
                 if (!direntry[filepos].attribute)
                     strcpy(name, direntry[filepos].name);
 
-                if ((!prevmouseb) && (lastclick) && (lastfile == filepos)) goto ENTERFILE;
+                if ((!prevmouseb) && (lastclick) && (lastfile == filepos))
+                {
+                    goto ENTERFILE;
+                }
             }
         }
 
         if (!filemode)
         {
-            if (((key >= '0') && (key <= '0')) || ((key >= 'a') && (key <= 'z')) || ((key >= 'A') && (key <= 'Z')))
+            if (((key >= '0') && (key <= '0')) ||
+                ((key >= 'a') && (key <= 'z')) ||
+                ((key >= 'A') && (key <= 'Z')))
             {
                 char k = tolower(key);
                 int oldfilepos = filepos;
@@ -258,7 +278,10 @@ NEWPATH:
                         if (tolower(direntry[filepos].name[0]) == k) break;
                 }
 
-                if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                if (!direntry[filepos].attribute)
+                {
+                    strcpy(name, direntry[filepos].name);
+                }
             }
         }
 
@@ -284,7 +307,10 @@ NEWPATH:
             if (!filemode)
             {
                 filepos = 0;
-                if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                if (!direntry[filepos].attribute)
+                {
+                    strcpy(name, direntry[filepos].name);
+                }
             }
             break;
 
@@ -292,7 +318,10 @@ NEWPATH:
             if (!filemode)
             {
                 filepos = files-1;
-                if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                if (!direntry[filepos].attribute)
+                {
+                    strcpy(name, direntry[filepos].name);
+                }
             }
             break;
 
@@ -302,7 +331,10 @@ NEWPATH:
                 if ((!filemode) && (filepos > 0))
                 {
                     filepos--;
-                    if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                    if (!direntry[filepos].attribute)
+                    {
+                        strcpy(name, direntry[filepos].name);
+                    }
                 }
             }
             break;
@@ -311,7 +343,10 @@ NEWPATH:
             if ((!filemode) && (filepos > 0))
             {
                 filepos--;
-                if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                if (!direntry[filepos].attribute)
+                {
+                    strcpy(name, direntry[filepos].name);
+                }
             }
             break;
 
@@ -321,7 +356,10 @@ NEWPATH:
                 if ((!filemode) && (filepos < files-1))
                 {
                     filepos++;
-                    if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                    if (!direntry[filepos].attribute)
+                    {
+                        strcpy(name, direntry[filepos].name);
+                    }
                 }
             }
             break;
@@ -330,7 +368,10 @@ NEWPATH:
             if ((!filemode) && (filepos < files-1))
             {
                 filepos++;
-                if (!direntry[filepos].attribute) strcpy(name, direntry[filepos].name);
+                if (!direntry[filepos].attribute)
+                {
+                    strcpy(name, direntry[filepos].name);
+                }
             }
             break;
 
@@ -405,20 +446,39 @@ ENTERFILE:
 
         // Validate filelist view
         if (filepos < fileview) fileview = filepos;
-        if (filepos - fileview >= VISIBLEFILES) fileview = filepos - VISIBLEFILES + 1;
+        if (filepos - fileview >= VISIBLEFILES)
+        {
+            fileview = filepos - VISIBLEFILES + 1;
+        }
 
         // Refresh fileselector display
         if (isplaying()) printstatus();
         for (c = 0; c < VISIBLEFILES+7; c++)
         {
-            printblank(dpos.loadboxX-(MAX_FILENAME+10)/2, dpos.loadboxY+c, MAX_FILENAME+10);
+            printblank(
+                dpos.loadboxX-(MAX_FILENAME+10)/2,
+                dpos.loadboxY+c,
+                MAX_FILENAME+10
+            );
         }
-        // drawbox(50-(MAX_FILENAME+10)/2, 3, 15, MAX_FILENAME+10, VISIBLEFILES+7);
-        drawbox(dpos.loadboxX-(MAX_FILENAME+10)/2, dpos.loadboxY, colscheme.boxcolor, MAX_FILENAME+10, VISIBLEFILES+7);
-        // printblankc(50-(MAX_FILENAME+10)/2+1, 4, 15+16,MAX_FILENAME+8);
-        printblankc(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+1, colscheme.title,MAX_FILENAME+8);
-        // printtext(50-(MAX_FILENAME+10)/2+1, 4, 15+16, title);
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+1, colscheme.title, title);
+        drawbox(
+            dpos.loadboxX-(MAX_FILENAME+10)/2,
+            dpos.loadboxY,
+            colscheme.boxcolor,
+            MAX_FILENAME+10, VISIBLEFILES+7
+        );
+        printblankc(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+1,
+            colscheme.title,
+            MAX_FILENAME+8
+        );
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+1,
+            colscheme.title,
+            title
+        );
 
         for (c = 0; c < VISIBLEFILES; c++)
         {
@@ -427,54 +487,144 @@ ENTERFILE:
                 switch (direntry[fileview+c].attribute)
                 {
                 case 0:
-                    sprintf(textbuffer, "%-60s        ", direntry[fileview+c].name);
+                    sprintf(
+                        textbuffer,
+                        "%-60s        ",
+                        direntry[fileview+c].name
+                    );
                     break;
 
                 case 1:
-                    sprintf(textbuffer, "%-60s   <DIR>", direntry[fileview+c].name);
+                    sprintf(
+                        textbuffer,
+                        "%-60s   <DIR>",
+                        direntry[fileview+c].name
+                    );
                     break;
 
                 case 2:
-                    sprintf(textbuffer, "%-60s   <DRV>", direntry[fileview+c].name);
+                    sprintf(
+                        textbuffer,
+                        "%-60s   <DRV>",
+                        direntry[fileview+c].name
+                    );
                     break;
                 }
             }
             else
             {
-                sprintf(textbuffer, "                                                                    ");
+                sprintf(
+                    textbuffer,
+                    "                                                                    "
+                );
             }
             color = colscheme.normal;
             if ((fileview+c) == filepos) color = colscheme.edit;
             textbuffer[68] = 0;
-            printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+2+c, color, textbuffer);
-            if ((!filemode) && ((fileview+c) == filepos)) printbg(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+2+c, cc, 68);
+            printtext(
+                dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+                dpos.loadboxY+2+c,
+                color,
+                textbuffer
+            );
+            if ((!filemode) && ((fileview+c) == filepos))
+            {
+                printbg(
+                    dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+                    dpos.loadboxY+2+c,
+                    cc,
+                    68
+                );
+            }
         }
-        //
-        printbg(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+2+VISIBLEFILES, colscheme.bgcolor, 68);
-        //
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+3+VISIBLEFILES, colscheme.title, "PATH:   ");
+
+        printbg(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+2+VISIBLEFILES,
+            colscheme.bgcolor,
+            68
+        );
+
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+3+VISIBLEFILES,
+            colscheme.title,
+            "PATH:   "
+        );
         sprintf(textbuffer, "%-60s", path);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
         if (filemode == 1) color = colscheme.edit;
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+9, dpos.loadboxY+3+VISIBLEFILES, color, textbuffer);
-        if ((filemode == 1) && (strlen(path) < MAX_FILENAME)) printbg(dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(path), dpos.loadboxY+3+VISIBLEFILES, cc, 1);
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+9,
+            dpos.loadboxY+3+VISIBLEFILES,
+            color,
+            textbuffer
+        );
+        if ((filemode == 1) && (strlen(path) < MAX_FILENAME))
+        {
+            printbg(
+                dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(path),
+                dpos.loadboxY+3+VISIBLEFILES,
+                cc,
+                1
+            );
+        }
 
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+4+VISIBLEFILES, colscheme.title, "FILTER: ");
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+4+VISIBLEFILES,
+            colscheme.title,
+            "FILTER: "
+        );
         sprintf(textbuffer, "%-60s", filter);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
-        if (filemode == 2) color = colscheme.edit;
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+9, dpos.loadboxY+4+VISIBLEFILES, color, textbuffer);
-        if (filemode == 2) printbg(dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(filter), dpos.loadboxY+4+VISIBLEFILES, cc, 1);
 
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+1, dpos.loadboxY+5+VISIBLEFILES, colscheme.title, "NAME:   ");
+        if (filemode == 2) color = colscheme.edit;
+
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+9,
+            dpos.loadboxY+4+VISIBLEFILES,
+            color,
+            textbuffer
+        );
+
+        if (filemode == 2)
+        {
+            printbg(
+                dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(filter),
+                dpos.loadboxY+4+VISIBLEFILES,
+                cc,
+                1
+            );
+        }
+
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+1,
+            dpos.loadboxY+5+VISIBLEFILES,
+            colscheme.title,
+            "NAME:   "
+        );
         sprintf(textbuffer, "%-60s", name);
         textbuffer[MAX_FILENAME] = 0;
         color = colscheme.normal;
         if (filemode == 3) color = colscheme.edit;
-        printtext(dpos.loadboxX-(MAX_FILENAME+10)/2+9, dpos.loadboxY+5+VISIBLEFILES, color, textbuffer);
-        if (filemode == 3) printbg(dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(name), dpos.loadboxY+5+VISIBLEFILES, cc, 1);
+        printtext(
+            dpos.loadboxX-(MAX_FILENAME+10)/2+9,
+            dpos.loadboxY+5+VISIBLEFILES,
+            color,
+            textbuffer
+        );
+        if (filemode == 3)
+        {
+            printbg(
+                dpos.loadboxX-(MAX_FILENAME+10)/2+9+strlen(name),
+                dpos.loadboxY+5+VISIBLEFILES,
+                cc,
+                1
+            );
+        }
 
         if (win_quitted) exitfilesel = 0;
 
