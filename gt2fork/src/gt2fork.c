@@ -389,7 +389,17 @@ int main(int argc, char **argv)
     clearsong(1,1,1,1,1);
 
     // Init sound
-    if (!sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate))
+    if (!sound_init(
+            b,
+            mr,
+            writer,
+            sidmodel,
+            ntsc,
+            multiplier,
+            interpolate,
+            customclockrate,
+            numsids
+        ))
     {
         printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
         waitkeynoupdate();
@@ -878,12 +888,32 @@ void mousecommands(void)
             if ((mousex >= dpos.statusTopFvX+9) && (mousex <= dpos.statusTopFvX+12))
             {
                 ntsc ^= 1;
-                sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+                sound_init(
+                    b,
+                    mr,
+                    writer,
+                    sidmodel,
+                    ntsc,
+                    multiplier,
+                    interpolate,
+                    customclockrate,
+                    numsids
+                );
             }
             if ((mousex >= dpos.statusTopFvX+14) && (mousex <= dpos.statusTopFvX+17))
             {
                 sidmodel ^= 1;
-                sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+                sound_init(
+                    b,
+                    mr,
+                    writer,
+                    sidmodel,
+                    ntsc,
+                    multiplier,
+                    interpolate,
+                    customclockrate,
+                    numsids
+                );
             }
             if ((mousex >= dpos.statusTopFvX+22) &&
                 (mousex <= dpos.statusTopFvX+25)) editadsr();
@@ -1133,7 +1163,17 @@ void generalcommands(void)
         else
         {
             sidmodel ^= 1;
-            sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+            sound_init(
+                b,
+                mr,
+                writer,
+                sidmodel,
+                ntsc,
+                multiplier,
+                interpolate,
+                customclockrate,
+                numsids
+            );
         }
         break;
 
@@ -1505,7 +1545,17 @@ void prevmultiplier(void)
     if (multiplier > 0)
     {
         multiplier--;
-        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+        sound_init(
+            b,
+            mr,
+            writer,
+            sidmodel,
+            ntsc,
+            multiplier,
+            interpolate,
+            customclockrate,
+            numsids
+        );
     }
 }
 
@@ -1514,7 +1564,17 @@ void nextmultiplier(void)
     if (multiplier < 16)
     {
         multiplier++;
-        sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
+        sound_init(
+            b,
+            mr,
+            writer,
+            sidmodel,
+            ntsc,
+            multiplier,
+            interpolate,
+            customclockrate,
+            numsids
+        );
     }
 }
 

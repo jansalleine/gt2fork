@@ -23,7 +23,8 @@ int sound_init(
     unsigned ntsc,
     unsigned multiplier,
     unsigned interpolate,
-    unsigned customclockrate
+    unsigned customclockrate,
+    unsigned numsids
 );
 void sound_uninit(void);
 

@@ -31,7 +31,8 @@ int sound_init(
     unsigned ntsc,
     unsigned multiplier,
     unsigned interpolate,
-    unsigned customclockrate
+    unsigned customclockrate,
+    unsigned numsids
 )
 {
     sound_uninit();
@@ -86,7 +87,15 @@ int sound_init(
         firsttimeinit = 0;
     }
     playspeed = snd_mixrate;
-    sid_init(playspeed, m, ntsc, interpolate & 1, customclockrate, interpolate >> 1);
+    sid_init(
+        playspeed,
+        m,
+        ntsc,
+        interpolate & 1,
+        customclockrate,
+        interpolate >> 1,
+        numsids
+    );
 
     snd_player = &sound_playrout;
     snd_setcustommixer(sound_mixer);
