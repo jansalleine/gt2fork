@@ -1186,9 +1186,9 @@ void quit(void)
 {
     if ((!shiftpressed) || (mouseb))
     {
-        printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Really Quit (y/n)?");
+        printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Really Quit (y/n)?");
         waitkey();
-        printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+        printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
         if ((key == 'y') || (key == 'Y')) exitprogram = 1;
     }
     key = 0;
@@ -1203,9 +1203,9 @@ void clear(void)
     int ct = 0;
     int cn = 0;
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Optimize everything (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Optimize everything (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y'))
     {
         optimizeeverything(1, 1);
@@ -1214,29 +1214,29 @@ void clear(void)
         return;
     }
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear orderlists (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear orderlists (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cs = 1;
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear patterns (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear patterns (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cp = 1;
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear instruments (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear instruments (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) ci = 1;
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear tables (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear tables (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) ct = 1;
 
-    printtextcp(POSSTATUSBOTTOMX+29, POSSTATUSBOTTOMY, colscheme.status_bottom, "Clear songname (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear songname (y/n)?");
     waitkey();
-    printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cn = 1;
 
     if (cp == 1)
@@ -1244,7 +1244,7 @@ void clear(void)
         int selectdone = 0;
         int olddpl = defaultpatternlength;
 
-        printtext(POSSTATUSBOTTOMX+20, POSSTATUSBOTTOMY, colscheme.status_bottom,"Pattern length:");
+        printtext(dpos.statusBottomX+20, dpos.statusBottomY, colscheme.status_bottom,"Pattern length:");
         while (!selectdone)
         {
             if (patterndispmode)
@@ -1255,7 +1255,7 @@ void clear(void)
             {
                 sprintf(textbuffer, "%02d ", defaultpatternlength);
             }
-            printtext(POSSTATUSBOTTOMX+35, POSSTATUSBOTTOMY, colscheme.edit, textbuffer);
+            printtext(dpos.statusBottomX+35, dpos.statusBottomY, colscheme.edit, textbuffer);
             waitkey();
             switch(rawkey)
             {
@@ -1283,7 +1283,7 @@ void clear(void)
                 break;
             }
         }
-        printblank(POSSTATUSBOTTOMX, POSSTATUSBOTTOMY, 58);
+        printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     }
 
     if (cs | cp | ci | ct | cn)
