@@ -16,6 +16,9 @@ int initted = 0;
 int firsttimeinit = 1;
 unsigned framerate = PALFRAMERATE;
 Sint16 *buffer = NULL;
+Sint16 *lbuffer = NULL;
+Sint16 *rbuffer = NULL;
+
 FILE *writehandle = NULL;
 // SDL_TimerID timer = 0;
 
@@ -65,7 +68,9 @@ int sound_init(
     }
 
     if (!buffer) buffer = (Sint16*)malloc(MIXBUFFERSIZE * sizeof(Sint16));
-    if (!buffer) return 0;
+    if (!lbuffer) lbuffer = (Sint16*)malloc(MIXBUFFERSIZE * sizeof(Sint16));
+    if (!rbuffer) rbuffer = (Sint16*)malloc(MIXBUFFERSIZE * sizeof(Sint16));
+    if ((!buffer) || (!lbuffer) || (!rbuffer)) return 0;
 
     if (writer)
     {
@@ -80,13 +85,18 @@ int sound_init(
 
     if (firsttimeinit)
     {
-        if (!snd_init(mr, SIXTEENBIT|MONO, b, 1, 0))
+        if (numsids == 1 && !snd_init(mr, SIXTEENBIT|MONO, b, 1, 0))
+        {
+            return 0;
+        }
+        else if (numsids == 2 && !snd_init(mr, SIXTEENBIT|STEREO, b, 1, 0))
         {
             return 0;
         }
         firsttimeinit = 0;
     }
     playspeed = snd_mixrate;
+
     sid_init(
         playspeed,
         m,
@@ -127,6 +137,18 @@ void sound_uninit(void)
     {
         free(buffer);
         buffer = NULL;
+    }
+
+    if (lbuffer)
+    {
+        free(lbuffer);
+        lbuffer = NULL;
+    }
+
+    if (rbuffer)
+    {
+        free(rbuffer);
+        rbuffer = NULL;
     }
 }
 

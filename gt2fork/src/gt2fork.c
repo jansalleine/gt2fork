@@ -626,8 +626,8 @@ void mousecommands(void)
     for (c = 0; c < MAX_CHN; c++)
     {
         if ((mousey == dpos.patternsY) &&
-            (mousex >= dpos.patternsX + 11 + c*13) &&
-            (mousex <= dpos.patternsX + 12 + c*13))
+            (mousex >= dpos.patternsX + 10 + c*13) &&
+            (mousex <= dpos.patternsX + 11 + c*13))
         {
             if ((!prevmouseb) || (mouseheld > HOLDDELAY))
             {
@@ -648,7 +648,7 @@ void mousecommands(void)
             if ((mousey >= dpos.patternsY) &&
                 (mousey <= dpos.statusBottomY - 1) &&
                 (mousex >= dpos.patternsX + 3 + c*13) &&
-                (mousex <= dpos.patternsX + 12 + c*13))
+                (mousex <= dpos.patternsX + 11 + c*13))
             {
                 int x = mousex-(dpos.patternsX + 3)-c*13;
                 int newpos = mousey-(dpos.patternsY+1)+epview;
