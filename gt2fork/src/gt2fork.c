@@ -158,6 +158,7 @@ int main(int argc, char **argv)
         getparam(configfile, (unsigned *)&zeropageadr);
         getparam(configfile, &playerversion);
         getparam(configfile, &keypreset);
+        getparam(configfile, &defaultpatternlength);
         getparam(configfile, (unsigned *)&stepsize);
         getparam(configfile, &multiplier);
         getparam(configfile, &adparam);
@@ -353,6 +354,8 @@ int main(int argc, char **argv)
     if (optimizerealtime > 1) optimizerealtime = 1;
     if (residdelay > 63) residdelay = 63;
     if (customclockrate < 100) customclockrate = 0;
+    if (defaultpatternlength < 1) defaultpatternlength = 1;
+    if (defaultpatternlength > MAX_PATTROWS) defaultpatternlength = MAX_PATTROWS;
     if (theme > 1) theme = 0;
 
     colscheme_init(theme);
@@ -451,6 +454,7 @@ int main(int argc, char **argv)
                 ";Packer/relocator zeropage baseaddress\n$%02x\n\n"
                 ";Packer/relocator player type (0 = standard ... 3 = minimal)\n%d\n\n"
                 ";Key entry mode (0 = Protracker, 1 = DMC, 2 = Janko)\n%d\n\n"
+                ";Pattern default size (default = 32 / $20)\n%d\n\n"
                 ";Pattern highlight step size\n%d\n\n"
                 ";Speed multiplier (0 = 25Hz, 1 = 1X, 2 = 2X etc.)\n%d\n\n"
                 ";Hardrestart ADSR parameter\n$%04x\n\n"
@@ -479,6 +483,7 @@ int main(int argc, char **argv)
                 zeropageadr,
                 playerversion,
                 keypreset,
+                defaultpatternlength,
                 stepsize,
                 multiplier,
                 adparam,
