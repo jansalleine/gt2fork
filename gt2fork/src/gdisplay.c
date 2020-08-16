@@ -619,7 +619,7 @@ void printstatus(void)
         if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
         if (chnrow >= 100) chnrow -= 100;
 
-        sprintf(textbuffer, "%03d/%02d",
+        sprintf(textbuffer, "%03X/%02X",
                 chnpos,chnrow);
         printtext(dpos.channelsX+7*c, dpos.channelsY+1, colscheme.edit, textbuffer);
     }

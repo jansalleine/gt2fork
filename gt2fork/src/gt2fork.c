@@ -643,8 +643,10 @@ void mousecommands(void)
                 int x = mousex-(dpos.patternsX + 3)-c*13;
                 int newpos = mousey-(dpos.patternsY+1)+epview;
                 if (newpos < 0) newpos = 0;
-                if (newpos > pattlen[epnum[epchn]]) newpos = pattlen[epnum[epchn]];
-
+                if (newpos > pattlen[epnum[epchn]])
+                {
+                    newpos = pattlen[epnum[epchn]];
+                }
                 editmode = EDIT_PATTERN;
 
                 if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb))
@@ -676,8 +678,10 @@ void mousecommands(void)
                     }
                 }
                 if (eppos < 0) eppos = 0;
-                if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-
+                if (eppos > pattlen[epnum[epchn]])
+                {
+                    eppos = pattlen[epnum[epchn]];
+                }
                 if (mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) epmarkend = newpos;
             }
         }
@@ -712,7 +716,8 @@ void mousecommands(void)
 
         editmode = EDIT_ORDERLIST;
 
-        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (!prevmouseb) && (newpos < songlen[esnum][eschn]))
+        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) &&
+            (!prevmouseb) && (newpos < songlen[esnum][eschn]))
         {
             if ((esmarkchn != newchn) || (newpos != esmarkend))
             {
@@ -728,7 +733,11 @@ void mousecommands(void)
             escolumn = newcolumn;
         }
 
-        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) && (newpos < songlen[esnum][eschn])) esmarkend = newpos;
+        if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) &&
+            (newpos < songlen[esnum][eschn]))
+        {
+            esmarkend = newpos;
+        }
     }
 
     if (((!prevmouseb) || (mouseheld > HOLDDELAY)) &&
@@ -740,24 +749,34 @@ void mousecommands(void)
     }
 
     // Instrument editpos & instrument number selection
-    if ((mousey >= 8) && (mousey <= 12) && (mousex >= 56+10) && (mousex <= 57+10))
+    if ((mousey >= dpos.instrumentsY+1) &&
+        (mousey <= dpos.instrumentsY+5) &&
+        (mousex >= (dpos.instrumentsX+16)) &&
+        (mousex <= (dpos.instrumentsX+17)))
     {
         editmode = EDIT_INSTRUMENT;
-        eipos = mousey-8;
-        eicolumn = mousex-56-10;
+        eipos = mousey-(dpos.instrumentsY+1);
+        eicolumn = mousex-(dpos.instrumentsX+16);
     }
-    if ((mousey >= 8) && (mousey <= 11) && (mousex >= 76+10) && (mousex <= 77+10))
+    if ((mousey >= dpos.instrumentsY+1) &&
+        (mousey <= dpos.instrumentsY+4) &&
+        (mousex >= dpos.instrumentsX+36) &&
+        (mousex <= dpos.instrumentsX+37))
     {
         editmode = EDIT_INSTRUMENT;
-        eipos = mousey-8+5;
-        eicolumn = mousex-76-10;
+        eipos = mousey-(dpos.instrumentsY+1)+5;
+        eicolumn = mousex-(dpos.instrumentsX+36);
     }
-    if ((mousey == 7) && (mousex >= 60+10))
+    if ((mousey == dpos.instrumentsY) &&
+        (mousex >= dpos.instrumentsX+20))
     {
         editmode = EDIT_INSTRUMENT;
         eipos = 9;
     }
-    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) && (mousey == 7) && (mousex >= 56+10) && (mousex <= 57+10))
+    if (((!prevmouseb) || (mouseheld > HOLDDELAY)) &&
+        (mousey == dpos.instrumentsY) &&
+        (mousex >= dpos.instrumentsX+16) &&
+        (mousex <= dpos.instrumentsX+17))
     {
         if (mouseb & MOUSEB_LEFT) nextinstr();
         if (mouseb & MOUSEB_RIGHT) previnstr();
@@ -767,9 +786,12 @@ void mousecommands(void)
     // Table editpos
     for (c = 0; c < MAX_TABLES; c++)
     {
-        if ((mousey >= 14) && (mousey <= 30) && (mousex >= 43+10+c*10) && (mousex <= 47+10+c*10))
+        if ((mousey >= dpos.instrumentsY+7) &&
+            (mousey <= dpos.instrumentsY+8+VISIBLETABLEROWS-1) &&
+            (mousex >= dpos.instrumentsX+3+c*10) &&
+            (mousex <= dpos.instrumentsX+7+10+c*10))
         {
-            int newpos = mousey-15+etview[etnum];
+            int newpos = mousey-(dpos.instrumentsY+7)+etview[etnum];
             if (newpos < 0) newpos = 0;
             if (newpos >= MAX_TABLELEN) newpos = MAX_TABLELEN-1;
 
@@ -786,8 +808,8 @@ void mousecommands(void)
             if (mouseb & MOUSEB_LEFT)
             {
                 etnum = c;
-                etpos = mousey-15+etview[etnum];
-                etcolumn = mousex-43-10-c*10;
+                etpos = mousey-(dpos.instrumentsY+8)+etview[etnum];
+                etcolumn = mousex-(dpos.instrumentsX+3)-c*10;
             }
             if (etcolumn >= 2) etcolumn--;
             if (etpos < 0) etpos = 0;
@@ -798,14 +820,18 @@ void mousecommands(void)
     }
 
     // Name editpos
-    if ((mousey >= 31) && (mousey <= 33) && (mousex >= 47+10))
+    if ((mousey >= dpos.instrumentsY+8+VISIBLETABLEROWS+1) &&
+        (mousey <= dpos.instrumentsY+8+VISIBLETABLEROWS+3) &&
+        (mousex >= dpos.instrumentsX+7))
     {
         editmode = EDIT_NAMES;
-        enpos = mousey - 31;
+        enpos = mousey - (dpos.instrumentsY+8+VISIBLETABLEROWS+1);
     }
 
     // Status panel
-    if ((!prevmouseb) && (mousex == 7) && (mousey == 23+3+9))
+    if ((!prevmouseb) &&
+        (mousex == dpos.octaveX+7) &&
+        (mousey == dpos.octaveY))
     {
         if (mouseb & (MOUSEB_LEFT))
         {
@@ -817,13 +843,16 @@ void mousecommands(void)
         }
     }
 
-    if ((!prevmouseb) && (mousex <= 7) && (mousey == 24+3+9))
+    if ((!prevmouseb) && (mousex <= dpos.octaveX+7) && (mousey == dpos.octaveY+1))
     {
         recordmode ^= 1;
     }
     for (c = 0; c < MAX_CHN; c++)
     {
-        if ((!prevmouseb) && (mousey >= 23+3+9) && (mousex >= 80 + 7*c) && (mousex <= 85 + 7*c))
+        if ((!prevmouseb) &&
+            (mousey >= dpos.channelsY) &&
+            (mousex >= dpos.channelsX + 7*c) &&
+            (mousex <= dpos.channelsX+5 + 7*c))
         {
             mutechannel(c);
         }
@@ -832,33 +861,38 @@ void mousecommands(void)
     // Titlebar actions
     if (!menu)
     {
-        if ((mousey == 0) && (!prevmouseb) && (mouseb == MOUSEB_LEFT))
+        if ((mousey == dpos.statusTopY) && (!prevmouseb) && (mouseb == MOUSEB_LEFT))
         {
-            if ((mousex >= 40+10) && (mousex <= 41+10))
+            if ((mousex >= dpos.statusTopFvX) && (mousex <= dpos.statusTopFvX+1))
             {
                 usefinevib ^= 1;
             }
-            if ((mousex >= 43+10) && (mousex <= 44+10))
+            if ((mousex >= dpos.statusTopFvX+3) && (mousex <= dpos.statusTopFvX+4))
             {
                 optimizepulse ^= 1;
             }
-            if ((mousex >= 46+10) && (mousex <= 47+10))
+            if ((mousex >= dpos.statusTopFvX+6) && (mousex <= dpos.statusTopFvX+7))
             {
                 optimizerealtime ^= 1;
             }
-            if ((mousex >= 49+10) && (mousex <= 52+10))
+            if ((mousex >= dpos.statusTopFvX+9) && (mousex <= dpos.statusTopFvX+12))
             {
                 ntsc ^= 1;
                 sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
             }
-            if ((mousex >= 54+10) && (mousex <= 57+10))
+            if ((mousex >= dpos.statusTopFvX+14) && (mousex <= dpos.statusTopFvX+17))
             {
                 sidmodel ^= 1;
                 sound_init(b, mr, writer, sidmodel, ntsc, multiplier, interpolate, customclockrate);
             }
-            if ((mousex >= 62+10) && (mousex <= 65+10)) editadsr();
-            if ((mousex >= 67+10) && (mousex <= 68+10)) prevmultiplier();
-            if ((mousex >= 69+10) && (mousex <= 70+10)) nextmultiplier();
+            if ((mousex >= dpos.statusTopFvX+22) &&
+                (mousex <= dpos.statusTopFvX+25)) editadsr();
+            if ((mousex >= dpos.statusTopFvX+27) &&
+                (mousex <= dpos.statusTopFvX+28)) prevmultiplier();
+            if ((mousex >= dpos.statusTopFvX+29) &&
+                (mousex <= dpos.statusTopFvX+30)) nextmultiplier();
+            if ((mousex >= dpos.statusTopEndX-8) &&
+                (mousex <= dpos.statusTopEndX-1)) onlinehelp(0,0);
         }
     }
     else

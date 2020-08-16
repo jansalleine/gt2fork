@@ -6,12 +6,11 @@
 
 #include "gt2fork.h"
 
-#define HELP_HEADER colscheme.help_header
-#define HELP_NORMAL colscheme.help_normal
-
-int printrows(int column, int row, int color, char *strings[] ) {
+int printrows(int column, int row, int color, char *strings[] )
+{
     int n = 0;
-    while(strings[n]) {
+    while(strings[n])
+    {
         printtext(column, row++, color, strings[n++]);
     }
     return row;
@@ -242,7 +241,9 @@ void onlinehelp(int standalone,int context)
 
     int hview = -1;
 
-    int lastrow=0;
+    int lastrow = 0;
+
+    const int offsetX = 24;
 
     for (;;)
     {
@@ -250,94 +251,96 @@ void onlinehelp(int standalone,int context)
         int right = hview + 2;
 
         clearscreen();
-        if(!context) {
-            printtext(0, left++, HELP_HEADER, "GENERAL KEYS");
-            left = printrows(0,left,HELP_NORMAL, genkeys);
+        if (!context)
+        {
+            printtext(0 + offsetX, left++, colscheme.help_header, "GENERAL KEYS");
+            left = printrows(0 + offsetX,left,colscheme.help_normal, genkeys);
             left++;
 
-            printtext(40,right++, HELP_HEADER, "PATTERN EDIT MODE");
-            right = printrows(40,right,HELP_NORMAL, patternkeys);
+            printtext(40 + offsetX, right++, colscheme.help_header, "PATTERN EDIT MODE");
+            right = printrows(40 + offsetX,right,colscheme.help_normal, patternkeys);
             right++;
 
-            printtext(0, left++, HELP_HEADER, "SONG EDIT MODE");
-            left = printrows(0,left,HELP_NORMAL, songkeys);
+            printtext(0 + offsetX, left++, colscheme.help_header, "SONG EDIT MODE");
+            left = printrows(0 + offsetX,left,colscheme.help_normal, songkeys);
             left++;
 
-            printtext(0, left++, HELP_HEADER, "SONGNAME EDIT MODE");
-            printtext(0, left++, HELP_NORMAL, "Use cursor UP/DOWN to change rows");
+            printtext(0 + offsetX, left++, colscheme.help_header, "SONGNAME EDIT MODE");
+            printtext(0 + offsetX, left++, colscheme.help_normal, "Use cursor UP/DOWN to change rows");
             left++;
 
-            printtext(40,right++, HELP_HEADER, "INSTRUMENT/TABLE EDIT MODE");
-            right = printrows(40,right,HELP_NORMAL, instkeys);
+            printtext(40 + offsetX,right++, colscheme.help_header, "INSTRUMENT/TABLE EDIT MODE");
+            right = printrows(40 + offsetX,right,colscheme.help_normal, instkeys);
             right++;
 
             left = (left<right ? right : left);
 
-            printtext(0, left++, HELP_HEADER, "PATTERN COMMANDS");
-            left = printrows(0,left,HELP_NORMAL, pattcmds);
+            printtext(0 + offsetX, left++, colscheme.help_header, "PATTERN COMMANDS");
+            left = printrows(0 + offsetX,left,colscheme.help_normal, pattcmds);
             left++;
 
-            printtext(0, left++, HELP_HEADER, "INSTRUMENT PARAMETERS");
-            left = printrows(0,left,HELP_NORMAL, instparm);
+            printtext(0 + offsetX, left++, colscheme.help_header, "INSTRUMENT PARAMETERS");
+            left = printrows(0 + offsetX,left,colscheme.help_normal, instparm);
             left++;
 
-            printtext(0, left++, HELP_HEADER,"TABLES");
-            left = printrows(0,left,HELP_NORMAL, tables);
+            printtext(0 + offsetX, left++, colscheme.help_header,"TABLES");
+            left = printrows(0 + offsetX,left,colscheme.help_normal, tables);
             left++;
-        } else {
-            switch(editmode) {
+        }
+        else
+        {
+            switch(editmode)
+            {
             case EDIT_PATTERN:
-                printtext(0,left++, HELP_HEADER, "PATTERN EDIT MODE");
-                left = printrows(0,left,HELP_NORMAL, patternkeys);
+                printtext(0 + offsetX,left++, colscheme.help_header, "PATTERN EDIT MODE");
+                left = printrows(0 + offsetX,left,colscheme.help_normal, patternkeys);
                 left++;
-                printtext(0, left++, HELP_HEADER, "PATTERN COMMANDS");
-                left = printrows(0,left,HELP_NORMAL, pattcmds);
+                printtext(0 + offsetX, left++, colscheme.help_header, "PATTERN COMMANDS");
+                left = printrows(0 + offsetX,left,colscheme.help_normal, pattcmds);
                 left++;
                 break;
             case EDIT_ORDERLIST:
-                printtext(0, left++, HELP_HEADER, "SONG EDIT MODE");
-                left = printrows(0,left,HELP_NORMAL, songkeys);
+                printtext(0 + offsetX, left++, colscheme.help_header, "SONG EDIT MODE");
+                left = printrows(0 + offsetX,left,colscheme.help_normal, songkeys);
                 left++;
                 break;
             case EDIT_INSTRUMENT:
-                printtext(0,left++, HELP_HEADER, "INSTRUMENT/TABLE EDIT MODE");
-                left = printrows(0,left,HELP_NORMAL, instkeys);
+                printtext(0 + offsetX,left++, colscheme.help_header, "INSTRUMENT/TABLE EDIT MODE");
+                left = printrows(0 + offsetX,left,colscheme.help_normal, instkeys);
                 left++;
-                printtext(0, left++, HELP_HEADER, "INSTRUMENT PARAMETERS");
-                left = printrows(0,left,HELP_NORMAL, instparm);
+                printtext(0 + offsetX, left++, colscheme.help_header, "INSTRUMENT PARAMETERS");
+                left = printrows(0 + offsetX,left,colscheme.help_normal, instparm);
                 left++;
                 break;
             case EDIT_NAMES:
-                printtext(0, left++, HELP_HEADER, "SONGNAME EDIT MODE");
-                printtext(0, left++, HELP_NORMAL, "Use cursor UP/DOWN to change rows");
+                printtext(0 + offsetX, left++, colscheme.help_header, "SONGNAME EDIT MODE");
+                printtext(0 + offsetX, left++, colscheme.help_normal, "Use cursor UP/DOWN to change rows");
                 left++;
                 break;
             case EDIT_TABLES:
-                printtext(0,left++, HELP_HEADER, "INSTRUMENT/TABLE EDIT MODE");
-                left = printrows(0,left++,HELP_NORMAL, instkeys);
+                printtext(0 + offsetX,left++, colscheme.help_header, "INSTRUMENT/TABLE EDIT MODE");
+                left = printrows(0 + offsetX,left++,colscheme.help_normal, instkeys);
                 left++;
                 break;
             default:
                 break;
             }
-
         }
 
         if(!lastrow) lastrow=left;
 
-        printblank(0, 0, MAX_COLUMNS);
+        printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
         sprintf(textbuffer, "%s Online Help     ", programname);
-        printtext(0, 0, colscheme.status_top, textbuffer);
-        if(standalone) {
-            printtext(55, 0, HELP_HEADER, "Arrows/PgUp/PgDn/Home/End scroll, ESC exits");
+        printtext(1, 0, colscheme.status_top, textbuffer);
+        if (standalone)
+        {
+            printtext(55, 0, colscheme.help_header, "Arrows/PgUp/PgDn/Home/End scroll, ESC exits");
         } else {
-            printtext(34, 0, colscheme.status_top, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
+            printtext(61, 0, colscheme.status_top, "Arrows/PgUp/PgDn/Home/End scroll, F12 toggles context, others exit");
         }
-        // printbg(0, 0, 1, MAX_COLUMNS);
 
         fliptoscreen();
         waitkeymousenoupdate();
-
 
         if (win_quitted)
         {
