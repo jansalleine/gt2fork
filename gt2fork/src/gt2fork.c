@@ -65,6 +65,7 @@ float equaldivisionsperoctave = 12.0f;
 int tuningcount = 0;
 double tuning[96];
 unsigned theme = 0;
+unsigned numsids = 1;
 
 char configbuf[MAX_PATHNAME];
 char loadedsongfilename[MAX_FILENAME];
@@ -113,7 +114,6 @@ char* usage[] = {
     "-Xxx Set window type (0 = window, 1 = fullscreen) DEFAULT=window",
     "-Yxx Path to a Scala tuning file .scl",
     "-Zxx Set random reSID write delay in cycles (0 = off) DEFAULT=off",
-    "-wxx Set window scale factor (1 = no scaling, 2 to 4 = 2 to 4 times bigger window) DEFAULT=1",
     "-N   Use NTSC timing",
     "-P   Use PAL timing (DEFAULT)",
     "-W   Write sound output to a file SIDAUDIO.RAW",

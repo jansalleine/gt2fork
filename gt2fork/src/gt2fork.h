@@ -37,8 +37,7 @@
 #define KEY_JANKO 2
 
 #define VISIBLEPATTROWS 34
-#define VISIBLEORDERLIST 14
-#define VISIBLEORDERLISTMONO 23
+#define VISIBLEORDERLIST 23
 #define VISIBLETABLEROWS 15
 #define VISIBLEFILES 28
 
@@ -77,6 +76,7 @@ extern unsigned b;
 extern unsigned mr;
 extern unsigned writer;
 extern unsigned interpolate;
+extern unsigned numsids;
 extern float basepitch;
 extern char configbuf[MAX_PATHNAME];
 extern char loadedsongfilename[MAX_FILENAME];

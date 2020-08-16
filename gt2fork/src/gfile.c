@@ -514,10 +514,10 @@ void editstring(char *buffer, int maxlength)
                 buffer[len+1] = 0;
             }
         }
-        if ((key == 8) && (len > 0))
-        {
-            buffer[len-1] = 0;
-        }
+    }
+    if ((rawkey == KEY_BACKSPACE || rawkey == KEY_DEL) && (len > 0))
+    {
+        buffer[len-1] = 0;
     }
 }
 

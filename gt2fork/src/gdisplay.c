@@ -46,6 +46,7 @@ void printstatus(void)
 {
     int c, d, color;
     int cc = cursorcolortable[cursorflash];
+    int visibleOrderlist = VISIBLEORDERLIST;
     menu = 0;
 
     if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
@@ -125,9 +126,9 @@ void printstatus(void)
                 {
                     esview = newpos;
                 }
-                if (newpos - esview >= VISIBLEORDERLISTMONO)
+                if (newpos - esview >= visibleOrderlist)
                 {
-                    esview = newpos - VISIBLEORDERLISTMONO + 1;
+                    esview = newpos - visibleOrderlist + 1;
                 }
             }
         }
@@ -271,13 +272,22 @@ void printstatus(void)
         }
     }
 
-    sprintf(textbuffer, "CHN ORDERLIST (SUBTUNE %02X, POS %02X)", esnum, eseditpos);
+    sprintf(textbuffer, "CHN ORDERLIST (SUBTUNE ");
     printtext(dpos.orderlistX, dpos.orderlistY, colscheme.title, textbuffer);
+    sprintf(textbuffer, "%02X", esnum);
+    printtext(dpos.orderlistX+23, dpos.orderlistY, colscheme.edit, textbuffer);
+    sprintf(textbuffer, ", POS ");
+    printtext(dpos.orderlistX+25, dpos.orderlistY, colscheme.title, textbuffer);
+    sprintf(textbuffer, "%02X", eseditpos);
+    printtext(dpos.orderlistX+31, dpos.orderlistY, colscheme.edit, textbuffer);
+    sprintf(textbuffer, ")");
+    printtext(dpos.orderlistX+33, dpos.orderlistY, colscheme.title, textbuffer);
+
     for (c = 0; c < MAX_CHN; c++)
     {
         sprintf(textbuffer, " %d ", c+1);
         printtext(dpos.orderlistX, dpos.orderlistY+1+c, colscheme.title, textbuffer);
-        for ( d = 0; d < VISIBLEORDERLISTMONO; d++ )
+        for ( d = 0; d < visibleOrderlist; d++ )
         {
             int p = esview+d;
             color = colscheme.normal;
