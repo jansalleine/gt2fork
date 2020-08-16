@@ -73,7 +73,7 @@ int initscreen(void)
     unsigned xsize = MAX_COLUMNS * 8;
     unsigned ysize = MAX_ROWS * 16;
 
-    printf("xsize: %d, ysize: %d", xsize, ysize);
+    printf("xsize: %d, ysize: %d\n", xsize, ysize);
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
     {

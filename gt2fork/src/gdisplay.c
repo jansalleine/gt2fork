@@ -79,7 +79,7 @@ void printstatus(void)
         if (!sidmodel)
             printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.status_top, "6581");
         else
-            printtext(dpos.statusTopFvX+19, dpos.statusTopY, colscheme.status_top, "8580");
+            printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.status_top, "8580");
 
         sprintf(textbuffer, "HR:%04X", adparam);
         printtext(dpos.statusTopFvX+19, dpos.statusTopY, colscheme.status_top, textbuffer);

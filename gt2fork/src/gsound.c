@@ -13,7 +13,6 @@
 // General / reSID output
 int playspeed;
 int initted = 0;
-int firsttimeinit = 1;
 unsigned framerate = PALFRAMERATE;
 Sint16 *buffer = NULL;
 Sint16 *lbuffer = NULL;
@@ -27,16 +26,15 @@ void sound_mixer(Sint32 *dest, unsigned samples);
 Uint32 sound_timer(Uint32 interval, void *param);
 
 int sound_init(
-    unsigned b,
-    unsigned mr,
-    unsigned writer,
-    unsigned m,
-    unsigned ntsc,
-    unsigned multiplier,
-    unsigned interpolate,
-    unsigned customclockrate,
-    unsigned numsids
-)
+        unsigned b,
+        unsigned mr,
+        unsigned writer,
+        unsigned m,
+        unsigned ntsc,
+        unsigned multiplier,
+        unsigned interpolate,
+        unsigned customclockrate
+    )
 {
     sound_uninit();
 
@@ -83,18 +81,16 @@ int sound_init(
     if (b < MINBUF) b = MINBUF;
     if (b > MAXBUF) b = MAXBUF;
 
-    if (firsttimeinit)
+
+    if (numsids == 1 && !snd_init(mr, SIXTEENBIT|MONO, b, 1, 0))
     {
-        if (numsids == 1 && !snd_init(mr, SIXTEENBIT|MONO, b, 1, 0))
-        {
-            return 0;
-        }
-        else if (numsids == 2 && !snd_init(mr, SIXTEENBIT|STEREO, b, 1, 0))
-        {
-            return 0;
-        }
-        firsttimeinit = 0;
+        return 0;
     }
+    else if (numsids == 2 && !snd_init(mr, SIXTEENBIT|STEREO, b, 1, 0))
+    {
+        return 0;
+    }
+
     playspeed = snd_mixrate;
 
     sid_init(
@@ -170,16 +166,48 @@ void sound_mixer(Sint32 *dest, unsigned samples)
 
     if (!initted) return;
     if (samples > MIXBUFFERSIZE) return;
-    if (!buffer) return;
 
-    sid_fillbuffer(buffer, samples);
-    if (writehandle)
+    if (numsids == 1)
     {
-        fwrite(buffer, samples * sizeof(Uint16), 1, writehandle);
+        if (!buffer) return;
+
+        sid_fillbuffer(buffer, samples);
+        if (writehandle)
+        {
+            fwrite(buffer, samples * sizeof(Uint16), 1, writehandle);
+        }
+
+        for (c = 0; c < samples; c++)
+        {
+            dest[c] = buffer[c];
+        }
     }
-
-    for (c = 0; c < samples; c++)
+    else if (numsids == 2)
     {
-        dest[c] = buffer[c];
+        sid_fillbuffer_stereo(lbuffer, rbuffer, samples);
+        if (writehandle)
+        {
+            for (c = 0; c < samples; c++)
+            {
+                fwrite(&lbuffer[c], sizeof(Sint16), 1, writehandle);
+                fwrite(&rbuffer[c], sizeof(Sint16), 1, writehandle);
+            }
+        }
+        if (monomode)
+        {
+            for (c = 0; c < samples; c++)
+            {
+                dest[c*2] = lbuffer[c] / 2 + rbuffer[c] / 2;
+                dest[c*2+1] = dest[c*2];
+            }
+        }
+        else
+        {
+            for (c = 0; c < samples; c++)
+            {
+                dest[c*2] = lbuffer[c];
+                dest[c*2+1] = rbuffer[c];
+            }
+        }
     }
 }

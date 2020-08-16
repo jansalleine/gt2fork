@@ -9,7 +9,7 @@ LIBS=`sdl2-config --libs`
 
 CC?=gcc
 CXX?=g++
-CFLAGS+=-O3 -Wall -Ibme -Iasm
+CFLAGS+=-O3 -w -Ibme -Iasm
 CXXFLAGS=$(CFLAGS) -fpermissive
 
 RESIDOBJECTS=resid/sid.o \
@@ -38,12 +38,7 @@ RESIDFPOBJECTS=residfp/Dac.o \
 	residfp/WaveformGenerator.o \
 	residfp/resample/SincResampler.o
 
-EXE=	$(PREFIX)gt2fork$(SUFFIX) \
-	$(PREFIX)gt2reloc$(SUFFIX) \
-	$(PREFIX)ins2snd2$(SUFFIX) \
-	$(PREFIX)sngspli2$(SUFFIX) \
-	$(PREFIX)betaconv$(SUFFIX) \
-	$(PREFIX)mod2sng$(SUFFIX)
+EXE=$(PREFIX)gt2fork$(SUFFIX)
 
 all: datafile dat2inc $(EXE)
 
@@ -55,18 +50,6 @@ asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/me
 asm/pc.o asm/vec.o \
 bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
 	$(CXX) -o $@ $^ $(LIBS)
-	strip $@
-
-# it would be nice not having to link things like resid, however the source is
-# not ready for that
-$(PREFIX)gt2reloc$(SUFFIX): goatdata.o gt2reloc.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
-gfile.o ghelp.o gsound.o gconsole.o gsid.o gcolors.o \
-$(RESIDOBJECTS) \
-$(RESIDFPOBJECTS) \
-asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
-asm/pc.o asm/vec.o \
-bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
-	$(CXX) -DGT2RELOC -o $@ $^ $(LIBS)
 	strip $@
 
 $(PREFIX)mod2sng$(SUFFIX): mod2sng.o bme/bme_end.o

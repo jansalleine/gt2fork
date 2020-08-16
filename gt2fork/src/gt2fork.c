@@ -60,6 +60,7 @@ unsigned mr = DEFAULTMIXRATE;
 unsigned writer = 0;
 unsigned interpolate = 1;
 unsigned residdelay = 0;
+unsigned monomode = 0;
 float basepitch = 0.0f;
 float equaldivisionsperoctave = 12.0f;
 int tuningcount = 0;
@@ -397,8 +398,7 @@ int main(int argc, char **argv)
             ntsc,
             multiplier,
             interpolate,
-            customclockrate,
-            numsids
+            customclockrate
         ))
     {
         printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
@@ -797,9 +797,9 @@ void mousecommands(void)
     for (c = 0; c < MAX_TABLES; c++)
     {
         if ((mousey >= dpos.instrumentsY+7) &&
-            (mousey <= dpos.instrumentsY+8+VISIBLETABLEROWS-1) &&
+            (mousey <= dpos.instrumentsY+8+VISIBLETABLEROWS) &&
             (mousex >= dpos.instrumentsX+3+c*10) &&
-            (mousex <= dpos.instrumentsX+7+10+c*10))
+            (mousex <= dpos.instrumentsX+7+c*10))
         {
             int newpos = mousey-(dpos.instrumentsY+7)+etview[etnum];
             if (newpos < 0) newpos = 0;
@@ -896,8 +896,7 @@ void mousecommands(void)
                     ntsc,
                     multiplier,
                     interpolate,
-                    customclockrate,
-                    numsids
+                    customclockrate
                 );
             }
             if ((mousex >= dpos.statusTopFvX+14) && (mousex <= dpos.statusTopFvX+17))
@@ -911,8 +910,7 @@ void mousecommands(void)
                     ntsc,
                     multiplier,
                     interpolate,
-                    customclockrate,
-                    numsids
+                    customclockrate
                 );
             }
             if ((mousex >= dpos.statusTopFvX+22) &&
@@ -1171,14 +1169,20 @@ void generalcommands(void)
                 ntsc,
                 multiplier,
                 interpolate,
-                customclockrate,
-                numsids
+                customclockrate
             );
         }
         break;
 
     case KEY_F9:
-        relocator();
+        if (!shiftpressed)
+        {
+            relocator();
+        }
+        else if (numsids == 2)
+        {
+            monomode ^= 1;
+        }
         break;
 
     case KEY_F10:
@@ -1553,8 +1557,7 @@ void prevmultiplier(void)
             ntsc,
             multiplier,
             interpolate,
-            customclockrate,
-            numsids
+            customclockrate
         );
     }
 }
@@ -1572,8 +1575,7 @@ void nextmultiplier(void)
             ntsc,
             multiplier,
             interpolate,
-            customclockrate,
-            numsids
+            customclockrate
         );
     }
 }

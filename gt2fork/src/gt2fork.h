@@ -77,6 +77,7 @@ extern unsigned mr;
 extern unsigned writer;
 extern unsigned interpolate;
 extern unsigned numsids;
+extern unsigned monomode;
 extern float basepitch;
 extern char configbuf[MAX_PATHNAME];
 extern char loadedsongfilename[MAX_FILENAME];

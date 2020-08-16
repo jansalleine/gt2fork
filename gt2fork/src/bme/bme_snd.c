@@ -58,7 +58,13 @@ static SDL_AudioSpec obtained;
 
 int is32Bit = 0;
 
-int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned channels, int usedirectsound)
+int snd_init(
+        unsigned mixrate,
+        unsigned mixmode,
+        unsigned bufferlength,
+        unsigned channels,
+        int usedirectsound
+    )
 {
     // Register snd_uninit as an atexit function
 

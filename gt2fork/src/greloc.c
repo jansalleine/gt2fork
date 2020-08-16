@@ -33,7 +33,8 @@ char *tablerightname[] = {
     "mt_speedrighttbl"
 };
 
-unsigned char chnused[MAX_CHN];
+unsigned char chnused[MAX_CHN_MONO];
+unsigned char chnused_stereo[MAX_CHN];
 unsigned char pattused[MAX_PATT];
 unsigned char pattmap[MAX_PATT];
 unsigned char instrused[MAX_INSTR];
@@ -42,8 +43,10 @@ unsigned char tableused[MAX_TABLES][MAX_TABLELEN+1];
 unsigned char tablemap[MAX_TABLES][MAX_TABLELEN+1];
 int pattoffset[MAX_PATT];
 int pattsize[MAX_PATT];
-int songoffset[MAX_SONGS][MAX_CHN];
-int songsize[MAX_SONGS][MAX_CHN];
+int songoffset[MAX_SONGS][MAX_CHN_MONO];
+int songsize[MAX_SONGS][MAX_CHN_MONO];
+int songoffset_stereo[MAX_SONGS][MAX_CHN];
+int songsize_stereo[MAX_SONGS][MAX_CHN];
 int tableerror;
 int channels;
 int fixedparams;
@@ -139,7 +142,9 @@ void relocator(void)
     FILE *songhandle = NULL;
     int selectdone;
     int opt = 0;
-    unsigned char speedcode[] = {0xa2,0x00,0x8e,0x04,0xdc,0xa2,0x00,0x8e,0x05,0xdc};
+    unsigned char speedcode[] = {
+        0xA2,0x00,0x8E,0x04,0xDC,0xA2,0x00,0x8E,0x05,0xDC
+    };
 
     int c,d,e;
 
@@ -149,6 +154,7 @@ void relocator(void)
     unsigned char *instrwork = NULL;
 
     channels = 3;
+    if (numsids == 2) channels = 6;
     fixedparams = 1;
     simplepulse = 1;
     firstnote = MAX_NOTES-1;
@@ -190,12 +196,16 @@ void relocator(void)
     memset(pattused, 0, sizeof pattused);
     memset(instrused, 0, sizeof instrused);
     memset(chnused, 0, sizeof chnused);
+    memset(chnused_stereo, 0, sizeof chnused_stereo);
     memset(tableused, 0, sizeof tableused);
     memset(tablemap, 0, sizeof tablemap);
     tableerror = 0;
 
     membuf_free(&src);
     membuf_free(&dest);
+
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     // Process song-orderlists
     countpatternlengths();
@@ -207,7 +217,7 @@ void relocator(void)
                 (songlen[c][2]))
         {
             // See which patterns are used in this song
-            for (d = 0; d < MAX_CHN; d++)
+            for (d = 0; d < maxChns; d++)
             {
                 songdatasize += songlen[c][d]+2;
                 for (e = 0; e < songlen[c][d]; e++)
@@ -245,7 +255,12 @@ void relocator(void)
                 }
                 if (songorder[c][d][songlen[c][d]+1] >= songlen[c][d])
                 {
-                    sprintf(textbuffer, "ILLEGAL SONG RESTART POSITION! (SUBTUNE %02X, CHANNEL %d)", c, d+1);
+                    sprintf(
+                        textbuffer,
+                        "ILLEGAL SONG RESTART POSITION! (SUBTUNE %02X, CHANNEL %d)",
+                        c,
+                        d+1
+                    );
                     clearscreen();
                     printtextc(MAX_ROWS/2, 15, textbuffer);
                     fliptoscreen();
@@ -421,7 +436,12 @@ void relocator(void)
                 case CMD_DONOTHING:
                 case CMD_SETWAVEPTR:
                 case CMD_FUNKTEMPO:
-                    sprintf(textbuffer, "ILLEGAL WAVETABLE COMMAND (ROW %02X, COMMAND %X)", c+1, ltable[WTBL][c] - WAVECMD);
+                    sprintf(
+                        textbuffer,
+                        "ILLEGAL WAVETABLE COMMAND (ROW %02X, COMMAND %X)",
+                        c+1,
+                        ltable[WTBL][c] - WAVECMD
+                    );
                     clearscreen();
                     printtextc(MAX_ROWS/2, 15, textbuffer);
                     fliptoscreen();
@@ -514,14 +534,14 @@ TABLETYPE:
     // Select playroutine options
 #ifndef GT2RELOC
     clearscreen();
-    // printblankc(0, 0, 15+16, MAX_COLUMNS);
+
     printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[MAX_COLUMNS] = 0;
-    // printtext(0, 0, 15+16, textbuffer);
+
     printtext(0, 0, colscheme.status_top, textbuffer);
     printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
     selectdone = 0;
@@ -660,7 +680,7 @@ TABLETYPE:
                 (songlen[c][1]) &&
                 (songlen[c][2]))
         {
-            for (d = 0; d < MAX_CHN; d++)
+            for (d = 0; d < maxChns; d++)
             {
                 songoffset[c][d] = songdatasize;
                 songsize[c][d] = songlen[c][d] + 2;
@@ -703,7 +723,7 @@ TABLETYPE:
         }
         else
         {
-            for (d = 0; d < MAX_CHN; d++)
+            for (d = 0; d < maxChns; d++)
             {
                 songoffset[c][d] = songdatasize;
                 songsize[c][d] = 0;
@@ -1384,7 +1404,7 @@ SKIPTABLE:
     // Insert orderlists
     for (c = 0; c < songs; c++)
     {
-        for (d = 0; d < MAX_CHN; d++)
+        for (d = 0; d < maxChns; d++)
         {
             sprintf(textbuffer, "mt_song%d", c*3+d);
             insertlabel(textbuffer);

@@ -54,11 +54,14 @@ void sequencer(int c, CHN *cptr);
 void initchannels(void)
 {
     int c;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
+
     CHN *cptr = &chn[0];
 
     memset(chn, 0, sizeof chn);
 
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         chn[c].trans = 0;
         chn[c].instr = 1;
@@ -165,6 +168,8 @@ void playroutine(void)
     INSTR *iptr;
     CHN *cptr = &chn[0];
     int c;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     if (songinit == PLAY_STOP)
         followplay = 0;
@@ -184,7 +189,7 @@ void playroutine(void)
                 songinit = 0x01;
         }
 
-        for (c = 0; c < MAX_CHN; c++)
+        for (c = 0; c < maxChns; c++)
         {
             cptr->songptr = 0;
             cptr->command = 0;
@@ -303,7 +308,7 @@ FILTERSTOP:
         sidreg[0x17] = filterctrl;
         sidreg[0x18] = filtertype | masterfader;
 
-        for (c = 0; c < MAX_CHN; c++)
+        for (c = 0; c < maxChns; c++)
         {
             iptr = &instr[cptr->instr];
 

@@ -27,8 +27,12 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=0
-FILE_NAME_0=11895;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
+current_page=2
+FILE_NAME_0=4066;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgplay.c;0;4
+FILE_NAME_1=38855;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgpattern.c;0;4
+FILE_NAME_2=609;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgreloc.c;0;4
+FILE_NAME_3=34591;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2stereo%2Fsrc%2Fgreloc.c;0;4
+FILE_NAME_4=593;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgcommon.h;0;4
 
 [VTE]
 last_dir=/home/spider/public_html/grafrecke2020/scss

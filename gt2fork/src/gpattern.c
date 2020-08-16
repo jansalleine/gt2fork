@@ -6,25 +6,31 @@
 
 #include "gt2fork.h"
 
-unsigned char notekeytbl1[] = {KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_V,
-                               KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_COMMA, KEY_L, KEY_COLON
-                              };
+unsigned char notekeytbl1[] = {
+    KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_V,
+    KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_COMMA, KEY_L, KEY_COLON
+};
 
-unsigned char notekeytbl2[] = {KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_R,
-                               KEY_5, KEY_T, KEY_6, KEY_Y, KEY_7, KEY_U, KEY_I, KEY_9, KEY_O, KEY_0, KEY_P
-                              };
+unsigned char notekeytbl2[] = {
+    KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_R,
+    KEY_5, KEY_T, KEY_6, KEY_Y, KEY_7, KEY_U, KEY_I, KEY_9, KEY_O, KEY_0, KEY_P
+};
 
-unsigned char dmckeytbl[] = {KEY_A, KEY_W, KEY_S, KEY_E, KEY_D, KEY_F,
-                             KEY_T, KEY_G, KEY_Y, KEY_H, KEY_U, KEY_J, KEY_K, KEY_O, KEY_L, KEY_P
-                            };
+unsigned char dmckeytbl[] = {
+    KEY_A, KEY_W, KEY_S, KEY_E, KEY_D, KEY_F,
+    KEY_T, KEY_G, KEY_Y, KEY_H, KEY_U, KEY_J, KEY_K, KEY_O, KEY_L, KEY_P
+};
 
-unsigned char jankokeytbl1[] = {KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_F, KEY_V,
-                                KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_K, KEY_COMMA, KEY_L, KEY_COLON
-                               };
+unsigned char jankokeytbl1[] = {
+    KEY_Z, KEY_S, KEY_X, KEY_D, KEY_C, KEY_F, KEY_V,
+    KEY_G, KEY_B, KEY_H, KEY_N, KEY_J, KEY_M, KEY_K, KEY_COMMA, KEY_L, KEY_COLON
+};
 
-unsigned char jankokeytbl2[] = {KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_4, KEY_R,
-                                KEY_5, KEY_T, KEY_6, KEY_Y, KEY_7, KEY_U, KEY_8, KEY_I, KEY_9, KEY_O, KEY_0, KEY_P
-                               };
+unsigned char jankokeytbl2[] = {
+    KEY_Q, KEY_2, KEY_W, KEY_3, KEY_E, KEY_4, KEY_R,
+    KEY_5, KEY_T, KEY_6, KEY_Y, KEY_7, KEY_U, KEY_8,
+    KEY_I, KEY_9, KEY_O, KEY_0, KEY_P
+};
 
 unsigned char patterncopybuffer[MAX_PATTROWS*4+4];
 unsigned char cmdcopybuffer[MAX_PATTROWS*4+4];
@@ -44,6 +50,8 @@ int epmarkend;
 void patterncommands(void)
 {
     int c, scrrep;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     switch(key)
     {
@@ -113,7 +121,8 @@ void patterncommands(void)
 
         if (newnote > LASTNOTE) newnote = -1;
         if ((rawkey == KEY_BACKSPACE) && (!epcolumn)) newnote = REST;
-        if ((rawkey == 0x14) && (!epcolumn)) newnote = KEYOFF;
+        // @TODO: what was 0x14 in SDL 1.2?
+        // if ((rawkey == 0x14) && (!epcolumn)) newnote = KEYOFF;
         if (rawkey == KEY_ENTER)
         {
             switch(epcolumn)
@@ -886,7 +895,7 @@ void patterncommands(void)
                 {
                     int c;
 
-                    for (c = 0; c < MAX_CHN; c++)
+                    for (c = 0; c < maxChns; c++)
                     {
                         if (eseditpos < songlen[esnum][c]) espos[c] = eseditpos;
                         if (esend[c] <= espos[c]) esend[c] = 0;
@@ -907,7 +916,7 @@ void patterncommands(void)
             {
                 epcolumn = 0;
                 epchn++;
-                if (epchn >= MAX_CHN) epchn = 0;
+                if (epchn >= maxChns) epchn = 0;
                 if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
             }
         }
@@ -930,7 +939,7 @@ void patterncommands(void)
             {
                 epcolumn = 5;
                 epchn--;
-                if (epchn < 0) epchn = MAX_CHN-1;
+                if (epchn < 0) epchn = maxChns-1;
                 if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
             }
         }
@@ -975,13 +984,13 @@ void patterncommands(void)
         if (!shiftpressed)
         {
             epchn++;
-            if (epchn >= MAX_CHN) epchn = 0;
+            if (epchn >= maxChns) epchn = 0;
             if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
         }
         else
         {
             epchn--;
-            if (epchn < 0) epchn = MAX_CHN-1;
+            if (epchn < 0) epchn = maxChns-1;
             if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
         }
         break;
@@ -1201,6 +1210,8 @@ void splitpattern(void)
     int c = epnum[epchn];
     int l = pattlen[c];
     int d;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     if (eppos == 0) return;
     if (eppos == l) return;
@@ -1229,7 +1240,7 @@ void splitpattern(void)
 
         for (esnum = 0; esnum < MAX_SONGS; esnum++)
         {
-            for (eschn = 0; eschn < MAX_CHN; eschn++)
+            for (eschn = 0; eschn < maxChns; eschn++)
             {
                 for (eseditpos = 0; eseditpos < songlen[esnum][eschn]; eseditpos++)
                 {
@@ -1251,6 +1262,8 @@ void joinpattern(void)
 {
     int c = epnum[epchn];
     int d;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     if (eschn != epchn) return;
     if (songorder[esnum][epchn][eseditpos] != c) return;
@@ -1292,7 +1305,7 @@ void joinpattern(void)
 
         for (esnum = 0; esnum < MAX_SONGS; esnum++)
         {
-            for (eschn = 0; eschn < MAX_CHN; eschn++)
+            for (eschn = 0; eschn < maxChns; eschn++)
             {
                 for (eseditpos = 0; eseditpos < songlen[esnum][eschn]; eseditpos++)
                 {
