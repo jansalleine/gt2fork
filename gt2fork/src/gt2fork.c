@@ -608,12 +608,16 @@ void mousecommands(void)
 {
     int c;
 
+    // printf("mousex: %d, mousey: %d\n", mousex, mousey);
+
     if (!mouseb) return;
 
     // Pattern editpos & pattern number selection
     for (c = 0; c < MAX_CHN; c++)
     {
-        if ((mousey == 2) && (mousex >= 13 + c*15) && (mousex <= 14 + c*15))
+        if ((mousey == dpos.patternsY) &&
+            (mousex >= dpos.patternsX + 11 + c*13) &&
+            (mousex <= dpos.patternsX + 12 + c*13))
         {
             if ((!prevmouseb) || (mouseheld > HOLDDELAY))
             {
@@ -631,10 +635,13 @@ void mousecommands(void)
         }
         else
         {
-            if ((mousey >= 2) && (mousey <= 34) && (mousex >= 6 + c*15) && (mousex <= 14 + c*15))
+            if ((mousey >= dpos.patternsY) &&
+                (mousey <= dpos.statusBottomY - 1) &&
+                (mousex >= dpos.patternsX + 3 + c*13) &&
+                (mousex <= dpos.patternsX + 12 + c*13))
             {
-                int x = mousex-6-c*15;
-                int newpos = mousey-3+epview;
+                int x = mousex-(dpos.patternsX + 3)-c*13;
+                int newpos = mousey-(dpos.patternsY+1)+epview;
                 if (newpos < 0) newpos = 0;
                 if (newpos > pattlen[epnum[epchn]]) newpos = pattlen[epnum[epchn]];
 
@@ -664,8 +671,8 @@ void mousecommands(void)
                 {
                     if (mouseb & MOUSEB_LEFT)
                     {
-                        if (mousey == 2) eppos--;
-                        if (mousey == 34) eppos++;
+                        if (mousey == dpos.patternsY) eppos--;
+                        if (mousey == dpos.statusBottomY - 1) eppos++;
                     }
                 }
                 if (eppos < 0) eppos = 0;
