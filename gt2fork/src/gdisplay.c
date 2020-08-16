@@ -332,6 +332,7 @@ void printstatus(void)
                     if (color == colscheme.normal) color = colscheme.command;
                 }
             }
+            if (chn[c].mute) color = colscheme.mute;
             printtext(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, color, textbuffer);
             if (c == esmarkchn)
             {
@@ -609,7 +610,12 @@ void printstatus(void)
 
     printtext(dpos.octaveX+10, dpos.octaveY+1, colscheme.edit, textbuffer);
 
-    printtext(dpos.channelsX, dpos.channelsY, colscheme.title, " CHN1   CHN2   CHN3 ");
+    printtext(
+        dpos.channelsX,
+        dpos.channelsY,
+        colscheme.title,
+        " CHN1   CHN2   CHN3 "
+    );
     for (c = 0; c < MAX_CHN; c++)
     {
         int chnpos = chn[c].songptr;
@@ -621,7 +627,12 @@ void printstatus(void)
 
         sprintf(textbuffer, "%03X/%02X",
                 chnpos,chnrow);
-        printtext(dpos.channelsX+7*c, dpos.channelsY+1, colscheme.edit, textbuffer);
+        printtext(
+            dpos.channelsX+7*c,
+            dpos.channelsY+1,
+            chn[c].mute ? colscheme.mute : colscheme.edit,
+            textbuffer
+        );
     }
 
     if (etlock) printtext(dpos.channelsX-2, dpos.channelsY+1, colscheme.status_bottom, " ");

@@ -1041,6 +1041,7 @@ void generalcommands(void)
     }
 
     if (win_quitted) exitprogram = 1;
+
     switch(rawkey)
     {
     case KEY_ESC:
