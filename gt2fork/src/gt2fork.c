@@ -25,6 +25,8 @@
 #include "gt2fork.h"
 #include "bme.h"
 
+const int devConfig = 1;
+
 int menu = 0;
 int editmode = EDIT_PATTERN;
 int recordmode = 1;
@@ -143,6 +145,7 @@ int main(int argc, char **argv)
 #else
     strcpy(filename, getenv("HOME"));
     strcat(filename, "/.config/gt2fork/gt2fork.cfg");
+    if (devConfig) strcat(filename, ".dev");
 #endif
 
     configfile = fopen(filename, "rt");
@@ -152,6 +155,7 @@ int main(int argc, char **argv)
         getparam(configfile, &b);
         getparam(configfile, &mr);
         getparam(configfile, &sidmodel);
+        getparam(configfile, &numsids);
         getparam(configfile, &ntsc);
         getparam(configfile, (unsigned *)&fileformat);
         getparam(configfile, (unsigned *)&playeradr);
@@ -415,6 +419,7 @@ int main(int argc, char **argv)
 
     // Start editor mainloop
     printmainscreen();
+
     /*
     printtext(0, 1, colscheme.normal,
         " 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... .....  01:.. ..  01:.. ..  01:.. ..  01:.. .."
@@ -435,6 +440,7 @@ int main(int argc, char **argv)
     strcat(filename, "/.config/gt2fork");
     mkdir(filename, S_IRUSR | S_IWUSR | S_IXUSR);
     strcat(filename, "/gt2fork.cfg");
+    if (devConfig) strcat(filename, ".dev");
 #endif
 
     configfile = fopen(filename, "wt");
@@ -450,6 +456,7 @@ int main(int argc, char **argv)
                 ";reSID buffer length (in milliseconds)\n%d\n\n"
                 ";reSID mixing rate (in Hz)\n%d\n\n"
                 ";reSID model (0 = 6581, 1 = 8580)\n%d\n\n"
+                ";Number of SIDs (1, 2, default 1)\n%d\n\n"
                 ";Timing mode (0 = PAL, 1 = NTSC)\n%d\n\n"
                 ";Packer/relocator fileformat (0 = SID, 1 = PRG, 2 = BIN)\n%d\n\n"
                 ";Packer/relocator player address\n$%04x\n\n"
@@ -479,6 +486,7 @@ int main(int argc, char **argv)
                 b,
                 mr,
                 sidmodel,
+                numsids,
                 ntsc,
                 fileformat,
                 playeradr,
@@ -626,8 +634,6 @@ void mousecommands(void)
     int c;
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
-
-    // printf("mousex: %d, mousey: %d\n", mousex, mousey);
 
     if (!mouseb) return;
 
