@@ -47,6 +47,8 @@ void printstatus(void)
     int c, d, color;
     int cc = cursorcolortable[cursorflash];
     int visibleOrderlist = VISIBLEORDERLIST;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
     menu = 0;
 
     if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
@@ -101,7 +103,7 @@ void printstatus(void)
 
     if ((followplay) && (isplaying()))
     {
-        for (c = 0; c < MAX_CHN; c++)
+        for (c = 0; c < maxChns; c++)
         {
             int newpos = chn[c].pattptr / 4;
             if (chn[c].advance) epnum[c] = chn[c].pattnum;
@@ -134,7 +136,7 @@ void printstatus(void)
         }
     }
 
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         sprintf(textbuffer, "CH.");
         printtext(dpos.patternsX+c*13, dpos.patternsY, colscheme.pattcol, textbuffer);
@@ -283,7 +285,7 @@ void printstatus(void)
     sprintf(textbuffer, ")");
     printtext(dpos.orderlistX+33, dpos.orderlistY, colscheme.title, textbuffer);
 
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         sprintf(textbuffer, " %d ", c+1);
         printtext(dpos.orderlistX, dpos.orderlistY+1+c, colscheme.title, textbuffer);
@@ -620,13 +622,25 @@ void printstatus(void)
 
     printtext(dpos.octaveX+10, dpos.octaveY+1, colscheme.edit, textbuffer);
 
-    printtext(
-        dpos.channelsX,
-        dpos.channelsY,
-        colscheme.title,
-        " CHN1   CHN2   CHN3 "
-    );
-    for (c = 0; c < MAX_CHN; c++)
+    if (numsids == 1)
+    {
+        printtext(
+            dpos.channelsX,
+            dpos.channelsY,
+            colscheme.title,
+            " CHN1   CHN2   CHN3 "
+        );
+    }
+    else if (numsids == 2)
+    {
+        printtext(
+            dpos.channelsX,
+            dpos.channelsY,
+            colscheme.title,
+            " CHN1   CHN2   CHN3   CHN4   CHN5   CHN6 "
+        );
+    }
+    for (c = 0; c < maxChns; c++)
     {
         int chnpos = chn[c].songptr;
         int chnrow = chn[c].pattptr/4;

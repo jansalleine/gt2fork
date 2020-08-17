@@ -12,7 +12,8 @@ CXX?=g++
 CFLAGS+=-O3 -w -Ibme -Iasm
 CXXFLAGS=$(CFLAGS) -fpermissive
 
-RESIDOBJECTS=resid/sid.o \
+RESIDOBJECTS=\
+	resid/sid.o \
 	resid/voice.o \
 	resid/wave.o \
 	resid/envelope.o \
@@ -21,7 +22,8 @@ RESIDOBJECTS=resid/sid.o \
 	resid/extfilt.o \
 	resid/pot.o
 
-RESIDFPOBJECTS=residfp/Dac.o \
+RESIDFPOBJECTS=\
+	residfp/Dac.o \
 	residfp/Filter6581.o \
 	residfp/FilterModelConfig8580.o \
 	residfp/Integrator.o \
@@ -42,13 +44,13 @@ EXE=$(PREFIX)gt2fork$(SUFFIX)
 
 all: datafile dat2inc $(EXE)
 
-$(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o ginstr.o gtable.o gplay.o gdisplay.o \
-gfile.o greloc.o ghelp.o gsound.o gconsole.o gsid.o gcolors.o \
-$(RESIDOBJECTS) \
-$(RESIDFPOBJECTS) \
-asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o asm/membufio.o asm/namedbuf.o asm/parse.o \
-asm/pc.o asm/vec.o \
-bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o bme/bme_io.o bme/bme_end.o bme/bme.o
+$(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o \
+	ginstr.o gtable.o gplay.o gdisplay.o gfile.o greloc.o ghelp.o gsound.o \
+	gconsole.o gsid.o gcolors.o $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
+	asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o \
+	asm/membufio.o asm/namedbuf.o asm/parse.o asm/pc.o asm/vec.o \
+	bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o \
+	bme/bme_io.o bme/bme_end.o bme/bme.o
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
 

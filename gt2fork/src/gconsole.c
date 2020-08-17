@@ -464,3 +464,19 @@ void getkey(void)
     if (rawkey == SDL_SCANCODE_KP_8) key = '8';
     if (rawkey == SDL_SCANCODE_KP_9) key = '9';
 }
+
+void initDisplayPositions(void)
+{
+    if (numsids == 1)
+    {
+        dpos.channelsX = MAX_COLUMNS-21;
+        dpos.orderlistX = 54;
+        dpos.patternsX = 14;
+    }
+    else if (numsids == 2)
+    {
+        dpos.channelsX = MAX_COLUMNS-42;
+        dpos.orderlistX = 80;
+        dpos.patternsX = 1;
+    }
+}

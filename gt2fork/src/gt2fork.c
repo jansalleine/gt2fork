@@ -360,6 +360,8 @@ int main(int argc, char **argv)
 
     colscheme_init(theme);
 
+    initDisplayPositions();
+
     // Read Scala tuning file
     if (scalatuningfilepath[0] != '0' && scalatuningfilepath[1] != '\0')
     {
@@ -622,13 +624,15 @@ void docommand(void)
 void mousecommands(void)
 {
     int c;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     // printf("mousex: %d, mousey: %d\n", mousex, mousey);
 
     if (!mouseb) return;
 
     // Pattern editpos & pattern number selection
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         if ((mousey == dpos.patternsY) &&
             (mousex >= dpos.patternsX + 10 + c*13) &&
@@ -704,7 +708,7 @@ void mousecommands(void)
 
     // Song editpos & songnumber selection
     if ((mousey >= dpos.orderlistY) &&
-        (mousey <= dpos.orderlistY + MAX_CHN + 2) &&
+        (mousey <= dpos.orderlistY + maxChns + 2) &&
         (mousex >= dpos.orderlistX))
     {
         int newpos = esview + (mousex-(dpos.orderlistX+4)) / 3;
@@ -862,7 +866,7 @@ void mousecommands(void)
     {
         recordmode ^= 1;
     }
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         if ((!prevmouseb) &&
             (mousey >= dpos.channelsY) &&
@@ -982,6 +986,8 @@ void mousecommands(void)
 void generalcommands(void)
 {
     int c;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     switch(key)
     {
@@ -1043,7 +1049,7 @@ void generalcommands(void)
         break;
 
     case ';':
-        for (c = 0; c < MAX_CHN; c++)
+        for (c = 0; c < maxChns; c++)
         {
             if (espos[c]) espos[c]--;
             if (espos[c] < esview)
@@ -1057,7 +1063,7 @@ void generalcommands(void)
         break;
 
     case ':':
-        for (c = 0; c < MAX_CHN; c++)
+        for (c = 0; c < maxChns; c++)
         {
             if (espos[c] < songlen[esnum][c]-1)
                 espos[c]++;
