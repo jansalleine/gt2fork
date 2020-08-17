@@ -32,7 +32,7 @@ int followplay = 0;
 int hexnybble = -1;
 int stepsize = 4;
 int autoadvance = 0;
-int defaultpatternlength = 32;
+unsigned defaultpatternlength = 32;
 int cursorflash = 0;
 int cursorcolortable[] = {1,2,7,2};
 int exitprogram = 0;
@@ -1343,7 +1343,7 @@ void clear(void)
     if (cp == 1)
     {
         int selectdone = 0;
-        int olddpl = defaultpatternlength;
+        unsigned olddpl = defaultpatternlength;
 
         printtext(dpos.statusBottomX+20, dpos.statusBottomY, colscheme.status_bottom,"Pattern length:");
         while (!selectdone)

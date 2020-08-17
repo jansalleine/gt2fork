@@ -29,6 +29,8 @@ void namecommands(void);
 void orderlistcommands(void)
 {
     int c, scrrep;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
     if (hexnybble >= 0)
     {
@@ -265,7 +267,7 @@ void orderlistcommands(void)
         }
         else
         {
-            for (c = 0; c < MAX_CHN; c++)
+            for (c = 0; c < maxChns; c++)
             {
                 if (eseditpos < songlen[esnum][c]) espos[c] = eseditpos;
                 if (esend[c] < espos[c]) esend[c] = 0;
@@ -286,14 +288,14 @@ void orderlistcommands(void)
         {
             if ((esend[eschn] != eseditpos) && (eseditpos > espos[eschn]))
             {
-                for (c = 0; c < MAX_CHN; c++)
+                for (c = 0; c < maxChns; c++)
                 {
                     if (eseditpos < songlen[esnum][c]) esend[c] = eseditpos;
                 }
             }
             else
             {
-                for (c = 0; c < MAX_CHN; c++) esend[c] = 0;
+                for (c = 0; c < maxChns; c++) esend[c] = 0;
             }
         }
         break;
@@ -310,7 +312,7 @@ void orderlistcommands(void)
             {
                 int c, d;
 
-                for (c = 0; c < MAX_CHN; c++)
+                for (c = 0; c < maxChns; c++)
                 {
                     int start;
 
@@ -378,7 +380,7 @@ void orderlistcommands(void)
 
     case KEY_UP:
         eschn--;
-        if (eschn < 0) eschn = MAX_CHN - 1;
+        if (eschn < 0) eschn = maxChns - 1;
         if ((eseditpos == songlen[esnum][eschn]) || (eseditpos > songlen[esnum][eschn]+1))
         {
             eseditpos = songlen[esnum][eschn]+1;
@@ -389,7 +391,7 @@ void orderlistcommands(void)
 
     case KEY_DOWN:
         eschn++;
-        if (eschn >= MAX_CHN) eschn = 0;
+        if (eschn >= maxChns) eschn = 0;
         if ((eseditpos == songlen[esnum][eschn]) || (eseditpos > songlen[esnum][eschn]+1))
         {
             eseditpos = songlen[esnum][eschn]+1;
@@ -589,8 +591,10 @@ void prevsong(void)
 void songchange(void)
 {
     int c;
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
 
-    for (c = 0; c < MAX_CHN; c++)
+    for (c = 0; c < maxChns; c++)
     {
         espos[c] = 0;
         esend[c] = 0;
@@ -611,7 +615,10 @@ void songchange(void)
 void updateviewtopos(void)
 {
     int c, d;
-    for (c = 0; c < MAX_CHN; c++)
+    int maxChns = MAX_CHN;
+    if (numsids == 1) maxChns = 3;
+
+    for (c = 0; c < maxChns; c++)
     {
         for (d = espos[c]; d < songlen[esnum][c]; d++)
         {

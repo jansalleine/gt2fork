@@ -26,7 +26,7 @@
 #define MAX_FILT 64
 #define MAX_STR 32
 #define MAX_INSTR 64
-#define MAX_CHN 3
+#define MAX_CHN 6
 #define MAX_CHN_MONO 3
 #define MAX_PATT 208
 #define MAX_TABLES 4

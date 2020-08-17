@@ -9,7 +9,7 @@ LIBS=`sdl2-config --libs`
 
 CC?=gcc
 CXX?=g++
-CFLAGS+=-O3 -w -Ibme -Iasm
+CFLAGS+=-O3 -Wall -Ibme -Iasm
 CXXFLAGS=$(CFLAGS) -fpermissive
 
 RESIDOBJECTS=\
@@ -52,22 +52,6 @@ $(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o \
 	bme/bme_gfx.o bme/bme_snd.o bme/bme_win.o bme/bme_mou.o bme/bme_kbd.o \
 	bme/bme_io.o bme/bme_end.o bme/bme.o
 	$(CXX) -o $@ $^ $(LIBS)
-	strip $@
-
-$(PREFIX)mod2sng$(SUFFIX): mod2sng.o bme/bme_end.o
-	$(CC) -o $@ $^
-	strip $@
-
-$(PREFIX)ins2snd2$(SUFFIX): ins2snd2.o bme/bme_end.o
-	$(CC) -o $@ $^
-	strip $@
-
-$(PREFIX)sngspli2$(SUFFIX): sngspli2.o bme/bme_end.o
-	$(CC) -o $@ $^
-	strip $@
-
-$(PREFIX)betaconv$(SUFFIX): betaconv.o bme/bme_end.o
-	$(CC) -o $@ $^
 	strip $@
 
 goattrk2.dat: player.s altplayer.s chargen.bin palette.bin goattrk2.bmp goattrk2.seq
