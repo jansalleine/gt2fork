@@ -27,20 +27,8 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=3
-FILE_NAME_0=3547;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fmakefile.xmingw32;0;4
-FILE_NAME_1=1327;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fmakefile;0;4
-FILE_NAME_2=16159;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgorder.c;0;4
-FILE_NAME_3=49470;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgsong.c;0;4
-FILE_NAME_4=44480;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2stereo%2Fsrc%2Fgsong.c;0;4
-FILE_NAME_5=11028;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
-FILE_NAME_6=1323;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgdisplay.c;0;4
-FILE_NAME_7=5499;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgtable.c;0;4
-FILE_NAME_8=5114;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fginstr.c;0;4
-FILE_NAME_9=11988;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.c;0;4
-FILE_NAME_10=359;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.h;0;4
-FILE_NAME_11=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgcolors.h;0;4
-FILE_NAME_12=4433;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgreloc.c;0;4
+current_page=0
+FILE_NAME_0=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
 
 [VTE]
-last_dir=/home/spider/public_html/grafrecke2020/scss
+last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss
