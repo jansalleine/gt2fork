@@ -25,7 +25,7 @@
 #include "gt2fork.h"
 #include "bme.h"
 
-const int devConfig = 1;
+const int devConfig = 0;
 
 int menu = 0;
 int editmode = EDIT_PATTERN;
@@ -83,7 +83,7 @@ char instrpath[MAX_PATHNAME];
 char packedpath[MAX_PATHNAME];
 
 extern char *notename[];
-char *programname = "$VER: gt2fork v0.5";
+char *programname = "$VER: gt2fork v0.5b";
 char specialnotenames[186];
 char scalatuningfilepath[MAX_PATHNAME];
 char tuningname[64];
