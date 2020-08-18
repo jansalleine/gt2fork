@@ -605,7 +605,14 @@ void docommand(void)
     switch(editmode)
     {
     case EDIT_ORDERLIST:
-        orderlistcommands();
+        if (numsids == 1)
+        {
+            orderlistcommands();
+        }
+        else if (numsids == 2)
+        {
+            orderlistcommands_stereo();
+        }
         break;
 
     case EDIT_INSTRUMENT:

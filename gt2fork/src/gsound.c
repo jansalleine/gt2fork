@@ -157,7 +157,14 @@ Uint32 sound_timer(Uint32 interval, void *param)
 
 void sound_playrout(void)
 {
-    playroutine();
+    if (numsids == 1)
+    {
+        playroutine();
+    }
+    else if (numsids == 2)
+    {
+        playroutine_stereo();
+    }
 }
 
 void sound_mixer(Sint32 *dest, unsigned samples)

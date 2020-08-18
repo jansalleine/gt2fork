@@ -17,6 +17,7 @@ extern int enpos;
 
 void updateviewtopos(void);
 void orderlistcommands(void);
+void orderlistcommands_stereo(void);
 void namecommands(void);
 void nextsong(void);
 void prevsong(void);
@@ -25,5 +26,9 @@ void orderleft(void);
 void orderright(void);
 void deleteorder(void);
 void insertorder(unsigned char byte);
+void orderleft_stereo(void);
+void orderright_stereo(void);
+void deleteorder_stereo(void);
+void insertorder_stereo(unsigned char byte);
 
 #endif

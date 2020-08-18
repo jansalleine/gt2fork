@@ -109,6 +109,15 @@ void printstatus(void)
     {
         for (c = 0; c < maxChns; c++)
         {
+            int currentSonglen;
+            if (numsids == 1)
+            {
+                currentSonglen = songlen[esnum][c];
+            }
+            else if (numsids == 2)
+            {
+                currentSonglen = songlen_stereo[esnum][c];
+            }
             int newpos = chn[c].pattptr / 4;
             if (chn[c].advance) epnum[c] = chn[c].pattnum;
 
@@ -123,7 +132,7 @@ void printstatus(void)
             newpos = chn[c].songptr;
             newpos--;
             if (newpos < 0) newpos = 0;
-            if (newpos > songlen[esnum][c]) newpos = songlen[esnum][c];
+            if (newpos > currentSonglen) newpos = currentSonglen;
 
             if ((c == eschn) && (chn[c].advance))
             {
@@ -296,6 +305,18 @@ void printstatus(void)
         for ( d = 0; d < visibleOrderlist; d++ )
         {
             int p = esview+d;
+            unsigned char currentSongorder;
+            int currentSonglen;
+            if (numsids == 1)
+            {
+                currentSongorder = songorder[esnum][c][p];
+                currentSonglen = songlen[esnum][c];
+            }
+            else if (numsids == 2)
+            {
+                currentSongorder = songorder_stereo[esnum][c][p];
+                currentSonglen = songlen_stereo[esnum][c];
+            }
             color = colscheme.normal;
             if (isplaying())
             {
@@ -307,42 +328,42 @@ void printstatus(void)
             if (p == espos[c]) color = colscheme.edit;
             if ((esend[c]) && (p == esend[c])) color = colscheme.edit;
 
-            if ((p < 0) || (p > (songlen[esnum][c]+1)) || (p > MAX_SONGLEN+1))
+            if ((p < 0) || (p > (currentSonglen+1)) || (p > MAX_SONGLEN+1))
             {
                 sprintf(textbuffer, "   ");
             }
             else
             {
-                if (songorder[esnum][c][p] < LOOPSONG)
+                if (currentSongorder < LOOPSONG)
                 {
-                    if ((songorder[esnum][c][p] < REPEAT) || (p >= songlen[esnum][c]))
+                    if ((currentSongorder < REPEAT) || (p >= currentSonglen))
                     {
-                        sprintf(textbuffer, "%02X ", songorder[esnum][c][p]);
-                        if ((p >= songlen[esnum][c]) && (color == colscheme.normal)) color = colscheme.command;
+                        sprintf(textbuffer, "%02X ", currentSongorder);
+                        if ((p >= currentSonglen) && (color == colscheme.normal)) color = colscheme.command;
                     }
                     else
                     {
-                        if (songorder[esnum][c][p] >= TRANSUP)
+                        if (currentSongorder >= TRANSUP)
                         {
-                            sprintf(textbuffer, "+%01X ", songorder[esnum][c][p]&0xf);
+                            sprintf(textbuffer, "+%01X ", currentSongorder & 0xf);
                             if (color == colscheme.normal) color = colscheme.command;
                         }
                         else
                         {
-                            if (songorder[esnum][c][p] >= TRANSDOWN)
+                            if (currentSongorder >= TRANSDOWN)
                             {
-                                sprintf(textbuffer, "-%01X ", 16-(songorder[esnum][c][p] & 0x0f));
+                                sprintf(textbuffer, "-%01X ", 16-(currentSongorder & 0x0f));
                                 if (color == colscheme.normal) color = colscheme.command;
                             }
                             else
                             {
-                                sprintf(textbuffer, "R%01X ", (songorder[esnum][c][p]+1) & 0x0f);
+                                sprintf(textbuffer, "R%01X ", (currentSongorder+1) & 0x0f);
                                 if (color == colscheme.normal) color = colscheme.command;
                             }
                         }
                     }
                 }
-                if (songorder[esnum][c][p] == LOOPSONG)
+                if (currentSongorder == LOOPSONG)
                 {
                     sprintf(textbuffer, "RST");
                     if (color == colscheme.normal) color = colscheme.command;

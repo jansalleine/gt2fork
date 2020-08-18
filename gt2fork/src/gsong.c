@@ -1502,6 +1502,8 @@ int insertpattern(int p)
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
 
+    printf("insertpattern\n");
+
     findusedpatterns();
     if (p >= MAX_PATT-2) return 0;
     if (pattused[MAX_PATT-1]) return 0;
@@ -1528,6 +1530,7 @@ int insertpattern(int p)
                 {
                     if (numsids == 1)
                     {
+                        printf("numsids = 1\n");
                         if ((songorder[c][d][e] < REPEAT) &&
                             (songorder[c][d][e] > p) &&
                             (songorder[c][d][e] != MAX_PATT-1))
@@ -1537,6 +1540,7 @@ int insertpattern(int p)
                     }
                     else if (numsids == 2)
                     {
+                        printf("numsids = 2\n");
                         if ((songorder_stereo[c][d][e] < REPEAT) &&
                             (songorder_stereo[c][d][e] > p) &&
                             (songorder_stereo[c][d][e] != MAX_PATT-1))
