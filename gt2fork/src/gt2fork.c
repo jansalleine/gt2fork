@@ -66,6 +66,7 @@ unsigned residdelay = 0;
 unsigned monomode = 0;
 float basepitch = 0.0f;
 float equaldivisionsperoctave = 12.0f;
+float panning = 1.0f;
 int tuningcount = 0;
 double tuning[96];
 unsigned theme = 0;
@@ -171,6 +172,7 @@ int main(int argc, char **argv)
         getparam(configfile, &patterndispmode);
         getparam(configfile, &sidaddress);
         getparam(configfile, &sid2address);
+        getfloatparam(configfile, &panning);
         getparam(configfile, &finevibrato);
         getparam(configfile, &optimizepulse);
         getparam(configfile, &optimizerealtime);
@@ -363,6 +365,8 @@ int main(int argc, char **argv)
     if (customclockrate < 100) customclockrate = 0;
     if (defaultpatternlength < 1) defaultpatternlength = 1;
     if (defaultpatternlength > MAX_PATTROWS) defaultpatternlength = MAX_PATTROWS;
+    if (panning < 0) panning = 0;
+    if (panning > 1) panning = 1;
     if (theme > 1) theme = 0;
 
     colscheme_init(theme);
@@ -474,6 +478,7 @@ int main(int argc, char **argv)
                 ";Hexadecimal pattern display (0 = off, 1 = on)\n%d\n\n"
                 ";SID 1 baseaddress\n$%04x\n\n"
                 ";SID 2 baseaddress\n$%04x\n\n"
+                ";Panning in stereo mode (0.00 - 1.00; 0 = channels reversed, 0.5 = mono, 1 = seperated)\n%.2f\n\n"
                 ";Finevibrato mode (0 = off, 1 = on)\n%d\n\n"
                 ";Pulseskipping (0 = off, 1 = on)\n%d\n\n"
                 ";Realtime effect skipping (0 = off, 1 = on)\n%d\n\n"
@@ -505,6 +510,7 @@ int main(int argc, char **argv)
                 patterndispmode,
                 sidaddress,
                 sid2address,
+                panning,
                 finevibrato,
                 optimizepulse,
                 optimizerealtime,

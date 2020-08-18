@@ -901,6 +901,50 @@ PULSEDONE:
                 if (!instr[c].firstwave) instr[c].gatetimer |= 0x40;
             }
         }
+
+        // If was a mono song, create empty orderlists for channels 4-6
+        if (channelstoload < MAX_CHN)
+        {
+            int emptypatt = MAX_PATT-1;
+
+            findusedpatterns();
+            for (c = 0; c < MAX_PATT; c++)
+            {
+                if (!pattused[c])
+                {
+                    int d;
+                    int ok = 1;
+                    for (d = 0; d < pattlen[c]; d++)
+                    {
+                        if ((pattern[c][d*4] != REST) || (pattern[c][d*4+1] != 0x00) ||
+                                (pattern[c][d*4+2] != 0x00) || (pattern[c][d*4+3] != 0x00))
+                            ok = 0;
+                    }
+
+                    if (ok)
+                    {
+                        emptypatt = c;
+                        break;
+                    }
+                }
+            }
+
+            for (c = 0; c < MAX_SONGS; c++)
+            {
+                if (songlen_stereo[c][0])
+                {
+                    int d;
+                    for (d = channelstoload; d < MAX_CHN; d++)
+                    {
+                        songorder_stereo[c][d][0] = emptypatt;
+                        songorder_stereo[c][d][1] = 0xff;
+                        songorder_stereo[c][d][2] = 0x00;
+                        songlen_stereo[c][d] = 1;
+                    }
+                }
+            }
+            songchange();
+        }
     }
 }
 

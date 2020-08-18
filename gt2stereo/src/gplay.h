@@ -13,7 +13,7 @@ typedef struct
   unsigned char trans;
   unsigned char instr;
   unsigned char note;
-  unsigned char lastnote;  
+  unsigned char lastnote;
   unsigned char newnote;
   unsigned pattptr;
   unsigned char pattnum;
@@ -57,5 +57,6 @@ void releasenote(int chnnum);
 void mutechannel(int chnnum);
 int isplaying(void);
 void playroutine(void);
+void playroutine_stereo(void);
 
 #endif

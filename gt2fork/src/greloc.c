@@ -245,7 +245,7 @@ void relocator(void)
                         d+1
                     );
                     clearscreen();
-                    printtextc(MAX_ROWS/2, 15, textbuffer);
+                    printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                     fliptoscreen();
                     waitkeynoupdate();
                     goto PRCLEANUP;
@@ -426,7 +426,7 @@ void relocator(void)
                         ltable[WTBL][c] - WAVECMD
                     );
                     clearscreen();
-                    printtextc(MAX_ROWS/2, 15, textbuffer);
+                    printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                     fliptoscreen();
                     waitkeynoupdate();
                     goto PRCLEANUP;
@@ -503,7 +503,7 @@ TABLETYPE:
             strcat(textbuffer, ")");
             break;
         }
-        printtextc(MAX_ROWS/2, 15, textbuffer);
+        printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();
@@ -723,7 +723,7 @@ TABLETYPE:
             {
                 clearscreen();
                 sprintf(textbuffer, "PATTERN %02X IS TOO COMPLEX (OVER 256 BYTES PACKED)!", c);
-                printtextc(MAX_ROWS/2, 15, textbuffer);
+                printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                 fliptoscreen();
                 waitkeynoupdate();
                 goto PRCLEANUP;
@@ -940,13 +940,13 @@ TABLETYPE:
     if (nofilter) filttblsize = 0;
 
     sprintf(textbuffer, "SELECT START ADDRESS: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
-    printtext(1, 11, 15, textbuffer);
+    printtext(1, 11, colscheme.title, textbuffer);
 
     selectdone = 0;
     while (!selectdone)
     {
         sprintf(textbuffer, "$%04X", playeradr);
-        printtext(1, 12, 10, textbuffer);
+        printtext(1, 12, colscheme.edit, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();
@@ -992,7 +992,7 @@ TABLETYPE:
     if (selectdone == -1) goto PRCLEANUP;
 
     sprintf(textbuffer, "SELECT ZEROPAGE ADDRESS: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
-    printtext(1, 14, 15, textbuffer);
+    printtext(1, 14, colscheme.title, textbuffer);
 
     selectdone = 0;
     while (!selectdone)
@@ -1024,7 +1024,7 @@ TABLETYPE:
             sprintf(textbuffer, "$%02X-$%02X (ghostregs start at %02X)", zeropageadr, zeropageadr+26, zeropageadr);
         }
 
-        printtext(1, 15, 10, textbuffer);
+        printtext(1, 15, colscheme.edit, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();
@@ -1422,14 +1422,14 @@ SKIPTABLE:
 
     // Print results
     clearscreen();
-    // printblankc(0, 0, 15+16, MAX_COLUMNS);
+
     printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[80] = 0;
-    // printtext(0, 0, 15+16, textbuffer);
+
     printtext(0, 0, colscheme.status_top, textbuffer);
 
     sprintf(textbuffer, "PACKING RESULTS:");
@@ -2311,7 +2311,7 @@ void relocator_stereo(void)
                 {
                     sprintf(textbuffer, "ILLEGAL SONG RESTART POSITION! (SUBTUNE %02X, CHANNEL %d)", c, d+1);
                     clearscreen();
-                    printtextc(MAX_ROWS/2, 15, textbuffer);
+                    printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                     fliptoscreen();
                     waitkeynoupdate();
                     goto PRCLEANUP_S;
@@ -2481,7 +2481,7 @@ void relocator_stereo(void)
                 case CMD_FUNKTEMPO:
                     sprintf(textbuffer, "ILLEGAL WAVETABLE COMMAND (ROW %02X, COMMAND %X)", c+1, ltable[WTBL][c] - WAVECMD);
                     clearscreen();
-                    printtextc(MAX_ROWS/2, 15, textbuffer);
+                    printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                     fliptoscreen();
                     waitkeynoupdate();
                     goto PRCLEANUP_S;
@@ -2558,7 +2558,7 @@ TABLETYPE_S:
             strcat(textbuffer, ")");
             break;
         }
-        printtextc(MAX_ROWS/2, 15, textbuffer);
+        printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();
@@ -2778,7 +2778,7 @@ TABLETYPE_S:
             {
                 clearscreen();
                 sprintf(textbuffer, "PATTERN %02X IS TOO COMPLEX (OVER 256 BYTES PACKED)!", c);
-                printtextc(MAX_ROWS/2, 15, textbuffer);
+                printtextc(MAX_ROWS/2, colscheme.title, textbuffer);
                 fliptoscreen();
                 waitkeynoupdate();
                 goto PRCLEANUP_S;
@@ -2995,13 +2995,13 @@ TABLETYPE_S:
     if (nofilter) filttblsize = 0;
 
     sprintf(textbuffer, "SELECT START ADDRESS: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
-    printtext(1, 10, 15, textbuffer);
+    printtext(1, 10, colscheme.title, textbuffer);
 
     selectdone = 0;
     while (!selectdone)
     {
         sprintf(textbuffer, "$%04X", playeradr);
-        printtext(1, 11, 10, textbuffer);
+        printtext(1, 11, colscheme.edit, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();
@@ -3047,7 +3047,7 @@ TABLETYPE_S:
     if (selectdone == -1) goto PRCLEANUP_S;
 
     sprintf(textbuffer, "SELECT ZEROPAGE ADDRESS: (CURSORS=MOVE, ENTER=ACCEPT, ESC=CANCEL)");
-    printtext(1, 13, 15, textbuffer);
+    printtext(1, 13, colscheme.title, textbuffer);
 
     selectdone = 0;
     while (!selectdone)
@@ -3079,7 +3079,7 @@ TABLETYPE_S:
             sprintf(textbuffer, "$%02X-$%02X (ghostregs start at %02X)", zeropageadr, zeropageadr+26, zeropageadr);
         }
 
-        printtext(1, 14, 10, textbuffer);
+        printtext(1, 14, colscheme.edit, textbuffer);
 
         fliptoscreen();
         waitkeynoupdate();

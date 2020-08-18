@@ -212,8 +212,8 @@ void sound_mixer(Sint32 *dest, unsigned samples)
         {
             for (c = 0; c < samples; c++)
             {
-                dest[c*2] = lbuffer[c];
-                dest[c*2+1] = rbuffer[c];
+                dest[c*2] = lbuffer[c] * panning + rbuffer[c] * (1-panning);
+                dest[c*2+1] = rbuffer[c] * panning + lbuffer[c] * (1-panning);
             }
         }
     }
