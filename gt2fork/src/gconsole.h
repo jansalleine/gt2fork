@@ -43,7 +43,7 @@ void getkey(void);
 void initDisplayPositions(void);
 
 #ifndef GCONSOLE_C
-extern int key, rawkey, shiftpressed, cursorflashdelay;
+extern int key, rawkey, shiftpressed, altpressed, cursorflashdelay;
 extern int mouseb, prevmouseb;
 extern int mouseheld;
 extern int mousex, mousey;

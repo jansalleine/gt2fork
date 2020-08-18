@@ -1258,6 +1258,14 @@ void generalcommands(void)
     case KEY_F11:
         save();
         break;
+    case KEY_M:
+        if (altpressed)
+        {
+            key = 0;
+            rawkey = 0;
+            switchMode();
+        }
+        break;
     }
 }
 
@@ -1801,4 +1809,51 @@ void readscalatuningfile()
         }
         fclose(scalatuningfile);
     }
+}
+
+void switchMode(void)
+{
+    printtextcp(
+        dpos.statusBottomX+29,
+        dpos.statusBottomY,
+        colscheme.status_bottom,
+        "Switch mono / stereo mode (y/n)?"
+    );
+    printtextcp(
+        dpos.statusBottomX+29,
+        dpos.statusBottomY+1,
+        colscheme.edit,
+        "!!!Songdata will be cleared!!!"
+    );
+
+    waitkey();
+
+    printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
+    printblank(dpos.statusBottomX, dpos.statusBottomY+1, 58);
+
+    if ((key == 'y') || (key == 'Y'))
+    {
+        printf("switchMode: yes\n");
+
+        memset(songfilename, 0, sizeof songfilename);
+
+        // SDL_PauseAudio(1);
+        numsids ^= 3;
+        clearsong(1, 1, 1, 1, 1);
+
+        sound_init(
+            b,
+            mr,
+            writer,
+            sidmodel,
+            ntsc,
+            multiplier,
+            interpolate,
+            customclockrate
+        );
+        initDisplayPositions();
+        printmainscreen();
+    }
+    key = 0;
+    rawkey = 0;
 }

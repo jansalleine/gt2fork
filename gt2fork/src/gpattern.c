@@ -76,14 +76,14 @@ void patterncommands(void)
             case KEY_TRACKER:
                 for (c = 0; c < sizeof(notekeytbl1); c++)
                 {
-                    if ((rawkey == notekeytbl1[c]) && (!epcolumn) && (!shiftpressed))
+                    if ((rawkey == notekeytbl1[c]) && (!epcolumn) && (!shiftpressed) && (!altpressed))
                     {
                         newnote = FIRSTNOTE+c+epoctave*12;
                     }
                 }
                 for (c = 0; c < sizeof(notekeytbl2); c++)
                 {
-                    if ((rawkey == notekeytbl2[c]) && (!epcolumn) && (!shiftpressed))
+                    if ((rawkey == notekeytbl2[c]) && (!epcolumn) && (!shiftpressed) && (!altpressed))
                     {
                         newnote = FIRSTNOTE+c+(epoctave+1)*12;
                     }
@@ -93,7 +93,7 @@ void patterncommands(void)
             case KEY_DMC:
                 for (c = 0; c < sizeof(dmckeytbl); c++)
                 {
-                    if ((rawkey == dmckeytbl[c]) && (!epcolumn) && (!shiftpressed))
+                    if ((rawkey == dmckeytbl[c]) && (!epcolumn) && (!shiftpressed) && (!altpressed))
                     {
                         newnote = FIRSTNOTE+c+epoctave*12;
                     }
@@ -103,14 +103,14 @@ void patterncommands(void)
             case KEY_JANKO:
                 for (c = 0; c < sizeof(jankokeytbl1); c++)
                 {
-                    if ((rawkey == jankokeytbl1[c]) && (!epcolumn) && (!shiftpressed))
+                    if ((rawkey == jankokeytbl1[c]) && (!epcolumn) && (!shiftpressed) && (!altpressed))
                     {
                         newnote = FIRSTNOTE+c+epoctave*12;
                     }
                 }
                 for (c = 0; c < sizeof(jankokeytbl2); c++)
                 {
-                    if ((rawkey == jankokeytbl2[c]) && (!epcolumn) && (!shiftpressed))
+                    if ((rawkey == jankokeytbl2[c]) && (!epcolumn) && (!shiftpressed) && (!altpressed))
                     {
                         newnote = FIRSTNOTE+c+(epoctave+1)*12;
                     }

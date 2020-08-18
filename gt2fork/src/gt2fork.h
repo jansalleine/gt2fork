@@ -118,5 +118,6 @@ void editadsr(void);
 void calculatefreqtable(void);
 void setspecialnotenames(void);
 void readscalatuningfile(void);
+void switchMode(void);
 
 #endif
