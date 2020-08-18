@@ -20,6 +20,7 @@ int songlen[MAX_SONGS][MAX_CHN_MONO];
 int songlen_stereo[MAX_SONGS][MAX_CHN];
 int highestusedpattern;
 int highestusedinstr;
+int determinechannels(FILE* handle);
 
 int savesong(void)
 {
@@ -212,6 +213,7 @@ void loadsong(void)
     FILE *handle;
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
+    int channelstoload = maxChns;
 
     handle = fopen(songfilename, "rb");
 
@@ -233,10 +235,11 @@ void loadsong(void)
             fread(copyrightname, sizeof copyrightname, 1, handle);
 
             // Read songorderlists
+            channelstoload = determinechannels(handle);
             amount = fread8(handle);
             for (d = 0; d < amount; d++)
             {
-                for (c = 0; c < maxChns; c++)
+                for (c = 0; c < channelstoload; c++)
                 {
                     length = fread8(handle);
                     loadsize = length;
@@ -300,10 +303,11 @@ void loadsong(void)
             fread(copyrightname, sizeof copyrightname, 1, handle);
 
             // Read songorderlists
+            channelstoload = determinechannels(handle);
             amount = fread8(handle);
             for (d = 0; d < amount; d++)
             {
-                for (c = 0; c < maxChns; c++)
+                for (c = 0; c < channelstoload; c++)
                 {
                     length = fread8(handle);
                     loadsize = length;
@@ -399,10 +403,11 @@ void loadsong(void)
             fread(copyrightname, sizeof copyrightname, 1, handle);
 
             // Read songorderlists
+            channelstoload = determinechannels(handle);
             amount = fread8(handle);
             for (d = 0; d < amount; d++)
             {
-                for (c = 0; c < maxChns; c++)
+                for (c = 0; c < channelstoload; c++)
                 {
                     length = fread8(handle);
                     loadsize = length;
@@ -1498,7 +1503,7 @@ void countthispattern(void)
 int insertpattern(int p)
 {
     int c, d, e;
-    int tmp;
+    int tmp = 0;
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
 
@@ -1833,8 +1838,6 @@ void mergesong(void)
     int pattbase;
     int instrbase;
     int tablebase[MAX_TABLES];
-    int maxChns = MAX_CHN;
-    if (numsids == 1) maxChns = 3;
 
     // Determine amount of patterns & instruments
     countpatternlengths();
@@ -1894,17 +1897,19 @@ void mergesong(void)
             int length;
             int amount;
             int loadsize;
+            int channelstoload;
 
             // Skip infotexts
             fseek(handle, sizeof songname + sizeof authorname + sizeof copyrightname, SEEK_CUR);
 
             // Read songorderlists
+            channelstoload = determinechannels(handle);
             amount = fread8(handle);
             if (amount + songbase > MAX_SONGS)
                 goto ABORT;
             for (d = 0; d < amount; d++)
             {
-                for (c = 0; c < maxChns; c++)
+                for (c = 0; c < channelstoload; c++)
                 {
                     length = fread8(handle);
                     loadsize = length;
@@ -2022,4 +2027,34 @@ ABORT:
     fclose(handle);
     countpatternlengths();
     songchange();
+}
+
+int determinechannels(FILE* handle)
+{
+    int returnpos = ftell(handle);
+    int c, d;
+    int songs = fread8(handle);
+    unsigned char songbuffer[257];
+
+    for (d = 0; d < songs; d++)
+    {
+        for (c = 0; c < MAX_CHN; c++)
+        {
+            int loadsize = fread8(handle);
+            loadsize++;
+            memset(songbuffer, 0, 257);
+            fread(songbuffer, loadsize, 1, handle);
+
+            // Check that each track of each song has a valid endmark.
+            // Should fail if it's a mono song (not certain)
+            if ((songbuffer[loadsize - 2] != 0xff) || (songbuffer[loadsize - 1] >= loadsize))
+            {
+                fseek(handle, returnpos, SEEK_SET);
+                return 3;
+            }
+        }
+    }
+
+    fseek(handle, returnpos, SEEK_SET);
+    return MAX_CHN;
 }

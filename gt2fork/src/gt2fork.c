@@ -170,6 +170,7 @@ int main(int argc, char **argv)
         getparam(configfile, &interpolate);
         getparam(configfile, &patterndispmode);
         getparam(configfile, &sidaddress);
+        getparam(configfile, &sid2address);
         getparam(configfile, &finevibrato);
         getparam(configfile, &optimizepulse);
         getparam(configfile, &optimizerealtime);
@@ -350,6 +351,7 @@ int main(int argc, char **argv)
     zeropageadr &= 0xff;
     playeradr &= 0xff00;
     sidaddress &= 0xffff;
+    sid2address &= 0xffff;
     if (!stepsize) stepsize = 4;
     if (multiplier > 16) multiplier = 16;
     if (keypreset > 2) keypreset = 0;
@@ -470,7 +472,8 @@ int main(int argc, char **argv)
                 ";Hardrestart ADSR parameter\n$%04x\n\n"
                 ";reSID/-FP settings (0 = reSID Fast Resample, 1 = reSID Resample, 2 = reSID-FP Interpolate, 3 = reSID-FP Interpolate Resample)\n%d\n\n"
                 ";Hexadecimal pattern display (0 = off, 1 = on)\n%d\n\n"
-                ";SID baseaddress\n$%04x\n\n"
+                ";SID 1 baseaddress\n$%04x\n\n"
+                ";SID 2 baseaddress\n$%04x\n\n"
                 ";Finevibrato mode (0 = off, 1 = on)\n%d\n\n"
                 ";Pulseskipping (0 = off, 1 = on)\n%d\n\n"
                 ";Realtime effect skipping (0 = off, 1 = on)\n%d\n\n"
@@ -501,6 +504,7 @@ int main(int argc, char **argv)
                 interpolate,
                 patterndispmode,
                 sidaddress,
+                sid2address,
                 finevibrato,
                 optimizepulse,
                 optimizerealtime,
