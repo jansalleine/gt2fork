@@ -52,6 +52,7 @@ unsigned adparam = 0x0f00;
 unsigned ntsc = 0;
 unsigned patterndispmode = 1;
 unsigned sidaddress = 0xd400;
+unsigned sid2address = 0xd500;
 unsigned finevibrato = 1;
 unsigned optimizepulse = 1;
 unsigned optimizerealtime = 1;
@@ -642,6 +643,16 @@ void mousecommands(void)
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
 
+    int currentSonglen = 0;
+    if (numsids == 1)
+    {
+        currentSonglen = songlen[esnum][eschn];
+    }
+    else if (numsids == 2)
+    {
+        currentSonglen = songlen_stereo[esnum][eschn];
+    }
+
     if (!mouseb) return;
 
     // Pattern editpos & pattern number selection
@@ -735,21 +746,21 @@ void mousecommands(void)
             newpos = 0;
             newcolumn = 0;
         }
-        if (newpos == songlen[esnum][eschn])
+        if (newpos == currentSonglen)
         {
             newpos++;
             newcolumn = 0;
         }
-        if (newpos > songlen[esnum][eschn]+1)
+        if (newpos > currentSonglen+1)
         {
-            newpos = songlen[esnum][eschn] + 1;
+            newpos = currentSonglen + 1;
             newcolumn = 1;
         }
 
         editmode = EDIT_ORDERLIST;
 
         if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) &&
-            (!prevmouseb) && (newpos < songlen[esnum][eschn]))
+            (!prevmouseb) && (newpos < currentSonglen))
         {
             if ((esmarkchn != newchn) || (newpos != esmarkend))
             {
@@ -766,7 +777,7 @@ void mousecommands(void)
         }
 
         if ((mouseb & (MOUSEB_RIGHT|MOUSEB_MIDDLE)) &&
-            (newpos < songlen[esnum][eschn]))
+            (newpos < currentSonglen))
         {
             esmarkend = newpos;
         }
@@ -978,7 +989,14 @@ void mousecommands(void)
             }
             if ((mousex >= 49) && (mousex <= 57))
             {
-                relocator();
+                if (numsids == 1)
+                {
+                    relocator();
+                }
+                else if (numsids == 2)
+                {
+                    relocator_stereo();
+                }
             }
             if ((mousex >= 59) && (mousex <= 64))
             {
@@ -1001,6 +1019,8 @@ void generalcommands(void)
     int c;
     int maxChns = MAX_CHN;
     if (numsids == 1) maxChns = 3;
+    int visibleOrderlist = 14;
+    int currentSonglen = 0;
 
     switch(key)
     {
@@ -1076,20 +1096,31 @@ void generalcommands(void)
         break;
 
     case ':':
+        if (numsids == 1)
+        {
+            visibleOrderlist = VISIBLEORDERLIST;
+        }
         for (c = 0; c < maxChns; c++)
         {
-            if (espos[c] < songlen[esnum][c]-1)
-                espos[c]++;
-            if (espos[c] - esview >= VISIBLEORDERLIST)
+            if (numsids == 1)
             {
-                esview = espos[c] - VISIBLEORDERLIST + 1;
+                currentSonglen = songlen[esnum][c];
+            }
+            else if (numsids == 2)
+            {
+                currentSonglen = songlen_stereo[esnum][c];
+            }
+            if (espos[c] < currentSonglen-1)
+                espos[c]++;
+            if (espos[c] - esview >= visibleOrderlist)
+            {
+                esview = espos[c] - visibleOrderlist + 1;
                 eseditpos = espos[c];
             }
         }
         updateviewtopos();
         rewindsong();
         break;
-
     }
 
     if (win_quitted) exitprogram = 1;
@@ -1201,9 +1232,16 @@ void generalcommands(void)
     case KEY_F9:
         if (!shiftpressed)
         {
-            relocator();
+            if (numsids == 1)
+            {
+                relocator();
+            }
+            else if (numsids == 2)
+            {
+                relocator_stereo();
+            }
         }
-        else if (numsids == 2)
+        else if (shiftpressed && (numsids == 2))
         {
             monomode ^= 1;
         }

@@ -68,6 +68,9 @@ void printstatus(void)
         textbuffer[49] = 0;
         printtext(dpos.statusTopX+1, dpos.statusTopY, colscheme.status_top, textbuffer);
 
+        if ((numsids == 2) && monomode)
+            printtext(dpos.statusTopFvX-2, dpos.statusTopY, colscheme.status_top, "M");
+
         if (usefinevib)
             printtext(dpos.statusTopFvX, dpos.statusTopY, colscheme.status_top, "FV");
 
@@ -109,7 +112,7 @@ void printstatus(void)
     {
         for (c = 0; c < maxChns; c++)
         {
-            int currentSonglen;
+            int currentSonglen = 0;
             if (numsids == 1)
             {
                 currentSonglen = songlen[esnum][c];
@@ -305,8 +308,8 @@ void printstatus(void)
         for ( d = 0; d < visibleOrderlist; d++ )
         {
             int p = esview+d;
-            unsigned char currentSongorder;
-            int currentSonglen;
+            unsigned char currentSongorder = 0;
+            int currentSonglen = 0;
             if (numsids == 1)
             {
                 currentSongorder = songorder[esnum][c][p];

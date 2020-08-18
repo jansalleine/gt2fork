@@ -37,6 +37,7 @@ extern int tableerror;
 #endif
 
 void relocator(void);
+void relocator_stereo(void);
 int testoverlap(int area1start, int area1size, int area2start, int area2size);
 int packpattern(unsigned char *dest, unsigned char *src, int rows);
 unsigned char swapnybbles(unsigned char n);

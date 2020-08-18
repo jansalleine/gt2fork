@@ -54,7 +54,8 @@ $(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o \
 	$(CXX) -o $@ $^ $(LIBS)
 	#strip $@
 
-goattrk2.dat: player.s altplayer.s chargen.bin palette.bin goattrk2.bmp goattrk2.seq
+goattrk2.dat: player.s altplayer.s player_s.s altplayer_s.s chargen.bin \
+	palette.bin goattrk2.bmp goattrk2.seq
 	./datafile $@ goattrk2.seq
 
 goatdata.c: goattrk2.dat

@@ -68,6 +68,7 @@ extern unsigned adparam;
 extern unsigned ntsc;
 extern unsigned patterndispmode;
 extern unsigned sidaddress;
+extern unsigned sid2address;
 extern unsigned finevibrato;
 extern unsigned optimizepulse;
 extern unsigned optimizerealtime;

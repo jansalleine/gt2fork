@@ -415,6 +415,7 @@ void orderlistcommands_stereo(void)
 {
     int c, scrrep;
     int maxChns = MAX_CHN;
+    int visibleOrderlist = 14;
     // if (numsids == 1) maxChns = 3;
 
     if (hexnybble >= 0)
@@ -789,9 +790,9 @@ void orderlistcommands_stereo(void)
     {
         esview = eseditpos;
     }
-    if (eseditpos - esview >= VISIBLEORDERLIST)
+    if (eseditpos - esview >= visibleOrderlist)
     {
-        esview = eseditpos - VISIBLEORDERLIST + 1;
+        esview = eseditpos - visibleOrderlist + 1;
     }
 }
 
