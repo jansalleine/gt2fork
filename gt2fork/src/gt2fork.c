@@ -1,5 +1,5 @@
 /*
- * gt2fork v0.5
+ * gt2fork v0.5b
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -215,6 +215,9 @@ int main(int argc, char **argv)
                     {
                         return EXIT_FAILURE;
                     }
+                    if (theme > 1) theme = 0;
+                    colscheme_init(theme);
+                    initDisplayPositions();
                     onlinehelp(1,0);
                     return EXIT_SUCCESS;
                 }
