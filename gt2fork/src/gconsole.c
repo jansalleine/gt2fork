@@ -155,7 +155,7 @@ void loadexternalpalette(void)
 
 void initicon(void)
 {
-    int handle = io_open("goattrk2.bmp");
+    int handle = io_open("gt2fork.png");
     if (handle != -1)
     {
         SDL_RWops *rw;

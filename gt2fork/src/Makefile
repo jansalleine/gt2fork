@@ -44,7 +44,7 @@ EXE=$(PREFIX)gt2fork$(SUFFIX)
 
 all: datafile dat2inc $(EXE)
 
-$(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o \
+$(PREFIX)gt2fork$(SUFFIX): gt2forkdata.o gt2fork.o gsong.o gorder.o gpattern.o \
 	ginstr.o gtable.o gplay.o gdisplay.o gfile.o greloc.o ghelp.o gsound.o \
 	gconsole.o gsid.o gcolors.o $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	asm/asmtab.o asm/chnkpool.o asm/expr.o asm/lexyy.o asm/log.o asm/membuf.o \
@@ -54,11 +54,11 @@ $(PREFIX)gt2fork$(SUFFIX): goatdata.o gt2fork.o gsong.o gorder.o gpattern.o \
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
 
-goattrk2.dat: player.s altplayer.s player_s.s altplayer_s.s chargen.bin \
-	palette.bin goattrk2.bmp goattrk2.seq
-	./datafile $@ goattrk2.seq
+gt2fork.dat: player.s altplayer.s player_s.s altplayer_s.s chargen.bin \
+	palette.bin gt2fork.png gt2fork.seq
+	./datafile $@ gt2fork.seq
 
-goatdata.c: goattrk2.dat
+gt2forkdata.c: gt2fork.dat
 	./dat2inc $< $@
 
 datafile: bme/datafile.c bme/bme_end.c
@@ -68,6 +68,12 @@ datafile: bme/datafile.c bme/bme_end.c
 dat2inc: bme/dat2inc.c
 	$(CC) -o dat2inc bme/dat2inc.c $(CFLAGS) $(LIBS)
 	strip dat2inc
+
+install: datafile dat2inc $(EXE)
+	./install.sh
+
+uninstall:
+	./uninstall.sh
 
 clean:
 	$(RM) *.o *~
@@ -79,5 +85,5 @@ clean:
 	$(RM) $(EXE)
 	$(RM) datafile
 	$(RM) dat2inc
-	$(RM) goatdata.c
-	$(RM) goattrk2.dat
+	$(RM) gt2forkdata.c
+	$(RM) gt2fork.dat

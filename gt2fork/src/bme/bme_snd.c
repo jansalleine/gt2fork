@@ -22,9 +22,7 @@ int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned
 void snd_uninit(void);
 void snd_setcustommixer(void (*custommixer)(Sint32 *dest, unsigned samples));
 
-
 static int snd_initchannels(unsigned channels);
-
 static int snd_initmixer(void);
 static void snd_uninitmixer(void);
 static void snd_mixdata(Uint8 *dest, unsigned bytes);
