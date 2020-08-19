@@ -17,3 +17,5 @@ extern int snd_channels;
 extern int snd_buffers;
 extern unsigned snd_mixmode;
 extern unsigned snd_mixrate;
+
+extern SDL_AudioDeviceID audioDevice;

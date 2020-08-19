@@ -1272,6 +1272,13 @@ void generalcommands(void)
             switchMode();
         }
         break;
+    case KEY_T:
+        if (altpressed)
+        {
+            theme ^= 1;
+            colscheme_init(theme);
+            printmainscreen();
+        }
     }
 }
 

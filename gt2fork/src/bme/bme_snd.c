@@ -58,6 +58,8 @@ static SDL_AudioSpec obtained;
 
 int is32Bit = 0;
 
+SDL_AudioDeviceID audioDevice;
+
 int snd_init(
         unsigned mixrate,
         unsigned mixmode,
@@ -122,9 +124,12 @@ int snd_init(
         return BME_ERROR;
     }
 
-    SDL_PauseAudio(1);
+    // SDL_PauseAudio(1);
 
-    if (SDL_OpenAudio(&desired, &obtained))
+    audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, &obtained, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+
+    // if (SDL_OpenAudio(&desired, &obtained))
+    if (audioDevice==0)
     {
         bme_error = BME_OPEN_ERROR;
         snd_uninit();
@@ -185,7 +190,7 @@ int snd_init(
         return BME_ERROR;
     }
 
-    SDL_PauseAudio(0);
+    SDL_PauseAudioDevice(audioDevice, 0);
 
     bme_error = BME_OK;
     return BME_OK;
@@ -233,7 +238,7 @@ void snd_uninit(void)
 {
     if (snd_sndinitted)
     {
-        SDL_CloseAudio();
+        SDL_CloseAudioDevice(audioDevice);
         snd_sndinitted = 0;
     }
     snd_uninitmixer();
