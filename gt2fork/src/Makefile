@@ -69,7 +69,7 @@ dat2inc: bme/dat2inc.c
 	$(CC) -o dat2inc bme/dat2inc.c $(CFLAGS) $(LIBS)
 	strip dat2inc
 
-install: datafile dat2inc $(EXE)
+install:
 	./install.sh
 
 uninstall:

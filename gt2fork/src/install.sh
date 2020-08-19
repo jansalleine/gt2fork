@@ -1,5 +1,10 @@
 #/bin/sh
 EXE="../linux/gt2fork"
+if [ ! -f "$EXE" ]
+then
+    echo "[ERROR] $EXE does not exist."
+    exit 1;
+fi
 RUNNER=`whoami`
 if [ $RUNNER = "root" ]
 then
@@ -20,5 +25,5 @@ echo "[Desktop Entry]" >> "$APPPATH/gt2fork.desktop"
 echo "Name=gt2fork" >> "$APPPATH/gt2fork.desktop"
 echo "Exec=$INSTALLPATH/gt2fork" >> "$APPPATH/gt2fork.desktop"
 echo "Type=Application" >> "$APPPATH/gt2fork.desktop"
-echo "StartupNotify=true" >> "$APPPATH/gt2fork.desktop"
+echo "StartupNotify=false" >> "$APPPATH/gt2fork.desktop"
 echo "Icon=$ICONPATH/gt2fork.png" >> "$APPPATH/gt2fork.desktop"
