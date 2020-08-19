@@ -57,5 +57,6 @@ void releasenote(int chnnum);
 void mutechannel(int chnnum);
 int isplaying(void);
 void playroutine(void);
+void playroutine_stereo(void);
 
 #endif

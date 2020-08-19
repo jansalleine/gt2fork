@@ -61,8 +61,8 @@ SDL_Renderer *gfx_renderer = NULL;
 // Static variables
 
 static int gfx_initexec = 0;
-static unsigned gfx_last_xsize;
-static unsigned gfx_last_ysize;
+static int gfx_last_xsize;
+static int gfx_last_ysize;
 static int gfx_last_x;
 static int gfx_last_y;
 static unsigned gfx_last_framerate;
@@ -154,6 +154,7 @@ void gfx_reinit(void)
 {
     if (win_fullscreen)
     {
+        SDL_GetWindowSize( win_window, &gfx_last_xsize, &gfx_last_ysize );
         SDL_GetWindowPosition( win_window, &gfx_last_x, &gfx_last_y );
         SDL_SetWindowFullscreen( win_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
     }

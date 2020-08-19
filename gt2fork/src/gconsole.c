@@ -74,14 +74,12 @@ int initscreen(void)
     unsigned xsize = MAX_COLUMNS * 8;
     unsigned ysize = MAX_ROWS * 16;
 
-    printf("xsize: %d, ysize: %d\n", xsize, ysize);
-
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
     {
         return 0;
     }
     win_openwindow(xsize, ysize, "gt2fork", NULL);
-    // win_setmousemode(MOUSE_ALWAYS_HIDDEN);
+
     initicon();
 
     if (!gfx_init(MAX_COLUMNS * fontwidth, MAX_ROWS * fontheight, 60, 0))
@@ -341,7 +339,7 @@ void fliptoscreen(void)
     unsigned *sptr = scrbuffer;
     unsigned *cmpptr = prevscrbuffer;
     int x,y;
-    int regionschanged = 0;
+    // int regionschanged = 0;
 
     if (!gfxinitted) return;
 
@@ -364,7 +362,7 @@ void fliptoscreen(void)
             {
                 *cmpptr = *sptr;
                 region[y] = 1;
-                regionschanged = 1;
+                // regionschanged = 1;
 
                 unsigned char *chptr = &chardata[(*sptr & 0xffff)*16];
                 unsigned char *dptr = (unsigned char*)gfx_screen->pixels + y*fontheight * gfx_screen->pitch + x*fontwidth;

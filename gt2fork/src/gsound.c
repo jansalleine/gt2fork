@@ -19,7 +19,6 @@ Sint16 *lbuffer = NULL;
 Sint16 *rbuffer = NULL;
 
 FILE *writehandle = NULL;
-// SDL_TimerID timer = 0;
 
 void sound_playrout(void);
 void sound_mixer(Sint32 *dest, unsigned samples);
