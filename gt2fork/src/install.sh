@@ -3,7 +3,7 @@ EXE="../linux/gt2fork"
 if [ ! -f "$EXE" ]
 then
     echo "[ERROR] $EXE does not exist."
-    exit 1;
+    exit 1
 fi
 RUNNER=`whoami`
 if [ $RUNNER = "root" ]
