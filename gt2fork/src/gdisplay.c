@@ -523,7 +523,7 @@ void printstatus(void)
             {
             case WTBL:
                 if (ltable[c][p] >= WAVECMD) color = colscheme.table_modval;
-                if (ltable[c][p] <= 0x10) color = colscheme.table_modval;
+                if (ltable[c][p] <= 0x0F) color = colscheme.table_modval;
                 break;
 
             case PTBL:

@@ -118,8 +118,10 @@ int snd_init(
         return BME_ERROR;
     }
 
-    audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, &obtained, SDL_AUDIO_ALLOW_ANY_CHANGE);
+    audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, &obtained, 0);
+
     SDL_PauseAudioDevice(audioDevice, 1);
+
 
     if (audioDevice==0)
     {
