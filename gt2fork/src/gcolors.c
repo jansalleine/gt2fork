@@ -1,3 +1,25 @@
+/* =============================================================================
+ * Colors:
+ *
+ * 0: Black         CBLACK
+ * 1: Dark Blue     CDBLUE
+ * 2: Dark Green    CDGREEN
+ * 3: Dark Grey     CDGREY
+ * 4: Dark Red      CDRED
+ * 5: Dark Brown    CDBROWN
+ * 6: Light Brown   CLBROWN
+ * 7: Light Grey    CLGREY
+ * 8: Grey          CGREY
+ * 9: Light Blue    CLBLUE
+ * A: Light Green   CLGREEN
+ * B: Cyan          CCYAN
+ * C: Light Red     CLRED
+ * D: Purple        CPURPLE
+ * E: Yellow        CYELLOW
+ * F: White         CWHITE
+ * =============================================================================
+ */
+
 #define GCOLORS_C
 
 #include "gt2fork.h"

@@ -1,5 +1,34 @@
-/*
+/* =============================================================================
  * gt2fork v0.5b
+ *
+ * Fork by Jan Wassermann of GoatTracker 2.75 / 2.76 Stereo
+ * https://github.com/jansalleine/gt2fork
+ *
+ * Editor by Lasse Öörni and Jan Wassermann.
+ * Music playroutine by Lasse Öörni.
+ * Uses reSID engine by Dag Lem and Leandro Nini.
+ * Uses reSIDfp distortion / nonlinearity by Antti Lankila and Leandro Nini.
+ * Uses 6510 crossassembler from Exomizer2 beta by Magnus Lind.
+ * Uses the SDL2 library.
+ * Uses parts of the GoatTracker icon by Antonio Vera.
+ * Command quick reference by Simon Bennett.
+ * Patches and further development by Stefan A. Haubenthal, Valerio Cannone,
+ * Raine M. Ekman, Tero Lindeman, Henrik Paulini and Groepaz.
+ * Microtonal support by Birgit Jauernig.
+ *
+ * GoatTracker 2 SourceForge.net page:
+ * http://sourceforge.net/projects/goattracker2
+ *
+ * reSID GitHub clone:
+ * https://github.com/drfiemost/resid
+ * [originally from https://sourceforge.net/projects/vice-emu/]
+ *
+ * reSIDfp GitHub clone:
+ * https://github.com/drfiemost/residfp
+ * [originally from https://sourceforge.net/projects/sidplay-residfp/]
+ *
+ * SDL2 project homepage:
+ * https://www.libsdl.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +43,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ * =============================================================================
+ */
 
 #define GT2FORK_C
 
