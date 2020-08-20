@@ -6,7 +6,7 @@ export LIBS=-L/usr/i686-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows \
 	-static-libstdc++ -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread
 export RM=rm -f
 
-MINGW32PREFIX=/usr/bin
+MINGW32PREFIX?=/usr/bin
 
 export CC=$(MINGW32PREFIX)/i686-w64-mingw32-gcc
 export CXX=$(MINGW32PREFIX)/i686-w64-mingw32-g++
@@ -14,9 +14,9 @@ export CFLAGS=-O3 -Wall -Ibme -Iasm
 export CXXFLAGS=$(CFLAGS)
 
 WINDRES=$(MINGW32PREFIX)/i686-w64-mingw32-windres
-OPTOBJECTS=gt2forkicon.o
+OPTOBJECTS=gt2ficon.o
 
 include Makefile.inc
 
-gt2forkicon.o: gt2forkicon.rc
+gt2ficon.o: gt2ficon.rc
 	$(WINDRES) $< $@
