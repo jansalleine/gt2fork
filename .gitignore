@@ -46,6 +46,7 @@ gt2fork/win32/gt2reloc.exe
 gt2fork/win32/ins2snd2.exe
 gt2fork/win32/mod2sng.exe
 gt2fork/win32/sngspli2.exe
+gt2fork/win32/ss2stereo.exe
 gt2fork/win64/betaconv.exe
 gt2fork/win64/gt2fork.exe
 gt2fork/win64/gt2fork.cfg
@@ -53,6 +54,7 @@ gt2fork/win64/gt2reloc.exe
 gt2fork/win64/ins2snd2.exe
 gt2fork/win64/mod2sng.exe
 gt2fork/win64/sngspli2.exe
+gt2fork/win64/ss2stereo.exe
 gt2fork/linux/gt2fork
 gt2fork/linux/*.sng
 gt2fork/src/gt2fork.dat
