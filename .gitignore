@@ -57,6 +57,7 @@ gt2fork/win64/sngspli2.exe
 gt2fork/win64/ss2stereo.exe
 gt2fork/linux/gt2fork
 gt2fork/linux/*.sng
+gt2fork/linux/*.sid
 gt2fork/src/gt2fork.dat
 gt2fork/src/gt2forkdata.c
 gt2fork/linux/ss2stereo

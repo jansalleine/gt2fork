@@ -7,6 +7,7 @@
 #include "gt2fork.h"
 #include "membuf.h"
 #include "parse.h"
+#include "playroutines.h"
 
 char *playeroptname[] =
 {
@@ -1151,8 +1152,16 @@ TABLETYPE:
 
     // Insert source code of player
     if (adparam >= 0xf000)
-        playername = "altplayer.s";
+    {
+        // playername = "altplayer.s";
+        loadPlayer(playRoutineAlt, playRoutineAltLength);
+    }
+    else
+    {
+        loadPlayer(playRoutine, playRoutineLength);
+    }
 
+    /*
     if (!insertfile(playername))
     {
         clearscreen();
@@ -1161,6 +1170,7 @@ TABLETYPE:
         waitkeynoupdate();
         goto PRCLEANUP;
     }
+    */
 
     // Modify ghostregs to not be zeropage if needed
     if ((playerversion & PLAYER_FULLBUFFERED) && (playerversion & PLAYER_ZPGHOSTREGS) == 0)
@@ -1965,6 +1975,17 @@ int insertfile(char *name)
         membuf_append_char(&src, io_read8(handle));
     }
     io_close(handle);
+    return 1;
+}
+
+int loadPlayer(char *playRoutine, int playRoutineLength)
+{
+    int i = 0;
+
+    for (i = 0; i < playRoutineLength; i++)
+    {
+        membuf_append_char(&src, playRoutine[i]);
+    }
     return 1;
 }
 
@@ -3206,8 +3227,16 @@ TABLETYPE_S:
 
     // Insert source code of player
     if (adparam >= 0xf000)
-        playername = "altplayer_s.s";
+    {
+        // playername = "altplayer_s.s";
+        loadPlayer(playRoutineStereoAlt, playRoutineStereoAltLength);
+    }
+    else
+    {
+        loadPlayer(playRoutineStereo, playRoutineStereoLength);
+    }
 
+    /*
     if (!insertfile(playername))
     {
         clearscreen();
@@ -3216,6 +3245,7 @@ TABLETYPE_S:
         waitkeynoupdate();
         goto PRCLEANUP_S;
     }
+    */
 
     // Insert frequencytable
     insertlabel("mt_freqtbllo");
