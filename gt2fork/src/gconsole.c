@@ -116,6 +116,7 @@ int initscreen(void)
 
 void loadexternalpalette(void)
 {
+    // printf("loadexternalpalette\n");
     FILE *ext_f;
     if ((ext_f = fopen("custom.pal", "rt")))
     {
@@ -126,6 +127,7 @@ void loadexternalpalette(void)
 
         if (strncmp("JASC-PAL", ln, 8) == 0)
         {
+            printf("Ja\n");
             int colors;
             fgets(ln, sizeof(ln), ext_f);
             fgets(ln, sizeof(ln), ext_f);
@@ -147,6 +149,28 @@ void loadexternalpalette(void)
                 }
                 gfx_calcpalette(64, 0, 0, 0);
             }
+        }
+        else if (strncmp("GIMP", ln, 3) == 0)
+        {
+            printf("%s", ln);
+            fgets(ln, sizeof(ln), ext_f);
+            fgets(ln, sizeof(ln), ext_f);
+            fgets(ln, sizeof(ln), ext_f);
+            while (!feof(ext_f))
+            {
+                int r, g, b;
+                if (!fgets(ln, sizeof(ln), ext_f)) break;
+                if (sscanf(ln, "%d %d %d", &r, &g, &b) == 3)
+                {
+                    // printf("%2x %2x %2x\n", r, g, b);
+                    gfx_palette[p++] = r >> 2;
+                    gfx_palette[p++] = g >> 2;
+                    gfx_palette[p++] = b >> 2;
+                }
+
+                if (p >= 768) break;
+            }
+            gfx_calcpalette(64, 0, 0, 0);
         }
 
         fclose(ext_f);
@@ -407,6 +431,8 @@ void fliptoscreen(void)
 
 void getkey(void)
 {
+    // printf("getkey(void);");
+
     int c;
     win_asciikey = 0;
     cursorflashdelay += win_getspeed(50);
@@ -418,8 +444,15 @@ void getkey(void)
     mousex = mousepixelx / fontwidth;
     mousey = mousepixely / fontheight;
 
-    if (mouseb) mouseheld++;
-    else mouseheld = 0;
+    if (mouseb)
+    {
+        mouseheld++;
+        // printf("mouseheld: %i\n", mouseheld);
+    }
+    else
+    {
+        mouseheld = 0;
+    }
 
     key = win_asciikey;
     rawkey = 0;
@@ -469,6 +502,18 @@ void getkey(void)
     if (rawkey == SDL_SCANCODE_KP_7) key = '7';
     if (rawkey == SDL_SCANCODE_KP_8) key = '8';
     if (rawkey == SDL_SCANCODE_KP_9) key = '9';
+
+    /*
+    if (rawkey == SDL_SCANCODE_Y)
+    {
+        printf("SDL_SCANCODE_Y, SDL_GetKeyName: %s\n", SDL_GetKeyName(SDL_GetKeyFromScancode(rawkey)));
+    }
+    if (rawkey == SDL_SCANCODE_Z) {
+        printf("SDL_SCANCODE_Z, SDL_GetKeyName: %s\n", SDL_GetKeyName(SDL_GetKeyFromScancode(rawkey)));
+    }
+    */
+
+    // printf("getkey(void); key: %i \n", key);
 }
 
 void initDisplayPositions(void)

@@ -613,18 +613,18 @@ void printstatus(void)
 
     switch(autoadvance)
     {
-    // @TODO: what does this do?
-    case 0:
-        color = ( color & 0xF0 ) + 10;
-        break;
+        // @TODO: what does this do?
+        case 0:
+            color = ( color & 0xF0 ) + 10;
+            break;
 
-    case 1:
-        color = ( color & 0xF0 ) + 14;
-        break;
+        case 1:
+            color = ( color & 0xF0 ) + 14;
+            break;
 
-    case 2:
-        color = ( color & 0xF0 ) + 12;
-        break;
+        case 2:
+            color = ( color & 0xF0 ) + 12;
+            break;
     }
 
     if (recordmode) printtext(dpos.octaveX, dpos.octaveY+1, color, "EDITMODE");

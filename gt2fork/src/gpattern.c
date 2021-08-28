@@ -55,17 +55,17 @@ void patterncommands(void)
 
     switch(key)
     {
-    case '<':
-    case '(':
-    case '[':
-        prevpattern();
-        break;
+        case '<':
+        case '(':
+        case '[':
+            prevpattern();
+            break;
 
-    case '>':
-    case ')':
-    case ']':
-        nextpattern();
-        break;
+        case '>':
+        case ')':
+        case ']':
+            nextpattern();
+            break;
     }
     {
         int newnote = -1;
@@ -123,6 +123,9 @@ void patterncommands(void)
         if ((rawkey == KEY_BACKSPACE) && (!epcolumn)) newnote = REST;
         // @TODO: what was 0x14 in SDL 1.2?
         // if ((rawkey == 0x14) && (!epcolumn)) newnote = KEYOFF;
+        // ?CAPSLOCK? - readme.txt, 2.3.2 Pattern edit mode:
+        //          RETURN      (also CAPSLOCK) Insert keyoff
+        if ((rawkey == KEY_CAPSLOCK) && (!epcolumn)) newnote = KEYOFF;
         if (rawkey == KEY_ENTER)
         {
             switch(epcolumn)
@@ -339,668 +342,668 @@ void patterncommands(void)
     }
     switch(rawkey)
     {
-    case KEY_O:
-        if (shiftpressed) shrinkpattern();
-        break;
+        case KEY_O:
+            if (shiftpressed) shrinkpattern();
+            break;
 
-    case KEY_P:
-        if (shiftpressed) expandpattern();
-        break;
+        case KEY_P:
+            if (shiftpressed) expandpattern();
+            break;
 
-    case KEY_J:
-        if (shiftpressed) joinpattern();
-        break;
+        case KEY_J:
+            if (shiftpressed) joinpattern();
+            break;
 
-    case KEY_K:
-        if (shiftpressed) splitpattern();
-        break;
+        case KEY_K:
+            if (shiftpressed) splitpattern();
+            break;
 
-    case KEY_Z:
-        if (shiftpressed)
-        {
-            autoadvance++;
-            if (autoadvance > 2) autoadvance = 0;
-            if (keypreset == KEY_TRACKER)
+        case KEY_Z:
+            if (shiftpressed)
             {
-                if (autoadvance == 1) autoadvance = 2;
-            }
-        }
-        break;
-
-    case KEY_E:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart < epmarkend)
+                autoadvance++;
+                if (autoadvance > 2) autoadvance = 0;
+                if (keypreset == KEY_TRACKER)
                 {
-                    int d = 0;
-                    for (c = epmarkstart; c <= epmarkend; c++)
+                    if (autoadvance == 1) autoadvance = 2;
+                }
+            }
+            break;
+
+        case KEY_E:
+            if (shiftpressed)
+            {
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart < epmarkend)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        cmdcopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
-                        cmdcopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
-                        d++;
+                        int d = 0;
+                        for (c = epmarkstart; c <= epmarkend; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            cmdcopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
+                            cmdcopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
+                            d++;
+                        }
+                        cmdcopyrows = d;
                     }
-                    cmdcopyrows = d;
+                    else
+                    {
+                        int d = 0;
+                        for (c = epmarkend; c <= epmarkstart; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            cmdcopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
+                            cmdcopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
+                            d++;
+                        }
+                        cmdcopyrows = d;
+                    }
+                    epmarkchn = -1;
                 }
                 else
                 {
-                    int d = 0;
-                    for (c = epmarkend; c <= epmarkstart; c++)
+                    if (eppos < pattlen[epnum[epchn]])
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        cmdcopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
-                        cmdcopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
-                        d++;
+                        cmdcopybuffer[2] = pattern[epnum[epchn]][eppos*4+2];
+                        cmdcopybuffer[3] = pattern[epnum[epchn]][eppos*4+3];
+                        cmdcopyrows = 1;
                     }
-                    cmdcopyrows = d;
-                }
-                epmarkchn = -1;
-            }
-            else
-            {
-                if (eppos < pattlen[epnum[epchn]])
-                {
-                    cmdcopybuffer[2] = pattern[epnum[epchn]][eppos*4+2];
-                    cmdcopybuffer[3] = pattern[epnum[epchn]][eppos*4+3];
-                    cmdcopyrows = 1;
                 }
             }
-        }
-        break;
+            break;
 
-    case KEY_R:
-        if (shiftpressed)
-        {
-            for (c = 0; c < cmdcopyrows; c++)
+        case KEY_R:
+            if (shiftpressed)
             {
-                if (eppos >= pattlen[epnum[epchn]]) break;
-                pattern[epnum[epchn]][eppos*4+2] = cmdcopybuffer[c*4+2];
-                pattern[epnum[epchn]][eppos*4+3] = cmdcopybuffer[c*4+3];
-                eppos++;
-            }
-        }
-        break;
-
-    case KEY_I:
-        if (shiftpressed)
-        {
-            int d, e;
-            char temp;
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart <= epmarkend)
+                for (c = 0; c < cmdcopyrows; c++)
                 {
-                    e = epmarkend;
-                    for (c = epmarkstart; c <= epmarkend; c++)
+                    if (eppos >= pattlen[epnum[epchn]]) break;
+                    pattern[epnum[epchn]][eppos*4+2] = cmdcopybuffer[c*4+2];
+                    pattern[epnum[epchn]][eppos*4+3] = cmdcopybuffer[c*4+3];
+                    eppos++;
+                }
+            }
+            break;
+
+        case KEY_I:
+            if (shiftpressed)
+            {
+                int d, e;
+                char temp;
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart <= epmarkend)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
+                        e = epmarkend;
+                        for (c = epmarkstart; c <= epmarkend; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            for (d = 0; d < 4; d++)
+                            {
+                                temp = pattern[epnum[epmarkchn]][c*4+d];
+                                pattern[epnum[epmarkchn]][c*4+d] = pattern[epnum[epmarkchn]][e*4+d];
+                                pattern[epnum[epmarkchn]][e*4+d] = temp;
+                            }
+                            e--;
+                            if (e < c) break;
+                        }
+                    }
+                    else
+                    {
+                        e = epmarkstart;
+                        for (c = epmarkend; c <= epmarkstart; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            for (d = 0; d < 4; d++)
+                            {
+                                temp = pattern[epnum[epmarkchn]][c*4+d];
+                                pattern[epnum[epmarkchn]][c*4+d] = pattern[epnum[epmarkchn]][e*4+d];
+                                pattern[epnum[epmarkchn]][e*4+d] = temp;
+                            }
+                            e--;
+                            if (e < c) break;
+                        }
+                    }
+                }
+                else
+                {
+                    e = pattlen[epnum[epchn]] - 1;
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
+                    {
                         for (d = 0; d < 4; d++)
                         {
-                            temp = pattern[epnum[epmarkchn]][c*4+d];
-                            pattern[epnum[epmarkchn]][c*4+d] = pattern[epnum[epmarkchn]][e*4+d];
-                            pattern[epnum[epmarkchn]][e*4+d] = temp;
+                            temp = pattern[epnum[epchn]][c*4+d];
+                            pattern[epnum[epchn]][c*4+d] = pattern[epnum[epchn]][e*4+d];
+                            pattern[epnum[epchn]][e*4+d] = temp;
                         }
                         e--;
                         if (e < c) break;
                     }
                 }
-                else
+            }
+            break;
+
+        case KEY_Q:
+            if (shiftpressed)
+            {
+                if (epmarkchn != -1)
                 {
-                    e = epmarkstart;
-                    for (c = epmarkend; c <= epmarkstart; c++)
+                    if (epmarkstart <= epmarkend)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        for (d = 0; d < 4; d++)
+                        for (c = epmarkstart; c <= epmarkend; c++)
                         {
-                            temp = pattern[epnum[epmarkchn]][c*4+d];
-                            pattern[epnum[epmarkchn]][c*4+d] = pattern[epnum[epmarkchn]][e*4+d];
-                            pattern[epnum[epmarkchn]][e*4+d] = temp;
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] < LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                                pattern[epnum[epmarkchn]][c*4]++;
                         }
-                        e--;
-                        if (e < c) break;
                     }
-                }
-            }
-            else
-            {
-                e = pattlen[epnum[epchn]] - 1;
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
-                {
-                    for (d = 0; d < 4; d++)
+                    else
                     {
-                        temp = pattern[epnum[epchn]][c*4+d];
-                        pattern[epnum[epchn]][c*4+d] = pattern[epnum[epchn]][e*4+d];
-                        pattern[epnum[epchn]][e*4+d] = temp;
-                    }
-                    e--;
-                    if (e < c) break;
-                }
-            }
-        }
-        break;
-
-    case KEY_Q:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart <= epmarkend)
-                {
-                    for (c = epmarkstart; c <= epmarkend; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] < LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
-                            pattern[epnum[epmarkchn]][c*4]++;
-                    }
-                }
-                else
-                {
-                    for (c = epmarkend; c <= epmarkstart; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] < LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
-                            pattern[epnum[epmarkchn]][c*4]++;
-                    }
-                }
-            }
-            else
-            {
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
-                {
-                    if ((pattern[epnum[epchn]][c*4] < LASTNOTE) &&
-                            (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
-                        pattern[epnum[epchn]][c*4]++;
-                }
-            }
-        }
-        break;
-
-    case KEY_A:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart <= epmarkend)
-                {
-                    for (c = epmarkstart; c <= epmarkend; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] > FIRSTNOTE))
-                            pattern[epnum[epmarkchn]][c*4]--;
-                    }
-                }
-                else
-                {
-                    for (c = epmarkend; c <= epmarkstart; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] > FIRSTNOTE))
-                            pattern[epnum[epmarkchn]][c*4]--;
-                    }
-                }
-            }
-            else
-            {
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
-                {
-                    if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
-                            (pattern[epnum[epchn]][c*4] > FIRSTNOTE))
-                        pattern[epnum[epchn]][c*4]--;
-                }
-            }
-        }
-        break;
-
-    case KEY_W:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart <= epmarkend)
-                {
-                    for (c = epmarkstart; c <= epmarkend; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                        for (c = epmarkend; c <= epmarkstart; c++)
                         {
-                            pattern[epnum[epmarkchn]][c*4] += 12;
-                            if (pattern[epnum[epmarkchn]][c*4] > LASTNOTE)
-                                pattern[epnum[epmarkchn]][c*4] = LASTNOTE;
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] < LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                                pattern[epnum[epmarkchn]][c*4]++;
                         }
                     }
                 }
                 else
                 {
-                    for (c = epmarkend; c <= epmarkstart; c++)
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                        if ((pattern[epnum[epchn]][c*4] < LASTNOTE) &&
+                                (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
+                            pattern[epnum[epchn]][c*4]++;
+                    }
+                }
+            }
+            break;
+
+        case KEY_A:
+            if (shiftpressed)
+            {
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart <= epmarkend)
+                    {
+                        for (c = epmarkstart; c <= epmarkend; c++)
                         {
-                            pattern[epnum[epmarkchn]][c*4] += 12;
-                            if (pattern[epnum[epmarkchn]][c*4] > LASTNOTE)
-                                pattern[epnum[epmarkchn]][c*4] = LASTNOTE;
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] > FIRSTNOTE))
+                                pattern[epnum[epmarkchn]][c*4]--;
                         }
                     }
-                }
-            }
-            else
-            {
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
-                {
-                    if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
-                            (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
+                    else
                     {
-                        pattern[epnum[epchn]][c*4] += 12;
-                        if (pattern[epnum[epchn]][c*4] > LASTNOTE)
-                            pattern[epnum[epchn]][c*4] = LASTNOTE;
-                    }
-                }
-            }
-        }
-        break;
-
-    case KEY_S:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
-            {
-                if (epmarkstart <= epmarkend)
-                {
-                    for (c = epmarkstart; c <= epmarkend; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                        for (c = epmarkend; c <= epmarkstart; c++)
                         {
-                            pattern[epnum[epmarkchn]][c*4] -= 12;
-                            if (pattern[epnum[epmarkchn]][c*4] < FIRSTNOTE)
-                                pattern[epnum[epmarkchn]][c*4] = FIRSTNOTE;
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] > FIRSTNOTE))
+                                pattern[epnum[epmarkchn]][c*4]--;
                         }
                     }
                 }
                 else
                 {
-                    for (c = epmarkend; c <= epmarkstart; c++)
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
-                                (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                        if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
+                                (pattern[epnum[epchn]][c*4] > FIRSTNOTE))
+                            pattern[epnum[epchn]][c*4]--;
+                    }
+                }
+            }
+            break;
+
+        case KEY_W:
+            if (shiftpressed)
+            {
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart <= epmarkend)
+                    {
+                        for (c = epmarkstart; c <= epmarkend; c++)
                         {
-                            pattern[epnum[epmarkchn]][c*4] -= 12;
-                            if (pattern[epnum[epmarkchn]][c*4] < FIRSTNOTE)
-                                pattern[epnum[epmarkchn]][c*4] = FIRSTNOTE;
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                            {
+                                pattern[epnum[epmarkchn]][c*4] += 12;
+                                if (pattern[epnum[epmarkchn]][c*4] > LASTNOTE)
+                                    pattern[epnum[epmarkchn]][c*4] = LASTNOTE;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (c = epmarkend; c <= epmarkstart; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                            {
+                                pattern[epnum[epmarkchn]][c*4] += 12;
+                                if (pattern[epnum[epmarkchn]][c*4] > LASTNOTE)
+                                    pattern[epnum[epmarkchn]][c*4] = LASTNOTE;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
-                {
-                    if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
-                            (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
-                    {
-                        pattern[epnum[epchn]][c*4] -= 12;
-                        if (pattern[epnum[epchn]][c*4] < FIRSTNOTE)
-                            pattern[epnum[epchn]][c*4] = FIRSTNOTE;
-                    }
-                }
-            }
-        }
-        break;
-
-    case KEY_M:
-        if (shiftpressed)
-        {
-            stepsize++;
-            if (stepsize > MAX_PATTROWS) stepsize = MAX_PATTROWS;
-        }
-        break;
-
-    case KEY_N:
-        if (shiftpressed)
-        {
-            stepsize--;
-            if (stepsize < 2) stepsize = 2;
-        }
-        break;
-
-    case KEY_H:
-        if (shiftpressed)
-        {
-            switch (pattern[epnum[epchn]][eppos*4+2])
-            {
-            case CMD_PORTAUP:
-            case CMD_PORTADOWN:
-            case CMD_VIBRATO:
-            case CMD_TONEPORTA:
-                if (pattern[epnum[epchn]][eppos*4+2] == CMD_TONEPORTA)
-                    c = eppos-1;
                 else
-                    c = eppos;
-                for (; c >= 0; c--)
                 {
-                    if ((pattern[epnum[epchn]][c*4] >= FIRSTNOTE) &&
-                            (pattern[epnum[epchn]][c*4] <= LASTNOTE))
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
                     {
-                        int delta;
-                        int pitch1;
-                        int pitch2;
-                        int pos;
-                        int note = pattern[epnum[epchn]][c*4] - FIRSTNOTE;
-                        int right = pattern[epnum[epchn]][eppos*4+3] & 0xf;
-                        int left = pattern[epnum[epchn]][eppos*4+3] >> 4;
-
-                        if (note > MAX_NOTES-1) note--;
-                        pitch1 = freqtbllo[note] | (freqtblhi[note] << 8);
-                        pitch2 = freqtbllo[note+1] | (freqtblhi[note+1] << 8);
-                        delta = pitch2 - pitch1;
-
-                        while (left--) delta <<= 1;
-                        while (right--) delta >>= 1;
-
-                        if (pattern[epnum[epchn]][eppos*4+2] == CMD_VIBRATO)
+                        if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
+                                (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
                         {
-                            if (delta > 0xff) delta = 0xff;
+                            pattern[epnum[epchn]][c*4] += 12;
+                            if (pattern[epnum[epchn]][c*4] > LASTNOTE)
+                                pattern[epnum[epchn]][c*4] = LASTNOTE;
                         }
-                        pos = makespeedtable(delta, MST_RAW, 1);
-                        pattern[epnum[epchn]][eppos*4+3] = pos + 1;
-                        break;
                     }
                 }
-                break;
             }
-        }
-        break;
+            break;
 
-    case KEY_L:
-        if (shiftpressed)
-        {
-            if (epmarkchn == -1)
+        case KEY_S:
+            if (shiftpressed)
             {
-                epmarkchn = epchn;
-                epmarkstart = 0;
-                epmarkend = pattlen[epnum[epchn]]-1;
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart <= epmarkend)
+                    {
+                        for (c = epmarkstart; c <= epmarkend; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                            {
+                                pattern[epnum[epmarkchn]][c*4] -= 12;
+                                if (pattern[epnum[epmarkchn]][c*4] < FIRSTNOTE)
+                                    pattern[epnum[epmarkchn]][c*4] = FIRSTNOTE;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (c = epmarkend; c <= epmarkstart; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            if ((pattern[epnum[epmarkchn]][c*4] <= LASTNOTE) &&
+                                    (pattern[epnum[epmarkchn]][c*4] >= FIRSTNOTE))
+                            {
+                                pattern[epnum[epmarkchn]][c*4] -= 12;
+                                if (pattern[epnum[epmarkchn]][c*4] < FIRSTNOTE)
+                                    pattern[epnum[epmarkchn]][c*4] = FIRSTNOTE;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
+                    {
+                        if ((pattern[epnum[epchn]][c*4] <= LASTNOTE) &&
+                                (pattern[epnum[epchn]][c*4] >= FIRSTNOTE))
+                        {
+                            pattern[epnum[epchn]][c*4] -= 12;
+                            if (pattern[epnum[epchn]][c*4] < FIRSTNOTE)
+                                pattern[epnum[epchn]][c*4] = FIRSTNOTE;
+                        }
+                    }
+                }
             }
-            else epmarkchn = -1;
-        }
-        break;
+            break;
 
-    case KEY_C:
-    case KEY_X:
-        if (shiftpressed)
-        {
-            if (epmarkchn != -1)
+        case KEY_M:
+            if (shiftpressed)
             {
-                if (epmarkstart <= epmarkend)
+                stepsize++;
+                if (stepsize > MAX_PATTROWS) stepsize = MAX_PATTROWS;
+            }
+            break;
+
+        case KEY_N:
+            if (shiftpressed)
+            {
+                stepsize--;
+                if (stepsize < 2) stepsize = 2;
+            }
+            break;
+
+        case KEY_H:
+            if (shiftpressed)
+            {
+                switch (pattern[epnum[epchn]][eppos*4+2])
+                {
+                case CMD_PORTAUP:
+                case CMD_PORTADOWN:
+                case CMD_VIBRATO:
+                case CMD_TONEPORTA:
+                    if (pattern[epnum[epchn]][eppos*4+2] == CMD_TONEPORTA)
+                        c = eppos-1;
+                    else
+                        c = eppos;
+                    for (; c >= 0; c--)
+                    {
+                        if ((pattern[epnum[epchn]][c*4] >= FIRSTNOTE) &&
+                                (pattern[epnum[epchn]][c*4] <= LASTNOTE))
+                        {
+                            int delta;
+                            int pitch1;
+                            int pitch2;
+                            int pos;
+                            int note = pattern[epnum[epchn]][c*4] - FIRSTNOTE;
+                            int right = pattern[epnum[epchn]][eppos*4+3] & 0xf;
+                            int left = pattern[epnum[epchn]][eppos*4+3] >> 4;
+
+                            if (note > MAX_NOTES-1) note--;
+                            pitch1 = freqtbllo[note] | (freqtblhi[note] << 8);
+                            pitch2 = freqtbllo[note+1] | (freqtblhi[note+1] << 8);
+                            delta = pitch2 - pitch1;
+
+                            while (left--) delta <<= 1;
+                            while (right--) delta >>= 1;
+
+                            if (pattern[epnum[epchn]][eppos*4+2] == CMD_VIBRATO)
+                            {
+                                if (delta > 0xff) delta = 0xff;
+                            }
+                            pos = makespeedtable(delta, MST_RAW, 1);
+                            pattern[epnum[epchn]][eppos*4+3] = pos + 1;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+
+        case KEY_L:
+            if (shiftpressed)
+            {
+                if (epmarkchn == -1)
+                {
+                    epmarkchn = epchn;
+                    epmarkstart = 0;
+                    epmarkend = pattlen[epnum[epchn]]-1;
+                }
+                else epmarkchn = -1;
+            }
+            break;
+
+        case KEY_C:
+        case KEY_X:
+            if (shiftpressed)
+            {
+                if (epmarkchn != -1)
+                {
+                    if (epmarkstart <= epmarkend)
+                    {
+                        int d = 0;
+                        for (c = epmarkstart; c <= epmarkend; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            patterncopybuffer[d*4] = pattern[epnum[epmarkchn]][c*4];
+                            patterncopybuffer[d*4+1] = pattern[epnum[epmarkchn]][c*4+1];
+                            patterncopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
+                            patterncopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
+                            if (rawkey == KEY_X)
+                            {
+                                pattern[epnum[epmarkchn]][c*4] = REST;
+                                pattern[epnum[epmarkchn]][c*4+1] = 0;
+                                pattern[epnum[epmarkchn]][c*4+2] = 0;
+                                pattern[epnum[epmarkchn]][c*4+3] = 0;
+                            }
+                            d++;
+                        }
+                        patterncopyrows = d;
+                    }
+                    else
+                    {
+                        int d = 0;
+                        for (c = epmarkend; c <= epmarkstart; c++)
+                        {
+                            if (c >= pattlen[epnum[epmarkchn]]) break;
+                            patterncopybuffer[d*4] = pattern[epnum[epmarkchn]][c*4];
+                            patterncopybuffer[d*4+1] = pattern[epnum[epmarkchn]][c*4+1];
+                            patterncopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
+                            patterncopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
+                            if (rawkey == KEY_X)
+                            {
+                                pattern[epnum[epmarkchn]][c*4] = REST;
+                                pattern[epnum[epmarkchn]][c*4+1] = 0;
+                                pattern[epnum[epmarkchn]][c*4+2] = 0;
+                                pattern[epnum[epmarkchn]][c*4+3] = 0;
+                            }
+                            d++;
+                        }
+                        patterncopyrows = d;
+                    }
+                    epmarkchn = -1;
+                }
+                else
                 {
                     int d = 0;
-                    for (c = epmarkstart; c <= epmarkend; c++)
+                    for (c = 0; c < pattlen[epnum[epchn]]; c++)
                     {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        patterncopybuffer[d*4] = pattern[epnum[epmarkchn]][c*4];
-                        patterncopybuffer[d*4+1] = pattern[epnum[epmarkchn]][c*4+1];
-                        patterncopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
-                        patterncopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
+                        patterncopybuffer[d*4] = pattern[epnum[epchn]][c*4];
+                        patterncopybuffer[d*4+1] = pattern[epnum[epchn]][c*4+1];
+                        patterncopybuffer[d*4+2] = pattern[epnum[epchn]][c*4+2];
+                        patterncopybuffer[d*4+3] = pattern[epnum[epchn]][c*4+3];
                         if (rawkey == KEY_X)
                         {
-                            pattern[epnum[epmarkchn]][c*4] = REST;
-                            pattern[epnum[epmarkchn]][c*4+1] = 0;
-                            pattern[epnum[epmarkchn]][c*4+2] = 0;
-                            pattern[epnum[epmarkchn]][c*4+3] = 0;
+                            pattern[epnum[epchn]][c*4] = REST;
+                            pattern[epnum[epchn]][c*4+1] = 0;
+                            pattern[epnum[epchn]][c*4+2] = 0;
+                            pattern[epnum[epchn]][c*4+3] = 0;
                         }
                         d++;
                     }
                     patterncopyrows = d;
                 }
-                else
+            }
+            break;
+
+        case KEY_V:
+            if ((shiftpressed) && (patterncopyrows))
+            {
+                for (c = 0; c < patterncopyrows; c++)
                 {
-                    int d = 0;
-                    for (c = epmarkend; c <= epmarkstart; c++)
-                    {
-                        if (c >= pattlen[epnum[epmarkchn]]) break;
-                        patterncopybuffer[d*4] = pattern[epnum[epmarkchn]][c*4];
-                        patterncopybuffer[d*4+1] = pattern[epnum[epmarkchn]][c*4+1];
-                        patterncopybuffer[d*4+2] = pattern[epnum[epmarkchn]][c*4+2];
-                        patterncopybuffer[d*4+3] = pattern[epnum[epmarkchn]][c*4+3];
-                        if (rawkey == KEY_X)
-                        {
-                            pattern[epnum[epmarkchn]][c*4] = REST;
-                            pattern[epnum[epmarkchn]][c*4+1] = 0;
-                            pattern[epnum[epmarkchn]][c*4+2] = 0;
-                            pattern[epnum[epmarkchn]][c*4+3] = 0;
-                        }
-                        d++;
-                    }
-                    patterncopyrows = d;
+                    if (eppos >= pattlen[epnum[epchn]]) break;
+                    pattern[epnum[epchn]][eppos*4] = patterncopybuffer[c*4];
+                    pattern[epnum[epchn]][eppos*4+1] = patterncopybuffer[c*4+1];
+                    pattern[epnum[epchn]][eppos*4+2] = patterncopybuffer[c*4+2];
+                    pattern[epnum[epchn]][eppos*4+3] = patterncopybuffer[c*4+3];
+                    eppos++;
                 }
-                epmarkchn = -1;
+            }
+            break;
+
+        case KEY_DEL:
+            if (epmarkchn == epchn) epmarkchn = -1;
+            if ((pattlen[epnum[epchn]]-eppos)*4-4 >= 0)
+            {
+                memmove(&pattern[epnum[epchn]][eppos*4],
+                        &pattern[epnum[epchn]][eppos*4+4],
+                        (pattlen[epnum[epchn]]-eppos)*4-4);
+                pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-4] = REST;
+                pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-3] = 0x00;
+                pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-2] = 0x00;
+                pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-1] = 0x00;
             }
             else
             {
-                int d = 0;
-                for (c = 0; c < pattlen[epnum[epchn]]; c++)
+                if (eppos == pattlen[epnum[epchn]])
                 {
-                    patterncopybuffer[d*4] = pattern[epnum[epchn]][c*4];
-                    patterncopybuffer[d*4+1] = pattern[epnum[epchn]][c*4+1];
-                    patterncopybuffer[d*4+2] = pattern[epnum[epchn]][c*4+2];
-                    patterncopybuffer[d*4+3] = pattern[epnum[epchn]][c*4+3];
-                    if (rawkey == KEY_X)
+                    if (pattlen[epnum[epchn]] > 1)
                     {
-                        pattern[epnum[epchn]][c*4] = REST;
-                        pattern[epnum[epchn]][c*4+1] = 0;
-                        pattern[epnum[epchn]][c*4+2] = 0;
-                        pattern[epnum[epchn]][c*4+3] = 0;
-                    }
-                    d++;
-                }
-                patterncopyrows = d;
-            }
-        }
-        break;
-
-    case KEY_V:
-        if ((shiftpressed) && (patterncopyrows))
-        {
-            for (c = 0; c < patterncopyrows; c++)
-            {
-                if (eppos >= pattlen[epnum[epchn]]) break;
-                pattern[epnum[epchn]][eppos*4] = patterncopybuffer[c*4];
-                pattern[epnum[epchn]][eppos*4+1] = patterncopybuffer[c*4+1];
-                pattern[epnum[epchn]][eppos*4+2] = patterncopybuffer[c*4+2];
-                pattern[epnum[epchn]][eppos*4+3] = patterncopybuffer[c*4+3];
-                eppos++;
-            }
-        }
-        break;
-
-    case KEY_DEL:
-        if (epmarkchn == epchn) epmarkchn = -1;
-        if ((pattlen[epnum[epchn]]-eppos)*4-4 >= 0)
-        {
-            memmove(&pattern[epnum[epchn]][eppos*4],
-                    &pattern[epnum[epchn]][eppos*4+4],
-                    (pattlen[epnum[epchn]]-eppos)*4-4);
-            pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-4] = REST;
-            pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-3] = 0x00;
-            pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-2] = 0x00;
-            pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-1] = 0x00;
-        }
-        else
-        {
-            if (eppos == pattlen[epnum[epchn]])
-            {
-                if (pattlen[epnum[epchn]] > 1)
-                {
-                    pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-4] = ENDPATT;
-                    pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-3] = 0x00;
-                    pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-2] = 0x00;
-                    pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-1] = 0x00;
-                    countthispattern();
-                    eppos = pattlen[epnum[epchn]];
-                }
-            }
-        }
-        break;
-
-    case KEY_INS:
-        if (epmarkchn == epchn) epmarkchn = -1;
-        if ((pattlen[epnum[epchn]]-eppos)*4-4 >= 0)
-        {
-            memmove(&pattern[epnum[epchn]][eppos*4+4],
-                    &pattern[epnum[epchn]][eppos*4],
-                    (pattlen[epnum[epchn]]-eppos)*4-4);
-            pattern[epnum[epchn]][eppos*4] = REST;
-            pattern[epnum[epchn]][eppos*4+1] = 0x00;
-            pattern[epnum[epchn]][eppos*4+2] = 0x00;
-            pattern[epnum[epchn]][eppos*4+3] = 0x00;
-        }
-        else
-        {
-            if (eppos == pattlen[epnum[epchn]])
-            {
-                if (pattlen[epnum[epchn]] < MAX_PATTROWS)
-                {
-                    pattern[epnum[epchn]][eppos*4] = REST;
-                    pattern[epnum[epchn]][eppos*4+1] = 0x00;
-                    pattern[epnum[epchn]][eppos*4+2] = 0x00;
-                    pattern[epnum[epchn]][eppos*4+3] = 0x00;
-                    pattern[epnum[epchn]][eppos*4+4] = ENDPATT;
-                    pattern[epnum[epchn]][eppos*4+5] = 0x00;
-                    pattern[epnum[epchn]][eppos*4+6] = 0x00;
-                    pattern[epnum[epchn]][eppos*4+7] = 0x00;
-                    countthispattern();
-                    eppos = pattlen[epnum[epchn]];
-                }
-            }
-        }
-        break;
-
-    case KEY_SPACE:
-        if (!shiftpressed)
-            recordmode ^= 1;
-        else
-        {
-            if (lastsonginit != PLAY_PATTERN)
-            {
-                if (eseditpos != espos[eschn])
-                {
-                    int c;
-
-                    for (c = 0; c < maxChns; c++)
-                    {
-                        if (eseditpos < songlen[esnum][c]) espos[c] = eseditpos;
-                        if (esend[c] <= espos[c]) esend[c] = 0;
+                        pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-4] = ENDPATT;
+                        pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-3] = 0x00;
+                        pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-2] = 0x00;
+                        pattern[epnum[epchn]][pattlen[epnum[epchn]]*4-1] = 0x00;
+                        countthispattern();
+                        eppos = pattlen[epnum[epchn]];
                     }
                 }
-                initsongpos(esnum, PLAY_POS, eppos);
             }
-            else initsongpos(esnum, PLAY_PATTERN, eppos);
-            followplay = 0;
-        }
-        break;
+            break;
 
-    case KEY_RIGHT:
-        if (!shiftpressed)
-        {
-            epcolumn++;
-            if (epcolumn >= 6)
+        case KEY_INS:
+            if (epmarkchn == epchn) epmarkchn = -1;
+            if ((pattlen[epnum[epchn]]-eppos)*4-4 >= 0)
             {
-                epcolumn = 0;
+                memmove(&pattern[epnum[epchn]][eppos*4+4],
+                        &pattern[epnum[epchn]][eppos*4],
+                        (pattlen[epnum[epchn]]-eppos)*4-4);
+                pattern[epnum[epchn]][eppos*4] = REST;
+                pattern[epnum[epchn]][eppos*4+1] = 0x00;
+                pattern[epnum[epchn]][eppos*4+2] = 0x00;
+                pattern[epnum[epchn]][eppos*4+3] = 0x00;
+            }
+            else
+            {
+                if (eppos == pattlen[epnum[epchn]])
+                {
+                    if (pattlen[epnum[epchn]] < MAX_PATTROWS)
+                    {
+                        pattern[epnum[epchn]][eppos*4] = REST;
+                        pattern[epnum[epchn]][eppos*4+1] = 0x00;
+                        pattern[epnum[epchn]][eppos*4+2] = 0x00;
+                        pattern[epnum[epchn]][eppos*4+3] = 0x00;
+                        pattern[epnum[epchn]][eppos*4+4] = ENDPATT;
+                        pattern[epnum[epchn]][eppos*4+5] = 0x00;
+                        pattern[epnum[epchn]][eppos*4+6] = 0x00;
+                        pattern[epnum[epchn]][eppos*4+7] = 0x00;
+                        countthispattern();
+                        eppos = pattlen[epnum[epchn]];
+                    }
+                }
+            }
+            break;
+
+        case KEY_SPACE:
+            if (!shiftpressed)
+                recordmode ^= 1;
+            else
+            {
+                if (lastsonginit != PLAY_PATTERN)
+                {
+                    if (eseditpos != espos[eschn])
+                    {
+                        int c;
+
+                        for (c = 0; c < maxChns; c++)
+                        {
+                            if (eseditpos < songlen[esnum][c]) espos[c] = eseditpos;
+                            if (esend[c] <= espos[c]) esend[c] = 0;
+                        }
+                    }
+                    initsongpos(esnum, PLAY_POS, eppos);
+                }
+                else initsongpos(esnum, PLAY_PATTERN, eppos);
+                followplay = 0;
+            }
+            break;
+
+        case KEY_RIGHT:
+            if (!shiftpressed)
+            {
+                epcolumn++;
+                if (epcolumn >= 6)
+                {
+                    epcolumn = 0;
+                    epchn++;
+                    if (epchn >= maxChns) epchn = 0;
+                    if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
+                }
+            }
+            else
+            {
+                if (epnum[epchn] < MAX_PATT-1)
+                {
+                    epnum[epchn]++;
+                    if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
+                }
+                if (epchn == epmarkchn) epmarkchn = -1;
+            }
+            break;
+
+        case KEY_LEFT:
+            if (!shiftpressed)
+            {
+                epcolumn--;
+                if (epcolumn < 0)
+                {
+                    epcolumn = 5;
+                    epchn--;
+                    if (epchn < 0) epchn = maxChns-1;
+                    if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
+                }
+            }
+            else
+            {
+                if (epnum[epchn] > 0)
+                {
+                    epnum[epchn]--;
+                    if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
+                }
+                if (epchn == epmarkchn) epmarkchn = -1;
+            }
+            break;
+
+        case KEY_HOME:
+            while (eppos != 0) patternup();
+            break;
+
+        case KEY_END:
+            while (eppos != pattlen[epnum[epchn]]) patterndown();
+            break;
+
+        case KEY_PGUP:
+            for (scrrep = PGUPDNREPEAT; scrrep; scrrep--)
+                patternup();
+            break;
+
+        case KEY_PGDN:
+            for (scrrep = PGUPDNREPEAT; scrrep; scrrep--)
+                patterndown();
+            break;
+
+        case KEY_UP:
+            patternup();
+            break;
+
+        case KEY_DOWN:
+            patterndown();
+            break;
+
+        case KEY_APOST2:
+            if (!shiftpressed)
+            {
                 epchn++;
                 if (epchn >= maxChns) epchn = 0;
                 if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
             }
-        }
-        else
-        {
-            if (epnum[epchn] < MAX_PATT-1)
+            else
             {
-                epnum[epchn]++;
-                if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-            }
-            if (epchn == epmarkchn) epmarkchn = -1;
-        }
-        break;
-
-    case KEY_LEFT:
-        if (!shiftpressed)
-        {
-            epcolumn--;
-            if (epcolumn < 0)
-            {
-                epcolumn = 5;
                 epchn--;
                 if (epchn < 0) epchn = maxChns-1;
                 if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
             }
-        }
-        else
-        {
-            if (epnum[epchn] > 0)
-            {
-                epnum[epchn]--;
-                if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-            }
-            if (epchn == epmarkchn) epmarkchn = -1;
-        }
-        break;
+            break;
 
-    case KEY_HOME:
-        while (eppos != 0) patternup();
-        break;
-
-    case KEY_END:
-        while (eppos != pattlen[epnum[epchn]]) patterndown();
-        break;
-
-    case KEY_PGUP:
-        for (scrrep = PGUPDNREPEAT; scrrep; scrrep--)
-            patternup();
-        break;
-
-    case KEY_PGDN:
-        for (scrrep = PGUPDNREPEAT; scrrep; scrrep--)
-            patterndown();
-        break;
-
-    case KEY_UP:
-        patternup();
-        break;
-
-    case KEY_DOWN:
-        patterndown();
-        break;
-
-    case KEY_APOST2:
-        if (!shiftpressed)
-        {
-            epchn++;
-            if (epchn >= maxChns) epchn = 0;
-            if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-        }
-        else
-        {
-            epchn--;
-            if (epchn < 0) epchn = maxChns-1;
-            if (eppos > pattlen[epnum[epchn]]) eppos = pattlen[epnum[epchn]];
-        }
-        break;
-
-    case KEY_1:
-    case KEY_2:
-    case KEY_3:
-        if (shiftpressed)
-            mutechannel(rawkey - KEY_1);
-        break;
+        case KEY_1:
+        case KEY_2:
+        case KEY_3:
+            if (shiftpressed)
+                mutechannel(rawkey - KEY_1);
+            break;
     }
     if ((keypreset == KEY_DMC) && (hexnybble >= 0) && (hexnybble <= 7) && (!epcolumn))
     {

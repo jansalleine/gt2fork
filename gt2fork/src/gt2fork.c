@@ -603,7 +603,7 @@ void waitkeymousenoupdate(void)
         if (mouseb) break;
     }
 
-    converthex();
+    // converthex();
 }
 
 void waitkeynoupdate(void)

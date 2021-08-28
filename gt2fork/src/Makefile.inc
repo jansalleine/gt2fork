@@ -66,7 +66,6 @@ BMEOBJECTS=\
 	bme/bme_snd.o \
 	bme/bme_win.o \
 	bme/bme_mou.o \
-	bme/bme_kbd.o \
 	bme/bme_io.o \
 	bme/bme_end.o \
 	bme/bme.o
