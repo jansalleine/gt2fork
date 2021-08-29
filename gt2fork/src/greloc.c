@@ -1153,24 +1153,12 @@ TABLETYPE:
     // Insert source code of player
     if (adparam >= 0xf000)
     {
-        // playername = "altplayer.s";
-        loadPlayer(playRoutineAlt, playRoutineAltLength);
+        insertPlayer(playRoutineAlt, playRoutineAltLength);
     }
     else
     {
-        loadPlayer(playRoutine, playRoutineLength);
+        insertPlayer(playRoutine, playRoutineLength);
     }
-
-    /*
-    if (!insertfile(playername))
-    {
-        clearscreen();
-        printtextc(MAX_ROWS/2, colscheme.title, "COULD NOT OPEN PLAYROUTINE!");
-        fliptoscreen();
-        waitkeynoupdate();
-        goto PRCLEANUP;
-    }
-    */
 
     // Modify ghostregs to not be zeropage if needed
     if ((playerversion & PLAYER_FULLBUFFERED) && (playerversion & PLAYER_ZPGHOSTREGS) == 0)
@@ -1962,23 +1950,7 @@ unsigned char swapnybbles(unsigned char n)
     return (lownybble << 4) | highnybble;
 }
 
-int insertfile(char *name)
-{
-    int size;
-    int handle = io_open(name);
-    if (handle == -1) return 0;
-
-    size = io_lseek(handle, 0, SEEK_END);
-    io_lseek(handle, 0, SEEK_SET);
-    while (size--)
-    {
-        membuf_append_char(&src, io_read8(handle));
-    }
-    io_close(handle);
-    return 1;
-}
-
-int loadPlayer(char *playRoutine, int playRoutineLength)
+void insertPlayer(char *playRoutine, int playRoutineLength)
 {
     int i = 0;
 
@@ -1986,7 +1958,6 @@ int loadPlayer(char *playRoutine, int playRoutineLength)
     {
         membuf_append_char(&src, playRoutine[i]);
     }
-    return 1;
 }
 
 void inserttext(const char *text)
@@ -3228,24 +3199,12 @@ TABLETYPE_S:
     // Insert source code of player
     if (adparam >= 0xf000)
     {
-        // playername = "altplayer_s.s";
-        loadPlayer(playRoutineStereoAlt, playRoutineStereoAltLength);
+        insertPlayer(playRoutineStereoAlt, playRoutineStereoAltLength);
     }
     else
     {
-        loadPlayer(playRoutineStereo, playRoutineStereoLength);
+        insertPlayer(playRoutineStereo, playRoutineStereoLength);
     }
-
-    /*
-    if (!insertfile(playername))
-    {
-        clearscreen();
-        printtextc(MAX_ROWS/2, colscheme.title, "COULD NOT OPEN PLAYROUTINE!");
-        fliptoscreen();
-        waitkeynoupdate();
-        goto PRCLEANUP_S;
-    }
-    */
 
     // Insert frequencytable
     insertlabel("mt_freqtbllo");

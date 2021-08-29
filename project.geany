@@ -27,13 +27,8 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=1
-FILE_NAME_0=6555;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
-FILE_NAME_1=47409;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgreloc.c;0;4
-FILE_NAME_2=91;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgdisplay.c;0;4
-FILE_NAME_3=11650;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgpattern.c;0;4
-FILE_NAME_4=613;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.h;0;4
-FILE_NAME_5=50541;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgsong.c;0;4
+current_page=0
+FILE_NAME_0=3588;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
 
 [VTE]
-last_dir=/home/spider/public_html/grafrecke2020/scss
+last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss

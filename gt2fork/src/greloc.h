@@ -45,7 +45,7 @@ void findtableduplicates(int num);
 int isusedandselfcontained(int num, int start);
 void calcspeedtest(unsigned char pos);
 
-int insertfile(char *name);
+void insertPlayer(char *playRoutine, int playRoutineLength);
 void inserttext(const char *text);
 void insertdefine(const char *name, int value);
 void insertlabel(const char *name);
