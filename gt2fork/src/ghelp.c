@@ -396,8 +396,8 @@ void onlinehelp(int standalone,int context)
             break;
         }
 
-        if ((mouseb) && (mousey == 1)) hview++;
-        if ((mouseb) && (mousey == MAX_ROWS-1)) hview--;
+        if ((mouseb) && (mousey >= 1) && (mousey < ((MAX_ROWS-1) / 2))) hview++;
+        if ((mouseb) && (mousey > ((MAX_ROWS-1) / 2) && (mousey <= MAX_ROWS-1))) hview--;
 
         if (hview > -1) hview = -1;
         if (hview < -(lastrow-MAX_ROWS+1)) hview = -(lastrow-MAX_ROWS+1);

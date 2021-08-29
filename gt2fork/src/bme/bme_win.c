@@ -208,11 +208,16 @@ void win_checkmessages(void)
 
         case SDL_TEXTINPUT:
             win_asciikey = event.text.text[0];
+            // printf("bme_win.c: win_checkmessages() case SDL_TEXTINPUT, win_asciikey: %i \n", win_asciikey);
             break;
 
         case SDL_KEYDOWN:
             win_virtualkey = event.key.keysym.sym;
             keynum = event.key.keysym.scancode;
+            /*
+            printf("win_virtualkey: %i\n", win_virtualkey);
+            printf("keynum:         %i\n", keynum);
+            */
             if (keynum < SDL_NUM_SCANCODES)
             {
                 if ((keynum == SDL_SCANCODE_RETURN) &&

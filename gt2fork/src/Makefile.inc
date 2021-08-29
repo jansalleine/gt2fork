@@ -5,6 +5,7 @@ EXE=$(PREFIX)gt2fork$(SUFFIX)
 GTOBJECTS=\
 	gt2forkdata.o \
 	gt2fork.o \
+	playroutines.o \
 	gsong.o \
 	gorder.o \
 	gpattern.o \
@@ -66,7 +67,6 @@ BMEOBJECTS=\
 	bme/bme_snd.o \
 	bme/bme_win.o \
 	bme/bme_mou.o \
-	bme/bme_kbd.o \
 	bme/bme_io.o \
 	bme/bme_end.o \
 	bme/bme.o
@@ -81,7 +81,7 @@ $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 datafiles:
 	$(MAKE) -C bme all
 
-gt2fork.dat: player.s altplayer.s player_s.s altplayer_s.s chargen.bin \
+gt2fork.dat: chargen.bin \
 	palette.bin gt2fork.png gt2fork.seq
 	./bme/datafile $@ gt2fork.seq
 

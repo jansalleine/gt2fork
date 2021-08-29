@@ -1,0 +1,20 @@
+GIMP Palette
+Name: Commodore 64
+Columns: 4
+#
+  0   0   0 Black
+ 53  40 121 Blue
+ 88 141  67 Green
+ 68  68  68 Dark Gray
+104  55  43 Red
+ 67  57   0 Brown
+111  79  37 Light Brown
+149 149 149 Light Gray
+108 108 108 Medium Gray
+108  94 181 Light Blue
+154 210 132 Light Green
+112 164 178 Cyan
+154 103  89 Light Red
+111  61 134 Purple
+184 199 111 Yellow
+255 255 255 White
