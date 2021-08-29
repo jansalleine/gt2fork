@@ -57,20 +57,164 @@
 
 const int devConfig = 0;
 
+/* int menu = 0;
+ *
+ * if menu is shown (mouse right click in header status)
+ * used in:
+ *  gdisplay.c
+ *  gt2fork.c
+ */
 int menu = 0;
+
+/* int editmode = EDIT_PATTERN;
+ *
+ * current editmode
+ * possible values (defined in gt2fork.h):
+ *  EDIT_PATTERN
+ *  EDIT_ORDERLIST
+ *  EDIT_INSTRUMENT
+ *  EDIT_TABLES
+ *  EDIT_NAMES
+ *
+ * used in:
+ *  gdisplay.c
+ *  ghelp.c
+ *  ginstr.c
+ *  gorder.c
+ *  gt2fork.c
+ *  gtable.c
+ */
 int editmode = EDIT_PATTERN;
+
+/* int recordmode = 1;
+ *
+ * normal note input or "jam" mode
+ *
+ * used in:
+ *  gdisplay.c
+ *  gpattern.c
+ *  gt2fork.c
+ */
 int recordmode = 1;
+
+/* int followplay = 0;
+ *
+ * state of followplay
+ *
+ * used in:
+ *  gdisplay.c
+ *  pattern.c
+ *  gplay.c
+ *  gsong.c
+ *  gt2fork.c
+ */
 int followplay = 0;
+
+
+/* int hexnybble = -1;
+ *
+ * main usage in function converthex()
+ * converthex() will be called regularely after keyboard input
+ * and the different input routines will write to this variable
+ * when the input was hexadecimal
+ *
+ * used in:
+ *  ginstr.c
+ *  gorder.c
+ *  gpattern.c
+ *  gtable.c
+ *  gt2fork.c
+ */
 int hexnybble = -1;
+
+/* int stepsize = 4;
+ *
+ * stepsize of pattern highlight
+ *
+ * used in:
+ *  gdisplay.c
+ *  gpattern.c
+ *  gt2fork.c
+ */
 int stepsize = 4;
+
+/* int autoadvance = 0;
+ *
+ * if entering a note in pattern edit will autoadvance cursor to next position
+ *
+ * used in:
+ *  gdisplay.c
+ *  ghelp.c
+ *  gpattern.c
+ */
 int autoadvance = 0;
+
+/* unsigned defaultpatternlength = 32;
+ *
+ * what it says :-)
+ *
+ * used in:
+ *  gsong.c
+ *  gt2fork.c
+ */
 unsigned defaultpatternlength = 32;
+
+/* int cursorflash = 0;
+ *
+ * index variable for cursorcolortable[]
+ *
+ * used in:
+ *  gconsole.c
+ *  gdisplay.c
+ *  gfile.c
+ */
 int cursorflash = 0;
+
+/* int cursorcolortable[] = {1,2,7,2};
+ *
+ * what it says
+ *
+ * used in:
+ *  gdisplay.c
+ *  gfile.c
+ */
 int cursorcolortable[] = {1,2,7,2};
+
+/* int exitprogram = 0;
+ *
+ * this is what the mainloop waits for
+ *
+ * used in:
+ *  gfile.c
+ *  ghelp.c
+ *  greloc.c
+ *  gt2fork.c
+ */
 int exitprogram = 0;
+
+/* int eacolumn = 0;
+ *
+ * current colum that is edited in hardrestart ADSR setting on top status
+ *
+ * used in:
+ *  gdisplay.c
+ *  gt2fork.c
+ */
 int eacolumn = 0;
+
+/* int eamode = 0;
+ *
+ * it's only purpose seems to indicate if hardrestart ADSR is being edited atm
+ *
+ * used in:
+ *  gdisplay.c
+ *  gt2fork.c
+ */
 int eamode = 0;
 
+/* =============================================================================
+ * BEGIN settings
+*/
 unsigned keypreset = KEY_TRACKER;
 unsigned playerversion = 0;
 int fileformat = FORMAT_PRG;
@@ -101,17 +245,72 @@ int tuningcount = 0;
 double tuning[96];
 unsigned theme = 0;
 unsigned numsids = 1;
+/* END settings
+ * =============================================================================
+ */
 
+/* char configbuf[MAX_PATHNAME];
+ *
+ * buffer to read one line of config
+ */
 char configbuf[MAX_PATHNAME];
+
+/* char loadedsongfilename[MAX_FILENAME];
+ *
+ * global songfile name
+ */
 char loadedsongfilename[MAX_FILENAME];
+
+/* char songfilename[MAX_FILENAME];
+ *
+ * seems to be temporary for load / save etc...
+ */
 char songfilename[MAX_FILENAME];
+
+/* char songfilter[MAX_FILENAME];
+ *
+ * Variable for holding *.sng
+ *
+ * used in:
+ *  gfile.c
+ *  gt2fork.c
+ */
 char songfilter[MAX_FILENAME];
+
+/* char songpath[MAX_PATHNAME];
+ *
+ * Hold the song path
+ *
+ * used in:
+ *  gfile.c
+ *  gt2fork.c
+ */
 char songpath[MAX_PATHNAME];
+
+/* instrfilename, istrfilter, instrpath
+ *
+ * same as song* variables above for instruments
+ */
 char instrfilename[MAX_FILENAME];
 char instrfilter[MAX_FILENAME];
 char instrpath[MAX_PATHNAME];
+
+/* char packedpath[MAX_PATHNAME];
+ *
+ * path for exports
+ *
+ * used in:
+ *  gfile.c
+ *  greloc.c
+ *  gt2fork.c
+ */
 char packedpath[MAX_PATHNAME];
 
+/* extern char *notename[];
+ *
+ * Array of chars holding the notenames and gate on / off and empty pattern
+ * row chars / strings
+ */
 extern char *notename[];
 char *programname = "$VER: gt2fork v0.5b";
 char specialnotenames[186];
