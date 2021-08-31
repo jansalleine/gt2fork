@@ -10,8 +10,8 @@
 #include "gt2fork.h"
 
 int gfxinitted = 0;
-unsigned *scrbuffer = NULL;
-unsigned *prevscrbuffer = NULL;
+unsigned *screenBuffer = NULL;
+unsigned *prevScreenBuffer = NULL;
 unsigned char *chardata = NULL;
 int key = 0;
 int rawkey = 0;
@@ -91,9 +91,9 @@ int initscreen(void)
         }
     }
 
-    scrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
-    prevscrbuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
-    if ((!scrbuffer) || (!prevscrbuffer)) return 0;
+    screenBuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
+    prevScreenBuffer = (unsigned*)malloc(MAX_COLUMNS * MAX_ROWS * sizeof(unsigned));
+    if ((!screenBuffer) || (!prevScreenBuffer)) return 0;
 
     memset(region, 0, sizeof region);
 
@@ -204,15 +204,15 @@ void initicon(void)
 
 void closescreen(void)
 {
-    if (scrbuffer)
+    if (screenBuffer)
     {
-        free(scrbuffer);
-        scrbuffer = NULL;
+        free(screenBuffer);
+        screenBuffer = NULL;
     }
-    if (prevscrbuffer)
+    if (prevScreenBuffer)
     {
-        free(prevscrbuffer);
-        prevscrbuffer = NULL;
+        free(prevScreenBuffer);
+        prevScreenBuffer = NULL;
     }
     if (chardata)
     {
@@ -226,7 +226,7 @@ void closescreen(void)
 void clearscreen(void)
 {
     int c;
-    unsigned *dptr = scrbuffer;
+    unsigned *dptr = screenBuffer;
 
     if (!gfxinitted) return;
 
@@ -239,7 +239,7 @@ void clearscreen(void)
 
 void printtext(int x, int y, int color, const char *text)
 {
-    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = screenBuffer + (x + y * MAX_COLUMNS);
 
     if (!gfxinitted) return;
     if (y < 0) return;
@@ -269,7 +269,7 @@ void printtextcp(int cp, int y, int color, const char *text)
 
 void printblank(int x, int y, int length)
 {
-    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = screenBuffer + (x + y * MAX_COLUMNS);
 
     if (!gfxinitted) return;
     if (y < 0) return;
@@ -283,7 +283,7 @@ void printblank(int x, int y, int length)
 
 void printblankc(int x, int y, int color, int length)
 {
-    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = screenBuffer + (x + y * MAX_COLUMNS);
 
     if (!gfxinitted) return;
     if (y < 0) return;
@@ -307,8 +307,8 @@ void drawbox(int x, int y, int color, int sx, int sy)
     if (y+sy > MAX_ROWS) return;
     if ((!sx) || (!sy)) return;
 
-    dptr = scrbuffer + (x + y * MAX_COLUMNS);
-    dptr2 = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
+    dptr = screenBuffer + (x + y * MAX_COLUMNS);
+    dptr2 = screenBuffer + ((x+sx-1) + y * MAX_COLUMNS);
     counter = sy;
 
     while (counter--)
@@ -319,8 +319,8 @@ void drawbox(int x, int y, int color, int sx, int sy)
         dptr2 += MAX_COLUMNS;
     }
 
-    dptr = scrbuffer + (x + y * MAX_COLUMNS);
-    dptr2 = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
+    dptr = screenBuffer + (x + y * MAX_COLUMNS);
+    dptr2 = screenBuffer + (x + (y+sy-1) * MAX_COLUMNS);
     counter = sx;
 
     while (counter--)
@@ -331,22 +331,22 @@ void drawbox(int x, int y, int color, int sx, int sy)
         dptr2++;
     }
 
-    dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    dptr = screenBuffer + (x + y * MAX_COLUMNS);
     setcharcolor(dptr, '+', color);
 
-    dptr = scrbuffer + ((x+sx-1) + y * MAX_COLUMNS);
+    dptr = screenBuffer + ((x+sx-1) + y * MAX_COLUMNS);
     setcharcolor(dptr, '+', color);
 
-    dptr = scrbuffer + (x + (y+sy-1) * MAX_COLUMNS);
+    dptr = screenBuffer + (x + (y+sy-1) * MAX_COLUMNS);
     setcharcolor(dptr, '+', color);
 
-    dptr = scrbuffer + ((x+sx-1) + (y+sy-1) * MAX_COLUMNS);
+    dptr = screenBuffer + ((x+sx-1) + (y+sy-1) * MAX_COLUMNS);
     setcharcolor(dptr, '+', color);
 }
 
 void printbg(int x, int y, int color, int length)
 {
-    unsigned *dptr = scrbuffer + (x + y * MAX_COLUMNS);
+    unsigned *dptr = screenBuffer + (x + y * MAX_COLUMNS);
 
     if (!gfxinitted) return;
     if (y < 0) return;
@@ -360,9 +360,9 @@ void printbg(int x, int y, int color, int length)
 
 void fliptoscreen(void)
 {
-    unsigned *sptr = scrbuffer;
-    unsigned *cmpptr = prevscrbuffer;
-    int x,y;
+    int bufferIndex = 0,
+        x,
+        y;
     // int regionschanged = 0;
 
     if (!gfxinitted) return;
@@ -370,8 +370,9 @@ void fliptoscreen(void)
     // If redraw requested, mark whole screen changed
     if (gfx_redraw)
     {
+        // this happens very seldom – does it even happen after init ?!?
         gfx_redraw = 0;
-        memset(prevscrbuffer, 0xff, MAX_COLUMNS*MAX_ROWS*sizeof(unsigned));
+        memset(prevScreenBuffer, 0xff, MAX_COLUMNS*MAX_ROWS*sizeof(unsigned));
     }
 
     if (!gfx_lock()) return;
@@ -382,16 +383,16 @@ void fliptoscreen(void)
         for (x = 0; x < MAX_COLUMNS; x++)
         {
             // Check if char changed
-            if (*sptr != *cmpptr)
+            if (screenBuffer[bufferIndex] != prevScreenBuffer[bufferIndex])
             {
-                *cmpptr = *sptr;
+                prevScreenBuffer[bufferIndex] = screenBuffer[bufferIndex];
                 region[y] = 1;
                 // regionschanged = 1;
 
-                unsigned char *chptr = &chardata[(*sptr & 0xffff)*16];
+                unsigned char *chptr = &chardata[(screenBuffer[bufferIndex] & 0xffff)*16];
                 unsigned char *dptr = (unsigned char*)gfx_screen->pixels + y*fontheight * gfx_screen->pitch + x*fontwidth;
-                unsigned char bgcolor = (*sptr) >> 20;
-                unsigned char fgcolor = ((*sptr) >> 16) & 0xf;
+                unsigned char bgcolor = (screenBuffer[bufferIndex]) >> 20;
+                unsigned char fgcolor = ((screenBuffer[bufferIndex]) >> 16) & 0xf;
                 int c;
                 unsigned char e = *chptr++;
 
@@ -419,8 +420,7 @@ void fliptoscreen(void)
                 }
 
             }
-            sptr++;
-            cmpptr++;
+            bufferIndex++;
         }
     }
 
