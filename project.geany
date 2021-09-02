@@ -27,8 +27,11 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=0
+current_page=2
 FILE_NAME_0=1082;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2FMakefile.inc;0;4
+FILE_NAME_1=716;Sh;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fbme%2FmakeLegacy.sh;0;4
+FILE_NAME_2=44703;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Flegacy.c;0;4
+FILE_NAME_3=13267;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Flegacy.h;0;4
 
 [VTE]
 last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss
