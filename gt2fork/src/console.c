@@ -98,7 +98,7 @@ int initscreen(void)
 
     gfx_loadpalette("palette.bin");
     loadexternalpalette();
-    gfx_setpalette();
+    gfxSetPalette();
 
     gfxinitted = 1;
     clearscreen();

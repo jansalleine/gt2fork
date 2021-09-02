@@ -114,12 +114,12 @@ void gfx_uninit(void);
 int gfx_lock(void);
 void gfx_unlock(void);
 void gfx_flip(void);
-void gfx_setclipregion(unsigned left, unsigned top, unsigned right, unsigned bottom);
+void gfxSetClipRegion(unsigned left, unsigned top, unsigned right, unsigned bottom);
 void gfx_setmaxspritefiles(int num);
 void gfx_setmaxcolors(int num);
 int gfx_loadpalette(char *name);
 void gfx_calcpalette(int fade, int radd, int gadd, int badd);
-void gfx_setpalette(void);
+void gfxSetPalette(void);
 int gfx_loadblocks(char *name);
 int gfx_loadsprites(int num, char *name);
 void gfx_freesprites(int num);
@@ -160,7 +160,7 @@ static int gfx_maxspritefiles = 0;
 static SPRITEHEADER **gfx_spriteheaders = NULL;
 static Uint8 **gfx_spritedata = NULL;
 static unsigned *gfx_spriteamount = NULL;
-static SDL_Color gfx_sdlpalette[MAX_COLORS];
+static SDL_Color gfxSdlPalette[MAX_COLORS];
 static int gfx_locked = 0;
 static SDL_Texture *sdlTexture = NULL;
 
@@ -198,17 +198,17 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     gfx_windowxsize = gfx_virtualxsize;
     gfx_windowysize = gfx_virtualysize;
 
-    gfx_setclipregion(0, 0, gfx_virtualxsize, gfx_virtualysize);
+    gfxSetClipRegion(0, 0, gfx_virtualxsize, gfx_virtualysize);
 
     // Colors 0 & 255 are always black & white
-    gfx_sdlpalette[0].r = 0;
-    gfx_sdlpalette[0].g = 0;
-    gfx_sdlpalette[0].b = 0;
-    gfx_sdlpalette[0].a = 255;
-    gfx_sdlpalette[255].r = 255;
-    gfx_sdlpalette[255].g = 255;
-    gfx_sdlpalette[255].b = 255;
-    gfx_sdlpalette[255].a = 255;
+    gfxSdlPalette[0].r = 0;
+    gfxSdlPalette[0].g = 0;
+    gfxSdlPalette[0].b = 0;
+    gfxSdlPalette[0].a = 255;
+    gfxSdlPalette[255].r = 255;
+    gfxSdlPalette[255].g = 255;
+    gfxSdlPalette[255].b = 255;
+    gfxSdlPalette[255].a = 255;
 
     gfx_renderer = SDL_CreateRenderer(win_window, -1, sdlflags);
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
@@ -228,7 +228,7 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
     {
         gfx_initted = 1;
         gfx_redraw = 1;
-        gfx_setpalette();
+        gfxSetPalette();
         win_setmousemode(win_mousemode);
         return BME_OK;
     }
@@ -320,7 +320,7 @@ void gfx_calcpalette(int fade, int radd, int gadd, int badd)
         cl += radd;
         if (cl > 63) cl = 63;
         if (cl < 0) cl = 0;
-        gfx_sdlpalette[c].r = (cl << 2) | (cl & 3);
+        gfxSdlPalette[c].r = (cl << 2) | (cl & 3);
         sptr++;
 
         cl = *sptr;
@@ -329,7 +329,7 @@ void gfx_calcpalette(int fade, int radd, int gadd, int badd)
         cl += gadd;
         if (cl > 63) cl = 63;
         if (cl < 0) cl = 0;
-        gfx_sdlpalette[c].g = (cl << 2) | (cl & 3);
+        gfxSdlPalette[c].g = (cl << 2) | (cl & 3);
         sptr++;
 
         cl = *sptr;
@@ -338,21 +338,21 @@ void gfx_calcpalette(int fade, int radd, int gadd, int badd)
         cl += badd;
         if (cl > 63) cl = 63;
         if (cl < 0) cl = 0;
-        gfx_sdlpalette[c].b = (cl << 2) | (cl & 3);
+        gfxSdlPalette[c].b = (cl << 2) | (cl & 3);
         sptr++;
 
-        gfx_sdlpalette[c].a = 255;
+        gfxSdlPalette[c].a = 255;
     }
 }
 
-void gfx_setpalette(void)
+void gfxSetPalette(void)
 {
     if (!gfx_initted) return;
 
-    SDL_SetPaletteColors(gfx_screen->format->palette, &gfx_sdlpalette[0], 0, gfx_maxcolors);
+    SDL_SetPaletteColors(gfx_screen->format->palette, &gfxSdlPalette[0], 0, gfx_maxcolors);
 }
 
-void gfx_setclipregion(unsigned left, unsigned top, unsigned right, unsigned bottom)
+void gfxSetClipRegion(unsigned left, unsigned top, unsigned right, unsigned bottom)
 {
     if (left >= right) return;
     if (top >= bottom) return;
