@@ -27,7 +27,7 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=0
+current_page=10
 FILE_NAME_0=55046;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
 FILE_NAME_1=255;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.h;0;4
 FILE_NAME_2=275;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.c;0;4
