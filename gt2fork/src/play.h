@@ -1,5 +1,5 @@
-#ifndef GPLAY_H
-#define GPLAY_H
+#ifndef GT2F_PLAY_H
+#define GT2F_PLAY_H
 
 #define PLAY_PLAYING 0x00
 #define PLAY_BEGINNING 0x01

@@ -7,7 +7,7 @@
 #define MST_PORTAMENTO 3
 #define MST_RAW 4
 
-#ifndef GTABLE_C
+#ifndef GT2F_TABLE_C
 extern int etview[MAX_TABLES];
 extern int etnum;
 extern int etpos;

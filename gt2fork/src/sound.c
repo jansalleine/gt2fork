@@ -2,7 +2,7 @@
 // GOATTRACKER sound routines
 //
 
-#define GSOUND_C
+#define GT2F_SOUND_C
 
 #ifdef __WIN32__
 #include <windows.h>

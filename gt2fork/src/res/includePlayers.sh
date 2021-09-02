@@ -1,6 +1,6 @@
 #!/bin/sh
 
-OUTFILE="../playroutines.c"
+OUTFILE="../players.c"
 
 xxd -i player.s > $OUTFILE
 xxd -i altplayer.s >> $OUTFILE

@@ -1,5 +1,5 @@
-#ifndef GCOLORS_H
-#define GCOLORS_H
+#ifndef GT2F_COLORS_H
+#define GT2F_COLORS_H
 
 #define CBLACK  0x0
 #define CDBLUE  0x1
@@ -20,26 +20,26 @@
 
 typedef struct
 {
-    int bgcolor;
-    int boxcolor;
+    int bgColor;
+    int boxColor;
     int command;
-    int command_value;
+    int commandValue;
     int edit;
-    int help_header;
-    int help_normal;
+    int helpHeader;
+    int helpNormal;
     int indexes;
-    int indexes_inv;
+    int indexesInv;
     int instrnum;
-    int mark_bg;
+    int markBg;
     int mute;
     int normal;
     int pattcol;
     int playing;
-    int playing_inv;
-    int status_bottom;
-    int status_top;
-    int table_end;
-    int table_modval;
+    int playingInv;
+    int statusBottom;
+    int statusTop;
+    int tableEnd;
+    int tableModVal;
     int title;
 } COLORSCHEME;
 

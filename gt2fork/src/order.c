@@ -2,7 +2,7 @@
 // GOATTRACKER v2 orderlist & songname editor
 //
 
-#define GORDER_C
+#define GT2F_ORDER_C
 
 #include "gt2fork.h"
 

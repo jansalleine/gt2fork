@@ -1,7 +1,7 @@
-#ifndef GPATTERN_H
-#define GPATTERN_H
+#ifndef GT2F_PATTERN_H
+#define GT2F_PATTERN_H
 
-#ifndef GPATTERN_C
+#ifndef GT2F_PATTERN_C
 extern int epnum[MAX_CHN];
 extern int eppos;
 extern int epview;

@@ -1,7 +1,7 @@
-#ifndef GORDER_H
-#define GORDER_H
+#ifndef GT2F_ORDER_H
+#define GT2F_ORDER_H
 
-#ifndef GORDER_C
+#ifndef GT2F_ORDER_C
 extern int espos[MAX_CHN];
 extern int esend[MAX_CHN];
 extern int eseditpos;

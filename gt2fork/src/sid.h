@@ -1,5 +1,5 @@
-#ifndef GSID_H
-#define GSID_H
+#ifndef GT2F_SID_H
+#define GT2F_SID_H
 
 #define NUMSIDREGS 0x19
 #define SIDWRITEDELAY 14 // lda $xxxx,x 4 cycles, sta $d400,x 5 cycles, dex 2 cycles, bpl 3 cycles

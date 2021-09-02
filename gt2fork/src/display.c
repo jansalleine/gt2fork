@@ -2,7 +2,7 @@
 // GOATTRACKER v2 screen display routines
 //
 
-#define GDISPLAY_C
+#define GT2F_DISPLAY_C
 
 #include "gt2fork.h"
 
@@ -57,7 +57,7 @@ void printstatus(void)
 
     if ((mouseb > MOUSEB_LEFT) && (mousey <= 1) && (!eamode)) menu = 1;
 
-    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.statusTop, MAX_COLUMNS);
 
     if (!menu)
     {
@@ -66,46 +66,46 @@ void printstatus(void)
         else
             sprintf(textbuffer, "%s - %s", programname, loadedsongfilename);
         textbuffer[49] = 0;
-        printtext(dpos.statusTopX+1, dpos.statusTopY, colscheme.status_top, textbuffer);
+        printtext(dpos.statusTopX+1, dpos.statusTopY, colscheme.statusTop, textbuffer);
 
         if ((numsids == 2) && monomode)
-            printtext(dpos.statusTopFvX-2, dpos.statusTopY, colscheme.status_top, "M");
+            printtext(dpos.statusTopFvX-2, dpos.statusTopY, colscheme.statusTop, "M");
 
         if (usefinevib)
-            printtext(dpos.statusTopFvX, dpos.statusTopY, colscheme.status_top, "FV");
+            printtext(dpos.statusTopFvX, dpos.statusTopY, colscheme.statusTop, "FV");
 
         if (optimizepulse)
-            printtext(dpos.statusTopFvX+3, dpos.statusTopY, colscheme.status_top, "PO");
+            printtext(dpos.statusTopFvX+3, dpos.statusTopY, colscheme.statusTop, "PO");
 
         if (optimizerealtime)
-            printtext(dpos.statusTopFvX+6, dpos.statusTopY, colscheme.status_top, "RO");
+            printtext(dpos.statusTopFvX+6, dpos.statusTopY, colscheme.statusTop, "RO");
 
         if (ntsc)
-            printtext(dpos.statusTopFvX+9, dpos.statusTopY, colscheme.status_top, "NTSC");
+            printtext(dpos.statusTopFvX+9, dpos.statusTopY, colscheme.statusTop, "NTSC");
         else
-            printtext(dpos.statusTopFvX+9, dpos.statusTopY, colscheme.status_top, " PAL");
+            printtext(dpos.statusTopFvX+9, dpos.statusTopY, colscheme.statusTop, " PAL");
 
         if (!sidmodel)
-            printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.status_top, "6581");
+            printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.statusTop, "6581");
         else
-            printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.status_top, "8580");
+            printtext(dpos.statusTopFvX+14, dpos.statusTopY, colscheme.statusTop, "8580");
 
         sprintf(textbuffer, "HR:%04X", adparam);
-        printtext(dpos.statusTopFvX+19, dpos.statusTopY, colscheme.status_top, textbuffer);
+        printtext(dpos.statusTopFvX+19, dpos.statusTopY, colscheme.statusTop, textbuffer);
         if (eamode) printbg(dpos.statusTopFvX+22+eacolumn, dpos.statusTopY, cc, 1);
 
         if (multiplier)
         {
             sprintf(textbuffer, "%2dX", multiplier);
-            printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.status_top, textbuffer);
+            printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.statusTop, textbuffer);
         }
-        else printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.status_top, "25Hz");
+        else printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.statusTop, "25Hz");
 
-        printtext(dpos.statusTopEndX-8, dpos.statusTopY, colscheme.status_top, "F12=HELP");
+        printtext(dpos.statusTopEndX-8, dpos.statusTopY, colscheme.statusTop, "F12=HELP");
     }
     else
     {
-        printtext(0, dpos.statusTopY, colscheme.status_top, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
+        printtext(0, dpos.statusTopY, colscheme.statusTop, " PLAY | PLAYPOS | PLAYPATT | STOP | LOAD | SAVE | PACK/RL | HELP | CLEAR | QUIT |");
     }
 
     if ((followplay) && (isplaying()))
@@ -172,13 +172,13 @@ void printstatus(void)
                 int chnrow = chn[c].pattptr / 4;
                 if (chnrow > pattlen[chn[c].pattnum]) chnrow = pattlen[chn[c].pattnum];
 
-                if (chnrow == p) color = colscheme.playing_inv;
+                if (chnrow == p) color = colscheme.playingInv;
             }
 
             if (chn[c].mute) color = colscheme.mute;
             if (p == eppos) color = colscheme.edit;
             //
-            if ((p == eppos) && (followplay)) color = colscheme.playing_inv;
+            if ((p == eppos) && (followplay)) color = colscheme.playingInv;
             //
             if ((p < 0) || (p > pattlen[epnum[c]]))
             {
@@ -200,7 +200,7 @@ void printstatus(void)
                 {
                     sprintf(&textbuffer[3], " PATT. END");
 
-                    if (color == colscheme.normal) color = colscheme.table_end;
+                    if (color == colscheme.normal) color = colscheme.tableEnd;
                 }
                 else
                 {
@@ -230,11 +230,11 @@ void printstatus(void)
             {
                 if (patterndispmode)
                 {
-                    printtext(dpos.patternsX+c*13, dpos.patternsY+1+d, colscheme.indexes_inv, &textbuffer[1]);
+                    printtext(dpos.patternsX+c*13, dpos.patternsY+1+d, colscheme.indexesInv, &textbuffer[1]);
                 }
                 else
                 {
-                    printtext(dpos.patternsX-1+c*13, dpos.patternsY+1+d, colscheme.indexes_inv, textbuffer);
+                    printtext(dpos.patternsX-1+c*13, dpos.patternsY+1+d, colscheme.indexesInv, textbuffer);
                 }
             }
             else
@@ -248,15 +248,15 @@ void printstatus(void)
             textbuffer[8] = tmp;
             tmp = textbuffer[10];
             textbuffer[10] = 0;
-            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.instrnum;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.tableEnd ) || ( color == colscheme.playingInv ) ? color : colscheme.instrnum;
             printtext(dpos.patternsX+7+c*13, dpos.patternsY+1+d, tmpc, &textbuffer[8]);
             textbuffer[10] = tmp;
             tmp = textbuffer[11];
             textbuffer[11] = 0;
-            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.tableEnd ) || ( color == colscheme.playingInv ) ? color : colscheme.command;
             printtext(dpos.patternsX+9+c*13, dpos.patternsY+1+d, tmpc, &textbuffer[10]);
             textbuffer[11] = tmp;
-            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.table_end ) || ( color == colscheme.playing_inv ) ? color : colscheme.command_value;
+            tmpc = ( color == colscheme.mute ) || ( color == colscheme.edit ) || ( color == colscheme.tableEnd ) || ( color == colscheme.playingInv ) ? color : colscheme.commandValue;
             printtext(dpos.patternsX+10+c*13, dpos.patternsY+1+d, tmpc, &textbuffer[11]);
 
             /* ====================================== */
@@ -266,12 +266,12 @@ void printstatus(void)
                 if (epmarkstart <= epmarkend)
                 {
                     if ((p >= epmarkstart) && (p <= epmarkend))
-                        printbg(dpos.patternsX+c*13+3, dpos.patternsY+1+d, colscheme.mark_bg, 9);
+                        printbg(dpos.patternsX+c*13+3, dpos.patternsY+1+d, colscheme.markBg, 9);
                 }
                 else
                 {
                     if ((p <= epmarkstart) && (p >= epmarkend))
-                        printbg(dpos.patternsX+c*13+3, dpos.patternsY+1+d, colscheme.mark_bg, 9);
+                        printbg(dpos.patternsX+c*13+3, dpos.patternsY+1+d, colscheme.markBg, 9);
                 }
             }
             if ((color == colscheme.edit) && (editmode == EDIT_PATTERN) && (epchn == c))
@@ -381,9 +381,9 @@ void printstatus(void)
                     if ((p >= esmarkstart) && (p <= esmarkend))
                     {
                         if (p != esmarkend)
-                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.mark_bg, 3);
+                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.markBg, 3);
                         else
-                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.mark_bg, 2);
+                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.markBg, 2);
                     }
                 }
                 else
@@ -391,9 +391,9 @@ void printstatus(void)
                     if ((p <= esmarkstart) && (p >= esmarkend))
                     {
                         if (p != esmarkstart)
-                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.mark_bg, 3);
+                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.markBg, 3);
                         else
-                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.mark_bg, 2);
+                            printbg(dpos.orderlistX+4+d*3, dpos.orderlistY+1+c, colscheme.markBg, 2);
                     }
                 }
             }
@@ -522,22 +522,22 @@ void printstatus(void)
             switch (c)
             {
             case WTBL:
-                if (ltable[c][p] >= WAVECMD) color = colscheme.table_modval;
-                if (ltable[c][p] <= 0x0F) color = colscheme.table_modval;
+                if (ltable[c][p] >= WAVECMD) color = colscheme.tableModVal;
+                if (ltable[c][p] <= 0x0F) color = colscheme.tableModVal;
                 break;
 
             case PTBL:
                 if (ltable[c][p] >= 0x80) color = colscheme.normal;
-                else color = colscheme.table_modval;
+                else color = colscheme.tableModVal;
                 break;
 
             case FTBL:
                 if ((ltable[c][p] >= 0x80) || ((!ltable[c][p]) && (rtable[c][p]))) color = colscheme.normal;
-                else color = colscheme.table_modval;
+                else color = colscheme.tableModVal;
                 break;
             }
 
-            if (ltable[c][p] == 0xFF) color = colscheme.table_end;
+            if (ltable[c][p] == 0xFF) color = colscheme.tableEnd;
 
             if ((p == etpos) && (etnum == c)) color = colscheme.edit;
 
@@ -561,12 +561,12 @@ void printstatus(void)
                 if (etmarkstart <= etmarkend)
                 {
                     if ((p >= etmarkstart) && (p <= etmarkend))
-                        printbg(dpos.instrumentsX+10*c+3, dpos.instrumentsY+8+d, colscheme.mark_bg, 5);
+                        printbg(dpos.instrumentsX+10*c+3, dpos.instrumentsY+8+d, colscheme.markBg, 5);
                 }
                 else
                 {
                     if ((p <= etmarkstart) && (p >= etmarkend))
-                        printbg(dpos.instrumentsX+10*c+3, dpos.instrumentsY+8+d, colscheme.mark_bg, 5);
+                        printbg(dpos.instrumentsX+10*c+3, dpos.instrumentsY+8+d, colscheme.markBg, 5);
                 }
             }
         }
@@ -687,8 +687,8 @@ void printstatus(void)
         );
     }
 
-    if (etlock) printtext(dpos.channelsX-2, dpos.channelsY+1, colscheme.status_bottom, " ");
-    else printtext(dpos.channelsX-2, dpos.channelsY+1, colscheme.status_bottom, "U");
+    if (etlock) printtext(dpos.channelsX-2, dpos.channelsY+1, colscheme.statusBottom, " ");
+    else printtext(dpos.channelsX-2, dpos.channelsY+1, colscheme.statusBottom, "U");
 }
 
 

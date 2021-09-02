@@ -2,7 +2,7 @@
  * GOATTRACKER "console" output routines
  */
 
-#define GCONSOLE_C
+#define GT2F_CONSOLE_C
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -200,7 +200,7 @@ void clearscreen(void)
 
     for (c = 0; c < MAX_ROWS * MAX_COLUMNS; c++)
     {
-        setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
+        setcharcolor(dptr, 0x20, (colscheme.bgColor << 4));
         dptr++;
     }
 }
@@ -244,7 +244,7 @@ void printblank(int x, int y, int length)
     if (y >= MAX_ROWS) return;
     while (length--)
     {
-        setcharcolor(dptr, 0x20, (colscheme.bgcolor << 4));
+        setcharcolor(dptr, 0x20, (colscheme.bgColor << 4));
         dptr++;
     }
 }

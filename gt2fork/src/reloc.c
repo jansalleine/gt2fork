@@ -2,12 +2,12 @@
 // GOATTRACKER v2 packer/relocator
 //
 
-#define GRELOC_C
+#define GT2F_RELOC_C
 
 #include "gt2fork.h"
 #include "membuf.h"
 #include "parse.h"
-#include "playroutines.h"
+#include "players.h"
 
 char *playeroptname[] =
 {
@@ -518,14 +518,14 @@ TABLETYPE:
     // Select playroutine options
     clearscreen();
 
-    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.statusTop, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[MAX_COLUMNS] = 0;
 
-    printtext(0, 0, colscheme.status_top, textbuffer);
+    printtext(0, 0, colscheme.statusTop, textbuffer);
     printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
     selectdone = 0;
     while (!selectdone)
@@ -1421,34 +1421,34 @@ SKIPTABLE:
     // Print results
     clearscreen();
 
-    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.statusTop, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[80] = 0;
 
-    printtext(0, 0, colscheme.status_top, textbuffer);
+    printtext(0, 0, colscheme.statusTop, textbuffer);
 
     sprintf(textbuffer, "PACKING RESULTS:");
-    printtext(1, 2, colscheme.help_header, textbuffer);
+    printtext(1, 2, colscheme.helpHeader, textbuffer);
 
     sprintf(textbuffer, "Playroutine:     %d bytes", playersize);
-    printtext(1, 3, colscheme.help_normal, textbuffer);
+    printtext(1, 3, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Songtable:       %d bytes", songtblsize);
-    printtext(1, 4, colscheme.help_normal, textbuffer);
+    printtext(1, 4, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Song-orderlists: %d bytes", songdatasize);
-    printtext(1, 5, colscheme.help_normal, textbuffer);
+    printtext(1, 5, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Patterntable:    %d bytes", patttblsize);
-    printtext(1, 6, colscheme.help_normal, textbuffer);
+    printtext(1, 6, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Patterns:        %d bytes", pattdatasize);
-    printtext(1, 7, colscheme.help_normal, textbuffer);
+    printtext(1, 7, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Instruments:     %d bytes", instrsize);
-    printtext(1, 8, colscheme.help_normal, textbuffer);
+    printtext(1, 8, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Tables:          %d bytes", wavetblsize+pulsetblsize+filttblsize+speedtblsize);
-    printtext(1, 9, colscheme.help_normal, textbuffer);
+    printtext(1, 9, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Total size:      %d bytes", packedsize);
-    printtext(1, 11, colscheme.help_normal, textbuffer);
+    printtext(1, 11, colscheme.helpNormal, textbuffer);
     fliptoscreen();
 
 
@@ -2563,13 +2563,13 @@ TABLETYPE_S:
 
     // Select playroutine options
     clearscreen();
-    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.statusTop, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[MAX_COLUMNS] = 0;
-    printtext(0, 0, colscheme.status_top, textbuffer);
+    printtext(0, 0, colscheme.statusTop, textbuffer);
     printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
 
     playerversion |= PLAYER_BUFFERED;
@@ -3450,33 +3450,33 @@ SKIPTABLE_S:
 
     // Print results
     clearscreen();
-    printblankc(0, 0, colscheme.status_top, MAX_COLUMNS);
+    printblankc(0, 0, colscheme.statusTop, MAX_COLUMNS);
     if (!strlen(loadedsongfilename))
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[80] = 0;
-    printtext(0, 0, colscheme.status_top, textbuffer);
+    printtext(0, 0, colscheme.statusTop, textbuffer);
 
     sprintf(textbuffer, "PACKING RESULTS:");
-    printtext(1, 2, colscheme.help_header, textbuffer);
+    printtext(1, 2, colscheme.helpHeader, textbuffer);
 
     sprintf(textbuffer, "Playroutine:     %d bytes", playersize);
-    printtext(1, 3, colscheme.help_normal, textbuffer);
+    printtext(1, 3, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Songtable:       %d bytes", songtblsize);
-    printtext(1, 4, colscheme.help_normal, textbuffer);
+    printtext(1, 4, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Song-orderlists: %d bytes", songdatasize);
-    printtext(1, 5, colscheme.help_normal, textbuffer);
+    printtext(1, 5, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Patterntable:    %d bytes", patttblsize);
-    printtext(1, 6, colscheme.help_normal, textbuffer);
+    printtext(1, 6, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Patterns:        %d bytes", pattdatasize);
-    printtext(1, 7, colscheme.help_normal, textbuffer);
+    printtext(1, 7, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Instruments:     %d bytes", instrsize);
-    printtext(1, 8, colscheme.help_normal, textbuffer);
+    printtext(1, 8, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Tables:          %d bytes", wavetblsize+pulsetblsize+filttblsize+speedtblsize);
-    printtext(1, 9, colscheme.help_normal, textbuffer);
+    printtext(1, 9, colscheme.helpNormal, textbuffer);
     sprintf(textbuffer, "Total size:      %d bytes", packedsize);
-    printtext(1, 11, colscheme.help_normal, textbuffer);
+    printtext(1, 11, colscheme.helpNormal, textbuffer);
     fliptoscreen();
 
 

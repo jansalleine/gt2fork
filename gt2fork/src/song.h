@@ -1,7 +1,7 @@
-#ifndef GSONG_H
-#define GSONG_H
+#ifndef GT2F_SONG_H
+#define GT2F_SONG_H
 
-#ifndef GSONG_C
+#ifndef GT2F_SONG_C
 extern INSTR instr[MAX_INSTR];
 extern unsigned char ltable[MAX_TABLES][MAX_TABLELEN];
 extern unsigned char rtable[MAX_TABLES][MAX_TABLELEN];

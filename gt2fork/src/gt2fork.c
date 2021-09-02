@@ -46,7 +46,7 @@
  * =============================================================================
  */
 
-#define GT2FORK_C
+#define GT2F_GT2FORK_C
 
 #ifdef __WIN32__
 #include <windows.h>
@@ -61,7 +61,7 @@ const int devConfig = 0;
  *
  * if menu is shown (mouse right click in header status)
  * used in:
- *  gdisplay.c
+ *  display.c
  *  gt2fork.c
  */
 int menu = 0;
@@ -77,12 +77,12 @@ int menu = 0;
  *  EDIT_NAMES
  *
  * used in:
- *  gdisplay.c
- *  ghelp.c
- *  ginstr.c
- *  gorder.c
+ *  display.c
+ *  help.c
+ *  instr.c
+ *  order.c
  *  gt2fork.c
- *  gtable.c
+ *  table.c
  */
 int editmode = EDIT_PATTERN;
 
@@ -91,8 +91,8 @@ int editmode = EDIT_PATTERN;
  * normal note input or "jam" mode
  *
  * used in:
- *  gdisplay.c
- *  gpattern.c
+ *  display.c
+ *  pattern.c
  *  gt2fork.c
  */
 int recordmode = 1;
@@ -102,10 +102,10 @@ int recordmode = 1;
  * state of followplay
  *
  * used in:
- *  gdisplay.c
+ *  display.c
  *  pattern.c
- *  gplay.c
- *  gsong.c
+ *  play.c
+ *  song.c
  *  gt2fork.c
  */
 int followplay = 0;
@@ -119,10 +119,10 @@ int followplay = 0;
  * when the input was hexadecimal
  *
  * used in:
- *  ginstr.c
- *  gorder.c
- *  gpattern.c
- *  gtable.c
+ *  instr.c
+ *  order.c
+ *  pattern.c
+ *  table.c
  *  gt2fork.c
  */
 int hexnybble = -1;
@@ -132,8 +132,8 @@ int hexnybble = -1;
  * stepsize of pattern highlight
  *
  * used in:
- *  gdisplay.c
- *  gpattern.c
+ *  display.c
+ *  pattern.c
  *  gt2fork.c
  */
 int stepsize = 4;
@@ -143,9 +143,9 @@ int stepsize = 4;
  * if entering a note in pattern edit will autoadvance cursor to next position
  *
  * used in:
- *  gdisplay.c
- *  ghelp.c
- *  gpattern.c
+ *  display.c
+ *  help.c
+ *  pattern.c
  */
 int autoadvance = 0;
 
@@ -154,7 +154,7 @@ int autoadvance = 0;
  * what it says :-)
  *
  * used in:
- *  gsong.c
+ *  song.c
  *  gt2fork.c
  */
 unsigned defaultpatternlength = 32;
@@ -164,9 +164,9 @@ unsigned defaultpatternlength = 32;
  * index variable for cursorcolortable[]
  *
  * used in:
- *  gconsole.c
- *  gdisplay.c
- *  gfile.c
+ *  console.c
+ *  display.c
+ *  file.c
  */
 int cursorflash = 0;
 
@@ -175,8 +175,8 @@ int cursorflash = 0;
  * what it says
  *
  * used in:
- *  gdisplay.c
- *  gfile.c
+ *  display.c
+ *  file.c
  */
 int cursorcolortable[] = {1,2,7,2};
 
@@ -185,9 +185,9 @@ int cursorcolortable[] = {1,2,7,2};
  * this is what the mainloop waits for
  *
  * used in:
- *  gfile.c
- *  ghelp.c
- *  greloc.c
+ *  file.c
+ *  help.c
+ *  reloc.c
  *  gt2fork.c
  */
 int exitprogram = 0;
@@ -197,7 +197,7 @@ int exitprogram = 0;
  * current colum that is edited in hardrestart ADSR setting on top status
  *
  * used in:
- *  gdisplay.c
+ *  display.c
  *  gt2fork.c
  */
 int eacolumn = 0;
@@ -207,7 +207,7 @@ int eacolumn = 0;
  * it's only purpose seems to indicate if hardrestart ADSR is being edited atm
  *
  * used in:
- *  gdisplay.c
+ *  display.c
  *  gt2fork.c
  */
 int eamode = 0;
@@ -272,7 +272,7 @@ char songfilename[MAX_FILENAME];
  * Variable for holding *.sng
  *
  * used in:
- *  gfile.c
+ *  file.c
  *  gt2fork.c
  */
 char songfilter[MAX_FILENAME];
@@ -282,7 +282,7 @@ char songfilter[MAX_FILENAME];
  * Hold the song path
  *
  * used in:
- *  gfile.c
+ *  file.c
  *  gt2fork.c
  */
 char songpath[MAX_PATHNAME];
@@ -300,8 +300,8 @@ char instrpath[MAX_PATHNAME];
  * path for exports
  *
  * used in:
- *  gfile.c
- *  greloc.c
+ *  file.c
+ *  reloc.c
  *  gt2fork.c
  */
 char packedpath[MAX_PATHNAME];
@@ -1589,7 +1589,7 @@ void quit(void)
 {
     if ((!shiftpressed) || (mouseb))
     {
-        printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Really Quit (y/n)?");
+        printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Really Quit (y/n)?");
         waitkey();
         printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
         if ((key == 'y') || (key == 'Y')) exitprogram = 1;
@@ -1606,7 +1606,7 @@ void clear(void)
     int ct = 0;
     int cn = 0;
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Optimize everything (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Optimize everything (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y'))
@@ -1617,27 +1617,27 @@ void clear(void)
         return;
     }
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear orderlists (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Clear orderlists (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cs = 1;
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear patterns (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Clear patterns (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cp = 1;
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear instruments (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Clear instruments (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) ci = 1;
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear tables (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Clear tables (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) ct = 1;
 
-    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.status_bottom, "Clear songname (y/n)?");
+    printtextcp(dpos.statusBottomX+29, dpos.statusBottomY, colscheme.statusBottom, "Clear songname (y/n)?");
     waitkey();
     printblank(dpos.statusBottomX, dpos.statusBottomY, 58);
     if ((key == 'y') || (key == 'Y')) cn = 1;
@@ -1647,7 +1647,7 @@ void clear(void)
         int selectdone = 0;
         unsigned olddpl = defaultpatternlength;
 
-        printtext(dpos.statusBottomX+20, dpos.statusBottomY, colscheme.status_bottom,"Pattern length:");
+        printtext(dpos.statusBottomX+20, dpos.statusBottomY, colscheme.statusBottom,"Pattern length:");
         while (!selectdone)
         {
             if (patterndispmode)
@@ -2069,13 +2069,13 @@ void switchMode(void)
     printtextcp(
         dpos.statusBottomX+29,
         dpos.statusBottomY,
-        colscheme.status_bottom,
+        colscheme.statusBottom,
         textbuffer
     );
     printtextcp(
         dpos.statusBottomX+29,
         dpos.statusBottomY+1,
-        colscheme.playing_inv,
+        colscheme.playingInv,
         "!!! SONGDATA WILL BE LOST !!!"
     );
 

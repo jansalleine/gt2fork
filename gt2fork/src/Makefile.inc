@@ -4,24 +4,24 @@ EXE=$(PREFIX)gt2fork$(SUFFIX)
 
 GTOBJECTS=\
 	gt2fork.o \
-	playroutines.o \
+	players.o \
 	chardata.o \
 	palette.o \
 	icon.o \
-	gsong.o \
-	gorder.o \
-	gpattern.o \
-	ginstr.o \
-	gtable.o \
-	gplay.o \
-	gdisplay.o \
-	gfile.o \
-	greloc.o \
-	ghelp.o \
-	gsound.o \
-	gconsole.o \
-	gsid.o \
-	gcolors.o
+	song.o \
+	order.o \
+	pattern.o \
+	instr.o \
+	table.o \
+	play.o \
+	display.o \
+	file.o \
+	reloc.o \
+	help.o \
+	sound.o \
+	console.o \
+	sid.o \
+	colors.o
 
 RESIDOBJECTS=\
 	resid/sid.o \

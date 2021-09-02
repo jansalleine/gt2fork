@@ -2,7 +2,7 @@
 // GOATTRACKER v2 instrument editor
 //
 
-#define GINSTR_C
+#define GT2F_INSTR_C
 
 #include "gt2fork.h"
 

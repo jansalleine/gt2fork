@@ -1,5 +1,5 @@
-#ifndef GRELOC_H
-#define GRELOC_H
+#ifndef GT2F_RELOC_H
+#define GT2F_RELOC_H
 
 #define FORMAT_SID 0
 #define FORMAT_PRG 1

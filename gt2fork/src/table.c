@@ -2,7 +2,7 @@
 // GOATTRACKER v2 table editor
 //
 
-#define GTABLE_C
+#define GT2F_TABLE_C
 
 #include "gt2fork.h"
 

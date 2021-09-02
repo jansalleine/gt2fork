@@ -2,15 +2,15 @@
  * GOATTRACKER reSID interface
  */
 
-#define GSID_C
+#define GT2F_SID_C
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "resid/sid.h"
 #include "residfp/SID.h"
 
-#include "gsid.h"
-#include "gsound.h"
+#include "sid.h"
+#include "sound.h"
 
 int clockrate;
 int samplerate;

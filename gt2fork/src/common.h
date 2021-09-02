@@ -1,5 +1,5 @@
-#ifndef GCOMMON_H
-#define GCOMMON_H
+#ifndef GT2F_COMMON_H
+#define GT2F_COMMON_H
 
 #define CMD_DONOTHING 0
 #define CMD_PORTAUP 1

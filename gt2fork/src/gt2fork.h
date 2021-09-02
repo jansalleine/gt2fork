@@ -1,5 +1,5 @@
-#ifndef GT2FORK_H
-#define GT2FORK_H
+#ifndef GT2F_GT2FORK_H
+#define GT2F_GT2FORK_H
 
 #include <unistd.h>
 #include <stdio.h>
@@ -11,20 +11,20 @@
 #include <math.h>
 #include "bme.h"
 
-#include "gcommon.h"
-#include "gcolors.h"
-#include "gconsole.h"
-#include "gsound.h"
-#include "gsid.h"
-#include "gsong.h"
-#include "gplay.h"
-#include "gdisplay.h"
-#include "greloc.h"
-#include "gfile.h"
-#include "gpattern.h"
-#include "gorder.h"
-#include "ginstr.h"
-#include "gtable.h"
+#include "common.h"
+#include "colors.h"
+#include "console.h"
+#include "sound.h"
+#include "sid.h"
+#include "song.h"
+#include "play.h"
+#include "display.h"
+#include "reloc.h"
+#include "file.h"
+#include "pattern.h"
+#include "order.h"
+#include "instr.h"
+#include "table.h"
 
 #define EDIT_PATTERN 0
 #define EDIT_ORDERLIST 1
@@ -43,7 +43,7 @@
 
 #define PGUPDNREPEAT 8
 
-#ifndef GT2FORK_C
+#ifndef GT2F_GT2FORK_C
 extern int menu;
 extern int editmode;
 extern int recordmode;

@@ -2,7 +2,7 @@
 // GOATTRACKER v2 song data model, loading/saving/conversion
 //
 
-#define GSONG_C
+#define GT2F_SONG_C
 
 #include "gt2fork.h"
 

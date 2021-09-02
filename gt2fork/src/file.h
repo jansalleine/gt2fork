@@ -1,5 +1,5 @@
-#ifndef GFILE_H
-#define GFILE_H
+#ifndef GT2F_FILE_H
+#define GT2F_FILE_H
 
 #define MAX_DIRFILES 16384
 #define MAX_FILENAME 60

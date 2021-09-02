@@ -1,5 +1,5 @@
-#ifndef PLAYROUTINES_H
-#define PLAYROUTINES_H
+#ifndef GT2F_PLAYROUTINES_H
+#define GT2F_PLAYROUTINES_H
 
 extern unsigned char   playRoutine[];
 extern unsigned int    playRoutineLength;

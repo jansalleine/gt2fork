@@ -2,7 +2,7 @@
 // GOATTRACKER v2 playroutine
 //
 
-#define GPLAY_C
+#define GT2F_PLAY_C
 
 #include "gt2fork.h"
 

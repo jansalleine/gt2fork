@@ -1,5 +1,5 @@
-#ifndef GSOUND_H
-#define GSOUND_H
+#ifndef GT2F_SOUND_H
+#define GT2F_SOUND_H
 
 #define MINMIXRATE 11025
 #define MAXMIXRATE 48000

@@ -2,7 +2,7 @@
 // GOATTRACKER v2 file selector
 //
 
-#define GFILE_C
+#define GT2F_FILE_C
 
 #ifdef __WIN32__
 #include <windows.h>
@@ -464,7 +464,7 @@ ENTERFILE:
         drawbox(
             dpos.loadboxX-(MAX_FILENAME+10)/2,
             dpos.loadboxY,
-            colscheme.boxcolor,
+            colscheme.boxColor,
             MAX_FILENAME+10, VISIBLEFILES+7
         );
         printblankc(
@@ -541,7 +541,7 @@ ENTERFILE:
         printbg(
             dpos.loadboxX-(MAX_FILENAME+10)/2+1,
             dpos.loadboxY+2+VISIBLEFILES,
-            colscheme.bgcolor,
+            colscheme.bgColor,
             68
         );
 

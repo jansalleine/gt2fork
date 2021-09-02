@@ -2,7 +2,7 @@
 // GOATTRACKER v2 pattern editor
 //
 
-#define GPATTERN_C
+#define GT2F_PATTERN_C
 
 #include "gt2fork.h"
 

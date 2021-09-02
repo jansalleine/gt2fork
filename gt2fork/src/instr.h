@@ -1,7 +1,7 @@
-#ifndef GINSTR_H
-#define GINSTR_H
+#ifndef GT2F_INSTR_H
+#define GT2F_INSTR_H
 
-#ifndef GINSTR_C
+#ifndef GT2F_INSTR_C
 extern int einum;
 extern int eipos;
 extern int eicolumn;

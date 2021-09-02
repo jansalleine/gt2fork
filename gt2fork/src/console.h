@@ -1,5 +1,5 @@
-#ifndef GCONSOLE_H
-#define GCONSOLE_H
+#ifndef GT2F_CONSOLE_H
+#define GT2F_CONSOLE_H
 
 #define MAX_COLUMNS 128
 #define MAX_ROWS 40
@@ -44,11 +44,11 @@ void initDisplayPositions(void);
 void loadexternalpalette(void);
 void initIcon(void);
 
-#ifndef GCONSOLE_C
+#ifndef GT2F_GCONSOLE_C
 extern int key, rawkey, shiftpressed, altpressed, cursorflashdelay;
 extern int mouseb, prevmouseb;
 extern int mouseheld;
-extern int mousex, mousey;
+extern unsigned mousex, mousey;
 extern POSITIONS dpos;
 #endif
 
