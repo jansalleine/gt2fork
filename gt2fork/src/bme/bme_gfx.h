@@ -36,6 +36,7 @@ extern int spr_xhotspot;
 extern int spr_yhotspot;
 extern Uint8 *gfx_vscreen;
 extern Uint8 *gfx_blocks;
-extern Uint8 gfx_palette[];
+// extern Uint8 gfx_palette[];
+extern unsigned char gfx_palette[];
 extern SDL_Surface *gfx_screen;
 extern SDL_Renderer *gfx_renderer;

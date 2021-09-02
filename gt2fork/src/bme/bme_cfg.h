@@ -1,7 +1,7 @@
 // BME configuration (some static things)
 
 #define MAX_JOYSTICKS 16        // Maximum joysticks
-#define MAX_HANDLES 16 	        // Up to 16 simultaneus files open from the
+#define MAX_HANDLES 16          // Up to 16 simultaneus files open from the
 // datafile
 
 #define MAX_COLORS 256          // 8bit oldskool mode

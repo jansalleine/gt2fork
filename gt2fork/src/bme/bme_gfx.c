@@ -16,6 +16,7 @@
 #include "bme_win.h"
 #include "bme_io.h"
 #include "bme_err.h"
+#include "../palette.h"
 
 // Prototypes
 
@@ -54,7 +55,8 @@ int spr_ysize = 0;
 int spr_xhotspot = 0;
 int spr_yhotspot = 0;
 unsigned gfx_nblocks = 0;
-Uint8 gfx_palette[MAX_COLORS * 3] = {0};
+// Uint8 gfx_palette[MAX_COLORS * 3] = {0};
+// unsigned char *gfx_palette = palette;
 SDL_Surface *gfx_screen = NULL;
 SDL_Renderer *gfx_renderer = NULL;
 
@@ -214,22 +216,27 @@ void gfx_setmaxcolors(int num)
 
 int gfx_loadpalette(char *name)
 {
-    int handle;
+    //~ int handle;
 
-    handle = io_open(name);
-    if (handle == -1)
-    {
-        bme_error = BME_OPEN_ERROR;
-        return BME_ERROR;
-    }
-    if (io_read(handle, gfx_palette, sizeof gfx_palette) != sizeof gfx_palette)
-    {
-        bme_error = BME_READ_ERROR;
-        io_close(handle);
-        return BME_ERROR;
-    }
+    //~ handle = io_open(name);
+    //~ if (handle == -1)
+    //~ {
+        //~ bme_error = BME_OPEN_ERROR;
+        //~ return BME_ERROR;
+    //~ }
+    //~ if (io_read(handle, gfx_palette, gfx_paletteLength) != gfx_paletteLength)
+    //~ {
+        //~ printf("BME_ERROR read palette\n");
+        //~ bme_error = BME_READ_ERROR;
+        //~ io_close(handle);
+        //~ return BME_ERROR;
+    //~ }
+    //~ else
+    //~ {
+        //~ printf("BME_OK read palette\n");
+    //~ }
 
-    io_close(handle);
+    //~ io_close(handle);
     gfx_calcpalette(64, 0, 0, 0);
     bme_error = BME_OK;
     return BME_OK;
@@ -237,7 +244,8 @@ int gfx_loadpalette(char *name)
 
 void gfx_calcpalette(int fade, int radd, int gadd, int badd)
 {
-    Uint8  *sptr = &gfx_palette[3];
+    // Uint8  *sptr = &gfx_palette[3];
+    unsigned char *sptr = &gfx_palette[3];
     int c, cl;
     if (radd < 0) radd = 0;
     if (gadd < 0) gadd = 0;
