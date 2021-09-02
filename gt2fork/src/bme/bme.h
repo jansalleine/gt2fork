@@ -14,7 +14,6 @@
 #include "bme_snd.h"
 #include "bme_gfx.h"
 #include "bme_win.h"
-// #include "bme_kbd.h"
 #include "bme_mou.h"
 #include "bme_io.h"
 #include "bme_end.h"

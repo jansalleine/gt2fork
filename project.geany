@@ -27,7 +27,8 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=-1
+current_page=0
+FILE_NAME_0=1082;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2FMakefile.inc;0;4
 
 [VTE]
 last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss
