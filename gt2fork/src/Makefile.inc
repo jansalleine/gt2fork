@@ -6,6 +6,7 @@ GTOBJECTS=\
 	gt2forkdata.o \
 	gt2fork.o \
 	playroutines.o \
+	chardata.o \
 	gsong.o \
 	gorder.o \
 	gpattern.o \
@@ -81,8 +82,7 @@ $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 datafiles:
 	$(MAKE) -C bme all
 
-gt2fork.dat: chargen.bin \
-	palette.bin gt2fork.png gt2fork.seq
+gt2fork.dat: palette.bin gt2fork.png gt2fork.seq
 	./bme/datafile $@ gt2fork.seq
 
 gt2forkdata.c: gt2fork.dat

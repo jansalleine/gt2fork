@@ -8,11 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "gt2fork.h"
+#include "chardata.h"
 
 int gfxinitted = 0;
 unsigned *screenBuffer = NULL;
 unsigned *prevScreenBuffer = NULL;
-unsigned char *chardata = NULL;
+unsigned char *chardataPointer = chardata;
 int key = 0;
 int rawkey = 0;
 int shiftpressed = 0;
@@ -97,13 +98,6 @@ int initscreen(void)
 
     memset(region, 0, sizeof region);
 
-    chardata = (unsigned char*)malloc(4096);
-    if (!chardata) return 0;
-    handle = io_open("chargen.bin");
-    if (handle == -1) return 0;
-    io_read(handle, &chardata[0], 4096);
-    io_close(handle);
-
     gfx_loadpalette("palette.bin");
     loadexternalpalette();
     gfx_setpalette();
@@ -116,7 +110,6 @@ int initscreen(void)
 
 void loadexternalpalette(void)
 {
-    // printf("loadexternalpalette\n");
     FILE *ext_f;
     if ((ext_f = fopen("custom.pal", "rt")))
     {
@@ -127,7 +120,6 @@ void loadexternalpalette(void)
 
         if (strncmp("JASC-PAL", ln, 8) == 0)
         {
-            printf("Ja\n");
             int colors;
             fgets(ln, sizeof(ln), ext_f);
             fgets(ln, sizeof(ln), ext_f);
@@ -152,7 +144,6 @@ void loadexternalpalette(void)
         }
         else if (strncmp("GIMP", ln, 3) == 0)
         {
-            printf("%s", ln);
             fgets(ln, sizeof(ln), ext_f);
             fgets(ln, sizeof(ln), ext_f);
             fgets(ln, sizeof(ln), ext_f);
@@ -162,7 +153,6 @@ void loadexternalpalette(void)
                 if (!fgets(ln, sizeof(ln), ext_f)) break;
                 if (sscanf(ln, "%d %d %d", &r, &g, &b) == 3)
                 {
-                    // printf("%2x %2x %2x\n", r, g, b);
                     gfx_palette[p++] = r >> 2;
                     gfx_palette[p++] = g >> 2;
                     gfx_palette[p++] = b >> 2;
@@ -213,11 +203,6 @@ void closescreen(void)
     {
         free(prevScreenBuffer);
         prevScreenBuffer = NULL;
-    }
-    if (chardata)
-    {
-        free(chardata);
-        chardata = NULL;
     }
 
     gfxinitted = 0;
@@ -389,7 +374,7 @@ void fliptoscreen(void)
                 region[y] = 1;
                 // regionschanged = 1;
 
-                unsigned char *chptr = &chardata[(screenBuffer[bufferIndex] & 0xffff)*16];
+                unsigned char *chptr = &chardataPointer[(screenBuffer[bufferIndex] & 0xffff)*16];
                 unsigned char *dptr = (unsigned char*)gfx_screen->pixels + y*fontheight * gfx_screen->pitch + x*fontwidth;
                 unsigned char bgcolor = (screenBuffer[bufferIndex]) >> 20;
                 unsigned char fgcolor = ((screenBuffer[bufferIndex]) >> 16) & 0xf;
@@ -431,8 +416,6 @@ void fliptoscreen(void)
 
 void getkey(void)
 {
-    // printf("getkey(void);");
-
     int c;
     win_asciikey = 0;
     cursorflashdelay += win_getspeed(50);
@@ -447,7 +430,6 @@ void getkey(void)
     if (mouseb)
     {
         mouseheld++;
-        // printf("mouseheld: %i\n", mouseheld);
     }
     else
     {
@@ -502,18 +484,6 @@ void getkey(void)
     if (rawkey == SDL_SCANCODE_KP_7) key = '7';
     if (rawkey == SDL_SCANCODE_KP_8) key = '8';
     if (rawkey == SDL_SCANCODE_KP_9) key = '9';
-
-    /*
-    if (rawkey == SDL_SCANCODE_Y)
-    {
-        printf("SDL_SCANCODE_Y, SDL_GetKeyName: %s\n", SDL_GetKeyName(SDL_GetKeyFromScancode(rawkey)));
-    }
-    if (rawkey == SDL_SCANCODE_Z) {
-        printf("SDL_SCANCODE_Z, SDL_GetKeyName: %s\n", SDL_GetKeyName(SDL_GetKeyFromScancode(rawkey)));
-    }
-    */
-
-    // printf("getkey(void); key: %i \n", key);
 }
 
 void initDisplayPositions(void)
