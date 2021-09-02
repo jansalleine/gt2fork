@@ -64,15 +64,6 @@ ASMOBJECTS=\
 	asm/pc.o \
 	asm/vec.o
 
-BMEOBJECTS=\
-	bme/bme_gfx.o \
-	bme/bme_snd.o \
-	bme/bme_win.o \
-	bme/bme_mou.o \
-	bme/bme_io.o \
-	bme/bme_end.o \
-	bme/bme.o
-
 LEGACYOBJECTS=\
 	legacy.o
 
@@ -88,7 +79,6 @@ tools:
 
 clean:
 	$(MAKE) -C tools clean
-	$(MAKE) -C bme clean
 	$(RM) *.o *~
 	$(RM) asm/*.o
 	$(RM) resid/*.o
