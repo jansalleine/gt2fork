@@ -9,7 +9,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <math.h>
-#include "bme.h"
+#include "legacy.h"
 
 #include "common.h"
 #include "colors.h"

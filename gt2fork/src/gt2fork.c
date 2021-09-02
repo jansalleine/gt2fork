@@ -53,7 +53,7 @@
 #endif
 
 #include "gt2fork.h"
-#include "bme.h"
+#include "legacy.h"
 
 const int devConfig = 0;
 

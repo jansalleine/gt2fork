@@ -1,27 +1,32 @@
-/**
-/* =============================================================================
-/* FILE bme.c:
-/* =============================================================================
- */
-//
-// BME (Blasphemous Multimedia Engine) main module
-//
-
-#include "bme_err.h"
-#include "bme_cfg.h"
-
-int bme_error = BME_OK;
-/* =============================================================================
-/* FILE bme_end.c:
-/* =============================================================================
- */
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 #ifdef __WIN32__
 #include <SDL2/SDL_types.h>
 #else
 #include <SDL_types.h>
 #endif
+
+#include "legacy.h"
+#include "palette.h"
+
+/**
+ * =============================================================================
+ * FILE bme.c:
+ * =============================================================================
+ */
+//
+// BME (Blasphemous Multimedia Engine) main module
+//
+
+int bme_error = BME_OK;
+/**
+ * =============================================================================
+ * FILE bme_end.c:
+ * =============================================================================
+ */
 
 void fwrite8(FILE *file, unsigned data)
 {
@@ -92,29 +97,14 @@ unsigned freadhe32(FILE *file)
 }
 
 
-/* =============================================================================
-/* FILE bme_gfx.c:
-/* =============================================================================
+/**
+ * =============================================================================
+ * FILE bme_gfx.c:
+ * =============================================================================
  */
 //
 // BME (Blasphemous Multimedia Engine) graphics main module
 //
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#ifdef __WIN32__
-#include <SDL2/SDL.h>
-#else
-#include <SDL.h>
-#endif
-
-#include "bme_main.h"
-#include "bme_cfg.h"
-#include "bme_win.h"
-#include "bme_io.h"
-#include "bme_err.h"
-#include "../palette.h"
 
 // Prototypes
 
@@ -139,10 +129,10 @@ int gfx_redraw = 0;
 int gfx_fullscreen = 0;
 int gfx_scanlinemode = 0;
 int gfx_preventswitch = 0;
-int gfx_virtualxsize;
-int gfx_virtualysize;
-int gfx_windowxsize;
-int gfx_windowysize;
+unsigned gfx_virtualxsize;
+unsigned gfx_virtualysize;
+unsigned gfx_windowxsize;
+unsigned gfx_windowysize;
 int gfx_blockxsize = 16;
 int gfx_blockysize = 16;
 int spr_xsize = 0;
@@ -507,27 +497,14 @@ void gfx_copyscreen8(Uint8  *destaddress, Uint8  *srcaddress, unsigned pitch)
         srcaddress += gfx_virtualxsize;
     }
 }
-/* =============================================================================
-/* FILE bme_io.c:
-/* =============================================================================
+/**
+ * =============================================================================
+ * FILE bme_io.c:
+ * =============================================================================
  */
 //
 // BME (Blasphemous Multimedia Engine) datafile IO main module
 //
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#ifdef __WIN32__
-#include <SDL2/SDL.h>
-#else
-#include <SDL.h>
-#endif
-
-#include "bme_main.h"
-#include "bme_err.h"
-#include "bme_cfg.h"
 
 typedef struct
 {
@@ -554,7 +531,7 @@ static FILE *datafilehandle = NULL;
 static unsigned char *datafileptr;
 static unsigned char *datafilestart;
 
-static unsigned freadle32(FILE *index);
+// static unsigned freadle32(FILE *index);
 static void linkedseek(unsigned pos);
 static void linkedread(void *buffer, int length);
 static unsigned linkedreadle32(void);
@@ -838,13 +815,13 @@ unsigned io_readhe32(int index)
     return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 }
 
-static unsigned freadle32(FILE *file)
-{
-    unsigned char bytes[4];
+//~ static unsigned freadle32(FILE *file)
+//~ {
+    //~ unsigned char bytes[4];
 
-    fread(&bytes, 4, 1, file);
-    return (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
-}
+    //~ fread(&bytes, 4, 1, file);
+    //~ return (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
+//~ }
 
 static void linkedseek(unsigned pos)
 {
@@ -868,29 +845,14 @@ static unsigned linkedreadle32(void)
     return (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
 }
 
-/* =============================================================================
-/* FILE bme_mou.c:
-/* =============================================================================
+/**
+ * =============================================================================
+ * FILE bme_mou.c:
+ * =============================================================================
  */
 //
 // BME (Blasphemous Multimedia Engine) mouse module
 //
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#ifdef __WIN32__
-#include <SDL2/SDL.h>
-#else
-#include <SDL.h>
-#endif
-
-#include "bme_main.h"
-#include "bme_cfg.h"
-#include "bme_win.h"
-#include "bme_gfx.h"
-#include "bme_io.h"
-#include "bme_err.h"
 
 void mou_init(void);
 void mou_uninit(void);
@@ -935,28 +897,14 @@ unsigned mou_getbuttons(void)
     return win_mousebuttons;
 }
 
-/* =============================================================================
-/* FILE bme_snd.c:
-/* =============================================================================
+/**
+ * =============================================================================
+ * FILE bme_snd.c:
+ * =============================================================================
  */
 //
 // BME (Blasphemous Multimedia Engine) sound main module
 //
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#ifdef __WIN32__
-#include <SDL2/SDL.h>
-#else
-#include <SDL.h>
-#endif
-#include "bme_main.h"
-#include "bme_cfg.h"
-#include "bme_win.h"
-#include "bme_io.h"
-#include "bme_err.h"
 
 // Prototypes
 int snd_init(unsigned mixrate, unsigned mixmode, unsigned bufferlength, unsigned channels, int usedirectsound);
@@ -1510,29 +1458,14 @@ static void snd_mixchannel(CHANNEL *chptr, Sint32 *dest, unsigned samples)
         }
     }
 }
-/* =============================================================================
-/* FILE bme_win.c:
-/* =============================================================================
+/**
+ * =============================================================================
+ * FILE bme_win.c:
+ * =============================================================================
  */
 //
 // BME (Blasphemous Multimedia Engine) windows & timing module
 //
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#ifdef __WIN32__
-#include <SDL2/SDL.h>
-#else
-#include <SDL.h>
-#endif
-#include "bme_main.h"
-#include "bme_gfx.h"
-#include "bme_mou.h"
-#include "bme_io.h"
-#include "bme_err.h"
-#include "bme_cfg.h"
 
 SDL_Joystick *joy[MAX_JOYSTICKS] = {NULL};
 Sint16 joyx[MAX_JOYSTICKS];

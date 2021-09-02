@@ -73,10 +73,13 @@ BMEOBJECTS=\
 	bme/bme_end.o \
 	bme/bme.o
 
+LEGACYOBJECTS=\
+	legacy.o
+
 all: $(EXE) tools
 
 $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
-	$(ASMOBJECTS) $(BMEOBJECTS) $(OPTOBJECTS)
+	$(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
 
