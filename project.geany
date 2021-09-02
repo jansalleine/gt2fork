@@ -27,17 +27,18 @@ long_line_behaviour=1
 long_line_column=80
 
 [files]
-current_page=6
-FILE_NAME_0=3588;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
-FILE_NAME_1=3856;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.c;0;4
-FILE_NAME_2=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fchardata.h;0;4
-FILE_NAME_3=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fchardata.c;0;4
-FILE_NAME_4=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.h;0;4
-FILE_NAME_5=0;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2FMakefile;0;4
-FILE_NAME_6=1456;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2FMakefile.inc;0;4
-FILE_NAME_7=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fplayroutines.h;0;4
-FILE_NAME_8=0;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fplayroutines.c;0;4
-FILE_NAME_9=0;None;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.seq;0;4
+current_page=0
+FILE_NAME_0=55046;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.c;0;4
+FILE_NAME_1=255;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgt2fork.h;0;4
+FILE_NAME_2=275;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.c;0;4
+FILE_NAME_3=7218;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Ficon.c;0;4
+FILE_NAME_4=86;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Ficon.h;0;4
+FILE_NAME_5=135;Sh;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fres%2FincludeIcon.sh;0;4
+FILE_NAME_6=116;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fchardata.h;0;4
+FILE_NAME_7=73;Make;0;EUTF-8;1;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2FMakefile.inc;0;4
+FILE_NAME_8=1049;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgconsole.h;0;4
+FILE_NAME_9=2413;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgcolors.c;0;4
+FILE_NAME_10=663;C;0;EUTF-8;0;1;1;%2Fhome%2Fspider%2FC64%2Fgt2fork%2Fgt2fork%2Fsrc%2Fgcolors.h;0;4
 
 [VTE]
 last_dir=/home/spider/Datengrab/public_html/grafrecke2020/scss

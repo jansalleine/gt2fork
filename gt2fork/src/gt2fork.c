@@ -1,11 +1,11 @@
 /* =============================================================================
  * gt2fork v0.5b
  *
- * Fork by Jan Wassermann of GoatTracker 2.75 / 2.76 Stereo
+ * Fork of GoatTracker 2.75 / 2.76 Stereo by Jan Wassermann
  * https://github.com/jansalleine/gt2fork
  *
  * Editor by Lasse Öörni and Jan Wassermann.
- * Music playroutine by Lasse Öörni.
+ * Music playroutines by Lasse Öörni.
  * Uses reSID engine by Dag Lem and Leandro Nini.
  * Uses reSIDfp distortion / nonlinearity by Antti Lankila and Leandro Nini.
  * Uses 6510 crossassembler from Exomizer2 beta by Magnus Lind.
@@ -324,8 +324,6 @@ unsigned char hexkeytbl[] = {
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
 };
 
-extern unsigned char datafile[];
-
 char* usage[] = {
     "Usage: goattrk2 [songname] [options]",
     "Options:",
@@ -364,8 +362,6 @@ int main(int argc, char **argv)
     int c,d;
 
     programname += sizeof "$VER:";
-    // Open datafile
-    io_openlinkeddatafile(datafile);
 
     // Load configuration
 #ifdef __WIN32__

@@ -36,9 +36,6 @@ int gfx_loadblocks(char *name);
 int gfx_loadsprites(int num, char *name);
 void gfx_freesprites(int num);
 
-void gfx_drawsprite(int x, int y, unsigned num);
-void gfx_getspriteinfo(unsigned num);
-
 int gfx_initted = 0;
 int gfx_redraw = 0;
 int gfx_fullscreen = 0;
@@ -55,8 +52,6 @@ int spr_ysize = 0;
 int spr_xhotspot = 0;
 int spr_yhotspot = 0;
 unsigned gfx_nblocks = 0;
-// Uint8 gfx_palette[MAX_COLORS * 3] = {0};
-// unsigned char *gfx_palette = palette;
 SDL_Surface *gfx_screen = NULL;
 SDL_Renderer *gfx_renderer = NULL;
 
@@ -414,136 +409,3 @@ void gfx_copyscreen8(Uint8  *destaddress, Uint8  *srcaddress, unsigned pitch)
         srcaddress += gfx_virtualxsize;
     }
 }
-
-
-void gfx_getspriteinfo(unsigned num)
-{
-    unsigned sprf = num >> 16;
-    unsigned spr = (num & 0xffff) - 1;
-    SPRITEHEADER *hptr;
-
-    if ((sprf >= gfx_maxspritefiles) || (!gfx_spriteheaders[sprf]) ||
-            (spr >= gfx_spriteamount[sprf])) hptr = NULL;
-    else hptr = gfx_spriteheaders[sprf] + spr;
-
-    if (!hptr)
-    {
-        spr_xsize = 0;
-        spr_ysize = 0;
-        spr_xhotspot = 0;
-        spr_yhotspot = 0;
-        return;
-    }
-
-    spr_xsize = hptr->xsize;
-    spr_ysize = hptr->ysize;
-    spr_xhotspot = hptr->xhot;
-    spr_yhotspot = hptr->yhot;
-}
-
-void gfx_drawsprite(int x, int y, unsigned num)
-{
-    unsigned sprf = num >> 16;
-    unsigned spr = (num & 0xffff) - 1;
-    SPRITEHEADER *hptr;
-
-    Uint8 *sptr;
-    Uint8 *dptr;
-    int cx;
-
-    if (!gfx_initted) return;
-    if (!gfx_locked) return;
-
-    if ((sprf >= gfx_maxspritefiles) || (!gfx_spriteheaders[sprf]) ||
-            (spr >= gfx_spriteamount[sprf]))
-    {
-        spr_xsize = 0;
-        spr_ysize = 0;
-        spr_xhotspot = 0;
-        spr_yhotspot = 0;
-        return;
-    }
-    else hptr = gfx_spriteheaders[sprf] + spr;
-
-    sptr = gfx_spritedata[sprf] + hptr->offset;
-    spr_xsize = hptr->xsize;
-    spr_ysize = hptr->ysize;
-    spr_xhotspot = hptr->xhot;
-    spr_yhotspot = hptr->yhot;
-
-    x -= spr_xhotspot;
-    y -= spr_yhotspot;
-
-    if (x >= gfx_clipright) return;
-    if (y >= gfx_clipbottom) return;
-    if (x + spr_xsize <= gfx_clipleft) return;
-    if (y + spr_ysize <= gfx_cliptop) return;
-
-    while (y < gfx_cliptop)
-    {
-        int dec = *sptr++;
-        if (dec == 255)
-        {
-            if (!(*sptr)) return;
-            y++;
-        }
-        else
-        {
-            if (dec < 128)
-            {
-                sptr += dec;
-            }
-        }
-    }
-    while (y < gfx_clipbottom)
-    {
-        int dec;
-        cx = x;
-        dptr = gfx_screen->pixels + y * gfx_screen->pitch + x;
-
-        for (;;)
-        {
-            dec = *sptr++;
-
-            if (dec == 255)
-            {
-                if (!(*sptr)) return;
-                y++;
-                break;
-            }
-            if (dec < 128)
-            {
-                if ((cx + dec <= gfx_clipleft) || (cx >= gfx_clipright))
-                {
-                    goto SKIP;
-                }
-                if (cx < gfx_clipleft)
-                {
-                    dec -= (gfx_clipleft - cx);
-                    sptr += (gfx_clipleft - cx);
-                    dptr += (gfx_clipleft - cx);
-                    cx = gfx_clipleft;
-                }
-                while ((cx < gfx_clipright) && (dec))
-                {
-                    *dptr = *sptr;
-                    cx++;
-                    sptr++;
-                    dptr++;
-                    dec--;
-                }
-SKIP:
-                cx += dec;
-                sptr += dec;
-                dptr += dec;
-            }
-            else
-            {
-                cx += (dec & 0x7f);
-                dptr += (dec & 0x7f);
-            }
-        }
-    }
-}
-
-

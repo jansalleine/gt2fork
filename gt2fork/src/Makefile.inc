@@ -3,11 +3,11 @@
 EXE=$(PREFIX)gt2fork$(SUFFIX)
 
 GTOBJECTS=\
-	gt2forkdata.o \
 	gt2fork.o \
 	playroutines.o \
 	chardata.o \
 	palette.o \
+	icon.o \
 	gsong.o \
 	gorder.o \
 	gpattern.o \
@@ -73,21 +73,12 @@ BMEOBJECTS=\
 	bme/bme_end.o \
 	bme/bme.o
 
-all: datafiles $(EXE) tools
+all: $(EXE) tools
 
 $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	$(ASMOBJECTS) $(BMEOBJECTS) $(OPTOBJECTS)
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
-
-datafiles:
-	$(MAKE) -C bme all
-
-gt2fork.dat: gt2fork.png gt2fork.seq
-	./bme/datafile $@ gt2fork.seq
-
-gt2forkdata.c: gt2fork.dat
-	./bme/dat2inc $< $@
 
 tools:
 	$(MAKE) -C tools all

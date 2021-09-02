@@ -41,6 +41,8 @@ void drawbox(int x, int y, int color, int sx, int sy);
 void printbg(int x, int y, int color, int length);
 void getkey(void);
 void initDisplayPositions(void);
+void loadexternalpalette(void);
+void initIcon(void);
 
 #ifndef GCONSOLE_C
 extern int key, rawkey, shiftpressed, altpressed, cursorflashdelay;

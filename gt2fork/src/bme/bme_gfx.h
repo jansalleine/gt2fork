@@ -16,8 +16,6 @@ int gfx_loadblocks(char *name);
 int gfx_loadsprites(int num, char *name);
 void gfx_freesprites(int num);
 
-void gfx_drawsprite(int x, int y, unsigned num);
-
 extern int gfx_initted;
 extern int gfx_scanlinemode;
 extern int gfx_preventswitch;
@@ -36,7 +34,6 @@ extern int spr_xhotspot;
 extern int spr_yhotspot;
 extern Uint8 *gfx_vscreen;
 extern Uint8 *gfx_blocks;
-// extern Uint8 gfx_palette[];
 extern unsigned char gfx_palette[];
 extern SDL_Surface *gfx_screen;
 extern SDL_Renderer *gfx_renderer;

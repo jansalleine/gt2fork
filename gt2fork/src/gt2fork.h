@@ -94,7 +94,6 @@ extern char *programname;
 extern char *notename[];
 extern char textbuffer[MAX_PATHNAME];
 extern unsigned char hexkeytbl[16];
-extern unsigned char datafile[];
 #endif
 
 void getparam(FILE *handle, unsigned *value);

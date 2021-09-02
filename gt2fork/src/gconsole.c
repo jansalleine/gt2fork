@@ -9,6 +9,7 @@
 #include <string.h>
 #include "gt2fork.h"
 #include "chardata.h"
+#include "icon.h"
 
 int gfxinitted = 0;
 unsigned *screenBuffer = NULL;
@@ -56,9 +57,6 @@ POSITIONS dpos =
     0                           // statusTopY
 };
 
-void loadexternalpalette(void);
-void initicon(void);
-
 inline void setcharcolor(unsigned *dptr, short ch, short color)
 {
     *dptr = (ch & 0xff) | (color << 16);
@@ -81,7 +79,7 @@ int initscreen(void)
     }
     win_openwindow(xsize, ysize, "gt2fork", NULL);
 
-    initicon();
+    initIcon();
 
     if (!gfx_init(MAX_COLUMNS * fontwidth, MAX_ROWS * fontheight, 60, 0))
     {
@@ -167,29 +165,14 @@ void loadexternalpalette(void)
     }
 }
 
-void initicon(void)
+void initIcon(void)
 {
-    int handle = io_open("gt2fork.png");
-    if (handle != -1)
-    {
-        SDL_RWops *rw;
-        SDL_Surface *icon;
-        char *iconbuffer;
-        int size;
+    SDL_RWops *rw;
+    SDL_Surface *iconSurface;
 
-        size = io_lseek(handle, 0, SEEK_END);
-        io_lseek(handle, 0, SEEK_SET);
-        iconbuffer = (char*)malloc(size);
-        if (iconbuffer)
-        {
-            io_read(handle, iconbuffer, size);
-            io_close(handle);
-            rw = SDL_RWFromMem(iconbuffer, size);
-            icon = SDL_LoadBMP_RW(rw, 0);
-            SDL_SetWindowIcon(win_window, icon);
-            free(iconbuffer);
-        }
-    }
+    rw = SDL_RWFromMem(icon, iconLength);
+    iconSurface = SDL_LoadBMP_RW(rw, 0);
+    SDL_SetWindowIcon(win_window, iconSurface);
 }
 
 void closescreen(void)
