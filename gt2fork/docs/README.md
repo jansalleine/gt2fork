@@ -72,6 +72,7 @@ Distributed under GNU General Public License
 7. Microtonal Tunings
 
 <a name="general-information" />
+
 ## 1. General information
 
 This program is a tracker-like C64 music editor running on Win32 or Linux
@@ -90,6 +91,7 @@ For filesize & library compatibility reasons, precompiled binaries exist only
 for Win32 platform.
 
 <a name="warnings" />
+
 ### Warnings
 
 1. Always look at the end of this file for changes! Sometimes keyboard commands
@@ -164,6 +166,7 @@ for Win32 platform.
    parameter $F for alternative SID register write order.
 
 <a name="compatv1" />
+
 ### Compatibility with GoatTracker v1.xx
 
 gt2fork can load v1.xx songs and instruments, but it saves only in v2
@@ -176,9 +179,11 @@ import feature converts all arpeggio commands to corresponding wavetable
 programs.
 
 <a name="using" />
+
 ## Using gt2fork
 
 <a name="cli-opts" />
+
 ### Command line options
 
 Start gt2fork by typing gt2fork in the command prompt, followed by the
@@ -246,6 +251,7 @@ more reliable note triggering, especially for very fast releases 0 & 1, but
 may change the characteristics of the note's decay & release.
 
 <a name="kbd" />
+
 ### Keyboard commands
 
 This program is mainly operated on keyboard. For a list of keyboard commands
@@ -255,6 +261,7 @@ NOTE: SHIFT & CTRL are interchangeable in the commands. You can also use [ ]
 or ( ) instead of < >.
 
 <a name="kbd-genkeys" />
+
 #### General keys
 
 - <kbd>F1</kbd> Play from beginning
