@@ -25,7 +25,7 @@ Distributed under GNU General Public License
     - [Command line options](#cli-opts)
     - [Keyboard commands](#kbd)
         - [General keys](#kbd-genkeys)
-        - Pattern edit mode
+        - [Pattern edit mode](#kbd-pattmode)
             - Protracker note-entry mode
             - DMC note-entry mode
             - Janko note-entry mode
@@ -264,75 +264,168 @@ or ( ) instead of < >.
 
 #### General keys
 
-- <kbd>F1</kbd> Play from beginning
-- <kbd>F2</kbd> Play from current pos.
-- <kbd>F3</kbd> Play one pattern from current pos.
-- <kbd>F4</kbd> Stop playing & silence all sounds
-- <kbd>F5</kbd> Go to pattern editor
-- <kbd>F6</kbd> Go to song editor
-- <kbd>F7</kbd> Go to instrument/table editor
-- <kbd>F8</kbd> Go to songname editor
-- <kbd>F9</kbd> Pack, relocate & save PRG,SID etc.
-- <kbd>F10</kbd> Load song (Pattern/Song/Songname mode) or instrument (Instrument mode)
-- <kbd>F11</kbd> Save song (Pattern/Song/Songname mode) or instrument (Instrument mode)
-- <kbd>F12</kbd> Online help screen. Press F12 again to toggle context mode
-- <kbd>SHIFT</kbd>+<kbd>F1</kbd> Play from beginning /w follow play
-- <kbd>SHIFT</kbd>+<kbd>F2</kbd> Play from current pos. /w follow play
-- <kbd>SHIFT</kbd>+<kbd>F3</kbd> Play one pattern from current pos. /w follow play
-- <kbd>SHIFT</kbd>+<kbd>F4</kbd> Mute current channel
-- <kbd>SHIFT</kbd>+<kbd>F5</kbd> Decrease speed multiplier
-- <kbd>SHIFT</kbd>+<kbd>F6</kbd> Increase speed multiplier
-- <kbd>SHIFT</kbd>+<kbd>F7</kbd> Edit hardrestart ADSR parameter
-- <kbd>SHIFT</kbd>+<kbd>F8</kbd> Switch between 6581 and 8580 SID models
-- <kbd>SHIFT</kbd>+<kbd>F10</kbd> Merge-load song
-- <kbd>SHIFT</kbd>+<kbd>,</kbd><kbd>.</kbd>  Move song startposition on all channels and restart last playmode
-- <kbd>TAB</kbd> Cycle between editing modes (forwards)
-- <kbd>SHIFT</kbd>+<kbd>TAB</kbd> Cycle between editing modes (backwards)
-- <kbd>INS</kbd> Insert row (Press INS/DEL on endmark to change pattern/song length)
-- <kbd>DEL</kbd> Delete row
-- <kbd>SHIFT</kbd>+<kbd>ESC</kbd> Optimize musicdata, or clear musicdata & set default pattern length
-- <kbd>ALT</kbd>+<kbd>M</kbd> Switch between mono and stereo mode
-- <kbd>ALT</kbd>+<kbd>T</kbd> Switch between black and blue theme
-- <kbd>ESC</kbd> Exit program
+<table>
+    <tr>
+        <td><kbd>F1</kbd></td>
+        <td>Play from beginning</td>
+    </tr>
+    <tr>
+        <td><kbd>F2</kbd></td>
+        <td>Play from current pos.</td>
+    </tr>
+    <tr>
+        <td><kbd>F3</kbd></td>
+        <td>Play one pattern from current pos.</td>
+    </tr>
+    <tr>
+        <td><kbd>F4</kbd></td>
+        <td>Stop playing & silence all sounds</td>
+    </tr>
+    <tr>
+        <td><kbd>F5</kbd></td>
+        <td>Go to pattern editor</td>
+    </tr>
+    <tr>
+        <td><kbd>F6</kbd></td>
+        <td>Go to song editor</td>
+    </tr>
+    <tr>
+        <td><kbd>F7</kbd></td>
+        <td>Go to instrument/table editor</td>
+    </tr>
+    <tr>
+        <td><kbd>F8</kbd></td>
+        <td>Go to songname editor</td>
+    </tr>
+    <tr>
+        <td><kbd>F9</kbd></td>
+        <td>Pack, relocate & save PRG,SID etc.</td>
+    </tr>
+    <tr>
+        <td><kbd>F10</kbd></td>
+        <td>Load song (Pattern/Song/Songname mode) or instrument (Instrument mode)</td>
+    </tr>
+    <tr>
+        <td><kbd>F11</kbd></td>
+        <td>Save song (Pattern/Song/Songname mode) or instrument (Instrument mode)</td>
+    </tr>
+    <tr>
+        <td><kbd>F12</kbd></td>
+        <td>Online help screen. Press F12 again to toggle context mode</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F1</kbd></td>
+        <td>Play from beginning /w follow play</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F2</kbd></td>
+        <td>Play from current pos. /w follow play</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F3</kbd></td>
+        <td>Play one pattern from current pos. /w follow play</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F4</kbd></td>
+        <td>Mute current channel</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F5</kbd></td>
+        <td>Decrease speed multiplier</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F6</kbd></td>
+        <td>Increase speed multiplier</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F7</kbd></td>
+        <td>Edit hardrestart ADSR parameter</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F8</kbd></td>
+        <td>Switch between 6581 and 8580 SID models</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>F10</kbd></td>
+        <td>Merge-load song</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>,</kbd><kbd>.</kbd></td>
+        <td>Move song startposition on all channels and restart last playmode</td>
+    </tr>
+    <tr>
+        <td><kbd>TAB</kbd></td>
+        <td>Cycle between editing modes (forwards)</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>TAB</kbd></td>
+        <td>Cycle between editing modes (backwards)</td>
+    </tr>
+    <tr>
+        <td><kbd>INS</kbd></td>
+        <td>Insert row (Press INS/DEL on endmark to change pattern/song length)</td>
+    </tr>
+    <tr>
+        <td><kbd>DEL</kbd></td>
+        <td>Delete row</td>
+    </tr>
+    <tr>
+        <td><kbd>SHIFT</kbd>+<kbd>ESC</kbd></td>
+        <td>Optimize musicdata, or clear musicdata & set default pattern length</td>
+    </tr>
+    <tr>
+        <td><kbd>ALT</kbd>+<kbd>M</kbd></td>
+        <td>Switch between mono and stereo mode</td>
+    </tr>
+    <tr>
+        <td><kbd>ALT</kbd>+<kbd>T</kbd></td>
+        <td>Switch between black and blue theme</td>
+    </tr>
+    <tr>
+        <td><kbd>ESC</kbd></td>
+        <td>Exit program</td>
+    </tr>
+</table>
 
-2.3.2 Pattern edit mode
------------------------
+<a name="kbd-pattmode" />
 
-- +         Select instrument
-/ *         Select octave
-< >         Select pattern
-BACKQUOTE   Select channel
-0-9 & A-F   Enter parameters
-SPACE       Switch between jam/editmode
-RETURN      (also CAPSLOCK) Insert keyoff
+#### Pattern edit mode
+
+- <kbd>-</kbd> <kbd>+</kbd> Select instrument
+- <kbd>/</kbd> <kbd>*</kbd> Select octave
+- <kbd><</kbd> <kbd>></kbd> Select pattern
+- <kbd>BACKQUOTE</kbd> Select channel
+- <kbd>0-9</kbd> & <kbd>A-F</kbd> Enter parameters
+- <kbd>SPACE</kbd> Switch between jam/editmode
+- <kbd>RETURN</kbd> (also <kbd>CAPSLOCK</kbd>) Insert keyoff
             Enter table (when cursor is over a table-utilizing command)
             Enter instrument (when cursor is over a nonzero instrument number)
-SHIFT+RET.  Insert keyon
+- <kbd>SHIFT</kbd>+RET.  Insert keyon
             Convert portamento/vibrato/funktempo old style parameter to a
             speedtable entry (when cursor is over the command)
             Go into an empty table entry (when parameter is zero on a
             table-utilizing command)
-BACKSPACE   Insert rest
-SHIFT+BKSP. Insert rest and clear commands
-SHIFT+SPACE Play from cursor position
-SHIFT+Q     Transpose halfstep up
-SHIFT+A     Transpose halfstep down
-SHIFT+W     Transpose octave up
-SHIFT+S     Transpose octave down
-SHIFT+O     Shrink pattern (divide size by 2)
-SHIFT+P     Expand pattern (multiply size by 2)
-SHIFT+J     Join pattern with next pattern in orderlist
-SHIFT+K     Split pattern from edit position
-SHIFT+H     Calculate "hifi" left/right shifted speedtable entry for
-            portamento or vibrato
-SHIFT+I     Invert selection / whole pattern if no selection
-SHIFT+CRSR UP,DOWN Mark pattern
-SHIFT+CRSR LEFT,RIGHT Select pattern
-SHIFT+L     Mark/unmark entire pattern
-SHIFT+M,N   Choose highlighting step size
-SHIFT+X,C,V Cut,copy,paste pattern
-SHIFT+E,R   Copy,paste commands
-SHIFT+Z     Cycle autoadvance-mode
+- BACKSPACE   Insert rest
+- <kbd>SHIFT</kbd>+BKSP. Insert rest and clear commands
+- <kbd>SHIFT</kbd>+SPACE Play from cursor position
+- <kbd>SHIFT</kbd>+Q     Transpose halfstep up
+- <kbd>SHIFT</kbd>+A     Transpose halfstep down
+- <kbd>SHIFT</kbd>+W     Transpose octave up
+- <kbd>SHIFT</kbd>+S     Transpose octave down
+- <kbd>SHIFT</kbd>+O     Shrink pattern (divide size by 2)
+- <kbd>SHIFT</kbd>+P     Expand pattern (multiply size by 2)
+- <kbd>SHIFT</kbd>+J     Join pattern with next pattern in orderlist
+- <kbd>SHIFT</kbd>+K     Split pattern from edit position
+- <kbd>SHIFT</kbd>+H     Calculate "hifi" left/right shifted speedtable entry for
+              portamento or vibrato
+- <kbd>SHIFT</kbd>+I     Invert selection / whole pattern if no selection
+- <kbd>SHIFT</kbd>+CRSR UP,DOWN Mark pattern
+- <kbd>SHIFT</kbd>+CRSR LEFT,RIGHT Select pattern
+- <kbd>SHIFT</kbd>+L     Mark/unmark entire pattern
+- <kbd>SHIFT</kbd>+M,N   Choose highlighting step size
+- <kbd>SHIFT</kbd>+X,C,V Cut,copy,paste pattern
+- <kbd>SHIFT</kbd>+E,R   Copy,paste commands
+- <kbd>SHIFT</kbd>+Z     Cycle autoadvance-mode
 
 For pattern joining to work properly, select the pattern you want to join with
 the next from the orderlist first (by pressing RETURN on it). Both joining and
