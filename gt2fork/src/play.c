@@ -599,6 +599,7 @@ WAVEEXEC:
                             if (!param)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                             else
@@ -616,6 +617,7 @@ WAVEEXEC:
                                     if (cptr->freq > targetfreq)
                                     {
                                         cptr->freq = targetfreq;
+                                        cptr->lastnote = cptr->note;
                                         cptr->vibtime = 0;
                                     }
                                 }
@@ -625,6 +627,7 @@ WAVEEXEC:
                                     if (cptr->freq < targetfreq)
                                     {
                                         cptr->freq = targetfreq;
+                                        cptr->lastnote = cptr->note;
                                         cptr->vibtime = 0;
                                     }
                                 }
@@ -827,6 +830,7 @@ TICKNEFFECTS:
                     if (!cptr->cmddata)
                     {
                         cptr->freq = targetfreq;
+                        cptr->lastnote = cptr->note;
                         cptr->vibtime = 0;
                     }
                     else
@@ -844,6 +848,7 @@ TICKNEFFECTS:
                             if (cptr->freq > targetfreq)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                         }
@@ -853,6 +858,7 @@ TICKNEFFECTS:
                             if (cptr->freq < targetfreq)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                         }
@@ -1559,6 +1565,7 @@ WAVEEXEC_S:
                             if (!param)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                             else
@@ -1576,6 +1583,7 @@ WAVEEXEC_S:
                                     if (cptr->freq > targetfreq)
                                     {
                                         cptr->freq = targetfreq;
+                                        cptr->lastnote = cptr->note;
                                         cptr->vibtime = 0;
                                     }
                                 }
@@ -1585,6 +1593,7 @@ WAVEEXEC_S:
                                     if (cptr->freq < targetfreq)
                                     {
                                         cptr->freq = targetfreq;
+                                        cptr->lastnote = cptr->note;
                                         cptr->vibtime = 0;
                                     }
                                 }
@@ -1818,6 +1827,7 @@ TICKNEFFECTS_S:
                     if (!cptr->cmddata)
                     {
                         cptr->freq = targetfreq;
+                        cptr->lastnote = cptr->note;
                         cptr->vibtime = 0;
                     }
                     else
@@ -1835,6 +1845,7 @@ TICKNEFFECTS_S:
                             if (cptr->freq > targetfreq)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                         }
@@ -1844,6 +1855,7 @@ TICKNEFFECTS_S:
                             if (cptr->freq < targetfreq)
                             {
                                 cptr->freq = targetfreq;
+                                cptr->lastnote = cptr->note;
                                 cptr->vibtime = 0;
                             }
                         }
