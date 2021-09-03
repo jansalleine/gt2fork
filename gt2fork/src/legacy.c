@@ -229,7 +229,6 @@ int gfx_init(unsigned xsize, unsigned ysize, unsigned framerate, unsigned flags)
         gfx_initted = 1;
         gfx_redraw = 1;
         gfxSetPalette();
-        win_setmousemode(win_mousemode);
         return BME_OK;
     }
     else return BME_ERROR;
@@ -1464,7 +1463,6 @@ unsigned win_mouseypos = 0;
 unsigned win_mousexrel = 0;
 unsigned win_mouseyrel = 0;
 unsigned win_mousebuttons = 0;
-int win_mousemode = MOUSE_ALWAYS_VISIBLE;
 unsigned char win_keystate[SDL_NUM_SCANCODES] = {0};
 
 // Static variables
@@ -1661,32 +1659,5 @@ void win_checkmessages(void)
                 gfx_redraw = 1;
                 break;
         }
-    }
-}
-
-void win_setmousemode(int mode)
-{
-    win_mousemode = mode;
-
-    switch(mode)
-    {
-        case MOUSE_ALWAYS_VISIBLE:
-            SDL_ShowCursor(SDL_ENABLE);
-            break;
-
-        case MOUSE_FULLSCREEN_HIDDEN:
-            if (gfx_fullscreen)
-            {
-                SDL_ShowCursor(SDL_DISABLE);
-            }
-            else
-            {
-                SDL_ShowCursor(SDL_ENABLE);
-            }
-            break;
-
-        case MOUSE_ALWAYS_HIDDEN:
-            SDL_ShowCursor(SDL_DISABLE);
-            break;
     }
 }

@@ -148,10 +148,6 @@ unsigned io_readhe32(int handle);
 #define GFX_NOSWITCHING 128
 #define GFX_USEDIBSECTION 256
 
-#define MOUSE_ALWAYS_VISIBLE 0
-#define MOUSE_FULLSCREEN_HIDDEN 1
-#define MOUSE_ALWAYS_HIDDEN 2
-
 #define MOUSEB_LEFT 1
 #define MOUSEB_RIGHT 2
 #define MOUSEB_MIDDLE 4
