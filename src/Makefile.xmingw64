@@ -10,7 +10,7 @@ MINGW32PREFIX?=/usr/bin
 
 export CC=$(MINGW32PREFIX)/x86_64-w64-mingw32-gcc
 export CXX=$(MINGW32PREFIX)/x86_64-w64-mingw32-g++
-export CFLAGS=-O3 -Wall -Ibme -Iasm
+export CFLAGS=-O3 -Wall -Iasm
 export CXXFLAGS=$(CFLAGS)
 
 WINDRES=$(MINGW32PREFIX)/x86_64-w64-mingw32-windres

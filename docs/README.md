@@ -71,7 +71,7 @@ Distributed under GNU General Public License
     - Sound effect data format
 7. Microtonal Tunings
 
-<a name="general-information" />
+<a name="general-information"></a>
 
 ## 1. General information
 
@@ -90,7 +90,7 @@ SID chip reference.
 For filesize & library compatibility reasons, precompiled binaries exist only
 for Win32 platform.
 
-<a name="warnings" />
+<a name="warnings"></a>
 
 ### Warnings
 
@@ -165,7 +165,7 @@ for Win32 platform.
    attack 0 & release 1 may ADSR-bug. In this case, try hardrestart attack
    parameter $F for alternative SID register write order.
 
-<a name="compatv1" />
+<a name="compatv1"></a>
 
 ### Compatibility with GoatTracker v1.xx
 
@@ -178,11 +178,11 @@ Everything that this command does can also be done with wavetables, and the
 import feature converts all arpeggio commands to corresponding wavetable
 programs.
 
-<a name="using" />
+<a name="using"></a>
 
 ## Using gt2fork
 
-<a name="cli-opts" />
+<a name="cli-opts"></a>
 
 ### Command line options
 
@@ -250,7 +250,7 @@ alternative playroutine, where waveform is written before ADSR. This can give
 more reliable note triggering, especially for very fast releases 0 & 1, but
 may change the characteristics of the note's decay & release.
 
-<a name="kbd" />
+<a name="kbd"></a>
 
 ### Keyboard commands
 
@@ -260,7 +260,7 @@ press F12 (online help) in the tracker or see the table below:
 NOTE: SHIFT & CTRL are interchangeable in the commands. You can also use [ ]
 or ( ) instead of < >.
 
-<a name="kbd-genkeys" />
+<a name="kbd-genkeys"></a>
 
 #### General keys
 
@@ -387,7 +387,7 @@ or ( ) instead of < >.
     </tr>
 </table>
 
-<a name="kbd-pattmode" />
+<a name="kbd-pattmode"></a>
 
 #### Pattern edit mode
 
