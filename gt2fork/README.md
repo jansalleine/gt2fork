@@ -14,7 +14,7 @@ Fork of **GoatTracker 2.75 / 2.76 Stereo** by Jan Wassermann
 - Command quick reference by Simon Bennett.
 - Patches and further development by Stefan A. Haubenthal, Valerio Cannone,
   Raine M. Ekman, Tero Lindeman, Henrik Paulini and Groepaz.
-  Microtonal support by Birgit Jauernig.
+- Microtonal support by Birgit Jauernig.
 
 Music data for stereo and mono GoatTracker 2 is fully compatible with gt2fork.
 This includes song *(\*.SNG)* and instrument *(\*.INS)* datafiles as well as the
