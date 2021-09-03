@@ -144,6 +144,7 @@ mt_tick0_0:
                 jmp mt_tick0_34
               .ELSE
               .IF (NOVIB == 0)
+                lda #$00
                 jmp mt_tick0_34
               .ENDIF
               .ENDIF
@@ -220,7 +221,7 @@ mt_tick0_9:
 
         ;a Set filtpointer
 
-mt_tick0_a:     
+mt_tick0_a:
               .IF (NOSETFILTPTR == 0)
                 cpx #21
                 bcs mt_tick0_a_sid2
@@ -626,7 +627,7 @@ mt_setcutoff:
                 jmp mt_nextfiltstep
 mt_newfiltmod:
                 sta mt_filttime+1               ;$01-$7f = new modulation step
-mt_filtmod:   
+mt_filtmod:
                 lda mt_filtspdtbl-1,y           ;Take filt speed
                 clc
                 adc mt_filtcutoff+1
@@ -1064,7 +1065,7 @@ mt_effectjump:
               .ELSE
                 beq mt_wavedone
               .ENDIF
-              
+
         ;Setting note frequency
 
 mt_wavefreq:
@@ -1567,7 +1568,7 @@ mt_chnnewparam:
                 .BYTE (0,0,0,0,0,0,0)
                 .BYTE (0,0,0,0,0,0,0)
                 .BYTE (0,0,0,0,0,0,0)
-                .BYTE (0,0,0,0,0,0,0)              
+                .BYTE (0,0,0,0,0,0,0)
 
 
 mt_chnfx:
