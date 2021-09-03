@@ -1,13 +1,1 @@
 *.o
-linux/gt2fork
-linux/betaconv
-linux/gt2reloc
-linux/ins2snd2
-linux/mod2sng
-linux/sngspli2
-linux/ss2stereo
-linux/custom.pal.example
-win32/gt2fork.cfg
-win64/gt2fork.cfg
-linux/*.sng
-linux/*.sid
