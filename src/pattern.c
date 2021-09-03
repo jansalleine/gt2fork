@@ -1004,6 +1004,14 @@ void patterncommands(void)
             if (shiftpressed)
                 mutechannel(rawkey - KEY_1);
             break;
+        case KEY_4:
+        case KEY_5:
+        case KEY_6:
+            if (shiftpressed && (numsids == 2))
+            {
+                mutechannel(rawkey - KEY_1);
+            }
+            break;
     }
     if ((keypreset == KEY_DMC) && (hexnybble >= 0) && (hexnybble <= 7) && (!epcolumn))
     {
