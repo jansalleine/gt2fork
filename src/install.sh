@@ -21,7 +21,7 @@ else
 fi
 rm -f "$APPPATH/gt2fork.desktop"
 cp -f -v "$EXE" "$INSTALLPATH/"
-cp -f -v "gt2fork.png" "$ICONPATH/"
+cp -f -v "res/gt2fork.png" "$ICONPATH/"
 echo "touch $APPPATH/gt2fork.desktop"
 touch "$APPPATH/gt2fork.desktop"
 echo "[Desktop Entry]" >> "$APPPATH/gt2fork.desktop"
