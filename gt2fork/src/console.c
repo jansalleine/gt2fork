@@ -97,7 +97,7 @@ int initscreen(void)
     memset(region, 0, sizeof region);
 
     gfx_loadpalette("palette.bin");
-    loadexternalpalette();
+    loadPalette();
     gfxSetPalette();
 
     gfxinitted = 1;
@@ -106,7 +106,7 @@ int initscreen(void)
     return 1;
 }
 
-void loadexternalpalette(void)
+void loadPalette(void)
 {
     FILE *ext_f;
     if ((ext_f = fopen("custom.pal", "rt")))

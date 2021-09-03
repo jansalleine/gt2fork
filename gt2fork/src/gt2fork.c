@@ -1,5 +1,5 @@
 /* =============================================================================
- * gt2fork v0.5b
+ * gt2fork v0.6b
  *
  * Fork of GoatTracker 2.75 / 2.76 Stereo by Jan Wassermann
  * https://github.com/jansalleine/gt2fork
@@ -312,7 +312,7 @@ char packedpath[MAX_PATHNAME];
  * row chars / strings
  */
 extern char *notename[];
-char *programname = "$VER: gt2fork v0.5b";
+char *programname = "$VER: gt2fork v0.6b";
 char specialnotenames[186];
 char scalatuningfilepath[MAX_PATHNAME];
 char tuningname[64];

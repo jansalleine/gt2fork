@@ -41,7 +41,7 @@ void drawbox(int x, int y, int color, int sx, int sy);
 void printbg(int x, int y, int color, int length);
 void getkey(void);
 void initDisplayPositions(void);
-void loadexternalpalette(void);
+void loadPalette(void);
 void initIcon(void);
 
 #ifndef GT2F_GCONSOLE_C

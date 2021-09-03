@@ -1,4 +1,4 @@
-.PHONY: datafiles clean tools
+.PHONY: clean tools
 
 EXE=$(PREFIX)gt2fork$(SUFFIX)
 
@@ -73,6 +73,7 @@ $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	$(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
+	cp -f res/custom.pal.example $(PREFIX)custom.pal.example
 
 tools:
 	$(MAKE) -C tools all
@@ -85,6 +86,5 @@ clean:
 	$(RM) residfp/*.o
 	$(RM) residfp/resample/*.o
 	$(RM) $(EXE)
-	$(RM) ../win32/*.cfg
-	$(RM) gt2forkdata.c
-	$(RM) gt2fork.dat
+	$(RM) $(PREFIX)*.cfg
+	$(RM) $(PREFIX)custom.pal.example
