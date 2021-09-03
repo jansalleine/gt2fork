@@ -1445,7 +1445,6 @@ SDL_Window *win_window = NULL;
 
 int win_openwindow(unsigned xsize, unsigned ysize, char *appname, char *icon);
 void win_closewindow(void);
-void win_messagebox(char *string);
 void win_checkmessages(void);
 int win_getspeed(int framerate);
 void win_setmousemode(int mode);
@@ -1502,11 +1501,6 @@ int win_openwindow(unsigned xsize, unsigned ysize, char *appname, char *icon)
 void win_closewindow(void)
 {
     SDL_DestroyWindow(win_window);
-}
-
-void win_messagebox(char *string)
-{
-    return;
 }
 
 int win_getspeed(int framerate)
