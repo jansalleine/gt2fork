@@ -1,6 +1,8 @@
-//
-// GOATTRACKER v2 pattern editor
-//
+/**
+ * =============================================================================
+ * pattern editor
+ * =============================================================================
+ */
 
 #define GT2F_PATTERN_C
 
@@ -121,10 +123,6 @@ void patterncommands(void)
 
         if (newnote > LASTNOTE) newnote = -1;
         if ((rawkey == KEY_BACKSPACE) && (!epcolumn)) newnote = REST;
-        // @TODO: what was 0x14 in SDL 1.2?
-        // if ((rawkey == 0x14) && (!epcolumn)) newnote = KEYOFF;
-        // ?CAPSLOCK? - readme.txt, 2.3.2 Pattern edit mode:
-        //          RETURN      (also CAPSLOCK) Insert keyoff
         if ((rawkey == KEY_CAPSLOCK) && (!epcolumn)) newnote = KEYOFF;
         if (rawkey == KEY_ENTER)
         {

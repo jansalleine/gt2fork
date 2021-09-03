@@ -1,6 +1,8 @@
-//
-// GOATTRACKER v2 song data model, loading/saving/conversion
-//
+/**
+ * =============================================================================
+ * song data model, loading/saving/conversion
+ * =============================================================================
+ */
 
 #define GT2F_SONG_C
 
