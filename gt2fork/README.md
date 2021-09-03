@@ -1,4 +1,4 @@
-#gt2fork v0.6b
+# gt2fork v0.6b
 
 Fork of **GoatTracker 2.75 / 2.76 Stereo** by Jan Wassermann
 
@@ -20,7 +20,7 @@ Music data for stereo and mono GoatTracker 2 is fully compatible with gt2fork.
 This includes song *(\*.SNG)* and instrument *(\*.INS)* datafiles as well as the
 C64 player routines.
 
-##Resources
+## Resources
 
 - [GoatTracker 2 on SourceForge.net](http://sourceforge.net/projects/goattracker2)
 - [drfiemost reSID GitHub clone](https://github.com/drfiemost/resid)
@@ -29,7 +29,7 @@ C64 player routines.
 - [sidplay-residfp on SourceForge.net](https://sourceforge.net/projects/sidplay-residfp/)
 - [SDL2 project homepage](https://www.libsdl.org/)
 
-##Features
+## Features
 
 - Scalable window
 - On-the-fly switching between mono *(1SID)* and stereo *(2SID)* mode instead of
@@ -37,7 +37,7 @@ C64 player routines.
 - Custom palette now supports GIMP palette file format
 - On-the-fly switching between a black and a blue (C64 basic editor style) theme
 
-##License
+## License
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

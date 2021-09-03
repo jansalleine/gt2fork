@@ -1,4 +1,4 @@
-#gt2fork v0.6b
+# gt2fork v0.6b
 
 - Editor by Lasse Öörni and Jan Wassermann.
 - Music playroutines by Lasse Öörni.
@@ -15,7 +15,7 @@
 Distributed under GNU General Public License
 (see the file LICENSE for details)
 
-##Table of contents
+## Table of contents
 
 1. [General information](#general-information)
     - [Warnings](#warnings)
@@ -72,7 +72,7 @@ Distributed under GNU General Public License
 7. Microtonal Tunings
 
 <a name="general-information" />
-##1. General information
+## 1. General information
 
 This program is a tracker-like C64 music editor running on Win32 or Linux
 platforms (using the SDL library, see http://www.libsdl.org)
@@ -90,7 +90,7 @@ For filesize & library compatibility reasons, precompiled binaries exist only
 for Win32 platform.
 
 <a name="warnings" />
-###Warnings
+### Warnings
 
 1. Always look at the end of this file for changes! Sometimes keyboard commands
    change etc.
@@ -164,7 +164,7 @@ for Win32 platform.
    parameter $F for alternative SID register write order.
 
 <a name="compatv1" />
-###Compatibility with GoatTracker v1.xx
+### Compatibility with GoatTracker v1.xx
 
 gt2fork can load v1.xx songs and instruments, but it saves only in v2
 format. Some subtleties (like tricks involving instrument changes) will not
@@ -176,10 +176,10 @@ import feature converts all arpeggio commands to corresponding wavetable
 programs.
 
 <a name="using" />
-##Using gt2fork
+## Using gt2fork
 
 <a name="cli-opts" />
-###Command line options
+### Command line options
 
 Start gt2fork by typing gt2fork in the command prompt, followed by the
 songname to be loaded at startup (optional) and any command line options you
@@ -246,7 +246,7 @@ more reliable note triggering, especially for very fast releases 0 & 1, but
 may change the characteristics of the note's decay & release.
 
 <a name="kbd" />
-###Keyboard commands
+### Keyboard commands
 
 This program is mainly operated on keyboard. For a list of keyboard commands
 press F12 (online help) in the tracker or see the table below:
@@ -255,7 +255,7 @@ NOTE: SHIFT & CTRL are interchangeable in the commands. You can also use [ ]
 or ( ) instead of < >.
 
 <a name="kbd-genkeys" />
-####General keys
+#### General keys
 
 - <kbd>F1</kbd> Play from beginning
 - <kbd>F2</kbd> Play from current pos.
