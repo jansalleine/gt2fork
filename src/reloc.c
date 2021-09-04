@@ -46,8 +46,10 @@ unsigned char tableused[MAX_TABLES][MAX_TABLELEN+1];
 unsigned char tablemap[MAX_TABLES][MAX_TABLELEN+1];
 int pattoffset[MAX_PATT];
 int pattsize[MAX_PATT];
-int songoffset[MAX_SONGS][MAX_CHN_MONO];
-int songsize[MAX_SONGS][MAX_CHN_MONO];
+//~ int songoffset[MAX_SONGS][MAX_CHN_MONO];
+//~ int songsize[MAX_SONGS][MAX_CHN_MONO];
+int songoffset[MAX_SONGS][MAX_CHN];
+int songsize[MAX_SONGS][MAX_CHN];
 int songoffset_stereo[MAX_SONGS][MAX_CHN];
 int songsize_stereo[MAX_SONGS][MAX_CHN];
 int tableerror;
@@ -97,7 +99,6 @@ void relocator(void)
     char packedfilter[MAX_FILENAME];
 
     unsigned char *packeddata = NULL;
-    char *playername = "player.s";
 
     int tableerrortype = TYPE_NONE;
     int tableerrorcause = CAUSE_NONE;
@@ -2168,7 +2169,6 @@ void relocator_stereo(void)
     char packedsongname[MAX_FILENAME];
     char packedfilter[MAX_FILENAME];
     unsigned char *packeddata = NULL;
-    char *playername = "player_s.s";
 
     int tableerrortype = TYPE_NONE;
     int tableerrorcause = CAUSE_NONE;
