@@ -19,6 +19,7 @@ char authorname[MAX_STR];
 char copyrightname[MAX_STR];
 int pattlen[MAX_PATT];
 int songlen[MAX_SONGS][MAX_CHN_MONO];
+// int ** songlen; // is this an option?
 int songlen_stereo[MAX_SONGS][MAX_CHN];
 int highestusedpattern;
 int highestusedinstr;
@@ -1581,7 +1582,6 @@ int insertpattern(int p)
                 {
                     if (numsids == 1)
                     {
-                        printf("numsids = 1\n");
                         if ((songorder[c][d][e] < REPEAT) &&
                             (songorder[c][d][e] > p) &&
                             (songorder[c][d][e] != MAX_PATT-1))
@@ -1591,7 +1591,6 @@ int insertpattern(int p)
                     }
                     else if (numsids == 2)
                     {
-                        printf("numsids = 2\n");
                         if ((songorder_stereo[c][d][e] < REPEAT) &&
                             (songorder_stereo[c][d][e] > p) &&
                             (songorder_stereo[c][d][e] != MAX_PATT-1))

@@ -655,11 +655,6 @@ int main(int argc, char **argv)
     // Start editor mainloop
     printmainscreen();
 
-    /*
-    printtext(0, 1, colscheme.normal,
-        " 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... ..... 00 ... .....  01:.. ..  01:.. ..  01:.. ..  01:.. .."
-    );
-    */
     while (!exitprogram)
     {
         waitkeymouse();

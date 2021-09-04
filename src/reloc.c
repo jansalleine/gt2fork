@@ -46,12 +46,15 @@ unsigned char tableused[MAX_TABLES][MAX_TABLELEN+1];
 unsigned char tablemap[MAX_TABLES][MAX_TABLELEN+1];
 int pattoffset[MAX_PATT];
 int pattsize[MAX_PATT];
-//~ int songoffset[MAX_SONGS][MAX_CHN_MONO];
-//~ int songsize[MAX_SONGS][MAX_CHN_MONO];
+
+/* songoffset and songsize work also in mono mode with same size as stereo */
 int songoffset[MAX_SONGS][MAX_CHN];
 int songsize[MAX_SONGS][MAX_CHN];
+
+/* so those two aren't needed when combining the relocator code */
 int songoffset_stereo[MAX_SONGS][MAX_CHN];
 int songsize_stereo[MAX_SONGS][MAX_CHN];
+
 int tableerror;
 int channels;
 int fixedparams;
@@ -199,9 +202,7 @@ void relocator(void)
     // Calculate amount of songs with nonzero length
     for (c = 0; c < MAX_SONGS; c++)
     {
-        if ((songlen[c][0]) &&
-                (songlen[c][1]) &&
-                (songlen[c][2]))
+        if ((songlen[c][0]) && (songlen[c][1]) && (songlen[c][2]))
         {
             // See which patterns are used in this song
             for (d = 0; d < maxChns; d++)
