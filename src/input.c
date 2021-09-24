@@ -242,7 +242,11 @@ int selectMidiInput()
     rtmidi_open_port(midi_device, port, "midi_in");
     if (!midi_device->ok)
     {
-        fprintf(stderr, "failed to open port %i: %s\n", port, midi_device->msg);
+        fprintf(
+            stderr,
+            "[ERROR] Can't open MIDI port #%i: %s\n",
+            port, midi_device->msg
+        );
         return 0;
     }
 
