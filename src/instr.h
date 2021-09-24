@@ -13,6 +13,7 @@ void nextinstr(void);
 void previnstr(void);
 void clearinstr(int num);
 void gotoinstr(int i);
+void setinstr(int i);
 void showinstrtable(void);
 
 #endif

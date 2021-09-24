@@ -14,6 +14,7 @@
 #include "common.h"
 #include "colors.h"
 #include "console.h"
+#include "input.h"
 #include "sound.h"
 #include "sid.h"
 #include "song.h"
@@ -42,6 +43,9 @@
 #define VISIBLEFILES 28
 
 #define PGUPDNREPEAT 8
+
+#define FONTWIDTH 8
+#define FONTHEIGHT 14
 
 #ifndef GT2F_GT2FORK_C
 extern int menu;
@@ -97,6 +101,7 @@ extern unsigned char hexkeytbl[16];
 #endif
 
 void getparam(FILE *handle, unsigned *value);
+void getintparam(FILE *handle, int *value);
 void getfloatparam(FILE *handle, float *value);
 void getstringparam(FILE *handle, char *value);
 void waitkey(void);

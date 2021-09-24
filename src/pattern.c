@@ -49,6 +49,45 @@ int epmarkchn = -1;
 int epmarkstart;
 int epmarkend;
 
+void insertNote(int newnote)
+{
+    if ((recordmode) && (eppos < pattlen[epnum[epchn]]))
+    {
+        pattern[epnum[epchn]][eppos*4] = newnote;
+        if (newnote < REST)
+        {
+            pattern[epnum[epchn]][eppos*4+1] = einum;
+        }
+        else
+        {
+            pattern[epnum[epchn]][eppos*4+1] = 0;
+        }
+        if ((shiftpressed) && (newnote == REST))
+        {
+            pattern[epnum[epchn]][eppos*4+2] = 0;
+            pattern[epnum[epchn]][eppos*4+3] = 0;
+        }
+    }
+
+    if (recordmode)
+    {
+        if (autoadvance < 2)
+        {
+            eppos++;
+            if (eppos > pattlen[epnum[epchn]])
+            {
+                eppos = 0;
+            }
+        }
+    }
+    playtestnote(newnote, einum, epchn);
+}
+
+void updatePatternView()
+{
+    epview = eppos-VISIBLEPATTROWS/2;
+}
+
 void patterncommands(void)
 {
     int c, scrrep;
@@ -307,35 +346,7 @@ void patterncommands(void)
 
         if (newnote >= 0)
         {
-            if ((recordmode) && (eppos < pattlen[epnum[epchn]]))
-            {
-                pattern[epnum[epchn]][eppos*4] = newnote;
-                if (newnote < REST)
-                {
-                    pattern[epnum[epchn]][eppos*4+1] = einum;
-                }
-                else
-                {
-                    pattern[epnum[epchn]][eppos*4+1] = 0;
-                }
-                if ((shiftpressed) && (newnote == REST))
-                {
-                    pattern[epnum[epchn]][eppos*4+2] = 0;
-                    pattern[epnum[epchn]][eppos*4+3] = 0;
-                }
-            }
-            if (recordmode)
-            {
-                if (autoadvance < 2)
-                {
-                    eppos++;
-                    if (eppos > pattlen[epnum[epchn]])
-                    {
-                        eppos = 0;
-                    }
-                }
-            }
-            playtestnote(newnote, einum, epchn);
+            insertNote(newnote);
         }
     }
     switch(rawkey)
@@ -1087,7 +1098,7 @@ void patterncommands(void)
             }
         }
     }
-    epview = eppos-VISIBLEPATTROWS/2;
+    updatePatternView();
 }
 
 

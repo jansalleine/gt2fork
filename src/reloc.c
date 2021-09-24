@@ -1430,7 +1430,7 @@ SKIPTABLE:
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
-    textbuffer[80] = 0;
+    textbuffer[255] = 0;
 
     printtext(0, 0, colscheme.statusTop, textbuffer);
 
@@ -1954,7 +1954,7 @@ unsigned char swapnybbles(unsigned char n)
     return (lownybble << 4) | highnybble;
 }
 
-void insertPlayer(char *playRoutine, int playRoutineLength)
+void insertPlayer(unsigned char *playRoutine, int playRoutineLength)
 {
     int i = 0;
 
@@ -1971,7 +1971,7 @@ void inserttext(const char *text)
 
 void insertdefine(const char *name, int value)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
 
     sprintf(insertbuffer, "%-16s = %d\n", name, value);
     inserttext(insertbuffer);
@@ -1979,7 +1979,7 @@ void insertdefine(const char *name, int value)
 
 void insertlabel(const char *name)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
 
     sprintf(insertbuffer, "%s:\n", name);
     inserttext(insertbuffer);
@@ -1987,7 +1987,7 @@ void insertlabel(const char *name)
 
 void insertbytes(const unsigned char *bytes, int size)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
     int row = 0;
 
     while (size--)
@@ -2018,7 +2018,7 @@ void insertbytes(const unsigned char *bytes, int size)
 
 void insertbyte(unsigned char byte)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
 
     sprintf(insertbuffer, "                .BYTE ($%02x)\n", byte);
     inserttext(insertbuffer);
@@ -2026,7 +2026,7 @@ void insertbyte(unsigned char byte)
 
 void insertaddrlo(const char *name)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
 
     sprintf(insertbuffer, "                .BYTE (%s %% 256)\n", name);
     inserttext(insertbuffer);
@@ -2034,7 +2034,7 @@ void insertaddrlo(const char *name)
 
 void insertaddrhi(const char *name)
 {
-    char insertbuffer[80];
+    char insertbuffer[512];
 
     sprintf(insertbuffer, "                .BYTE (%s / 256)\n", name);
     inserttext(insertbuffer);
@@ -3458,7 +3458,7 @@ SKIPTABLE_S:
         sprintf(textbuffer, "%s Packer/Relocator", programname);
     else
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
-    textbuffer[80] = 0;
+    textbuffer[255] = 0;
     printtext(0, 0, colscheme.statusTop, textbuffer);
 
     sprintf(textbuffer, "PACKING RESULTS:");

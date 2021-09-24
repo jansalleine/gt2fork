@@ -579,30 +579,30 @@ void printstatus(void)
         if (!eamode) printbg(dpos.instrumentsX+3+etnum*10+(etcolumn & 1)+(etcolumn/2)*3, dpos.instrumentsY+8+etpos-etview[etnum], cc, 1);
     }
 
-    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+1, colscheme.title, "NAME   ");
+    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+1, colscheme.title, "TITLE    ");
     sprintf(textbuffer, "%-32s", songname);
-    printtext(dpos.instrumentsX+7, dpos.instrumentsY+8+VISIBLETABLEROWS+1, colscheme.edit, textbuffer);
+    printtext(dpos.instrumentsX+9, dpos.instrumentsY+8+VISIBLETABLEROWS+1, colscheme.edit, textbuffer);
 
-    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+2, colscheme.title, "AUTHOR ");
+    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+2, colscheme.title, "AUTHOR   ");
     sprintf(textbuffer, "%-32s", authorname);
-    printtext(dpos.instrumentsX+7, dpos.instrumentsY+8+VISIBLETABLEROWS+2, colscheme.edit, textbuffer);
+    printtext(dpos.instrumentsX+9, dpos.instrumentsY+8+VISIBLETABLEROWS+2, colscheme.edit, textbuffer);
 
-    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+3, colscheme.title, "COPYR. ");
+    printtext(dpos.instrumentsX, dpos.instrumentsY+8+VISIBLETABLEROWS+3, colscheme.title, "RELEASED ");
     sprintf(textbuffer, "%-32s", copyrightname);
-    printtext(dpos.instrumentsX+7, dpos.instrumentsY+8+VISIBLETABLEROWS+3, colscheme.edit, textbuffer);
+    printtext(dpos.instrumentsX+9, dpos.instrumentsY+8+VISIBLETABLEROWS+3, colscheme.edit, textbuffer);
 
     if ((editmode == EDIT_NAMES) && (!eamode))
     {
         switch(enpos)
         {
         case 0:
-            printbg(dpos.instrumentsX+7+strlen(songname), dpos.instrumentsY+8+VISIBLETABLEROWS+1, cc, 1);
+            printbg(dpos.instrumentsX+9+strlen(songname), dpos.instrumentsY+8+VISIBLETABLEROWS+1, cc, 1);
             break;
         case 1:
-            printbg(dpos.instrumentsX+7+strlen(authorname), dpos.instrumentsY+8+VISIBLETABLEROWS+2, cc, 1);
+            printbg(dpos.instrumentsX+9+strlen(authorname), dpos.instrumentsY+8+VISIBLETABLEROWS+2, cc, 1);
             break;
         case 2:
-            printbg(dpos.instrumentsX+7+strlen(copyrightname), dpos.instrumentsY+8+VISIBLETABLEROWS+3, cc, 1);
+            printbg(dpos.instrumentsX+9+strlen(copyrightname), dpos.instrumentsY+8+VISIBLETABLEROWS+3, cc, 1);
             break;
         }
     }

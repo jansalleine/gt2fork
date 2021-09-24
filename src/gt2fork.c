@@ -407,6 +407,7 @@ int main(int argc, char **argv)
         getfloatparam(configfile, &filtercurves.MOS8580);
         getparam(configfile, (unsigned*)&win_fullscreen);
         getparam(configfile, &theme);
+        getintparam(configfile, &midiDevicePort);
         getfloatparam(configfile, &basepitch);
         getfloatparam(configfile, &equaldivisionsperoctave);
         getstringparam(configfile, specialnotenames);
@@ -645,12 +646,27 @@ int main(int argc, char **argv)
             customclockrate
         ))
     {
-        printtextc(MAX_ROWS/2-1,15,"Sound init failed. Press any key to run without sound (notice that song timer won't start)");
+        printtextc(
+            MAX_ROWS/2-1,
+            colscheme.statusTop,
+            "Sound init failed. Press any key to run without sound (notice that song timer won't start)"
+        );
         waitkeynoupdate();
     }
 
     // Load song if applicable
     if (strlen(songfilename)) loadsong();
+
+    // init midi input
+    if (midiDevicePort < 0)
+    {
+        midiDevicePort = -1;
+        fprintf(stdout, "MIDI disabled.\n");
+    }
+    else
+    {
+        initMidiInput();
+    }
 
     // Start editor mainloop
     printmainscreen();
@@ -660,6 +676,9 @@ int main(int argc, char **argv)
         waitkeymouse();
         docommand();
     }
+
+    // close midi input
+    closeMidiInput();
 
     // Shutdown sound output now
     sound_uninit();
@@ -711,6 +730,7 @@ int main(int argc, char **argv)
                 ";reSID-FP 8580 filtercurve (range 0.0 - 1.0, default 0.5)\n%f\n\n"
                 ";Window type (0 = window, 1 = fullscreen)\n%d\n\n"
                 ";Theme (0 = default, 1 = blue)\n%d\n\n"
+                ";MIDI Device Port (-1 = disable MIDI)\n%i\n\n"
                 ";Base pitch of A-4 in Hz (0 = use default frequencytable)\n%f\n\n"
                 ";Equal divisions per octave (12 = default, 8.2019143 = Bohlen-Pierce)\n%f\n\n"
                 ";Special note names (2 chars for every note in an octave/cycle)\n%s\n\n"
@@ -743,6 +763,7 @@ int main(int argc, char **argv)
                 filtercurves.MOS8580,
                 win_fullscreen,
                 theme,
+                midiDevicePort,
                 basepitch,
                 equaldivisionsperoctave,
                 specialnotenames,
@@ -1487,6 +1508,25 @@ void generalcommands(void)
     case KEY_F11:
         save();
         break;
+    case KEY_D:
+        if (altpressed)
+        {
+            if (midiDevicePort >= 0)
+            {
+                selectMidiInput();
+            }
+            else
+            {
+                printtextc(
+                    MAX_ROWS/2-1,
+                    colscheme.statusTop,
+                    "MIDI disabled. Set MIDI Device Port >= 0 in gt2fork.cfg to enable."
+                );
+                waitkeynoupdate();
+                printmainscreen();
+            }
+        }
+        break;
     case KEY_M:
         if (altpressed)
         {
@@ -1818,6 +1858,21 @@ void getparam(FILE *handle, unsigned *value)
             else break;
         }
     }
+}
+
+void getintparam(FILE *handle, int *value)
+{
+    char *configptr;
+
+    for (;;)
+    {
+        if (feof(handle)) return;
+        fgets(configbuf, MAX_PATHNAME, handle);
+        if ((configbuf[0]) && (configbuf[0] != ';') && (configbuf[0] != ' ') && (configbuf[0] != 13) && (configbuf[0] != 10)) break;
+    }
+
+    configptr = configbuf;
+    sscanf(configptr, "%i", value);
 }
 
 void getfloatparam(FILE *handle, float *value)

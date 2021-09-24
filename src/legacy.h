@@ -74,14 +74,11 @@ int gfx_lock(void);
 void gfx_unlock(void);
 void gfx_flip(void);
 void gfxSetClipRegion(unsigned left, unsigned top, unsigned right, unsigned bottom);
-void gfx_setmaxspritefiles(int num);
 void gfx_setmaxcolors(int num);
 int gfx_loadpalette(char *name);
 void gfx_calcpalette(int fade, int radd, int gadd, int badd);
 void gfxSetPalette(void);
 int gfx_loadblocks(char *name);
-int gfx_loadsprites(int num, char *name);
-void gfx_freesprites(int num);
 
 extern int gfx_initted;
 extern int gfx_scanlinemode;
@@ -111,25 +108,6 @@ extern SDL_Renderer *gfx_renderer;
  */
 // BME header file for user applications
 
-/**
- * =============================================================================
- * FILE bme_io.h:
- * =============================================================================
- */
-// BME IO module header file
-
-int io_open(char *name);
-int io_lseek(int handle, int bytes, int whence);
-int io_read(int handle, void *buffer, int size);
-void io_close(int handle);
-int io_opendatafile(char *name);
-int io_openlinkeddatafile(unsigned char *ptr);
-void io_setfilemode(int usedf);
-unsigned io_read8(int handle);
-unsigned io_readle16(int handle);
-unsigned io_readle32(int handle);
-unsigned io_readhe16(int handle);
-unsigned io_readhe32(int handle);
 /**
  * =============================================================================
  * FILE bme_main.h:

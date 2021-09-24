@@ -13,6 +13,8 @@ extern int epmarkstart;
 extern int epmarkend;
 #endif
 
+void insertNote(int newnote);
+void updatePatternView();
 void patterncommands(void);
 void nextpattern(void);
 void prevpattern(void);

@@ -3,14 +3,14 @@
 export PREFIX=$(PWD)/../win32/
 export SUFFIX=.exe
 export LIBS=-L/usr/i686-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows \
-	-static-libstdc++ -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread
+	-static-libstdc++ -static-libgcc -Wl,-Bstatic -lstdc++ -lpthread -lwinmm
 export RM=rm -f
 
 MINGW32PREFIX?=/usr/bin
 
 export CC=$(MINGW32PREFIX)/i686-w64-mingw32-gcc
 export CXX=$(MINGW32PREFIX)/i686-w64-mingw32-g++
-export CFLAGS=-O3 -Wall -Iasm
+export CFLAGS=-D__WINDOWS_MM__ -O3 -Wall -Iasm -Irtmidi
 export CXXFLAGS=$(CFLAGS)
 
 WINDRES=$(MINGW32PREFIX)/i686-w64-mingw32-windres

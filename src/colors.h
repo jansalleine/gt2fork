@@ -45,7 +45,7 @@ typedef struct
 
 void colscheme_init(unsigned theme);
 
-#ifndef GCOLORS_C
+#ifndef GT2F_COLORS_C
 extern COLORSCHEME colscheme;
 #endif
 

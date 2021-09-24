@@ -225,13 +225,17 @@ void clearinstr(int num)
 
 void gotoinstr(int i)
 {
+    setinstr(i);
+    editmode = EDIT_INSTRUMENT;
+}
+
+void setinstr(int i)
+{
     if (i < 0) return;
     if (i >= MAX_INSTR) return;
 
     einum = i;
     showinstrtable();
-
-    editmode = EDIT_INSTRUMENT;
 }
 
 void nextinstr(void)

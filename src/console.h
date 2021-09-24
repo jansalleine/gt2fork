@@ -39,16 +39,13 @@ void printblank(int x, int y, int length);
 void printblankc(int x, int y, int color, int length);
 void drawbox(int x, int y, int color, int sx, int sy);
 void printbg(int x, int y, int color, int length);
-void getkey(void);
 void initDisplayPositions(void);
 void loadPalette(void);
 void initIcon(void);
 
 #ifndef GT2F_GCONSOLE_C
-extern int key, rawkey, shiftpressed, altpressed, cursorflashdelay;
-extern int mouseb, prevmouseb;
-extern int mouseheld;
-extern unsigned mousex, mousey;
+extern int fontwidth;
+extern int fontheight;
 extern POSITIONS dpos;
 #endif
 

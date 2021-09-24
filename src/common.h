@@ -53,6 +53,12 @@
 #define KEYON 0xbf
 #define OLDKEYOFF 0x5e
 #define OLDREST 0x5f
+/*
+ * MIDINOTEOFFSET
+ * according to https://computermusicresource.com/midikeys.html
+ * with FIRSTNOTE (C-0 / 96) ~ MIDI number 24 -> 96 - 24 = 72
+ */
+#define MIDINOTEOFFSET 72
 
 #define WAVEDELAY 0x1
 #define WAVELASTDELAY 0xf

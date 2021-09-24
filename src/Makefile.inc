@@ -20,6 +20,7 @@ GTOBJECTS=\
 	help.o \
 	sound.o \
 	console.o \
+	input.o \
 	sid.o \
 	colors.o
 
@@ -51,6 +52,10 @@ RESIDFPOBJECTS=\
 	residfp/WaveformGenerator.o \
 	residfp/resample/SincResampler.o
 
+RTMIDIOBJECTS=\
+	rtmidi/RtMidi.o \
+	rtmidi/rtmidi_c.o
+
 ASMOBJECTS=\
 	asm/asmtab.o \
 	asm/chnkpool.o \
@@ -70,7 +75,7 @@ LEGACYOBJECTS=\
 all: $(EXE) tools
 
 $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
-	$(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
+	$(RTMIDIOBJECTS) $(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
 	$(CXX) -o $@ $^ $(LIBS)
 	strip $@
 	cp -f res/custom.pal.example $(PREFIX)custom.pal.example
@@ -85,6 +90,7 @@ clean:
 	$(RM) resid/*.o
 	$(RM) residfp/*.o
 	$(RM) residfp/resample/*.o
+	$(RM) rtmidi/*.o
 	$(RM) $(EXE)
 	$(RM) $(PREFIX)*.cfg
 	$(RM) $(PREFIX)custom.pal.example

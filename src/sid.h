@@ -28,7 +28,7 @@ int sid_fillbuffer(short *ptr, int samples);
 int sid_fillbuffer_stereo(short *lptr, short *rptr, int samples);
 unsigned char sid_getorder(unsigned char index);
 
-#ifndef GSID_C
+#ifndef GT2F_SID_C
 extern unsigned char sidreg[NUMSIDREGS];
 extern unsigned char sidreg2[NUMSIDREGS];
 extern FILTERCURVES filtercurves;
