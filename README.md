@@ -10,6 +10,7 @@ Fork of **GoatTracker 2.75 / 2.76 Stereo** by Jan Wassermann
 - Uses reSIDfp distortion / nonlinearity by Antti Lankila and Leandro Nini.
 - Uses 6510 crossassembler from Exomizer2 beta by Magnus Lind.
 - Uses the SDL2 library.
+- Uses the RtMidi library.
 - Uses parts of the GoatTracker icon by Antonio Vera.
 - Command quick reference by Simon Bennett.
 - Patches and further development by Stefan A. Haubenthal, Valerio Cannone,
@@ -28,6 +29,7 @@ C64 player routines.
 - [drfiemost reSIDfp GitHub clone](https://github.com/drfiemost/residfp)
 - [sidplay-residfp on SourceForge.net](https://sourceforge.net/projects/sidplay-residfp/)
 - [SDL2 project homepage](https://www.libsdl.org/)
+- [RtMidi homepage](http://www.music.mcgill.ca/~gary/rtmidi/)
 
 ## Features
 
