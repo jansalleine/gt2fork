@@ -529,8 +529,17 @@ TABLETYPE:
         sprintf(textbuffer, "%s Packer/Relocator - %s", programname, loadedsongfilename);
     textbuffer[MAX_COLUMNS] = 0;
 
-    printtext(0, 0, colscheme.statusTop, textbuffer);
+    printtext(1, 0, colscheme.statusTop, textbuffer);
     printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
+
+    if (snd_bpmtempo != 125)
+    {
+        int ciaval = 19566 - ((19655 / 125) * (snd_bpmtempo - 125));
+
+        sprintf(textbuffer, "[INFO] CIA timer value for %03d BPM: $%04X", snd_bpmtempo, ciaval);
+        printtext(1, 3+MAX_OPTIONS+2, colscheme.statusBottom, textbuffer);
+    }
+
     selectdone = 0;
     while (!selectdone)
     {

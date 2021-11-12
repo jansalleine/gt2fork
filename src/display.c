@@ -94,7 +94,7 @@ void printstatus(void)
 
         sprintf(textbuffer, "HR:%04X", adparam);
         printtext(dpos.statusTopFvX+19, dpos.statusTopY, colscheme.statusTop, textbuffer);
-        if (eamode) printbg(dpos.statusTopFvX+22+eacolumn, dpos.statusTopY, cc, 1);
+        if (eamode && !ebmode) printbg(dpos.statusTopFvX+22+eacolumn, dpos.statusTopY, cc, 1);
 
         if (multiplier)
         {
@@ -102,6 +102,14 @@ void printstatus(void)
             printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.statusTop, textbuffer);
         }
         else printtext(dpos.statusTopFvX+27, dpos.statusTopY, colscheme.statusTop, "25Hz");
+
+        if (multiplier == 1)
+        {
+            sprintf(textbuffer, "%03dBPM", snd_bpmtempo);
+            printtext(dpos.statusTopFvX+31, dpos.statusTopY, colscheme.statusTop, textbuffer);
+
+            if (eamode && ebmode) printbg(dpos.statusTopFvX+31+eacolumn, dpos.statusTopY, cc, 1);
+        }
 
         printtext(dpos.statusTopEndX-8, dpos.statusTopY, colscheme.statusTop, "F12=HELP");
     }
