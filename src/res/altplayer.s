@@ -520,6 +520,12 @@ mt_init:
                 adc #$00
               .ENDIF
                 sta mt_initsongnum+1
+              .IF (CIAVALHI != 0)
+                lda #CIAVALLO
+                sta $dc04
+                lda #CIAVALHI
+                sta $dc05
+              .ENDIF
                 rts
 
         ;Play soundeffect -routine
