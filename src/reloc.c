@@ -534,7 +534,7 @@ TABLETYPE:
     printtext(1, 0, colscheme.statusTop, textbuffer);
     printtext(1, 2, colscheme.title, "SELECT PLAYROUTINE OPTIONS: (CURSORS=MOVE/CHANGE, ENTER=ACCEPT, ESC=CANCEL)");
 
-    if (snd_bpmtempo != 125)
+    if (multiplier == 1 && snd_bpmtempo != 125)
     {
         ciaval = 19566 - ((19655 / 125) * (snd_bpmtempo - 125));
 
