@@ -33,7 +33,7 @@ a:hover {
     text-decoration: none;
 }
 h1,h2,h3,h4 {
-    font-weight: 500;
+    font-weight: 600;
     margin: .7rem 0 1.2rem;
 }
 h1 {
@@ -48,11 +48,22 @@ h3 {
 h4 {
     font-size: 1.15rem;
 }
+hr {
+    border-top: none;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+li ul, li ol {
+    margin-left: 1.5rem;
+}
 kbd {
     background-color: #000;
     border-radius: 5px;
     color: #fff;
+    display: inline-block;
     font-family: monospace;
+    margin: .1rem;
     padding: .3rem;
 }
 pre {
@@ -67,19 +78,31 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-td {
+td, th {
+    text-align: left;
     padding: .5rem;
+}
+td.keys {
+    padding: .4rem;
+    white-space: nowrap;
+}
+th {
+    font-weight: bold;
+    white-space: nowrap;
 }
 table,th,td,tr {
     border: 1px solid #ccc;
+    vertical-align: top;
 }
 ul {
     padding-left: 1.3rem;
 }
 
-ol,p,pre,table,ul,
-.image {
+ol,p,pre,ul,.image,.mb-1,.table {
     margin-bottom: 1.5rem;
+}
+ul ul, ol ol {
+    margin-bottom: 0;
 }
 
 #content {
@@ -88,7 +111,16 @@ ol,p,pre,table,ul,
     max-width: 60rem;
     padding: 1.5rem;
 }
-
+.d-flex {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .7rem;
+    margin-top: .2rem;
+}
+.d-inline-block {
+    display: inline-block;
+}
 .image {
     background-color: #333;
     border-radius: 20px;
@@ -104,12 +136,27 @@ ol,p,pre,table,ul,
 .img-full:hover {
     transform: scale(1.09);
 }
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+.ml-0 {
+    margin-left: 0 !important;
+}
+.ml-1 {
+    margin-left: 1.5rem !important;
+}
 .section:not(:last-child) {
     border-bottom: 1px solid #ccc;
 }
 .table {
     max-width: 100%;
     overflow: auto;
+}
+.text-center {
+    text-align: center !important;
+}
+.w-50 {
+    width: 50% !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -132,7 +179,7 @@ pre {
     background-color: #222;
 }
 
-table,th,td,tr,
+hr,table,th,td,tr,
 .section:not(:last-child) {
     border-color: #000;
 }
@@ -201,7 +248,48 @@ Raine M. Ekman, Tero Lindeman, Henrik Paulini and Groepaz.</li>
 <li><a href="#keyboard">Keyboard commands</a>
     <ul>
     <li><a href="#general-keys">General Keys</a></li>
-    <li><a href="#pattern-edit-mode">Pattern edit mode</a></li>
+    <li><a href="#pattern-edit-mode">Pattern edit mode</a>
+        <ul>
+            <li><a href="#entering-notes">Entering notes</a></li>
+        </ul>
+    </li>
+    <li><a href="#song-edit-mode">Song edit mode</a></li>
+    <li><a href="#instrument-edit-mode">Instrument edit mode</a></li>
+    <li><a href="#table-edit-mode">Table edit mode</a></li>
+    <li><a href="#songname-edit-mode">Songname edit mode</a></li>
+    </ul>
+</li>
+<li><a href="#mouse">Mouse control</a></li>
+<li><a href="#song-data">Song data</a>
+    <ul>
+    <li><a href="#orderlist-data">Orderlist data</a></li>
+    <li><a href="#pattern-data">Pattern data</a>
+        <ul>
+        <li><a href="#commands">Commands</a></li>
+        </ul>
+    </li>
+    <li><a href="#instrument-data">Instrument data</a></li>
+    <li><a href="#table-data">Table data</a>
+        <ul>
+        <li><a href="#wavetable">Wavetable</a></li>
+        <li><a href="#pulsetable">Pulsetable</a></li>
+        <li><a href="#filtertable">Filtertable</a></li>
+        <li><a href="#speedtable">Speedtable</a></li>
+        </ul>
+    </li>
+    </ul>
+</li>
+<li><a href="#playback-details">Playback details</a></li>
+<li><a href="#miscellaneous-tips">Miscellaneous tips</a>
+<ul>
+    <li><a href="#limit-based-modulation-steps">Limit-based modulation steps</a></li>
+    <li><a href="#precalculated-note-independent-hifi-player-portamento-vibrato">Precalculated note-independent "hifi player" portamento/vibrato</a></li>
+</ul>
+</li>
+<li><a href="#multispeed-tips">Multispeed tips</a></li>
+<li><a href="#using-the-songs-outside-the-editor">Using the songs outside the editor</a>
+    <ul>
+    <li><a href="#playroutine-options">Playroutine options</a></li>
     </ul>
 </li>
 </ul>
@@ -291,7 +379,15 @@ Raine M. Ekman, Tero Lindeman, Henrik Paulini and Groepaz.</li>
 <h2>Keyboard commands</h2>
 <ul>
 <li><a href="#general-keys">General Keys</a></li>
-<li><a href="#pattern-edit-mode">Pattern edit mode</a></li>
+<li><a href="#pattern-edit-mode">Pattern edit mode</a>
+    <ul>
+        <li><a href="#entering-notes">Entering notes</a></li>
+    </ul>
+</li>
+<li><a href="#song-edit-mode">Song edit mode</a></li>
+<li><a href="#instrument-edit-mode">Instrument edit mode</a></li>
+<li><a href="#table-edit-mode">Table edit mode</a></li>
+<li><a href="#songname-edit-mode">Songname edit mode</a></li>
 </ul>
 <a name="general-keys"></a>
 <h3>General Keys</h3>
@@ -301,201 +397,1243 @@ Raine M. Ekman, Tero Lindeman, Henrik Paulini and Groepaz.</li>
 <div class="table">
 <table>
     <tr>
-        <td><kbd>F1</kbd></td>
+        <td class="keys"><kbd>F1</kbd></td>
         <td>Play from beginning</td>
     </tr>
     <tr>
-        <td><kbd>F2</kbd></td>
+        <td class="keys"><kbd>F2</kbd></td>
         <td>Play from current pos.</td>
     </tr>
     <tr>
-        <td><kbd>F3</kbd></td>
+        <td class="keys"><kbd>F3</kbd></td>
         <td>Play one pattern from current pos.</td>
     </tr>
     <tr>
-        <td><kbd>F4</kbd></td>
+        <td class="keys"><kbd>F4</kbd></td>
         <td>Stop playing & silence all sounds</td>
     </tr>
     <tr>
-        <td><kbd>F5</kbd></td>
+        <td class="keys"><kbd>F5</kbd></td>
         <td>Go to pattern editor</td>
     </tr>
     <tr>
-        <td><kbd>F6</kbd></td>
+        <td class="keys"><kbd>F6</kbd></td>
         <td>Go to song editor</td>
     </tr>
     <tr>
-        <td><kbd>F7</kbd></td>
+        <td class="keys"><kbd>F7</kbd></td>
         <td>Go to instrument/table editor</td>
     </tr>
     <tr>
-        <td><kbd>F8</kbd></td>
+        <td class="keys"><kbd>F8</kbd></td>
         <td>Go to songname editor</td>
     </tr>
     <tr>
-        <td><kbd>F9</kbd></td>
+        <td class="keys"><kbd>F9</kbd></td>
         <td>Pack, relocate & save PRG,SID etc.</td>
     </tr>
     <tr>
-        <td><kbd>F10</kbd></td>
+        <td class="keys"><kbd>F10</kbd></td>
         <td>Load song (Pattern/Song/Songname mode) or instrument (Instrument mode)</td>
     </tr>
     <tr>
-        <td><kbd>F11</kbd></td>
+        <td class="keys"><kbd>F11</kbd></td>
         <td>Save song (Pattern/Song/Songname mode) or instrument (Instrument mode)</td>
     </tr>
     <tr>
-        <td><kbd>F12</kbd></td>
+        <td class="keys"><kbd>F12</kbd></td>
         <td>Online help screen. Press F12 again to toggle context mode</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F1</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F1</kbd></td>
         <td>Play from beginning /w follow play</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F2</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F2</kbd></td>
         <td>Play from current pos. /w follow play</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F3</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F3</kbd></td>
         <td>Play one pattern from current pos. /w follow play</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F4</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F4</kbd></td>
         <td>Mute current channel</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F5</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F5</kbd></td>
         <td>Decrease speed multiplier</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F6</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F6</kbd></td>
         <td>Increase speed multiplier</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F7</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F7</kbd></td>
         <td>Edit hardrestart ADSR parameter</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F8</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F8</kbd></td>
         <td>Switch between 6581 and 8580 SID models</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>F10</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>F10</kbd></td>
         <td>Merge-load song</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>,</kbd><kbd>.</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>,</kbd><kbd>.</kbd></td>
         <td>Move song startposition on all channels and restart last playmode</td>
     </tr>
     <tr>
-        <td><kbd>TAB</kbd></td>
+        <td class="keys"><kbd>TAB</kbd></td>
         <td>Cycle between editing modes (forwards)</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>TAB</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>TAB</kbd></td>
         <td>Cycle between editing modes (backwards)</td>
     </tr>
     <tr>
-        <td><kbd>INS</kbd></td>
+        <td class="keys"><kbd>INS</kbd></td>
         <td>Insert row (Press INS/DEL on endmark to change pattern/song length)</td>
     </tr>
     <tr>
-        <td><kbd>DEL</kbd></td>
+        <td class="keys"><kbd>DEL</kbd></td>
         <td>Delete row</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>ESC</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>ESC</kbd></td>
         <td>Optimize musicdata, or clear musicdata & set default pattern length</td>
     </tr>
     <tr>
-        <td><kbd>ALT</kbd>+<kbd>D</kbd></td>
+        <td class="keys"><kbd>ALT</kbd>+<kbd>D</kbd></td>
         <td>Select MIDI input device</td>
     </tr>
     <tr>
-        <td><kbd>ALT</kbd>+<kbd>M</kbd></td>
+        <td class="keys"><kbd>ALT</kbd>+<kbd>M</kbd></td>
         <td>Switch between mono and stereo mode</td>
     </tr>
     <tr>
-        <td><kbd>ALT</kbd>+<kbd>T</kbd></td>
+        <td class="keys"><kbd>ALT</kbd>+<kbd>T</kbd></td>
         <td>Switch between black and blue theme</td>
     </tr>
     <tr>
-        <td><kbd>ESC</kbd></td>
+        <td class="keys"><kbd>ESC</kbd></td>
         <td>Exit program</td>
     </tr>
 </table>
 </div>
+<hr>
 <a name="pattern-edit-mode"></a>
 <h3>Pattern edit mode</h3>
 <div class="table">
 <table>
     <tr>
-        <td><kbd>-</kbd> <kbd>+</kbd></td>
+        <td class="keys"><kbd>-</kbd> <kbd>+</kbd></td>
         <td>Select instrument</td>
     </tr>
     <tr>
-        <td><kbd>/</kbd> <kbd>*</kbd></td>
+        <td class="keys"><kbd>/</kbd> <kbd>*</kbd></td>
         <td>Select octave</td>
     </tr>
     <tr>
-        <td><kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
+        <td class="keys"><kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
         <td>Select pattern</td>
     </tr>
     <tr>
-        <td><kbd>BACKQUOTE</kbd></td>
+        <td class="keys"><kbd>BACKQUOTE</kbd></td>
         <td>Select channel</td>
     </tr>
     <tr>
-        <td><kbd>0-9</kbd> &amp; <kbd>A-F</kbd></td>
+        <td class="keys"><kbd>0-9</kbd> &amp; <kbd>A-F</kbd></td>
         <td>Enter parameters</td>
     </tr>
     <tr>
-        <td><kbd>SPACE</kbd></td>
+        <td class="keys"><kbd>SPACE</kbd></td>
         <td>Switch between jam/editmode</td>
     </tr>
     <tr>
-        <td><kbd>RETURN</kbd><br>(or <kbd>CAPSLOCK</kbd>)</td>
+        <td class="keys"><kbd>RETURN</kbd><br>(or <kbd>CAPSLOCK</kbd>)</td>
         <td>Insert keyoff<br>Enter table (when cursor is over a table-utilizing command)<br>Enter instrument (when cursor is over a nonzero instrument number)</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>RETURN</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>RETURN</kbd></td>
         <td>Insert keyon<br>Convert portamento/vibrato/funktempo old style parameter to a speedtable entry (when cursor is over the command)<br>Go into an empty table entry (when parameter is zero on a table-utilizing command)</td>
     </tr>
     <tr>
-        <td><kbd>BACKSPACE</kbd></td>
+        <td class="keys"><kbd>BACKSPACE</kbd></td>
         <td>Insert rest</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>BACKSPACE</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>BACKSPACE</kbd></td>
         <td>Insert rest and clear commands</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>SPACE</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>SPACE</kbd></td>
         <td>Play from cursor position</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>Q</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>Q</kbd></td>
         <td>Transpose halfstep up</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>A</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>A</kbd></td>
         <td>Transpose halfstep down</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>W</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>W</kbd></td>
         <td>Transpose octave up</td>
     </tr>
     <tr>
-        <td><kbd>SHIFT</kbd>+<kbd>S</kbd></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>S</kbd></td>
         <td>Transpose octave down</td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>O</kbd></td>
+        <td>Shrink pattern (divide size by 2)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>P</kbd></td>
+        <td>Expand pattern (multiply size by 2)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>J</kbd></td>
+        <td>Join pattern with next pattern in orderlist</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>K</kbd></td>
+        <td>Split pattern from edit position</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>H</kbd></td>
+        <td>Calculate "hifi" left/right shifted speedtable entry for portamento or vibrato</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>I</kbd></td>
+        <td>Invert selection / whole pattern if no selection</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>CRSR UP</kbd><br><kbd>SHIFT</kbd>+<kbd>CRSR DOWN</kbd></td>
+        <td>Mark pattern</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>CRSR LEFT</kbd><br><kbd>SHIFT</kbd>+<kbd>CRSR RIGHT</kbd></td>
+        <td>Select pattern</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>L</kbd></td>
+        <td>Mark/unmark entire pattern</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>M</kbd><br><kbd>SHIFT</kbd>+<kbd>N</kbd></td>
+        <td>Choose highlighting step size</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>X</kbd><br><kbd>SHIFT</kbd>+<kbd>C</kbd><br><kbd>SHIFT</kbd>+<kbd>V</kbd></td>
+        <td>Cut, copy, paste pattern</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>E</kbd><br><kbd>SHIFT</kbd>+<kbd>R</kbd></td>
+        <td>Copy, paste commands</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>Z</kbd></td>
+        <td>Cycle autoadvance-mode</td>
     </tr>
 </table>
 </div>
+<p>For pattern joining to work properly, select the pattern you want to join with the next from the orderlist first (by pressing <kbd>RETURN</kbd> on it). Both joining and splitting will rearrange pattern numbers (for example if you split pattern 00, pattern 01 will be created and old patterns 01-xx will be shifted forward in the pattern order).</p>
+<p><kbd class="ml-0">SHIFT</kbd>+<kbd>SPACE</kbd> will play from the pattern onwards if playback was previously stopped, but if it is pressed while in pattern play mode, it will stay in the current pattern.</p>
+<hr>
+<a name="entering-notes"></a>
+<h3>Entering notes</h3>
+<p>There are two rows of a piano keyboard:</p>
+<pre>
+<kbd> </kbd><kbd>2</kbd><kbd>3</kbd><kbd> </kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd><kbd> </kbd><kbd>9</kbd><kbd>0</kbd>        Higher octave
+<kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>T</kbd><kbd>Y</kbd><kbd>U</kbd><kbd>I</kbd><kbd>O</kbd><kbd>P</kbd>
+
+<kbd> </kbd><kbd>S</kbd><kbd>D</kbd><kbd> </kbd><kbd>G</kbd><kbd>H</kbd><kbd>J</kbd><kbd> </kbd><kbd>L</kbd>          Lower octave
+<kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd><kbd>V</kbd><kbd>B</kbd><kbd>N</kbd><kbd>M</kbd><kbd>,</kbd><kbd>.</kbd>
+</pre>
+<hr>
+<a name="song-edit-mode"></a>
+<h3>Song edit mode</h3>
+<div class="table">
+<table>
+    <tr>
+        <td class="keys"><kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
+        <td>Select subtune</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>-</kbd> <kbd>+</kbd></td>
+        <td>Insert Transpose down/up command (shown as -/+ in the orderlist)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>0</kbd>-<kbd>9</kbd> &amp; <kbd>A</kbd>-<kbd>F</kbd></td>
+        <td>Enter pattern numbers</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SPACE</kbd></td>
+        <td>Set start position for F2 key</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>BACKSPACE</kbd></td>
+        <td>Set end position for F2 key</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>RETURN</kbd></td>
+        <td>Go to pattern</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>R</kbd></td>
+        <td>Insert Repeat command (shown as "R" in the order-list)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>CRSR LEFT</kbd><br><kbd>SHIFT</kbd>+<kbd>CRSR RIGHT</kbd></td>
+        <td>Mark orderlist</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>1</kbd><br><kbd>SHIFT</kbd>+<kbd>2</kbd><br><kbd>SHIFT</kbd>+<kbd>3</kbd></td>
+        <td>Swap current channel orderlist with channel 1, 2, 3</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>X</kbd><br><kbd>SHIFT</kbd>+<kbd>C</kbd><br><kbd>SHIFT</kbd>+<kbd>V</kbd></td>
+        <td>Cut, copy, paste channel orderlist</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>L</kbd></td>
+        <td>Mark/unmark entire orderlist</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>SPACE</kbd></td>
+        <td>Set start position on all channels</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>RETURN</kbd></td>
+        <td>Go to pattern on all channels</td>
+    </tr>
+</table>
+</div>
+<p><kbd class="ml-0">SHIFT</kbd>+<kbd>SPACE</kbd> or <kbd>SHIFT</kbd>+<kbd>BACKSPACE</kbd> set the start/end mark on all channels to the same position. To clear the endmark, press <kbd>BACKSPACE</kbd> again on it or at/before the startmark.</p>
+<hr>
+<a name="instrument-edit-mode"></a>
+<h3>Instrument edit mode</h3>
+<div class="table">
+<table>
+    <tr>
+        <td class="keys"><kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
+        <td>Select instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>-</kbd> <kbd>+</kbd></td>
+        <td>Select instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>/</kbd> <kbd>*</kbd></td>
+        <td>Select octave</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>F7</kbd></td>
+        <td>Go to table editor</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>0</kbd>-<kbd>9</kbd> &amp; <kbd>A</kbd>-<kbd>F</kbd></td>
+        <td>Enter parameters</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SPACE</kbd></td>
+        <td>Play test note</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>SPACE</kbd></td>
+        <td>Silence test note</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>RETURN</kbd></td>
+        <td>Go to table position indicated by wave/pulse/filter/vibratoposition</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>N</kbd></td>
+        <td>Edit instrument name</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>S</kbd></td>
+        <td>Smart paste an instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>U</kbd></td>
+        <td>Unlock/lock table scrolling</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>X</kbd><br><kbd>SHIFT</kbd>+<kbd>C</kbd><br><kbd>SHIFT</kbd>+<kbd>V</kbd></td>
+        <td>Cut, copy, paste instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>DEL</kbd><br><kbd>SHIFT</kbd>+<kbd>BACKSPACE</kbd></td>
+        <td>Delete instrument &amp; tabledata</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>RETURN</kbd></td>
+        <td>Set tablepointer to empty position or convert old style vibrato parameter</td>
+    </tr>
+</table>
+</div>
+<p>The test note will be played on the channel you last were on in the pattern editor. To hear filtering as intended, be sure to play it on a channel that has been selected for filtering in the filter parameters.</p>
+<p>Note that cut,copy,paste instrument do not touch the tabledata, just for the case you need it in another instrument. If you want to completely get rid of an instrument + its associated tabledata, press <kbd>SHIFT</kbd>+<kbd>DEL</kbd>.</p>
+<p>If wave/pulse/filter/vibrato param. is zero and you press <kbd>RETURN</kbd> over it, you will move to the first free location in the corresponding table. If you press <kbd>SHIFT</kbd>+<kbd>RETURN</kbd>, also the instrument parameter will be set accordingly.</p>
+<p>If vibrato parameter is nonzero and you press <kbd>SHIFT</kbd>+<kbd>RETURN</kbd> over it, it will be interpreted as an old style vibrato parameter (left nybble speed, right nybble depth) and converted to a speedtable entry.</p>
+<p>"Smart paste" will convert instrument numbers in all patterns if you "move" an instrument by cut/pasting it.</p>
+<hr>
+<a name="table-edit-mode"></a>
+<h3>Table edit mode</h3>
+<div class="table">
+<table>
+    <tr>
+        <td class="keys"><kbd>&lt;</kbd> <kbd>&gt;</kbd></td>
+        <td>Select instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>-</kbd> <kbd>+</kbd></td>
+        <td>Select instrument</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>/</kbd> <kbd>*</kbd></td>
+        <td>Select octave</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>BACKQUOTE</kbd></td>
+        <td>Select table</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>F7</kbd></td>
+        <td>Go to instrument editor</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>0</kbd>-<kbd>9</kbd> &amp; <kbd>A</kbd>-<kbd>F</kbd></td>
+        <td>Enter parameters</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SPACE</kbd></td>
+        <td>Play test note</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>SPACE</kbd></td>
+        <td>Silence test note</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>RETURN</kbd></td>
+        <td>Go back to wave/pulse/filterposition parameter</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>Q</kbd><br><kbd>SHIFT</kbd>+<kbd>A</kbd></td>
+        <td>Transpose speedtable portamento speed halfstep up/down</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>W</kbd><br><kbd>SHIFT</kbd>+<kbd>S</kbd></td>
+        <td>Transpose speedtable portamento speed octave up/down, or multiply/divide pulse/filterspeed by 2</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>L</kbd></td>
+        <td>Convert &lt;limit,speed&gt; modulation step to &lt;time,speed&gt;</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>N</kbd></td>
+        <td>Negate speed parameter (pulse/filtertable) or relative note (wavetable)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>O</kbd></td>
+        <td>Optimize current table (remove unused entries)</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>R</kbd></td>
+        <td>Convert note between absolute/relative in wavetable</td>
+    </tr>
+    <tr>
+        <td class="keys"><kbd>SHIFT</kbd>+<kbd>U</kbd></td>
+        <td>Unlock/lock table scrolling</td>
+    </tr>
+</table>
+</div>
+<p>If you need to insert rows in the beginning of an instrument's wave/pulse/ filtertable, press <kbd>SHIFT</kbd>+<kbd>INS</kbd> instead of just <kbd>INS</kbd>: this way table pointers pointing to the table first row will not move.</p>
+<p>For easier programming of negative modulation speeds in pulse/filtertables, you can first enter a positive speed positive value ($00-$7F) and then press <kbd>SHIFT</kbd>+<kbd>N</kbd> to negate it.</p>
+<p>Conversion between relative and absolute notes will use the basenote C-0 if octave is 0, C-1 if octave is 1 and so on.</p>
+<p>When table scrolling is unlocked, each table maintains its separate view position. To indicate this mode, a "U" letter is visible in the bottom right part of the screen. By default table scrolling is locked.</p>
+<hr>
+<a name="songname-edit-mode"></a>
+<h3>Songname edit mode</h3>
+<p>Use <kbd>CRSR UP</kbd>/<kbd>CRSR DOWN</kbd> to move between song, author &amp; copyright strings, and other keys to edit them.</p>
+</div>
+<div id="mouse" class="section">
+<h2>Mouse control</h2>
+<p>By clicking with the left mouse button, you can select the data to edit.</p>
+<p>By dragging with middle or right mouse button, you can mark orderlist/pattern/tabledata.</p>
+<p>Some values like octave or subtune/pattern numbers can be incremented with the left mouse button and decremented with the right.</p>
+<p>By holding the middle/right mouse button in the status bar, a menu becomes active. Continue to hold and click with left button to select options.</p>
+<p>In the fileselector, confirm loading or entering a directory by double-clicking. Doubleclick outside the selector to cancel.</p>
+</div>
+<div id="song-data" class="section">
+<h2>Song data</h2>
+<ul>
+<li><a href="#orderlist-data">Orderlist data</a></li>
+<li><a href="#pattern-data">Pattern data</a>
+    <ul>
+    <li><a href="#commands">Commands</a></li>
+    </ul>
+</li>
+<li><a href="#instrument-data">Instrument data</a></li>
+<li><a href="#table-data">Table data</a>
+    <ul>
+    <li><a href="#wavetable">Wavetable</a></li>
+    <li><a href="#pulsetable">Pulsetable</a></li>
+    <li><a href="#filtertable">Filtertable</a></li>
+    <li><a href="#speedtable">Speedtable</a></li>
+    </ul>
+</li>
+</ul>
+<hr>
+<a name="orderlist-data"></a>
+<h3>Orderlist data</h3>
+<p>A song can consist of up to 32 subtunes. For each subtune's each channel, there is an orderlist which determines in what order patterns are to be played. In addition to pattern numbers, there can be TRANSPOSE &amp; REPEAT commands and finally there is a RST (RESTART) endmark followed by restart position. The maximum length of an orderlist is 254 pattern numbers/commands + the endmark.</p>
+<p>TRANSPOSE is measured in halftones. Transpose up (shown as +X) can be 0-14 halftones and transpose down (shown as -X) can be 1-15. Transpose is automatically reset only when starting the song, not when looping.</p>
+<p>A REPEAT command (shown as RX) will repeat the pattern following it 1-16 times. "Repeat 16 times" is displayed as R0.</p>
+<h4>There are some rules for orderlist command order:</h4>
+<ul>
+<li>If there are both TRANSPOSE and REPEAT commands before a pattern number, TRANSPOSE must come first.</li>
+<li>The last thing before the RST-endmark must be a pattern number. If you need to reset transpose on song repeat, do it in the beginning of the repeat loop.</li>
+</ul>
+<p>In case of wrong order, the editor will halt playback. This tells that the resulting packed/relocated song would play incorrectly.</p>
+<hr>
+<a name="pattern-data"></a>
+<h3>Pattern data</h3>
+<p>Patterns are single-channel only for flexibility &amp; low memory use. They contain the actual notes, instrument changes &amp; sound commands. A pattern can have variable length, up to 128 rows. There can be 208 different patterns in a song.</p>
+<h4>The explanation of a pattern row:</h4>
+<pre>
+     Note name
+     |
+     | Octave
+     | |
+     | | Instrument number ($01 - $3F, or $00 for no change)
+     | | |
+     | | |  Command ($0 - $F)
+     | | |  |
+     | | |  | Databyte
+     | | |  | |
+     C-1 00 0 00
+</pre>
+<p>The highest note available in a pattern is G#7. To reach the top three notes (A-7 to B-7), you can use transpose.</p>
+<h4>In place of a normal note, there can also be one of these special "notes":</h4>
+<pre>
+     ... Rest
+     --- Key off (clear gatebit mask)
+     +++ Key on (set gatebit mask)
+</pre>
+<p>The actual state of the gatebit will be the gatebit mask ANDed with data from the wavetable. A key on cannot set the gatebit if it was explicitly cleared at the wavetable.</p>
+<hr>
+<a name="commands"></a>
+<h4>Commands:</h4>
+<p>Commands 1XY-4XY and FXY bear some resemblance to Soundtracker/Protracker/Fasttracker effect commands. However, they are different in some ways, so read their descriptions! Note that there is no "databyte $00 uses the last databyte"-action in the commands.</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+    <th>Command:</th>
+    <th>Description:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td><pre class="text-center mb-0">0XY</pre></td>
+    <td>Do nothing. Databyte will always be $00.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">1XY</pre></td>
+    <td>Portamento up. XY is an index to a 16-bit speed value in the speedtable.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">2XY</pre></td>
+    <td>Portamento down. XY is an index to a 16-bit speed value in the speedtable.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">3XY</pre></td>
+    <td>Toneportamento. Raise or lower pitch until target note has been reached. XY is an index to a 16-bit speed value in the speedtable, or $00 for "tie-note" effect (move pitch instantly to target note)</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">4XY</pre></td>
+    <td>Vibrato. XY is an index to the speed table, where left side determines how long until the direction changes (speed) and right side determines the amount of pitch change on each tick (depth).</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">5XY</pre></td>
+    <td>Set attack/decay register to value XY.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">6XY</pre></td>
+    <td>Set sustain/release register to value XY.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">7XY</pre></td>
+    <td>Set waveform register to value XY. If a wavetable is actively changing the channel's waveform at the same time, will be ineffective.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">8XY</pre></td>
+    <td>Set wavetable pointer. $00 stops wavetable execution.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">9XY</pre></td>
+    <td>Set pulsetable pointer. $00 stops pulsetable execution.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">AXY</pre></td>
+    <td>Set filtertable pointer. $00 stops filtertable execution.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">BXY</pre></td>
+    <td>Set filter control. X is resonance and Y is channel bitmask. $00 turns filter off and also stops filtertable execution.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">CXY</pre></td>
+    <td>Set filter cutoff to XY. Can be ineffective if the filtertable is active and also changing the cutoff.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">DXY</pre></td>
+    <td>Set mastervolume to Y, if X is $0. If X is not $0, value XY is copied to the timing mark location, which is playeraddress+$3F.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">EXY</pre></td>
+    <td>Funktempo. XY is an index to the speedtable, tempo will alternate between left side value and right side value on subsequent pattern steps. Sets the funktempo active on all channels, but you can use the next command to override this per-channel.</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">FXY</pre></td>
+    <td>Set tempo. Values $03-$7F set tempo on all channels, values $83-$FF only on current channel (subtract $80 to get actual tempo). Tempos $00-$01 recall the funktempo values set by EXY command.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Master volume is by default the maximum ($F), but it is only reset when loading a new song or clearing songdata in the editor, not every time playback starts. If you change mastervolume, you have to reset it manually in the beginning of your song.</p>
+<p>If the command is not 1XY-4XY, instrument vibrato will be active.</p>
+<p>Note that the one-shot commands 5XY-FXY allow the previous 1XY-4XY command or instrument vibrato to continue "underneath" them. In section 3.6 (hints &amp; tips) there is an example of this.</p>
+<hr>
+<a name="instrument-data"></a>
+<h3>Instrument data</h3>
+<p>You can use up to 63 different instruments in a song. Each instrument is defined by 9 parameters:</p>
+<div class="table">
+<table>
+<tr>
+    <th>Attack/Decay</th>
+    <td>$0 is fastest attack or decay, $F is slowest</td>
+</tr>
+<tr>
+    <th>Sustain/Release</th>
+    <td>Sustain level $0 is silent and $F is the loudest. Release behaves like Attack &amp; Decay (F slowest).</td>
+</tr>
+<tr>
+    <th>Wavetable Pos</th>
+    <td>Wavetable startposition. Value $00 stops the wavetable execution and is not very useful.</td>
+</tr>
+<tr>
+    <th>Pulsetable Pos</th>
+    <td>Pulsetable startposition. Value $00 will leave pulse execution untouched.</td>
+</tr>
+<tr>
+    <th>Filtertable Pos</th>
+    <td>Filtertable startposition. Value $00 will leave filter execution untouched. In most cases it makes sense to have a filter-controlling instrument only on one channel at a time.</td>
+</tr>
+<tr>
+    <th>Vibrato Param</th>
+    <td>Instrument vibrato parameter. An index to the speedtable, see command 4XY.</td>
+</tr>
+<tr>
+    <th>Vibrato Delay</th>
+    <td>How many ticks until instrument vibrato starts. Value $00 turns instrument vibrato off.</td>
+</tr>
+<tr>
+    <th>HR/Gate Timer</th>
+    <td>How many ticks before note start note fetch, gateoff and hard restart happen. Can be at most tempo-1. So on tempo 4 highest acceptable value is 3. Bitvalue $80 disables hard restart and bitvalue $40 disables gateoff.</td>
+</tr>
+<tr>
+    <th>1stFrame Wave</th>
+    <td>Waveform used on init frame of the note, usually $09 (gate + testbit). Values $00, $FE and $FF have special meaning: leave waveform unchanged and additionally set gate off ($FE), gate on ($FF), or gate unchanged ($00).</td>
+</tr>
+</table>
+</div>
+<p>In case of illegal (too high) gateoff timer values, the song playback is stopped.</p>
+<p>ADSR settings are crucial to getting any sound at all. If all of them are zero just a very short "click" will be heard. Here is a diagram to help you visualize the Attack, Decay, Sustain &amp; Release phases:</p>
+<pre>
+     V      /\            |&lt;- gatebit reset (key-off) at this point
+     O     /  \           |
+     L    /    \__________|
+     U   /                |\
+     M  /                 | \
+     E /                  |  \
+TIME ----------------------------&gt;
+         A   D      S       R
+</pre>
+<h4>Some ADSR examples:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> A/D 09<br> S/R 00 </pre></td>
+    <td>Will produce a sound that starts from full volume right away and fades to silence automatically. By increasing the Decay value, the fade will last longer.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> A/D 00<br> S/R 8A </pre></td>
+    <td>A sound that goes very fast from full volume to sustain level 8. If you increase the Decay value, it will go to the sustain level slower. After key-off, starts fading out with speed A.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> A/D CC<br> S/R AF </pre></td>
+    <td>A sound that rises slowly to maximum volume, then decays slowly to the sustain level A and after key-off, fades out to silence very slowly.</td>
+</tr>
+</table>
+</div>
+<p>Instrument legato works as following: When HR/Gate Timer parameter has bit $40 set, no hard restart or gateoff will be performed. When 1st Frame Wave is also $00, no 1st frame waveform will be set and gate flag is untouched. However wave/pulse/filterpointers and ADSR are initialized normally. You can also use this in conjunction with command 8XY to set another wavetable pointer for the note.</p>
+<hr>
+<a name="table-data"></a>
+<h3>Table data</h3>
+<p>Tables control the execution of instruments' waveform/arpeggio changes, pulse modulation, and filter modulation. All the tables are controlled by the left side bytes, while the right side byte specifies additional parameters.</p> <p>Note that you should never jump directly onto a table jump command (FF) either with instrument parameters or pattern commands 8XY, 9XY, AXY. Otherwise, results are undefined.</p>
+<hr>
+<a name="wavetable"></a>
+<h3>Wavetable</h3>
+<div class="table">
+<table>
+<thead>
+<tr>
+    <th colspan="2" class="w-50">Wavetable left side:</th>
+    <th colspan="2" class="w-50">Wavetable right side:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td><pre class="text-center mb-0">00</pre></td>
+    <td>Leave waveform unchanged</td>
+    <td><pre class="text-center mb-0">00-5F</pre></td>
+    <td>Relative notes</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0"> 01-0F </pre></td>
+    <td>Delay this step by 1-15 frames</td>
+    <td><pre class="text-center mb-0"> 60-7F </pre></td>
+    <td>Negative relative notes<br>(lower pitch)</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0"> 10-DF </pre></td>
+    <td>Waveform values</td>
+    <td><pre class="text-center mb-0">80</pre></td>
+    <td>Keep frequency unchanged</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0"> E0-EF </pre></td>
+    <td>Inaudible waveform values<br>$00 - $0F</td>
+    <td><pre class="text-center mb-0"> 81-DF </pre></td>
+    <td>Absolute notes C#0 - B-7</td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0"> F0-FE </pre></td>
+    <td>Execute command 0XY-EXY.<br>Right side is parameter.</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td><pre class="text-center mb-0">FF</pre></td>
+    <td>Jump. Right side tells position<br>($00 = stop)</td>
+    <td></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4>Short explanation of waveform bitvalues:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 01 </pre></td>
+    <td>Gatebit. When on, initiates attack/decay/sustain phase. When off, initiates the release phase.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 02 </pre></td>
+    <td>Synchronize. Creates weird effects using output of another channel.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 04 </pre></td>
+    <td>Ring modulation. Creates weird effects using output of another channel. Most effective with the triangle waveform.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 08 </pre></td>
+    <td>Testbit. Silences sound and resets the oscillator.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 10 </pre></td>
+    <td>Triangle waveform.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 20 </pre></td>
+    <td>Sawtooth waveform.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 40 </pre></td>
+    <td>Pulse waveform.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 80 </pre></td>
+    <td>Noise waveform.</td>
+</tr>
+</table>
+</div>
+<p>All waveforms except noise can be combined (for example triangle + pulse), but the effect will be different on 6581 and 8580 SID chips, so use with caution.</p>
+<p>On many 6581 SID chips only 50 (triangle + pulse) will be audible. On 8580 it is usually safe to use all of the mixed waveforms: 30 (triangle + saw), 50 (triangle + pulse), 60 (saw + pulse).</p>
+<h4>The way how the channels work with synchronize/ringmod:</h4>
+<ul>
+<li>When used on channel 1, channel 3's output modulates the sound.</li>
+<li>When used on channel 2, channel 1's output modulates the sound.</li>
+<li>When used on channel 3, channel 2's output modulates the sound.</li>
+</ul>
+<p>Wavetable delay or no wavechange should not be used in the first step of instrument wavetable. Otherwise, missing notes may be caused. On the other hand, if you use 8XY command to jump into a wavetable program, those are allowed.</p>
+<p>Using wavetable delay or a wavetable step with no frequency change allows realtime commands &amp; instrument vibrato to be executed together with wave-table. Be warned that this has the potential for large rastertime usage!</p>
+<p>You can execute pattern commands from the wavetable. Right side is the command parameter. Note that commands 0XY (do nothing), 8XY (set wavetable pointer) and EXY (funktempo) are illegal and should not be used. When executing a command, no wave/note will be changed on the same frame.</p>
+<h4>Some examples of wave tables (all examples start on table step 1):</h4>
+<div class="table">
+<table>
+<tr>
+<td><pre class="mb-0">
+  01: 21 00
+  02: FF 00  </pre></td>
+    <td>Sawtooth waveform on note's original pitch.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 41 00
+  02: 11 00
+  03: FF 00  </pre></td>
+    <td>A flute sound with pulse on the first tick and triangle on all the rest.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 41 01
+  02: 40 00
+  03: FF 00  </pre></td>
+    <td>A "koto" sound that is one halfstep higher on the first tick and on original pitch the next. Gatebit is also cleared on the second tick.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 81 D0
+  02: 41 AA
+  03: 41 A4
+  04: 80 D4
+  05: 80 D1
+  06: FF 00  </pre></td>
+    <td>A snaredrum sound, using all absolute notes so it does not depend on which note it's played. Use pulsewidth 800 for best result.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 81 DF
+  02: 41 00
+  03: FF 00  </pre></td>
+    <td>A pulse sound on original pitch, preceded with a short noise (like a hi-hat or something) that has always an absolute pitch of B-7.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 41 00
+  02: 00 04
+  03: 00 07
+  04: 00 0C
+  05: 00 00
+  06: FF 02  </pre></td>
+    <td>A 4-note looping arpeggio sound with pulse waveform. Note that waveform does not change in the looping part.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 21 00
+  02: 02 03
+  03: 02 07
+  04: 02 00
+  05: FF 02  </pre></td>
+    <td>A delayed minor chord arpeggio with sawtooth waveform. Each step takes 3 ticks.</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 41 00
+  02: 03 80
+  03: 11 80
+  04: 03 80
+  05: 41 80
+  06: FF 02  </pre></td>
+    <td>Use pulse first, but then switch between pulse &amp; triangle every 5 ticks while frequency remains unchanged (allowing for vibrato &amp; slides).</td>
+</tr>
+<tr>
+<td><pre class="mb-0">
+  01: 81 CF
+  02: 21 00
+  03: 08 00
+  04: F6 2A
+  05: FF 00  </pre></td>
+    <td>Short noise in the beginning, sawtooth, after a short delay change sustain/release (via pattern command 6XY) to $2A.</td>
+</tr>
+</table>
+</div>
+<hr>
+<a name="pulsetable"></a>
+<h3>Pulsetable</h3>
+<h4>Pulsetable left side:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 01-7F </pre></td>
+    <td>Pulse modulation step. Left side indicates time and right side the speed (signed 8-bit value).</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 8X-FX </pre></td>
+    <td>Set pulse width. X is the high 4 bits, right side tells the 8 low bits.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> FF </pre></td>
+    <td>Jump. Right side tells position ($00 = stop).</td>
+</tr>
+</table>
+</div>
+<h4>Some examples of pulse tables (all examples start on table step 1):</h4>
+<div class="table">
+<table>
+<tr>
+<td><pre class="mb-0 text-center">
+01: 88 00
+02: FF 00</pre></td>
+    <td>01: Set pulse value $800 (middle)<br>02: Stop pulse execution</td>
+</tr>
+<tr>
+<td><pre class="mb-0 text-center">
+01: 80 10
+02: 20 40
+03: 40 E0
+04: 40 20
+05: FF 03</pre></td>
+    <td>01: Set pulse value $010 (very thin)<br>02: For 32 ticks, increase pulse with speed $0040 (64)<br>03: For 64 ticks, decrease pulse with speed $FFE0 (-32)<br>04: For 64 ticks, increase pulse with speed $0020 (32)<br>05: Jump back to step 03 for a nice loop</td>
+</tr>
+</table>
+</div>
+<hr>
+<a name="filtertable"></a>
+<h3>Filtertable</h3>
+<h4>Filtertable left side:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 00 </pre></td>
+    <td>Set cutoff, indicated by right side.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01-7F </pre></td>
+    <td>Filter modulation step. Left side indicates time and right side the speed (signed 8-bit value).</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 80-F0 </pre></td>
+    <td>Set filter parameters. Left side high nybble tells the passband ($90 = lowpass, $A0 = bandpass etc.) and right side tells resonance/channel bitmask, as in command BXY.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> FF </pre></td>
+    <td>Jump. Right side tells position ($00 = stop).</td>
+</tr>
+</table>
+</div>
+<p>If "Set filter parameters" is followed by "Set cutoff" directly below, both will be executed on the same frame.</p>
+<h4>Some examples of filter tables (all examples start on table step 1):</h4>
+<div class="table">
+<table>
+<td><pre class="mb-0 text-center">
+01: 90 F1
+02: 00 40
+03: FF 00</pre></td>
+    <td>01: Set lowpass, resonance F, channel bitmask 1 (filter channel 1 only)<br>02: Set cutoff to $40<br>03: Stop filter execution</td>
+</tr>
+<td><pre class="mb-0 text-center">
+01: 80 00
+02: FF 00</pre></td>
+    <td>01: No passband selected, resonance 0, bitmask 0 (no filtered channels)<br>02: Stop filter execution</td>
+</tr>
+<td><pre class="mb-0 text-center">
+01: A0 87
+02: 00 00
+03: 7F 01
+04: 7F 01
+05: 7F FF
+06: 7F FF
+07: FF 03</pre></td>
+    <td>01: Set bandpass, resonance 8, channel bitmask 7 (filter all channels)<br>02: Set cutoff to $00<br>03: Increase cutoff with speed $01 for 127 ticks<br>04: Continue cutoff increase<br>05: Then decrease back to starting position (speed $FF = -1)<br>06: ...<br>07: ...and loop back to step 03</td>
+</tr>
+<tr>
+<td><pre class="mb-0 text-center">
+01: C0 F2
+02: 00 F0
+03: 90 F2
+04: 00 50
+05: FF 00</pre></td>
+    <td>01: Set highpass, resonance F, channel bitmask 2 (filter channel 2)<br>02: Set cutoff to $F0<br>03: On the next frame, change to lowpass...<br>04: ...and set cutoff $50<br>05: Stop filter execution</td>
+</tr>
+</table>
+</div>
+<p>Note that the second example could also be achieved simply with pattern command B00 (set filter control, and stop filter execution, because parameter was $00).</p>
+<hr>
+<a name="speedtable"></a>
+<h3>Speedtable</h3>
+<p>The speedtable is shared by vibrato, portamento and funktempo. No jump commands exist.</p>
+<div class="table">
+<table>
+<tr>
+    <th>For vibrato:</th>
+    <td><pre class="mb-0"> XX YY </pre></td>
+    <td>Left side tells how long until vibrato direction changes (speed), right side is the value added to pitch each tick (depth).</td>
+</tr>
+<tr>
+    <th>For portamento:</th>
+    <td><pre class="mb-0"> XX YY </pre></td>
+    <td>A 16-bit value added to pitch each tick. Left side is the MSB and the right side the LSB.</td>
+</tr>
+<tr>
+    <th>For funktempo:</th>
+    <td><pre class="mb-0"> XX YY </pre></td>
+    <td>Two 8-bit tempo values that are alternated on each pattern row, starting from the left side.</td>
+</tr>
+</table>
+</div>
+<p>For both vibrato and portamento, if XX has the high bit ($80) set, note independent vibrato depth / portamento speed calculation is enabled, and YY specifies the divisor (higher value -> lower result and more rastertime taken).</p>
+<h4>Vibrato examples:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 01: 03 40 </pre></td>
+    <td>Vibrato with speed $03 and depth $40. Corresponds to old vibrato parameter $34</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 05 04 </pre></td>
+    <td>Speed $05 and depth $04. Slow shallow vibrato, suitable for bass notes. Not possible to achieve with old parameters.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 83 04 </pre></td>
+    <td>Speed $03, note-independent depth enabled, depth divisor 4 right-shifts (division by 16).</td>
+</tr>
+</table>
+</div>
+<h4>Portamento examples:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 01: 00 20 </pre></td>
+    <td>Portamento with speed $0020, corresponds to old parameter $08 (4 * $08 = $0020).</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 01 00 </pre></td>
+    <td>Portamento with speed $0100, corresponds to old parameter $40 (4 * $40 = $0100).</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 4F FF </pre></td>
+    <td>Portamento with speed $4fff, loops the pitch highbyte very fast so that a SEUCK-like "space" effect is heard. Not possible to achieve with old parameters.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 80 01 </pre></td>
+    <td>Note-independent speed enabled, speed divisor 1 rightshift (division by 2).</td>
+</tr>
+</table>
+</div>
+<h4>Funktempo examples:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> 01: 09 06 </pre></td>
+    <td>Play tempo $09 on even pattern steps and $06 on odd steps, corresponds to old parameter $96.</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> 01: 24 18 </pre></td>
+    <td>The same funktempo adjusted for 4x-multispeed. Not possible to achieve with old parameters.</td>
+</tr>
+</table>
+</div>
+<p>Note that you can enter old style vibrato parameters, portamento speeds and funktempo to patterns &amp; instruments, and when cursor is over the parameter, press <kbd>SHIFT</kbd>+<kbd>RETURN</kbd> to create a new speedtable entry corresponding to that parameter. The parameter will now be overwritten by a speedtable pointer.</p>
+</div>
+<div id="playback-details" class="section">
+<h2>Playback details</h2>
+<p>Each pattern row is divided into as many 50Hz/60Hz "ticks" as the tempo indicates. Some ticks are reserved for special actions, and to conserve rastertime, certain realtime effects/commands (pulse, vibrato, portamento) are skipped at the same time. Let's assume a tempo of 6 and gateoff timer value 2 and look at what happens on each tick:</p>
+<div class="table">
+<table>
+<thead>
+<tr>
+    <th>Tick:</th>
+    <th>Actions:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td><pre class="mb-0 text-center"> 0 </pre></td>
+    <td>
+<ul class="mb-0">
+    <li>Initialization of new notes (no audible sound yet)</li>
+    <li>Orderlist advance if necessary</li>
+    <li>Pulsetable execution only if no orderlist advance</li>
+    <li>Wavetable execution</li>
+    <li>"One-shot" commands 5XY-FXY</li>
+</ul>
+    </td>
+</tr>
+<tr>
+    <td><pre class="mb-0 text-center"> 1 </pre></td>
+    <td>
+<ul class="mb-0">
+    <li>New notes become audible</li>
+    <li>Pulsetable execution</li>
+    <li>Wavetable or realtime pattern commands 1XY-4XY</li>
+</ul>
+    </td>
+</tr>
+<tr>
+    <td><pre class="mb-0 text-center"> 2,3 </pre></td>
+    <td>
+<ul class="mb-0">
+    <li>Pulsetable execution</li>
+    <li>Wavetable or realtime pattern commands 1XY-4XY</li>
+</ul>
+    </td>
+</tr>
+<tr>
+    <td><pre class="mb-0 text-center"> 4 </pre></td>
+    <td>
+<ul class="mb-0">
+    <li>New notes fetched from the pattern</li>
+    <li>Gateoff and hard restart for new notes (2 ticks before first frame, as gateoff timer indicates)</li>
+    <li>No pulsetable execution</li>
+    <li>Wavetable or realtime pattern commands 1XY-4XY</li>
+</ul>
+    </td>
+</tr>
+<tr>
+    <td><pre class="mb-0 text-center"> 5 </pre></td>
+    <td>
+<ul class="mb-0">
+    <li>Pulsetable execution</li>
+    <li>Wavetable or realtime pattern commands 1XY-4XY</li>
+</ul>
+    </td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Filtertable is executed on each tick regardless of what the channels are doing. Wavetable is never skipped, so arpeggios/drumsounds should always play OK.</p>
+<p>With the commandline parameter /O0 (or by clicking the "PO" text on the statusbar) you can disable pulse skipping. This leads to increased rastertime use but can be good for example with tempo 3 tunes.</p>
+<p>Likewise, with the commandline parameter /R0 (or by clicking the "RO" text on the status bar) you can disable realtime pattern command skipping on tick 0.</p>
+</div>
+<div id="miscellaneous-tips" class="section">
+<h2>Miscellaneous tips</h2>
+<ul>
+    <li><a href="#limit-based-modulation-steps">Limit-based modulation steps</a></li>
+    <li><a href="#precalculated-note-independent-hifi-player-portamento-vibrato">Precalculated note-independent "hifi player" portamento/vibrato</a></li>
+</ul>
+<ul>
+<li class="mb-1">Patterns will take less memory the less there are command changes. When the song is packed/relocated, for example a long vibrato or portamento command needs to be stored only once as long as the parameter stays the same on subsequent pattern rows.</li>
+<li class="mb-1">Using instrument vibrato can make 4XY commands unnecessary and save even more memory. Use realtime calculated note-independent speed (see speedtable section) if you want the vibrato to have the same magnitude regardless of the note.</li>
+<li class="mb-1">In the instrument parameters, there is no option to stop pulse execution directly. So if you have for example a sawtooth instrument, there might be an "unnecessary" pulsemodulation going on underneath and wasting rastertime.<h4>There are two ways you can stop this:</h4>
+<ol class="mb-0">
+<li>Make a short pulseprogram like this and use it in the instrument:<div class="d-flex"><pre class="mb-0 d-inline-block"> 01: 80 00 </pre><div class="ml-1">Set pulse $000</div></div><div class="d-flex"><pre class="mb-0 d-inline-block"> 02: FF 00 </pre><div class="ml-1">Stop pulse execution</div></div></li>
+<li>Use pattern command 900 to stop pulse execution</li>
+</ol>
+</li>
+<li class="mb-1">If you have a realtime command (vibrato/portamento), you can put "one-shot" commands 5XY-FXY inbetween and the realtime command will be unaffected.<h4>An example:</h4>
+<pre>
+  C-4 01000
+  --- 00401 Begin vibrato with speedtable index $01
+  --- 00401
+  --- 00401
+  --- 0065A Set sustain/release to $5A. Vibrato executes also on this step!
+  --- 00401 Continue vibrato normally
+  --- 00401
+</pre>
+However, the vibrato would stop immediately if command 0 was encountered.
+</li>
+<li class="mb-1">Normally tempo 3 is the fastest you can use. However, by using the funktempo command you can get tempo 2. To do this, create a following speedtable entry: 02 02, and point your funktempo command to it. You also need to use gateoff timer 1 in all instruments and disable the pulse-optimization skipping.</li>
+<li>For very optimized songdata &amp; player you can refrain from using any pattern commands and rely on the instruments' step-programming. Even in this case, you can set song startup default tempo with the Attack/Decay parameter of the last instrument (63), if you otherwise leave this instrument unused.</li>
+</ul>
+<hr>
+<a name="limit-based-modulation-steps"></a>
+<h3>Limit-based modulation steps</h3>
+<p>You can enter pulse/filter modulation steps in limit-based format, and convert them to time-based with SHIFT+L. For example, you could enter the following in the pulsetable:</p>
+<pre>
+  01: 84 00 Set initial pulse to $400
+  02: C0 10 Modulate pulse to $C00 with speed $0010
+  03: 40 10 Modulate pulse back to $400 with speed $0010
+</pre>
+<p>Now position the cursor on step 02 and press SHIFT+L twice, to convert both of the modulation steps to usual time-based steps. If necessary, the steps will be expanded to several (if the resulting time parameter is over $7F).</p>
+<p>Remember that the player only understands time-based steps and you always have to convert limit-based steps before they play correctly!</p>
+<hr>
+<a name="precalculated-note-independent-hifi-player-portamento-vibrato"></a>
+<h3>Precalculated note-independent "hifi player" portamento/vibrato</h3>
+<p>From v2.62 onwards, GoatTracker actually supports realtime calculated note independent portamento and vibrato speeds, see speedtable section for this. However, this makes the player bigger and much slower. You can still also use the old method of manually precalculating needed note-independent speeds with the SHIFT+H function, which this section is about.</p>
+<p>The idea is to take the frequency difference between 2 adjacent notes in the frequency table and manipulate it by bit shifting left (multiply) or right (divide).</p>
+<p>To use, you need a portamento or vibrato command in the pattern, and the note you wish to base the calculation on on the current pattern step or before it (before it only for toneportamento) The amount of shift is determined by the command parameter. A number in the left nybble means shift left and right nybble right shift. When you press Shift+H while the cursor is on the command, a speedtable entry is created, and the parameter is replaced with a speedtable index.</p>
+<h4>Some examples:</h4>
+<div class="table">
+<table>
+<tr>
+    <td><pre class="mb-0"> C-3 00110 </pre></td>
+    <td>Take the frequency difference between C-3 &amp; C#3 and shift it left 1 times (multiply by 2.)</td>
+</tr>
+<tr>
+    <td><pre class="mb-0"> E-4 00000 <br> ... 00000 <br> G-4 00302 </pre></td>
+    <td>Take the frequency difference between E-4 &amp; F-4 and shift it right 2 times (divide by 4.)</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="multispeed-tips" class="section">
+<h2>Multispeed tips</h2>
+<ul>
+<li class="mb-1">When making multispeed songs, remember to multiply your tempos and also the gateoff timer values! For example, gateoff timer is normally 2, but in a 2X- speed tune the same gateoff length would be achieved with value 4.</li>
+<li class="mb-1">If you want to keep vibrato the same compared to 1X-speed, you must multiply vibrato speed by the speed multiplier, and divide vibrato depth by the multiplier. Remember also to divide portamento and pulse/filter modulation speeds as necessary.</li>
+<li class="mb-1">When importing a v1.xx multispeed song, you also need to multiply the gateoff timers.</li>
+<li>In the instruments, using Attack 0 might result in a very silent first row of the wavetable. You could try increasing the attack, or adding one or more rows of E9 00 (testbit+gate) to the beginning of the wavetable.</li>
+</ul>
+</div>
+<div id="using-the-songs-outside-the-editor" class="section">
+<h2>Using the songs outside the editor</h2>
+<p>Press <kbd>F9</kbd> in the editor to enter the packer/relocator. Choose playroutine options, startaddress, zeropage address (need 2 consecutive locations) and file format (PRG/BIN/SID), then type the filename.</p>
+<p>If you use patterns longer than 64 rows, there is the possibility that relocation fails because of too complex patterns. Each pattern row can be 0-4 bytes packed, and the total amount of bytes per one pattern may not exceed 256.</p>#
+<p>If wave/pulse/filtertables overflow past row 255 without a jump command or there are other serious errors, you get a warning screen and have to fix the error.</p>
+<p>Look at /examples/example1.prg - example4.prg to get an idea how much these playroutines take rastertime. No promises!</p>
+<h4>The basic functions independent of playroutine options are:</h4>
+<pre>
+Init music:
+
+        LDA #subtunenumber       ;Starting from 0
+        JSR startaddress
+
+Play one frame of music:
+
+        JSR startaddress+3
+</pre>
+<hr>
+<a name="playroutine-options"></a>
+<h3>Playroutine options</h3>
+<p>BUFFERED SID-WRITES - Instead of writing each SID value as soon as possible, waits for the end of the channel's execution on each frame and then writes the registers in one go. Improves sound stability but takes more memory &amp; raster- time.</p>
+<p>SOUND EFFECT SUPPORT - Adds a sound effect engine for use in games. Implies buffered writes. To use, call in the following way:</p>
+<pre>
+    LDA #&lt;effect        ;Start address of sound effect data
+    LDY #&gt;effect
+    LDX #channel        ;0, 7 or 14 for channels 1-3
+    JSR startaddress+6
+</pre>
+<p>The sound effects have a hardcoded priority system based on their start addresses. A sound higher up in memory (bigger address) will never be interrupted with a sound lower in memory.</p>
+<p>VOLUME CHANGE SUPPORT - Adds a routine in the player's jumptable to change the master volume level. To use, call in the following way:</p>
+<pre>
+    LDA #volume        ;0-15
+    JSR startaddress+6 ;(startaddress+9 with sound effect support)
+</pre>
+<p>Note that the master volume command (DXY) also modifies this same location, so it will clash if you also change the volume manually.</p>
+<p>STORE AUTHOR-INFO - Writes the "AUTHOR" string from songname editor to the location range (startaddress+$20 - startaddress+$3F). Also enables timing mark support. A timing mark is a mastervolume command (DXY) with parameter $10-$FF. This parameter will be copied into startaddress+$3F when the command is encountered in playback.</p>
+<p>USE ZEROPAGE GHOSTREGS - Instead of writing to the SID, a memory range in the zeropage is used for holding the SID register data. This can then be copied in the main program to the SID, for example to enable the playroutine &amp; music data to reside under the I/O area. Implies buffered writes. A reverse copy loop should be used after each call to the playroutine:</p>
+<pre>
+        LDX #$18
+copy:   LDA ghostregs,x
+        STA $D400,x
+        DEX
+        BPL copy
+</pre>
+<p>The copy loop can also be unrolled for more speed.</p>
+<p>Note that when you use the alternative hardrestart method & playroutine (hard- restart attack parameter F) the copy loop should not be in reverse order but should be for each channel: wave, frequency, pulsewidth, and ADSR last.</p>
+<p>If you are using both sound effect support and ghostregisters, there exists a possibility of sound errors in the case that a sound effect has finished, and the same channel starts a new pulse-waveform note without setting an initial pulsewidth value (for example, like in the beginning of Sanxion loader tune). This is because the ghostregisters are shared between music & sound effect playback, and the sound effect has already overwritten the previous pulse width.</p>
+<p>DISABLE OPTIMIZATIONS - The relocator removes saved playroutine code based on what effects &amp; commands the song uses, resulting in a smaller playroutine accordingly. If you encounter anomalies in the sound (such as ADSR bugs caused by unpredictable timing variation) you can try disabling the optimizations. Normally this is not necessary, but is included just in case.</p>
+<p>FULL BUFFERING - in some cases, especially with multispeeds, the "standard" or per-channel buffering is not enough and will still produce ADSR errors. This enables a functionality similar to the ZP ghost regs, where the previous frame's SID data is copied to the SID at the beginning of the play call for maximum stability. Will use more rastertime and imply the same problems with sound effect playback as the ZP ghost regs, so use only when necessary.</p>
 </div>
 <div id="totopnav">
 <div class="inner">
