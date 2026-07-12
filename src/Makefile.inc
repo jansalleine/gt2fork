@@ -76,7 +76,7 @@ all: $(EXE) tools
 
 $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	$(RTMIDIOBJECTS) $(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
-	$(CXX) -o $@ $^ $(LIBS)
+	$(CXX) -o $@ $^ $(LIBS) $(LDFLAGS)
 	strip $@
 	cp -f res/custom.pal.example $(PREFIX)custom.pal.example
 

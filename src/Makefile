@@ -8,6 +8,7 @@ CC?=gcc
 CXX?=g++
 CFLAGS=`sdl2-config --cflags` -D__LINUX_ALSA__ -D__UNIX_JACK__ -O3 -Wall -I'asm'
 CXXFLAGS=$(CFLAGS) -fpermissive
+LDFLAGS=-Wl,-z,now
 
 include Makefile.inc
 
