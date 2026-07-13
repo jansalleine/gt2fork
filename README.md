@@ -1,4 +1,4 @@
-# gt2fork v0.6b
+# gt2fork v0.7
 
 Fork of **GoatTracker 2.75 / 2.76 Stereo** by Jan Wassermann
 
@@ -39,6 +39,42 @@ C64 player routines.
 - Custom palette now supports GIMP palette file format
 - On-the-fly switching between a black and a blue (C64 basic editor style) theme
 
+## Packages
+
+You can find a PGKBUILD for Arch Linux on the AUR (maintained by myself).
+
+[AUR gt2fork-git](https://aur.archlinux.org/packages/gt2fork-git)
+
+## Compiling
+
+gt2fork is developed on Arch Linux but should compile in any recent
+Linux distribution with these libraries installed:
+
+- sdl2
+- alsa
+- jack
+
+### Linux for Linux
+    cd src
+    make
+
+### Linux for Windows
+32Bit:
+
+    cd src
+    make -f Makefile.xmingw32
+
+64 Bit:
+
+    cd src
+    make -f Makefile.xmingw64
+
+### Build scripts
+
+You can also use the bash scripts in this directory which will also make clean
+earlier compiles. Sometimes it's hard to keep track of which makefile was used
+last.
+
 ## License
 
 This program is free software; you can redistribute it and/or modify
@@ -54,3 +90,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
