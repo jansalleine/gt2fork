@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=gt2fork %f
+Terminal=false
+Icon=gt2fork.png
+Name=gt2fork
+Comment=C64 SID music tracker
+Categories=AudioVideo;AudioVideoEditing;Audio;
+MimeType=audio/x-mod;audio/sng;
+StartupNotify=false
