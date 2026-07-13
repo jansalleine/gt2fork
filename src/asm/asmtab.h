@@ -37,7 +37,7 @@ enum yytokentype {
     MACRO_STRING = 262,
     ORG = 263,
     ASMERROR = 264,
-    ECHO = 265,
+    ECHO1 = 265,
     INCBIN = 266,
     INCWORD = 267,
     RES = 268,
@@ -127,7 +127,7 @@ enum yytokentype {
 #define MACRO_STRING 262
 #define ORG 263
 #define ASMERROR 264
-#define ECHO 265
+#define ECHO1 265
 #define INCBIN 266
 #define INCWORD 267
 #define RES 268
