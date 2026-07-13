@@ -1,5 +1,5 @@
 /* =============================================================================
- * gt2fork v0.6b
+ * gt2fork v0.7
  *
  * Fork of GoatTracker 2.75 / 2.76 Stereo by Jan Wassermann
  * https://github.com/jansalleine/gt2fork
@@ -313,7 +313,7 @@ char packedpath[MAX_PATHNAME];
  * row chars / strings
  */
 extern char *notename[];
-char *programname = "$VER: gt2fork v0.6b";
+char *programname = "$VER: gt2fork v0.7";
 char specialnotenames[186];
 char scalatuningfilepath[MAX_PATHNAME];
 char tuningname[64];
@@ -2092,7 +2092,8 @@ void setspecialnotenames()
             if (i < 93)
             {
                 name = malloc(4);
-                strncpy(name, specialnotenames + j, 2);
+                name[0] = specialnotenames[j];
+                name[1] = specialnotenames[j+1];
                 sprintf(octave, "%d", oct);
                 strcpy(name + 2, octave);
                 notename[i] = name;

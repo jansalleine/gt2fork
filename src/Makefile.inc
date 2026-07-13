@@ -1,4 +1,4 @@
-.PHONY: clean tools
+.PHONY: clean
 
 EXE=$(PREFIX)gt2fork$(SUFFIX)
 
@@ -72,7 +72,7 @@ ASMOBJECTS=\
 LEGACYOBJECTS=\
 	legacy.o
 
-all: $(EXE) tools
+all: $(EXE)
 
 $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	$(RTMIDIOBJECTS) $(ASMOBJECTS) $(LEGACYOBJECTS) $(OPTOBJECTS)
@@ -80,11 +80,7 @@ $(PREFIX)gt2fork$(SUFFIX): $(GTOBJECTS) $(RESIDOBJECTS) $(RESIDFPOBJECTS) \
 	strip $@
 	cp -f res/custom.pal.example $(PREFIX)custom.pal.example
 
-tools:
-	$(MAKE) -C tools all
-
 clean:
-	$(MAKE) -C tools clean
 	$(RM) *.o *~
 	$(RM) asm/*.o
 	$(RM) resid/*.o
