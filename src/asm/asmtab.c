@@ -66,7 +66,7 @@ enum yytokentype {
     MACRO_STRING = 262,
     ORG = 263,
     ERROR = 264,
-    ECHO = 265,
+    ECHO1 = 265,
     INCBIN = 266,
     INCWORD = 267,
     RES = 268,
@@ -156,7 +156,7 @@ enum yytokentype {
 #define MACRO_STRING 262
 #define ORG 263
 #define ERROR 264
-#define ECHO 265
+#define ECHO1 265
 #define INCBIN 266
 #define INCWORD 267
 #define RES 268
@@ -362,14 +362,14 @@ extern "C" {
 #  ifndef YYMALLOC
 #   define YYMALLOC malloc
 #   if (! defined (malloc) && ! defined (YYINCLUDED_STDLIB_H) \
-	&& (defined (__STDC__) || defined (__cplusplus)))
+    && (defined (__STDC__) || defined (__cplusplus)))
 void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 #  ifndef YYFREE
 #   define YYFREE free
 #   if (! defined (free) && ! defined (YYINCLUDED_STDLIB_H) \
-	&& (defined (__STDC__) || defined (__cplusplus)))
+    && (defined (__STDC__) || defined (__cplusplus)))
 void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
@@ -382,7 +382,7 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 
 #if (! defined (yyoverflow) \
      && (! defined (__cplusplus) \
-	 || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))
+     || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
@@ -397,7 +397,7 @@ union yyalloc
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (short int) + sizeof (YYSTYPE))			\
+     ((N) * (sizeof (short int) + sizeof (YYSTYPE))         \
       + YYSTACK_GAP_MAXIMUM)
 
 /* Copy COUNT objects from FROM to TO.  The source and destination do
@@ -407,13 +407,13 @@ union yyalloc
 #   define YYCOPY(To, From, Count) \
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
-#   define YYCOPY(To, From, Count)		\
-      do					\
-	{					\
-	  YYSIZE_T yyi;				\
-	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
-	}					\
+#   define YYCOPY(To, From, Count)      \
+      do                    \
+    {                   \
+      YYSIZE_T yyi;             \
+      for (yyi = 0; yyi < (Count); yyi++)   \
+        (To)[yyi] = (From)[yyi];        \
+    }                   \
       while (0)
 #  endif
 # endif
@@ -423,15 +423,15 @@ union yyalloc
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack)					\
-    do									\
-      {									\
-	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack, Stack, yysize);				\
-	Stack = &yyptr->Stack;						\
-	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
-	yyptr += yynewbytes / sizeof (*yyptr);				\
-      }									\
+# define YYSTACK_RELOCATE(Stack)                    \
+    do                                  \
+      {                                 \
+    YYSIZE_T yynewbytes;                        \
+    YYCOPY (&yyptr->Stack, Stack, yysize);              \
+    Stack = &yyptr->Stack;                      \
+    yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+    yyptr += yynewbytes / sizeof (*yyptr);              \
+      }                                 \
     while (0)
 
 #endif
@@ -460,7 +460,7 @@ typedef short int yysigned_char;
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   344
 
-#define YYTRANSLATE(YYX)						\
+#define YYTRANSLATE(YYX)                        \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
@@ -629,7 +629,7 @@ static const unsigned short int yyrline[] =
 static const char *const yytname[] =
 {
     "$end", "error", "$undefined", "INCLUDE", "IF", "DEFINED", "MACRO",
-    "MACRO_STRING", "ORG", "ERROR", "ECHO", "INCBIN", "INCWORD", "RES",
+    "MACRO_STRING", "ORG", "ERROR", "ECHO1", "INCBIN", "INCWORD", "RES",
     "WORD", "BYTE", "LDA", "LDX", "LDY", "STA", "STX", "STY", "AND", "ORA",
     "EOR", "ADC", "SBC", "CMP", "CPX", "CPY", "TSX", "TXS", "PHA", "PLA",
     "PHP", "PLP", "SEI", "CLI", "NOP", "TYA", "TAY", "TXA", "TAX", "CLC",
@@ -971,44 +971,44 @@ static const unsigned char yystos[] =
     72,   105,    76,    72,   105,    72,    72
 };
 
-#define yyerrok		(yyerrstatus = 0)
-#define yyclearin	(yychar = YYEMPTY)
-#define YYEMPTY		(-2)
-#define YYEOF		0
+#define yyerrok     (yyerrstatus = 0)
+#define yyclearin   (yychar = YYEMPTY)
+#define YYEMPTY     (-2)
+#define YYEOF       0
 
-#define YYACCEPT	goto yyacceptlab
-#define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrorlab
+#define YYACCEPT    goto yyacceptlab
+#define YYABORT     goto yyabortlab
+#define YYERROR     goto yyerrorlab
 
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  */
 
-#define YYFAIL		goto yyerrlab
+#define YYFAIL      goto yyerrlab
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)					\
-do								\
-  if (yychar == YYEMPTY && yylen == 1)				\
-    {								\
-      yychar = (Token);						\
-      yylval = (Value);						\
-      yytoken = YYTRANSLATE (yychar);				\
-      YYPOPSTACK;						\
-      goto yybackup;						\
-    }								\
-  else								\
-    {								\
+#define YYBACKUP(Token, Value)                  \
+do                              \
+  if (yychar == YYEMPTY && yylen == 1)              \
+    {                               \
+      yychar = (Token);                     \
+      yylval = (Value);                     \
+      yytoken = YYTRANSLATE (yychar);               \
+      YYPOPSTACK;                       \
+      goto yybackup;                        \
+    }                               \
+  else                              \
+    {                               \
       yyerror (YY_("syntax error: cannot back up")); \
-      YYERROR;							\
-    }								\
+      YYERROR;                          \
+    }                               \
 while (0)
 
 
-#define YYTERROR	1
-#define YYERRCODE	256
+#define YYTERROR    1
+#define YYERRCODE   256
 
 
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
@@ -1017,22 +1017,22 @@ while (0)
 
 #define YYRHSLOC(Rhs, K) ((Rhs)[K])
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)				\
-    do									\
-      if (N)								\
-	{								\
-	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
-	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
-	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
-	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
-	}								\
-      else								\
-	{								\
-	  (Current).first_line   = (Current).last_line   =		\
-	    YYRHSLOC (Rhs, 0).last_line;				\
-	  (Current).first_column = (Current).last_column =		\
-	    YYRHSLOC (Rhs, 0).last_column;				\
-	}								\
+# define YYLLOC_DEFAULT(Current, Rhs, N)                \
+    do                                  \
+      if (N)                                \
+    {                               \
+      (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;    \
+      (Current).first_column = YYRHSLOC (Rhs, 1).first_column;  \
+      (Current).last_line    = YYRHSLOC (Rhs, N).last_line;     \
+      (Current).last_column  = YYRHSLOC (Rhs, N).last_column;   \
+    }                               \
+      else                              \
+    {                               \
+      (Current).first_line   = (Current).last_line   =      \
+        YYRHSLOC (Rhs, 0).last_line;                \
+      (Current).first_column = (Current).last_column =      \
+        YYRHSLOC (Rhs, 0).last_column;              \
+    }                               \
     while (0)
 #endif
 
@@ -1043,9 +1043,9 @@ while (0)
 
 #ifndef YY_LOCATION_PRINT
 # if YYLTYPE_IS_TRIVIAL
-#  define YY_LOCATION_PRINT(File, Loc)			\
-     fprintf (File, "%d.%d-%d.%d",			\
-              (Loc).first_line, (Loc).first_column,	\
+#  define YY_LOCATION_PRINT(File, Loc)          \
+     fprintf (File, "%d.%d-%d.%d",          \
+              (Loc).first_line, (Loc).first_column, \
               (Loc).last_line,  (Loc).last_column)
 # else
 #  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
@@ -1069,21 +1069,21 @@ while (0)
 #  define YYFPRINTF fprintf
 # endif
 
-# define YYDPRINTF(Args)			\
-do {						\
-  if (yydebug)					\
-    YYFPRINTF Args;				\
+# define YYDPRINTF(Args)            \
+do {                        \
+  if (yydebug)                  \
+    YYFPRINTF Args;             \
 } while (0)
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)		\
-do {								\
-  if (yydebug)							\
-    {								\
-      YYFPRINTF (stderr, "%s ", Title);				\
-      yysymprint (stderr,					\
-                  Type, Value);	\
-      YYFPRINTF (stderr, "\n");					\
-    }								\
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)      \
+do {                                \
+  if (yydebug)                          \
+    {                               \
+      YYFPRINTF (stderr, "%s ", Title);             \
+      yysymprint (stderr,                   \
+                  Type, Value); \
+      YYFPRINTF (stderr, "\n");                 \
+    }                               \
 } while (0)
 
 /*------------------------------------------------------------------.
@@ -1107,10 +1107,10 @@ short int *top;
     YYFPRINTF (stderr, "\n");
 }
 
-# define YY_STACK_PRINT(Bottom, Top)				\
-do {								\
-  if (yydebug)							\
-    yy_stack_print ((Bottom), (Top));				\
+# define YY_STACK_PRINT(Bottom, Top)                \
+do {                                \
+  if (yydebug)                          \
+    yy_stack_print ((Bottom), (Top));               \
 } while (0)
 
 
@@ -1137,10 +1137,10 @@ int yyrule;
     YYFPRINTF (stderr, "-> %s\n", yytname[yyr1[yyrule]]);
 }
 
-# define YY_REDUCE_PRINT(Rule)		\
-do {					\
-  if (yydebug)				\
-    yy_reduce_print (Rule);		\
+# define YY_REDUCE_PRINT(Rule)      \
+do {                    \
+  if (yydebug)              \
+    yy_reduce_print (Rule);     \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1155,7 +1155,7 @@ int yydebug;
 
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
-#ifndef	YYINITDEPTH
+#ifndef YYINITDEPTH
 # define YYINITDEPTH 200
 #endif
 
@@ -1443,7 +1443,7 @@ yyparse ()
     yystate = 0;
     yyerrstatus = 0;
     yynerrs = 0;
-    yychar = YYEMPTY;		/* Cause a token to be read.  */
+    yychar = YYEMPTY;       /* Cause a token to be read.  */
 
     /* Initialize stack pointers.
        Waste one element of value and location stack
@@ -3019,7 +3019,7 @@ yyerrlab:
             YYSIZE_T yysize1;
             int yysize_overflow = 0;
             char *yymsg = 0;
-#	  define YYERROR_VERBOSE_ARGS_MAXIMUM 5
+#     define YYERROR_VERBOSE_ARGS_MAXIMUM 5
             char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
             int yyx;
 
@@ -3160,7 +3160,7 @@ yyerrorlab:
     | yyerrlab1 -- common code for both syntax error and YYERROR.  |
     `-------------------------------------------------------------*/
 yyerrlab1:
-    yyerrstatus = 3;	/* Each real token shifted decrements this.  */
+    yyerrstatus = 3;    /* Each real token shifted decrements this.  */
 
     for (;;)
     {
